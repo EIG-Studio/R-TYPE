@@ -43,3 +43,4 @@ Makefile
 _deps
 compile_commands.json
 .cache
+build/*

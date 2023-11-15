@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(r-type_client LANGUAGES CXX)
+project(r-type_client)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
@@ -10,8 +10,14 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
+include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 
 install(TARGETS ${CMAKE_PROJECT_NAME})
+
+# set(CPACK_GENERATOR "ZIP")
+# set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}")
+# set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A game engine that roars!")
+#
+# include(CPack)
