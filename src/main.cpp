@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 int main() {
-  auto window = sf::RenderWindow{{1920, 1080}, "CMake SFML Project"};
+  auto window = sf::RenderWindow{{800, 600}, "R-TYPE"};
   window.setFramerateLimit(144);
 
   while (window.isOpen()) {
