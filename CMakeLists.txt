@@ -11,5 +11,6 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 
 install(TARGETS ${CMAKE_PROJECT_NAME})
