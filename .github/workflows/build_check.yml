@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: ${{ ubuntu-latest.platform.name }} ${{ ubuntu-latest.config.name }}
+    # name: ${{ ubuntu-latest.platform.name }} ${{ ubuntu-latest.config.name }}
     runs-on: ubuntu-latest
 
     strategy:
