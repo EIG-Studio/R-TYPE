@@ -4,8 +4,8 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
-    runs-on: ${{ matrix.platform.os }}
+    name: ${{ ubuntu-latest.platform.name }} ${{ ubuntu-latest.config.name }}
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
