@@ -30,6 +30,8 @@
 *.exe
 *.out
 *.app
+r-type_client
+r-type_server
 
 # CMake
 CMakeFiles
@@ -38,8 +40,8 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 cmake_install.cmake
 Makefile
-bin
-R-TYPE
 _deps
+compile_commands.json
+.cache
+build/*
 samurai
-
