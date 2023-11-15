@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(R-TYPE LANGUAGES CXX)
+project(r-type_client LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
@@ -11,5 +11,6 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 
 install(TARGETS ${CMAKE_PROJECT_NAME})
