@@ -34,8 +34,11 @@
 # CMake
 CMakeFiles
 CMakeCache.txt
+CPackConfig.cmake
+CPackSourceConfig.cmake
 cmake_install.cmake
 Makefile
 bin
 R-TYPE
+_deps
 

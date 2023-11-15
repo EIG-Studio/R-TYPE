@@ -3,9 +3,13 @@ project(R-TYPE LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-find_package(SFML 2.5 COMPONENTS window graphics system REQUIRED)
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.x)
+FetchContent_MakeAvailable(SFML)
 
-add_executable(R-TYPE src/main.cpp)
-target_link_libraries(R-TYPE PRIVATE sfml-window sfml-graphics sfml-system)
+add_executable(${CMAKE_PROJECT_NAME} src/main.cpp)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 
-install(TARGETS R-TYPE)
+install(TARGETS ${CMAKE_PROJECT_NAME})
