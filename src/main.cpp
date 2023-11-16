@@ -5,6 +5,7 @@
 ** main
 */
 
+#include "button.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "music/music.hpp"
 
@@ -37,6 +38,26 @@ int main()
     ChoiceMenu choiceMenu;
     Music      music;
 
+    Button playButton(window,
+                      sf::Vector2f(200, 50),
+                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+                      sf::Color::Black,
+                      sf::Color::White,
+                      2.0f,
+                      "Play",
+                      font,
+                      20);
+
+    Button exitButton(window,
+                      sf::Vector2f(200, 50),
+                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
+                      sf::Color::Black,
+                      sf::Color::White,
+                      2.0f,
+                      "Exit",
+                      font,
+                      20);
+
     while (window.isOpen())
     {
         sf::Event event{};
@@ -44,7 +65,7 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && menu.onMenu == true)
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && menu.onMenu)
             {
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
@@ -67,8 +88,21 @@ int main()
             }
             window.draw(menu);
             window.draw(blinkingText);
-        } else if (choiceMenu.onChoice) {
+        }
+        else if (choiceMenu.onChoice)
+        {
+            if (playButton.checkClick())
+            {
+                std::cout << "Play button" << std::endl;
+            }
+            if (exitButton.checkClick())
+            {
+                std::cout << "Exit button" << std::endl;
+                exit(0);
+            }
             window.draw(choiceMenu);
+            exitButton.draw();
+            playButton.draw();
         }
         window.display();
     }
