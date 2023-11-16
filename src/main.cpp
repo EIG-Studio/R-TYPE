@@ -10,8 +10,15 @@
 
 int main()
 {
-    auto window = sf::RenderWindow{{800, 600}, "R-TYPE"};
+    auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setFramerateLimit(144);
+    sf::Image icon;
+    if (!icon.loadFromFile("assets/MainMenu/samuraiLogo.png"))
+    {
+        // Gestion de l'erreur si le chargement de l'icône échoue
+        return -1;
+    }
+     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     // main menu putain
     Sprite sprite;
