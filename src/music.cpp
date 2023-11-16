@@ -9,8 +9,8 @@
 
 Music::Music()
 {
-    this->play_menu_music = true;
-    if (!this->music_menu.openFromFile("assets/Songs/SAMURAI_Never-Fade-Away_instru.wav")) {
+    this->playMenuMusic = true;
+    if (!this->musicMenu.openFromFile("../assets/Songs/SAMURAI_Never-Fade-Away_instru.wav")) {
         std::cout << "Music not found" << std::endl;
     }
 }

@@ -11,10 +11,10 @@
 
 class Sprite : public sf::Drawable, public sf::Transformable {
     public:
-        bool load(const std::string& sprite, sf::Vector2u tileSize, unsigned int width, unsigned int height, int rect_width, int rect_heigth);
-        void set_rect(int top, int left);
+        bool load(const std::string& sprite, sf::Vector2u tileSize, unsigned int width, unsigned int height, int rectWidth, int rectHeigth);
+        void setRect(int top, int left);
     private:
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
         sf::Texture m_texture;
         sf::Sprite m_sprite;

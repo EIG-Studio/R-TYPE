@@ -14,9 +14,9 @@
 class Music {
     public:
         Music();
-        sf::Music music_menu;
-        sf::Music music_secret;
-        bool play_menu_music;
+        sf::Music musicMenu;
+        sf::Music musicSecret;
+        bool playMenuMusic;
         //void HandleMusicKey(sf::Event &event);
 
     protected:

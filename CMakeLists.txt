@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(samurai)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include(FetchContent)
 FetchContent_Declare(SFML
@@ -14,10 +15,5 @@ include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
 
-install(TARGETS ${CMAKE_PROJECT_NAME})
 
-# set(CPACK_GENERATOR "ZIP")
-# set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}")
-# set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A game engine that roars!")
-#
-# include(CPack)
+install(TARGETS ${CMAKE_PROJECT_NAME})
