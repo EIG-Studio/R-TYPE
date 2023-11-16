@@ -13,19 +13,19 @@ int mainMenu()
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
-    Sprite sprite;
-    Sprite sprite2;
+    Sprite samuraiLogo;
+    Sprite samuraiTitle;
     Music  music;
-    if (!sprite.load("../assets/MainMenu/samuraiLogo.png", sf::Vector2u(260, 299), window.getSize().x / 2 - 260 / 2, 50, 128, 147))
+    if (!samuraiLogo
+             .load("../assets/MainMenu/samuraiLogo.png", sf::Vector2u(260, 299), window.getSize().x / 2 - 260 / 2, 50, 128, 147))
         return -1;
-    if (!sprite2.load("../assets/MainMenu/SamuraiTitle.png",
-                      sf::Vector2u(395, 53),
-                      window.getSize().x / 2 - 395 / 2,
-                      window.getSize().y / 1.5 - 53 / 2,
-                      128,
-                      18))
+    if (!samuraiTitle.load("../assets/MainMenu/samuraiTitle.png",
+                           sf::Vector2u(395, 53),
+                           window.getSize().x / 2 - 395 / 2,
+                           window.getSize().y / 1.5 - 53 / 2,
+                           128,
+                           18))
         return -1;
-    // fin des sprite du main menu bordel (on peut pas mettre de svg mdr)
 
     while (window.isOpen())
     {
@@ -41,8 +41,8 @@ int mainMenu()
             music.playMenuMusic = false;
         }
         window.clear();
-        window.draw(sprite);
-        window.draw(sprite2);
+        window.draw(samuraiLogo);
+        window.draw(samuraiTitle);
         window.display();
     }
     return 0;
