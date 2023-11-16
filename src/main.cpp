@@ -1,4 +1,12 @@
+/*
+** EPITECH PROJECT, 2023
+** R-TYPE
+** File description:
+** main
+*/
+
 #include "GUI.hpp"
+#include "music.hpp"
 
 int main()
 {
@@ -8,6 +16,7 @@ int main()
     // main menu putain
     Sprite sprite;
     Sprite sprite2;
+    Music music;
     if (!sprite.load(
             "assets/MainMenu/samuraiLogo.png", sf::Vector2u(260, 299), window.getSize().x / 2 - 260 / 2, 50, 128, 147))
         return -1;
@@ -22,6 +31,10 @@ int main()
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+        }
+        if (music.play_menu_music == true) {
+            music.music_menu.play();
+            music.play_menu_music = false;
         }
         window.clear();
         window.draw(sprite);
