@@ -33,7 +33,7 @@ int main()
 
     Button playButton(window,
                       sf::Vector2f(200, 50),
-                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 - 60),
                       sf::Color::Black,
                       sf::Color::White,
                       2.0f,
@@ -43,7 +43,7 @@ int main()
 
     Button settingsButton(window,
                       sf::Vector2f(200, 50),
-                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
+                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
                       sf::Color::Black,
                       sf::Color::White,
                       2.0f,
@@ -53,7 +53,7 @@ int main()
 
     Button exitButton(window,
                       sf::Vector2f(200, 50),
-                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 120),
+                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
                       sf::Color::Black,
                       sf::Color::White,
                       2.0f,
