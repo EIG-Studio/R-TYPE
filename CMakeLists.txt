@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(${CMAKE_PROJECT_NAME}
     src/main.cpp
-    src/menu/mainMenu/mainMenu.cpp
+    src/menu/introMenu/introMenu.cpp
     src/sprite/sprite.cpp
     src/music/music.cpp
     )

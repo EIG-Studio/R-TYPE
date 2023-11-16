@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "menu/mainMenu/mainMenu.hpp"
+#include "menu/introMenu/introMenu.hpp"
 #include "music/music.hpp"
 
 
@@ -73,8 +73,12 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            {
+                menu.onMenu = false;
+                music.musicMenu.stop();
+            }
         }
-        //// main menu
         if (menu.onMenu)
         {
             if (music.playMenuMusic)
@@ -82,15 +86,11 @@ int main()
                 music.musicMenu.play();
                 music.playMenuMusic = false;
             }
-            // Récupérer le temps écoulé depuis le début de la boucle
             sf::Time elapsed = clock.getElapsedTime();
-            // Changer la visibilité du texte toutes les 0.5 secondes (500 millisecondes)
             if (elapsed.asMilliseconds() > 500)
             {
-                // Inverser la visibilité
                 blinkingText.setFillColor(
                     blinkingText.getFillColor() == sf::Color::Transparent ? sf::Color::White : sf::Color::Transparent);
-                // Réinitialiser le chrono
                 clock.restart();
             }
             window.clear();
