@@ -5,7 +5,7 @@
 ** sprite
 */
 
-#include "menu/mainMenu/mainMenuSprite.hpp"
+#include "sprite/sprite.hpp"
 
 #include "iostream"
 

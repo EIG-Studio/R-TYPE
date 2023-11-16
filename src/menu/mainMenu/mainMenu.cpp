@@ -1,6 +1,6 @@
 #include "menu/mainMenu/mainMenu.hpp"
 
-#include "menu/mainMenu/mainMenuMusic.hpp"
+#include "music/music.hpp"
 
 int mainMenu()
 {

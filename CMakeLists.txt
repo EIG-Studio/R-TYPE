@@ -13,8 +13,8 @@ FetchContent_MakeAvailable(SFML)
 add_executable(${CMAKE_PROJECT_NAME}
     src/main.cpp
     src/menu/mainMenu/mainMenu.cpp
-    src/menu/mainMenu/mainMenuMusic.cpp
-    src/menu/mainMenu/mainMenuSprite.cpp
+    src/sprite/sprite.cpp
+    src/music/music.cpp
     )
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
