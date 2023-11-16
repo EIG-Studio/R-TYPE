@@ -20,6 +20,7 @@ int main()
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
+    //// Faut ranger ça <
     sf::Font font;
     if (!font.loadFromFile("../assets/Fonts/retro.ttf"))
     {
@@ -27,9 +28,14 @@ int main()
     }
     sf::Text blinkingText("Press ENTER to burn the city", font, 30);
     blinkingText.setFillColor(sf::Color::White);
-    sf::Clock clock;
-    Menu      menu;
-    Music     music;
+    blinkingText.setPosition(800 / 2 - blinkingText.getGlobalBounds().width / 2,
+                             600 / 1.2 - blinkingText.getGlobalBounds().height / 2);
+    //// > jusqu'ici
+
+    sf::Clock  clock;
+    Menu       menu;
+    ChoiceMenu choiceMenu;
+    Music      music;
 
     // Sprite samuraiLogo;
     // Sprite samuraiTitle;
@@ -73,12 +79,13 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && menu.onMenu == true)
             {
-                menu.onMenu = false;
-                music.musicMenu.stop();
+                menu.onMenu         = false;
+                choiceMenu.onChoice = true;
             }
         }
+        window.clear();
         if (menu.onMenu)
         {
             if (music.playMenuMusic)
@@ -93,10 +100,11 @@ int main()
                     blinkingText.getFillColor() == sf::Color::Transparent ? sf::Color::White : sf::Color::Transparent);
                 clock.restart();
             }
-            window.clear();
             window.draw(menu);
             window.draw(blinkingText);
-            window.display();
+        } else if (choiceMenu.onChoice) {
+            window.draw(choiceMenu);
         }
+        window.display();
     }
 }

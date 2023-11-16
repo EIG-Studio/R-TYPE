@@ -32,3 +32,17 @@ private:
     sf::Sprite  m_menuLogoSprite;
     sf::Sprite  m_menuTitleSprite;
 };
+
+class ChoiceMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    ChoiceMenu();
+    ~ChoiceMenu() = default;
+    bool onChoice;
+
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture logoSamuraiTexture;
+    sf::Sprite  logoSamuraiSprite;
+};

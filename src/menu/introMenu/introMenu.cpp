@@ -40,3 +40,22 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 //    sf::FloatRect rect = this->exit_sprite.getGlobalBounds();
 //    return rect;
 //}
+
+ChoiceMenu::ChoiceMenu()
+{
+    this->logoSamuraiTexture.loadFromFile(PATH_TEXTURE_MENU_LOGO);
+    this->logoSamuraiSprite.setTexture(this->logoSamuraiTexture);
+
+    //// Trouver un moyen pour rendre ça plus beau
+    logoSamuraiSprite.setScale(87 / logoSamuraiSprite.getLocalBounds().width, 100 / logoSamuraiSprite.getLocalBounds().height);
+    logoSamuraiSprite.setPosition(20, 20);
+
+    this->onChoice = false;
+}
+
+void ChoiceMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+    states.texture = &logoSamuraiTexture;
+    target.draw(logoSamuraiSprite, states);
+}
