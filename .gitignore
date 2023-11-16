@@ -33,6 +33,9 @@
 r-type_client
 r-type_server
 
+# VScode
+.vscode
+
 # CMake
 CMakeFiles
 CMakeCache.txt
