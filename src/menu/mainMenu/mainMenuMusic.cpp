@@ -5,7 +5,7 @@
 ** music
 */
 
-#include "music.hpp"
+#include "menu/mainMenu/mainMenuMusic.hpp"
 
 Music::Music()
 {

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "SFML.hpp"
+#include "sfml.hpp"
 
 class Sprite : public sf::Drawable, public sf::Transformable
 {

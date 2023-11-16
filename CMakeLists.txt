@@ -10,8 +10,13 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(${CMAKE_PROJECT_NAME} src/main.cpp src/sprite.cpp src/music.cpp)
-include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
+add_executable(${CMAKE_PROJECT_NAME}
+    src/main.cpp
+    src/menu/mainMenu/mainMenu.cpp
+    src/menu/mainMenu/mainMenuMusic.cpp
+    src/menu/mainMenu/mainMenuSprite.cpp
+    )
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
 
