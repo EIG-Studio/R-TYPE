@@ -18,6 +18,6 @@ cmake ..
 
 make -j "$(nproc)"
 
-./r-type_client
+./samurai
 
 cd ..

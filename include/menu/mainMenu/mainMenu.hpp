@@ -7,4 +7,6 @@
 
 #pragma once
 
-#include "sprite.hpp"
+#include "sprite/sprite.hpp"
+
+int mainMenu();
