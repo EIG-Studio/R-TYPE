@@ -12,7 +12,7 @@
 
 #define PATH_TEXTURE_MENU_LOGO  "../assets/MainMenu/samuraiLogo.png"
 #define PATH_TEXTURE_MENU_TITLE "../assets/MainMenu/samuraiTitle.png"
-#define PATH_FONT_MENU          "nothing"
+#define PATH_FONT_MENU          "../assets/Fonts/retro.ttf"
 #define MOUSECLICKED            event.type == sf::Event::MouseButtonPressed
 
 class Menu : public sf::Drawable, public sf::Transformable
@@ -20,8 +20,7 @@ class Menu : public sf::Drawable, public sf::Transformable
 public:
     Menu();
     ~Menu() override = default;
-    //sf::FloatRect getSettings();
-    //sf::FloatRect getExit();
+    sf::Clock blinkingText(sf::Clock  m_clock, sf::Time m_elapsed);
     bool onMenu;
 
 private:
@@ -31,6 +30,8 @@ private:
     sf::Texture m_menuTitleTexture;
     sf::Sprite  m_menuLogoSprite;
     sf::Sprite  m_menuTitleSprite;
+    sf::Font burnCityFont;
+    sf::Text burnCityText;
 };
 
 class ChoiceMenu : public sf::Drawable, public sf::Transformable
