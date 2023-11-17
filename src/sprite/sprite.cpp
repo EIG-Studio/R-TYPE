@@ -9,7 +9,7 @@
 
 Sprite::Sprite()
 {
-    this->m_path_logo  = "../assets/MainMenu/samuraiLogo.png";
-    this->m_path_title = "../assets/MainMenu/samuraiTitle.png";
-    this->m_path_font  = "../assets/Fonts/retro.ttf";
+    this->m_pathLogo  = "../assets/MainMenu/samuraiLogo.png";
+    this->m_pathTitle = "../assets/MainMenu/samuraiTitle.png";
+    this->m_pathFont  = "../assets/Fonts/retro.ttf";
 }

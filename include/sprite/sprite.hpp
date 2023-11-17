@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include "SFML/Graphics/Drawable.hpp"
+#include "SFML/Graphics/Transformable.hpp"
+#include <string>
 #define PATH_TEXTURE_MENU_LOGO  "../assets/MainMenu/samuraiLogo.png"
 #define PATH_TEXTURE_MENU_TITLE "../assets/MainMenu/samuraiTitle.png"
 #define PATH_FONT_MENU          "../assets/Fonts/retro.ttf"
@@ -19,7 +22,7 @@ public:
     ~Sprite() override = default;
 
 private:
-    std::string m_path_logo;
-    std::string m_path_title;
-    std::string m_path_font;
+    std::string m_pathLogo;
+    std::string m_pathTitle;
+    std::string m_pathFont;
 };
