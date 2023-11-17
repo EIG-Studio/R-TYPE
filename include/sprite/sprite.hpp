@@ -7,17 +7,19 @@
 
 #pragma once
 
-#include "sfml.hpp"
+#define PATH_TEXTURE_MENU_LOGO  "../assets/MainMenu/samuraiLogo.png"
+#define PATH_TEXTURE_MENU_TITLE "../assets/MainMenu/samuraiTitle.png"
+#define PATH_FONT_MENU          "../assets/Fonts/retro.ttf"
+#define MOUSECLICKED            event.type == sf::Event::MouseButtonPressed
 
 class Sprite : public sf::Drawable, public sf::Transformable
 {
 public:
-    bool load(const std::string& sprite, sf::Vector2u tileSize, unsigned int width, unsigned int height, int rectWidth, int rectHeigth);
-    void setRect(int top, int left);
+    Sprite();
+    ~Sprite() override = default;
 
 private:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
-    sf::Texture m_texture;
-    sf::Sprite  m_sprite;
+    std::string m_path_logo;
+    std::string m_path_title;
+    std::string m_path_font;
 };

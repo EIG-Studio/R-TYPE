@@ -9,7 +9,6 @@
 
 #include "sfml.hpp"
 #include "sprite/sprite.hpp"
-#include "define.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
 {
