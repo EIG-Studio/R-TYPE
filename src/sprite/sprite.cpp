@@ -14,6 +14,11 @@ Sprite::Sprite()
     this->m_pathFont  = "../assets/Fonts/retro.ttf";
 }
 
+void Sprite::setLogoPath(std::string mString)
+{
+    this->m_pathLogo = mString;
+}
+
 std::string Sprite::getLogoPath()
 {
     return this->m_pathLogo;
@@ -28,4 +33,3 @@ std::string Sprite::getFontPath()
 {
     return this->m_pathFont;
 }
-
