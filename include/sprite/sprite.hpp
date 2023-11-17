@@ -17,6 +17,7 @@ public:
     ~Sprite() override = default;
 
     void setLogoPath(std::string mString);
+    void setTitlePath(std::string mString);
 
     std::string getLogoPath();
     std::string getTitlePath();

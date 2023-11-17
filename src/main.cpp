@@ -82,13 +82,15 @@ int main()
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu)
             {
-                sprite.setLogoPath("../assets/MainMenu/MostlyCatsMostly.jpg");
+                sprite.setLogoPath("../assets/MainMenu/runnerLogo.png");
+                sprite.setTitlePath("../assets/MainMenu/runnerTitle.png");
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice)
             {
-                sprite.setLogoPath("../assets/MainMenu/MostlyCatsMostly.jpg");
+                sprite.setLogoPath("../assets/MainMenu/runnerLogo.png");
+                sprite.setTitlePath("../assets/MainMenu/runnerTitle.png");
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
             }

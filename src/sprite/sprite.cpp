@@ -19,6 +19,12 @@ void Sprite::setLogoPath(std::string mString)
     this->m_pathLogo = mString;
 }
 
+void Sprite::setTitlePath(std::string mString)
+{
+    this->m_pathTitle = mString;
+}
+
+
 std::string Sprite::getLogoPath()
 {
     return this->m_pathLogo;
