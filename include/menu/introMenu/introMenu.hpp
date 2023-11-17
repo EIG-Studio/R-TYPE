@@ -9,11 +9,7 @@
 
 #include "sfml.hpp"
 #include "sprite/sprite.hpp"
-
-#define PATH_TEXTURE_MENU_LOGO  "../assets/MainMenu/samuraiLogo.png"
-#define PATH_TEXTURE_MENU_TITLE "../assets/MainMenu/samuraiTitle.png"
-#define PATH_FONT_MENU          "../assets/Fonts/retro.ttf"
-#define MOUSECLICKED            event.type == sf::Event::MouseButtonPressed
+#include "define.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
 {

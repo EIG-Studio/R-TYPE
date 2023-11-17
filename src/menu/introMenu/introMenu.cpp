@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** R-TYPE
+** File description:
+** introMenu
+*/
+
 #include "menu/introMenu/introMenu.hpp"
 
 #include "button.hpp"
