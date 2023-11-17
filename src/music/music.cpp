@@ -10,7 +10,11 @@
 Music::Music()
 {
     this->playMenuMusic = true;
-    if (!this->musicMenu.openFromFile("../assets/Songs/SAMURAI_Never-Fade-Away_instru.wav"))
+}
+
+void Music::setPath(Sprite mSprite)
+{
+    if (!this->musicMenu.openFromFile(mSprite.getMainSongPath()))
     {
         std::cout << "Music not found" << std::endl;
     }

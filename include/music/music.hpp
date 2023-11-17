@@ -8,10 +8,9 @@
 #ifndef MUSIC_HPP_
 #define MUSIC_HPP_
 #include <SFML/Audio.hpp>
-
 #include <SFML/Window/Event.hpp>
-
 #include <iostream>
+#include "sprite/sprite.hpp"
 
 class Music
 {
@@ -20,6 +19,7 @@ public:
     sf::Music musicMenu;
     sf::Music musicSecret;
     bool      playMenuMusic;
+    void setPath(Sprite mSprite);
     //void HandleMusicKey(sf::Event &event);
 
 protected:

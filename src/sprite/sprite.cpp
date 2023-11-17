@@ -12,6 +12,8 @@ Sprite::Sprite()
     this->m_pathLogo  = "../assets/MainMenu/samuraiLogo.png";
     this->m_pathTitle = "../assets/MainMenu/samuraiTitle.png";
     this->m_pathFont  = "../assets/Fonts/retro.ttf";
+    this->m_pathMainSong = "../assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
+    this->easterEgg = false;
 }
 
 void Sprite::setLogoPath(std::string mString)
@@ -22,6 +24,11 @@ void Sprite::setLogoPath(std::string mString)
 void Sprite::setTitlePath(std::string mString)
 {
     this->m_pathTitle = mString;
+}
+
+void Sprite::setMainSongPath(std::string mString)
+{
+    this->m_pathMainSong = mString;
 }
 
 
@@ -38,4 +45,9 @@ std::string Sprite::getTitlePath()
 std::string Sprite::getFontPath()
 {
     return this->m_pathFont;
+}
+
+std::string Sprite::getMainSongPath()
+{
+    return this->m_pathMainSong;
 }

@@ -37,6 +37,7 @@ int main()
     Game       game;
     game.setPath(sprite);
     Music      music;
+    music.setPath(sprite);
 
     Button playButton(window,
                       sf::Vector2f(200, 50),
@@ -80,19 +81,29 @@ int main()
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu)
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg)
             {
+                music.musicMenu.stop();
                 sprite.setLogoPath("../assets/MainMenu/runnerLogo.png");
                 sprite.setTitlePath("../assets/MainMenu/runnerTitle.png");
+                sprite.setMainSongPath("../assets/Songs/runner.wav");
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
+                music.setPath(sprite);
+                music.musicMenu.play();
+                sprite.easterEgg = true;
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice)
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg)
             {
+                music.musicMenu.stop();
                 sprite.setLogoPath("../assets/MainMenu/runnerLogo.png");
                 sprite.setTitlePath("../assets/MainMenu/runnerTitle.png");
+                sprite.setMainSongPath("../assets/Songs/runner.wav");
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
+                music.setPath(sprite);
+                music.musicMenu.play();
+                sprite.easterEgg = true;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && game.onGame)
             {
