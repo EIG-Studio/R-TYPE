@@ -15,6 +15,7 @@ class Game : public sf::Drawable, public sf::Transformable
 public:
     Game();
     ~Game() override = default;
+    void setPath(Sprite mSprite);
     bool onGame;
 
 private:

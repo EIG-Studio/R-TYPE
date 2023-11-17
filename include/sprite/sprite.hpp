@@ -7,22 +7,22 @@
 
 #pragma once
 
-#include "SFML/Graphics/Drawable.hpp"
-#include "SFML/Graphics/Transformable.hpp"
+#include "sfml.hpp"
 #include <string>
-#define PATH_TEXTURE_MENU_LOGO  "../assets/MainMenu/samuraiLogo.png"
-#define PATH_TEXTURE_MENU_TITLE "../assets/MainMenu/samuraiTitle.png"
-#define PATH_FONT_MENU          "../assets/Fonts/retro.ttf"
-#define MOUSECLICKED            event.type == sf::Event::MouseButtonPressed
 
-class Sprite : public sf::Drawable, public sf::Transformable
+class Sprite : public sf::Transformable
 {
 public:
     Sprite();
     ~Sprite() override = default;
 
+    std::string getLogoPath();
+    std::string getTitlePath();
+    std::string getFontPath();
+
 private:
     std::string m_pathLogo;
     std::string m_pathTitle;
     std::string m_pathFont;
+
 };

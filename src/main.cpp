@@ -9,6 +9,7 @@
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "music/music.hpp"
+#include "sprite/sprite.hpp"
 
 
 int main()
@@ -28,9 +29,13 @@ int main()
     }
 
     sf::Clock  clock;
+    Sprite     sprite;
     Menu       menu;
+    menu.setPath(sprite);
     ChoiceMenu choiceMenu;
+    choiceMenu.setPath(sprite);
     Game       game;
+    game.setPath(sprite);
     Music      music;
 
     Button playButton(window,

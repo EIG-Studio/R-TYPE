@@ -16,6 +16,7 @@ public:
     Menu();
     ~Menu() override = default;
     sf::Clock blinkingText(sf::Clock  mClock, sf::Time mElapsed);
+    void setPath(Sprite mSprite);
     bool onMenu;
 
 private:
@@ -34,6 +35,7 @@ class ChoiceMenu : public sf::Drawable, public sf::Transformable
 public:
     ChoiceMenu();
     ~ChoiceMenu() override = default;
+    void setPath(Sprite mSprite);
     bool onChoice;
 
 private:

@@ -6,7 +6,6 @@
 */
 
 #include "menu/introMenu/introMenu.hpp"
-
 #include "button.hpp"
 #include "music/music.hpp"
 
@@ -14,11 +13,16 @@
 
 Menu::Menu()
 {
-    this->m_menuLogoTexture.loadFromFile(PATH_TEXTURE_MENU_LOGO);
+    this->onMenu = true;
+}
+
+void Menu::setPath(Sprite  mSprite)
+{
+    this->m_menuLogoTexture.loadFromFile(mSprite.getLogoPath());
     this->m_menuLogoSprite.setTexture(this->m_menuLogoTexture);
-    this->m_menuTitleTexture.loadFromFile(PATH_TEXTURE_MENU_TITLE);
+    this->m_menuTitleTexture.loadFromFile(mSprite.getTitlePath());
     this->m_menuTitleSprite.setTexture(this->m_menuTitleTexture);
-    this->m_burnCityFont.loadFromFile(PATH_FONT_MENU);
+    this->m_burnCityFont.loadFromFile(mSprite.getFontPath());
 
     //// Trouver un moyen pour rendre ça plus beau
     m_menuLogoSprite.setScale(260 / m_menuLogoSprite.getLocalBounds().width, 299 / m_menuLogoSprite.getLocalBounds().height);
@@ -33,11 +37,11 @@ Menu::Menu()
     this->m_burnCityText.setCharacterSize(30);
     this->m_burnCityText.setFillColor(sf::Color::White);
     this->m_burnCityText.setPosition(800 / 2 - this->m_burnCityText.getGlobalBounds().width / 2,
-                             600 / 1.2 - this->m_burnCityText.getGlobalBounds().height / 2);
-    this->onMenu = true;
+                                     600 / 1.2 - this->m_burnCityText.getGlobalBounds().height / 2);
 }
 
-sf::Clock Menu::blinkingText(sf::Clock mClock, sf::Time mElapsed) {
+sf::Clock Menu::blinkingText(sf::Clock mClock, sf::Time mElapsed)
+{
     if (mElapsed.asMilliseconds() > 500)
     {
         this->m_burnCityText.setFillColor(
@@ -60,14 +64,19 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 /// choice menu ///
 ChoiceMenu::ChoiceMenu()
 {
-    this->m_logoSamuraiTexture.loadFromFile(PATH_TEXTURE_MENU_LOGO);
+    this->onChoice = false;
+}
+
+void ChoiceMenu::setPath(Sprite  mSprite)
+{
+    this->m_logoSamuraiTexture.loadFromFile(mSprite.getLogoPath());
     this->m_logoSamuraiSprite.setTexture(this->m_logoSamuraiTexture);
 
     //// Trouver un moyen pour rendre ça plus beau
-    m_logoSamuraiSprite.setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
+    m_logoSamuraiSprite.setScale(87 / m_logoSamuraiSprite.getLocalBounds().width,
+                                 100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_logoSamuraiSprite.setPosition(20, 20);
 
-    this->onChoice = false;
 }
 
 void ChoiceMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
