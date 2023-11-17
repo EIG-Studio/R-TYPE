@@ -6,6 +6,7 @@
 */
 
 #include "button.hpp"
+#include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "music/music.hpp"
 
@@ -29,6 +30,7 @@ int main()
     sf::Clock  clock;
     Menu       menu;
     ChoiceMenu choiceMenu;
+    Game       game;
     Music      music;
 
     Button playButton(window,
@@ -42,14 +44,14 @@ int main()
                       20);
 
     Button settingsButton(window,
-                      sf::Vector2f(200, 50),
-                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
-                      sf::Color::Black,
-                      sf::Color::White,
-                      2.0f,
-                      "Settings",
-                      font,
-                      20);
+                          sf::Vector2f(200, 50),
+                          sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+                          sf::Color::Black,
+                          sf::Color::White,
+                          2.0f,
+                          "Settings",
+                          font,
+                          20);
 
     Button exitButton(window,
                       sf::Vector2f(200, 50),
@@ -73,6 +75,11 @@ int main()
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
             }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && game.onGame)
+            {
+                game.onGame         = false;
+                choiceMenu.onChoice = true;
+            }
         }
         window.clear();
         if (menu.onMenu)
@@ -83,14 +90,15 @@ int main()
                 music.playMenuMusic = false;
             }
             sf::Time elapsed = clock.getElapsedTime();
-            clock = menu.blinkingText(clock, elapsed);
+            clock            = menu.blinkingText(clock, elapsed);
             window.draw(menu);
         }
         else if (choiceMenu.onChoice)
         {
             if (playButton.checkClick())
             {
-                std::cout << "Play button" << std::endl;
+                game.onGame         = true;
+                choiceMenu.onChoice = false;
             }
             if (settingsButton.checkClick())
             {
@@ -98,13 +106,16 @@ int main()
             }
             if (exitButton.checkClick())
             {
-                std::cout << "Exit button" << std::endl;
                 exit(0);
             }
             window.draw(choiceMenu);
             playButton.draw();
             settingsButton.draw();
             exitButton.draw();
+        }
+        else if (game.onGame)
+        {
+            window.draw(game);
         }
         window.display();
     }
