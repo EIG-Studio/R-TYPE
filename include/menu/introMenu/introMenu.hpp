@@ -20,7 +20,7 @@ class Menu : public sf::Drawable, public sf::Transformable
 public:
     Menu();
     ~Menu() override = default;
-    sf::Clock blinkingText(sf::Clock  m_clock, sf::Time m_elapsed);
+    sf::Clock blinkingText(sf::Clock  mClock, sf::Time mElapsed);
     bool onMenu;
 
 private:
@@ -30,20 +30,20 @@ private:
     sf::Texture m_menuTitleTexture;
     sf::Sprite  m_menuLogoSprite;
     sf::Sprite  m_menuTitleSprite;
-    sf::Font burnCityFont;
-    sf::Text burnCityText;
+    sf::Font m_burnCityFont;
+    sf::Text m_burnCityText;
 };
 
 class ChoiceMenu : public sf::Drawable, public sf::Transformable
 {
 public:
     ChoiceMenu();
-    ~ChoiceMenu() = default;
+    ~ChoiceMenu() override = default;
     bool onChoice;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    sf::Texture logoSamuraiTexture;
-    sf::Sprite  logoSamuraiSprite;
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite  m_logoSamuraiSprite;
 };
