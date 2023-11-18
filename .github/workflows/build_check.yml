@@ -35,10 +35,3 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --install build --config Release
-
-      # - name: Push to Another Repository
-      #   if: steps.build.outcome == 'success'
-      #   uses: pixta-dev/repository-mirroring-action@v1
-      #   with:
-      #     target_repo_url: git@github.com:4lrick/tmp_rtype.git
-      #     ssh_private_key: ${{ secrets.GITHUB_ACTION }}
