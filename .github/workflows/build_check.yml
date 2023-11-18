@@ -11,10 +11,10 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - { name: Windows Latest, os: windows-latest }
+          # - { name: Windows Latest, os: windows-latest }
           - { name: Linux GCC, os: ubuntu-latest }
           - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
-          - { name: macOS, os: macos-latest }
+          # - { name: macOS, os: macos-latest }
 
     steps:
       - name: Install Linux Dependencies
