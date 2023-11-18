@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to Epitech repository
 
 on:
   workflow_run:
