@@ -16,12 +16,35 @@ public:
     Game();
     ~Game() override = default;
     void setPath(Sprite mSprite);
+    void moveParallax();
+    void repeatParallax();
     bool onGame;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    sf::Texture m_testTexture;
-    sf::Sprite  m_testSprite;
+    sf::Texture m_backTexture;
+    sf::Sprite  m_backSprite;
+    sf::Texture m_backTexture2;
+    sf::Sprite  m_backSprite2;
 
+    sf::Texture m_veryBackBuildTexture;
+    sf::Sprite  m_veryBackBuildSprite;
+    sf::Texture m_veryBackBuildTexture2;
+    sf::Sprite  m_veryBackBuildSprite2;
+
+    sf::Texture m_backBuildTexture;
+    sf::Sprite  m_backBuildSprite;
+    sf::Texture m_backBuildTexture2;
+    sf::Sprite  m_backBuildSprite2;
+
+    sf::Texture m_midBuildTexture;
+    sf::Sprite  m_midBuildSprite;
+    sf::Texture m_midBuildTexture2;
+    sf::Sprite  m_midBuildSprite2;
+
+    sf::Texture m_frontBuildTexture;
+    sf::Sprite  m_frontBuildSprite;
+    sf::Texture m_frontBuildTexture2;
+    sf::Sprite  m_frontBuildSprite2;
 };

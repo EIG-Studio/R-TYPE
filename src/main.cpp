@@ -90,6 +90,7 @@ int main()
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
                 music.setPath(sprite);
+                game.setPath(sprite);
                 music.musicMenu.play();
                 sprite.easterEgg = true;
             }
@@ -102,6 +103,7 @@ int main()
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
                 music.setPath(sprite);
+                game.setPath(sprite);
                 music.musicMenu.play();
                 sprite.easterEgg = true;
             }
@@ -145,6 +147,8 @@ int main()
         }
         else if (game.onGame)
         {
+            game.moveParallax();
+            game.repeatParallax();
             window.draw(game);
         }
         window.display();
