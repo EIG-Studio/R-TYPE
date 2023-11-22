@@ -18,6 +18,7 @@ Sprite::Sprite()
     this->m_pathBackBuild     = "../assets/Background/city_1/3.png";
     this->m_pathMidBuild      = "../assets/Background/city_1/4.png";
     this->m_pathFrontBuild    = "../assets/Background/city_1/5.png";
+    this->m_pathPlayer    = "../assets/Cars/cars/189.png";
     this->easterEgg           = false;
 }
 
@@ -88,4 +89,9 @@ std::string Sprite::getMidBuildPath()
 std::string Sprite::getFrontBuildPath()
 {
     return this->m_pathFrontBuild;
+}
+
+std::string Sprite::getPlayerPath()
+{
+    return this->m_pathPlayer;
 }

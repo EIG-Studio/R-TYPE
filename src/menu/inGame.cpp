@@ -42,31 +42,44 @@ void Game::setPath(Sprite mSprite)
     this->m_frontBuildTexture2.loadFromFile(mSprite.getFrontBuildPath());
     this->m_frontBuildSprite2.setTexture(this->m_frontBuildTexture2);
 
+    this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
+    this->m_playerSprite.setTexture(this->m_playerTexture);
+
     //// Trouver un moyen pour rendre ça plus beau
     m_backSprite.setScale(1152 / m_backSprite.getLocalBounds().width, 648 / m_backSprite.getLocalBounds().height);
     m_backSprite.setPosition(0, 0);
     m_backSprite2.setScale(1152 / m_backSprite2.getLocalBounds().width, 648 / m_backSprite2.getLocalBounds().height);
     m_backSprite2.setPosition(m_backSprite2.getLocalBounds().width * 2, 0);
 
-    m_veryBackBuildSprite.setScale(1152 / m_veryBackBuildSprite.getLocalBounds().width, 648 / m_veryBackBuildSprite.getLocalBounds().height);
+    m_veryBackBuildSprite.setScale(1152 / m_veryBackBuildSprite.getLocalBounds().width,
+                                   648 / m_veryBackBuildSprite.getLocalBounds().height);
     m_veryBackBuildSprite.setPosition(0, 0);
-    m_veryBackBuildSprite2.setScale(1152 / m_veryBackBuildSprite2.getLocalBounds().width, 648 / m_veryBackBuildSprite2.getLocalBounds().height);
+    m_veryBackBuildSprite2.setScale(1152 / m_veryBackBuildSprite2.getLocalBounds().width,
+                                    648 / m_veryBackBuildSprite2.getLocalBounds().height);
     m_veryBackBuildSprite2.setPosition(m_veryBackBuildSprite2.getLocalBounds().width * 2, 0);
 
-    m_backBuildSprite.setScale(1152 / m_backBuildSprite.getLocalBounds().width, 648 / m_backBuildSprite.getLocalBounds().height);
+    m_backBuildSprite.setScale(1152 / m_backBuildSprite.getLocalBounds().width,
+                               648 / m_backBuildSprite.getLocalBounds().height);
     m_backBuildSprite.setPosition(0, 0);
-    m_backBuildSprite2.setScale(1152 / m_backBuildSprite2.getLocalBounds().width, 648 / m_backBuildSprite2.getLocalBounds().height);
+    m_backBuildSprite2.setScale(1152 / m_backBuildSprite2.getLocalBounds().width,
+                                648 / m_backBuildSprite2.getLocalBounds().height);
     m_backBuildSprite2.setPosition(m_backBuildSprite2.getLocalBounds().width * 2, 0);
 
     m_midBuildSprite.setScale(1152 / m_midBuildSprite.getLocalBounds().width, 648 / m_midBuildSprite.getLocalBounds().height);
     m_midBuildSprite.setPosition(0, 0);
-    m_midBuildSprite2.setScale(1152 / m_midBuildSprite2.getLocalBounds().width, 648 / m_midBuildSprite2.getLocalBounds().height);
+    m_midBuildSprite2.setScale(1152 / m_midBuildSprite2.getLocalBounds().width,
+                               648 / m_midBuildSprite2.getLocalBounds().height);
     m_midBuildSprite2.setPosition(m_midBuildSprite2.getLocalBounds().width * 2, 0);
 
-    m_frontBuildSprite.setScale(1152 / m_frontBuildSprite.getLocalBounds().width, 648 / m_frontBuildSprite.getLocalBounds().height);
+    m_frontBuildSprite.setScale(1152 / m_frontBuildSprite.getLocalBounds().width,
+                                648 / m_frontBuildSprite.getLocalBounds().height);
     m_frontBuildSprite.setPosition(0, 0);
-    m_frontBuildSprite2.setScale(1152 / m_frontBuildSprite2.getLocalBounds().width, 648 / m_frontBuildSprite2.getLocalBounds().height);
+    m_frontBuildSprite2.setScale(1152 / m_frontBuildSprite2.getLocalBounds().width,
+                                 648 / m_frontBuildSprite2.getLocalBounds().height);
     m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
+
+    m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 37.75 / m_playerSprite.getLocalBounds().height);
+    m_playerSprite.setPosition(0, 0);
 }
 
 void Game::moveParallax()
@@ -128,6 +141,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.texture = &m_midBuildTexture2;
     states.texture = &m_frontBuildTexture;
     states.texture = &m_frontBuildTexture2;
+    states.texture = &m_playerTexture;
     target.draw(m_backSprite, states);
     target.draw(m_backSprite2, states);
     target.draw(m_veryBackBuildSprite, states);
@@ -138,4 +152,5 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_midBuildSprite2, states);
     target.draw(m_frontBuildSprite, states);
     target.draw(m_frontBuildSprite2, states);
+    target.draw(m_playerSprite, states);
 }

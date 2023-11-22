@@ -107,10 +107,12 @@ int main()
                 music.musicMenu.play();
                 sprite.easterEgg = true;
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && game.onGame)
+            if (game.onGame)
             {
-                game.onGame         = false;
-                choiceMenu.onChoice = true;
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                    game.onGame         = false;
+                    choiceMenu.onChoice = true;
+                }
             }
         }
         window.clear();

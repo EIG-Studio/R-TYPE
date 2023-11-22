@@ -31,6 +31,7 @@ public:
     std::string getBackBuildPath();
     std::string getMidBuildPath();
     std::string getFrontBuildPath();
+    std::string getPlayerPath();
 
 private:
     std::string m_pathLogo;
@@ -42,5 +43,7 @@ private:
     std::string m_pathBackBuild;
     std::string m_pathMidBuild;
     std::string m_pathFrontBuild;
+
+    std::string m_pathPlayer;
 
 };
