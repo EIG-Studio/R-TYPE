@@ -18,6 +18,8 @@ public:
     void setPath(Sprite mSprite);
     void moveParallax();
     void repeatParallax();
+    void moveSprite(float movementSpeed, float winX, float winY);
+    void colidePlayer();
     bool onGame;
 
 private:

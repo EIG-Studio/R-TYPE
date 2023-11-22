@@ -128,6 +128,35 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
+void Game::moveSprite(float movementSpeed, float winX, float winY)
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        if (this->m_playerSprite.getPosition().y > 0)
+            this->m_playerSprite.move(0, -movementSpeed);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        if (this->m_playerSprite.getPosition().x < winX - 103)
+            this->m_playerSprite.move(movementSpeed, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        if (this->m_playerSprite.getPosition().y < winY - 37.75)
+            this->m_playerSprite.move(0, movementSpeed);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        if (this->m_playerSprite.getPosition().x > 0)
+            this->m_playerSprite.move(-movementSpeed, 0);
+    }
+}
+
+void Game::colidePlayer()
+{
+
+}
+
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();

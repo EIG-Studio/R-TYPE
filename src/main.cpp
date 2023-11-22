@@ -14,6 +14,8 @@
 
 int main()
 {
+    float movementSpeed = 3.0f;
+
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setFramerateLimit(144);
     sf::Image icon;
@@ -149,6 +151,7 @@ int main()
         }
         else if (game.onGame)
         {
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y);
             game.moveParallax();
             game.repeatParallax();
             window.draw(game);
