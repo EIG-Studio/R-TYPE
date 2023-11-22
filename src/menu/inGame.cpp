@@ -111,7 +111,7 @@ void Game::repeatParallax()
 
     if (this->m_frontBuildSprite.getPosition().x <= -m_frontBuildSprite.getLocalBounds().width * 2)
         m_frontBuildSprite.setPosition(m_frontBuildSprite.getLocalBounds().width * 2, 0);
-    if (this->m_backBuildSprite2.getPosition().x <= -m_frontBuildSprite2.getLocalBounds().width * 2)
+    if (this->m_frontBuildSprite2.getPosition().x <= -m_frontBuildSprite2.getLocalBounds().width * 2)
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
