@@ -14,6 +14,8 @@
 
 int main()
 {
+    float movementSpeed = 3.0f;
+
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setFramerateLimit(144);
     sf::Image icon;
@@ -107,10 +109,12 @@ int main()
                 music.musicMenu.play();
                 sprite.easterEgg = true;
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && game.onGame)
+            if (game.onGame)
             {
-                game.onGame         = false;
-                choiceMenu.onChoice = true;
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                    game.onGame         = false;
+                    choiceMenu.onChoice = true;
+                }
             }
         }
         window.clear();
@@ -147,6 +151,7 @@ int main()
         }
         else if (game.onGame)
         {
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y);
             game.moveParallax();
             game.repeatParallax();
             window.draw(game);

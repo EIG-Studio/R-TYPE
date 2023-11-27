@@ -18,6 +18,8 @@ public:
     void setPath(Sprite mSprite);
     void moveParallax();
     void repeatParallax();
+    void moveSprite(float movementSpeed, float winX, float winY);
+    void colidePlayer();
     bool onGame;
 
 private:
@@ -47,4 +49,7 @@ private:
     sf::Sprite  m_frontBuildSprite;
     sf::Texture m_frontBuildTexture2;
     sf::Sprite  m_frontBuildSprite2;
+
+    sf::Texture m_playerTexture;
+    sf::Sprite  m_playerSprite;
 };
