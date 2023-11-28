@@ -10,9 +10,25 @@
 class Components
 {
 public:
-    Components();
+    Components() = default;
     ~Components() = default;
 
     private:
-        int m_test;
+};
+
+class Position
+{
+public:
+    Position();
+    ~Position() = default;
+
+    float getPositionX() const;
+    float getPositionY() const;
+
+    void setPositionX(float mX);
+    void setPositionY(float mY);
+
+    private:
+        float m_x;
+        float m_y;
 };
