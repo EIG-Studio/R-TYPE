@@ -7,12 +7,15 @@
 
 #pragma once
 #include "components.hpp"
+#include <vector>
+#include <any>
 
 class Entities
 {
 public:
     Entities()  = default;
     ~Entities() = default;
+    std::vector<std::any> Components;
 
 private:
 };

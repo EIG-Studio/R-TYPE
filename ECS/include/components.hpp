@@ -8,11 +8,10 @@
 #pragma once
 #include "systems.hpp"
 
-class Components
+class IComponents
 {
 public:
-    Components() = default;
-    ~Components() = default;
+    virtual ~IComponents() = 0;
 
     private:
 };
