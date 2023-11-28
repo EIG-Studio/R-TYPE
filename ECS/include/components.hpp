@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include "systems.hpp"
 
 class Components
 {
@@ -16,6 +17,7 @@ public:
     private:
 };
 
+/********-Position Component-******/
 class Position
 {
 public:
@@ -28,7 +30,22 @@ public:
     void setPositionX(float mX);
     void setPositionY(float mY);
 
-    private:
-        float m_x;
-        float m_y;
+private:
+    float m_x;
+    float m_y;
+};
+
+/********-Life Component-******/
+class Life
+{
+public:
+    Life();
+    ~Life() = default;
+
+    float getLifePoint() const;
+
+    void setLifePoint(float mLp);
+
+private:
+    float m_lp;
 };

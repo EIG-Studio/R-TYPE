@@ -6,8 +6,3 @@
 */
 
 #include "entities.hpp"
-
-Entities::Entities()
-{
-    this->m_test = 0;
-}

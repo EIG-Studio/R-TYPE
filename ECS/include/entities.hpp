@@ -6,15 +6,35 @@
 */
 
 #pragma once
+#include "components.hpp"
 
 class Entities
 {
 public:
-    Entities();
+    Entities()  = default;
     ~Entities() = default;
 
 private:
-    int m_test;
 };
 
+class Player
+{
+public:
+    Player()  = default;
+    ~Player() = default;
 
+private:
+    Position m_position;
+    Life m_life;
+};
+
+class Enemy
+{
+public:
+    Enemy() = default;
+    ~Enemy() = default;
+
+private:
+    Position m_position;
+    Life m_life;
+};
