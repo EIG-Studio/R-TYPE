@@ -17,6 +17,7 @@ public:
 private:
 };
 
+/********-Player Entity-******/
 class Player
 {
 public:
@@ -28,6 +29,7 @@ private:
     Life m_life;
 };
 
+/********-Enemy Entity-******/
 class Enemy
 {
 public:
