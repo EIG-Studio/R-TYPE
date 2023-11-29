@@ -11,11 +11,16 @@
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
 #include "commandsToServer.hpp"
-
+#include <SFML/System.hpp>
 
 int main()
 {
     float movementSpeed = 3.0f;
+    //Calculating the milliseconds per frame for 144 FPS
+    float milliseconds_per_second = 1000;
+    float fps = 144;
+
+    float milliseconds_per_frame = milliseconds_per_second / fps;
 
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setFramerateLimit(144);
@@ -32,6 +37,7 @@ int main()
     }
 
     sf::Clock  clock;
+    sf::Clock  onGame_clock;
     CommandsToServer commandsToServer;
     Sprite     sprite;
     Menu       menu;
@@ -153,9 +159,14 @@ int main()
         }
         else if (game.onGame)
         {
+            sf::Time render_elapsed = onGame_clock.getElapsedTime();
             game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer);
-            game.moveParallax();
-            game.repeatParallax();
+            if (render_elapsed.asMilliseconds() > milliseconds_per_frame)
+            {
+                game.moveParallax();
+                game.repeatParallax();
+                onGame_clock.restart();
+            }
             window.draw(game);
         }
         window.display();
