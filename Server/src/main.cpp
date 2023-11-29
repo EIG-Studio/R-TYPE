@@ -20,7 +20,7 @@ int main()
             boost::system::error_code error;
             socket.receive_from(boost::asio::buffer(recvBuf), remoteEndpoint, 0, error); // (3)
 
-            std::cout << "Received: " << recvBuf.data() << std::endl;
+            std::cout << "Received: " << recvBuf.data();
 
             if (error && error != boost::asio::error::message_size) // (4)
                 throw boost::system::system_error(error);
