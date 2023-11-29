@@ -17,10 +17,10 @@ int main()
 {
     float movementSpeed = 3.0f;
     //Calculating the milliseconds per frame for 144 FPS
-    float milliseconds_per_second = 1000;
+    float millisecondsPerSecond = 1000;
     float fps = 144;
 
-    float milliseconds_per_frame = milliseconds_per_second / fps;
+    float millisecondsPerFrame = millisecondsPerSecond / fps;
 
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setFramerateLimit(144);
@@ -38,7 +38,7 @@ int main()
     }
 
     sf::Clock  clock;
-    sf::Clock  onGame_clock;
+    sf::Clock  onGameClock;
     CommandsToServer commandsToServer;
     Sprite     sprite;
     Menu       menu;
@@ -160,13 +160,13 @@ int main()
         }
         else if (game.onGame)
         {
-            sf::Time render_elapsed = onGame_clock.getElapsedTime();
+            sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer);
-            if (render_elapsed.asMilliseconds() > milliseconds_per_frame)
+            if (renderElapsed.asMilliseconds() > millisecondsPerFrame)
             {
                 game.moveParallax();
                 game.repeatParallax();
-                onGame_clock.restart();
+                onGameClock.restart();
             }
             window.draw(game);
         }

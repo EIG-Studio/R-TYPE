@@ -7,9 +7,6 @@
 
 #include "menu/inGame.hpp"
 
-#include <algorithm>
-#include <iostream>
-
 Game::Game()
 {
     this->onGame = false;
@@ -151,14 +148,14 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             this->m_playerSprite.move(-movementSpeed, 0);
     }
     // ----- test ping serveur + reaction de retour ----- //
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+    {
         commandsToServer.sendToServer("TEST");
     }
 }
 
 void Game::colidePlayer()
 {
-
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
