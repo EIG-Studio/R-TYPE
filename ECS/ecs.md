@@ -13,6 +13,7 @@
 - Renderer (Texture & Sprite)
 - Damage
 - Speed
+- HitBox
 
 ### System
 
