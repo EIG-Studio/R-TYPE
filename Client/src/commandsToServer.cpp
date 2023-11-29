@@ -1,62 +1,33 @@
-/*
-** EPITECH PROJECT, 2023
-** R-TYPE
-** File description:
-** server
-*/
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <iostream>
 
-#include <arpa/inet.h>
-#include <bits/stdc++.h>
-#include <netinet/in.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include "commandsToServer.hpp"
+using boost::asio::ip::udp;
 
-#define PORT    8080
-#define MAXLINE 1024
-
-int CommandsToServer::sendToServer(std::string messageToSend)
+int CommandsToServer::sendToServer(std::string msg)
 {
-    int                sockfd;
-    char               buffer[MAXLINE];
-    struct sockaddr_in servaddr;
-    struct sockaddr_in cliaddr;
-
-    // Creating socket file descriptor
-    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+    try
     {
-        perror("socket creation failed");
-        exit(EXIT_FAILURE);
-    }
+        boost::asio::io_service io_service;
 
-    memset(&servaddr, 0, sizeof(servaddr));
-    memset(&cliaddr, 0, sizeof(cliaddr));
+        udp::endpoint receiver_endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
 
-    // Filling server information
-    servaddr.sin_family      = AF_INET; // IPv4
-    servaddr.sin_addr.s_addr = INADDR_ANY;
-    servaddr.sin_port        = htons(PORT);
+        udp::socket socket(io_service); // (1)
+        socket.open(udp::v4());
 
-    // Bind the socket with the server address
-    if (bind(sockfd, (const struct sockaddr*)&servaddr, sizeof(servaddr)) < 0)
+        boost::array<char, 1> send_buf = {0};                             // (2)
+        socket.send_to(boost::asio::buffer(send_buf), receiver_endpoint); // (3)
+
+        boost::array<char, 128> recv_buf; // (4)
+        udp::endpoint           sender_endpoint;
+        size_t                  len = socket.receive_from(boost::asio::buffer(recv_buf), sender_endpoint); // (5)
+
+        std::cout.write(recv_buf.data(), len); // (6)
+    } catch (std::exception& e)
     {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
+        std::cerr << e.what() << std::endl;
     }
-
-    socklen_t len;
-    int       n;
-
-    len = sizeof(cliaddr); //len is value/result
-
-    n         = recvfrom(sockfd, (char*)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr*)&cliaddr, &len);
-    buffer[n] = '\0';
-    printf("Client : %s\n", buffer);
-    sendto(sockfd, messageToSend.c_str(), messageToSend.size(), MSG_CONFIRM, (const struct sockaddr*)&cliaddr, len);
-    std::cout << "Hello message sent." << std::endl;
 
     return 0;
 }
