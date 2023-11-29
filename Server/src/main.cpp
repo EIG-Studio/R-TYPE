@@ -13,14 +13,14 @@ int main()
 
         udp::socket socket(ioService, udp::endpoint(udp::v4(), 7171)); // (1)
 
-        while (1)
+        while (true)
         {
             boost::array<char, 128> recvBuf{}; // (2)
             udp::endpoint             remoteEndpoint;
             boost::system::error_code error;
             socket.receive_from(boost::asio::buffer(recvBuf), remoteEndpoint, 0, error); // (3)
 
-            std::cout << "Received: " << recvBuf.data();
+            std::cout << "Received: " << recvBuf.data() << std::endl;
 
             if (error && error != boost::asio::error::message_size) // (4)
                 throw boost::system::system_error(error);

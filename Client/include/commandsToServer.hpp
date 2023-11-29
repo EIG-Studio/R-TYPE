@@ -12,10 +12,10 @@ class CommandsToServer
 {
 private:
     /* data */
+
 public:
-    CommandsToServer() = default;
+    CommandsToServer()  = default;
     ~CommandsToServer() = default;
 
-    int sendToServer(std::string messageToSend);
+    int sendToServer(std::string msg);
 };
-
