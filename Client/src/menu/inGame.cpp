@@ -102,27 +102,27 @@ void Game::repeatParallax()
     if (this->m_backSprite.getPosition().x <= -m_backSprite.getLocalBounds().width * 2)
         m_backSprite.setPosition(m_backSprite.getLocalBounds().width * 2, 0);
     if (this->m_backSprite2.getPosition().x <= -m_backSprite2.getLocalBounds().width * 2)
-        m_backSprite2.setPosition(m_backSprite2.getLocalBounds().width * 2, 0);
+        m_backSprite2.setPosition(m_backSprite2.getLocalBounds().width * 2 - 1, 0);
 
     if (this->m_veryBackBuildSprite.getPosition().x <= -m_veryBackBuildSprite.getLocalBounds().width * 2)
         m_veryBackBuildSprite.setPosition(m_veryBackBuildSprite.getLocalBounds().width * 2, 0);
     if (this->m_veryBackBuildSprite2.getPosition().x <= -m_veryBackBuildSprite2.getLocalBounds().width * 2)
-        m_veryBackBuildSprite2.setPosition(m_veryBackBuildSprite2.getLocalBounds().width * 2, 0);
+        m_veryBackBuildSprite2.setPosition(m_veryBackBuildSprite2.getLocalBounds().width * 2 - 1, 0);
 
     if (this->m_backBuildSprite.getPosition().x <= -m_backBuildSprite.getLocalBounds().width * 2)
         m_backBuildSprite.setPosition(m_backBuildSprite.getLocalBounds().width * 2, 0);
     if (this->m_backBuildSprite2.getPosition().x <= -m_backBuildSprite2.getLocalBounds().width * 2)
-        m_backBuildSprite2.setPosition(m_backBuildSprite2.getLocalBounds().width * 2, 0);
+        m_backBuildSprite2.setPosition(m_backBuildSprite2.getLocalBounds().width * 2 - 1, 0);
 
     if (this->m_midBuildSprite.getPosition().x <= -m_midBuildSprite.getLocalBounds().width * 2)
         m_midBuildSprite.setPosition(m_midBuildSprite.getLocalBounds().width * 2, 0);
     if (this->m_midBuildSprite2.getPosition().x <= -m_midBuildSprite2.getLocalBounds().width * 2)
-        m_midBuildSprite2.setPosition(m_midBuildSprite2.getLocalBounds().width * 2, 0);
+        m_midBuildSprite2.setPosition(m_midBuildSprite2.getLocalBounds().width * 2 - 1, 0);
 
     if (this->m_frontBuildSprite.getPosition().x <= -m_frontBuildSprite.getLocalBounds().width * 2)
         m_frontBuildSprite.setPosition(m_frontBuildSprite.getLocalBounds().width * 2, 0);
     if (this->m_frontBuildSprite2.getPosition().x <= -m_frontBuildSprite2.getLocalBounds().width * 2)
-        m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
+        m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2 - 1, 0);
 }
 
 void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer)
