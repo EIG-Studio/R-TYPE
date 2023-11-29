@@ -92,6 +92,10 @@ int main()
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
             }
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == sf::Keyboard::K)
+                    commandsToServer.sendToServer("TEST");
+            }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg)
             {
                 music.musicMenu.stop();
