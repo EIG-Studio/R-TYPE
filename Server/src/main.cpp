@@ -15,20 +15,23 @@ int main()
 
         while (true)
         {
-            boost::array<char, 128> recvBuf{}; // (2)
+            boost::array<char, 128>   recvBuf{}; // (2)
             udp::endpoint             remoteEndpoint;
             boost::system::error_code error;
             socket.receive_from(boost::asio::buffer(recvBuf), remoteEndpoint, 0, error); // (3)
 
             std::cout << "Received: " << recvBuf.data() << std::endl;
+            if (strcmp(recvBuf.data(), "TEST") == 0)
+            {
 
-            if (error && error != boost::asio::error::message_size) // (4)
-                throw boost::system::system_error(error);
+                if (error && error != boost::asio::error::message_size) // (4)
+                    throw boost::system::system_error(error);
 
-            std::string message = "Bienvenue sur le serveur ! Mode non connecté.\n";
+                std::string message = "TEST_OK\n";
 
-            boost::system::error_code ignoredError;
-            socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError); // (5)
+                boost::system::error_code ignoredError;
+                socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError); // (5)
+            }
         }
     } catch (std::exception& e)
     {
