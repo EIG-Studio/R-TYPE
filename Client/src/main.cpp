@@ -24,6 +24,7 @@ int main()
 
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setFramerateLimit(144);
+    window.setVerticalSyncEnabled(true);
     sf::Image icon;
     if (!icon.loadFromFile("../assets/MainMenu/samuraiLogo.png"))
     {
