@@ -1,8 +1,8 @@
+#include "commandsToServer.hpp"
+
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
-
-#include "commandsToServer.hpp"
 using boost::asio::ip::udp;
 
 int CommandsToServer::sendToServer(std::string msg)
