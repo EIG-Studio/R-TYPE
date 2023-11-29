@@ -55,7 +55,7 @@ int CommandsToServer::sendToServer(std::string messageToSend)
     n         = recvfrom(sockfd, (char*)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr*)&cliaddr, &len);
     buffer[n] = '\0';
     printf("Client : %s\n", buffer);
-    sendto(sockfd, messageToSend, messageToSend.size(), MSG_CONFIRM, (const struct sockaddr*)&cliaddr, len);
+    sendto(sockfd, messageToSend.c_str(), messageToSend.size(), MSG_CONFIRM, (const struct sockaddr*)&cliaddr, len);
     std::cout << "Hello message sent." << std::endl;
 
     return 0;
