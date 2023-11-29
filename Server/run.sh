@@ -18,6 +18,6 @@ cmake ..
 
 make -j "$(nproc)"
 
-./samurai
+./samurai_server
 
 cd ..
