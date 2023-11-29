@@ -152,7 +152,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY)
     }
     // ----- test ping serveur + reaction de retour ----- //
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-        send("TEST");
+        sendToServer("TEST");
     }
 }
 
