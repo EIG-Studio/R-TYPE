@@ -150,6 +150,10 @@ void Game::moveSprite(float movementSpeed, float winX, float winY)
         if (this->m_playerSprite.getPosition().x > 0)
             this->m_playerSprite.move(-movementSpeed, 0);
     }
+    // ----- test ping serveur + reaction de retour ----- //
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+        send("TEST");
+    }
 }
 
 void Game::colidePlayer()
