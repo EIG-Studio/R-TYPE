@@ -128,7 +128,7 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
-void Game::moveSprite(float movementSpeed, float winX, float winY)
+void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
@@ -152,7 +152,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY)
     }
     // ----- test ping serveur + reaction de retour ----- //
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-        sendToServer("TEST");
+        commandsToServer.sendToServer("TEST");
     }
 }
 

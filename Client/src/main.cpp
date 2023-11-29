@@ -10,6 +10,7 @@
 #include "menu/introMenu/introMenu.hpp"
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
+#include "commandsToServer.hpp"
 
 
 int main()
@@ -31,6 +32,7 @@ int main()
     }
 
     sf::Clock  clock;
+    CommandsToServer commandsToServer;
     Sprite     sprite;
     Menu       menu;
     menu.setPath(sprite);
@@ -151,7 +153,7 @@ int main()
         }
         else if (game.onGame)
         {
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y);
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer);
             game.moveParallax();
             game.repeatParallax();
             window.draw(game);

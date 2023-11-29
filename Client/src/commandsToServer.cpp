@@ -13,11 +13,12 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "commandsToServer.hpp"
 
 #define PORT    8080
 #define MAXLINE 1024
 
-int sendToServer(std::string messageToSend)
+int CommandsToServer::sendToServer(std::string messageToSend)
 {
     int                sockfd;
     char               buffer[MAXLINE];

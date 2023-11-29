@@ -16,6 +16,7 @@ add_executable(${CMAKE_PROJECT_NAME}
     src/sprite/sprite.cpp
     src/music/music.cpp
     src/menu/inGame.cpp
+    src/commandsToServer.cpp
     )
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network)

@@ -9,6 +9,7 @@
 
 #include "sfml.hpp"
 #include "sprite/sprite.hpp"
+#include "commandsToServer.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
@@ -18,7 +19,7 @@ public:
     void setPath(Sprite mSprite);
     void moveParallax();
     void repeatParallax();
-    void moveSprite(float movementSpeed, float winX, float winY);
+    void moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer);
     void colidePlayer();
     bool onGame;
 
