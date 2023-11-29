@@ -9,21 +9,22 @@ int CommandsToServer::sendToServer(std::string msg)
 {
     try
     {
-        boost::asio::io_service io_service;
+        boost::asio::io_service ioService;
 
-        udp::endpoint receiver_endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
+        udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
 
-        udp::socket socket(io_service); // (1)
+        udp::socket socket(ioService); // (1)
         socket.open(udp::v4());
 
-        boost::array<char, 1> send_buf = {0};                             // (2)
-        socket.send_to(boost::asio::buffer(send_buf), receiver_endpoint); // (3)
+        std::string message = "Bienvenue sur le client ! Mode non connecté.\n";
+        // boost::array<char, 1> sendBuf = {0};                             // (2)
+        socket.send_to(boost::asio::buffer(message), receiverEndpoint); // (3)
 
-        boost::array<char, 128> recv_buf; // (4)
-        udp::endpoint           sender_endpoint;
-        size_t                  len = socket.receive_from(boost::asio::buffer(recv_buf), sender_endpoint); // (5)
+        boost::array<char, 128> recvBuf{}; // (4)
+        udp::endpoint           senderEndpoint;
+        size_t                  len = socket.receive_from(boost::asio::buffer(recvBuf), senderEndpoint); // (5)
 
-        std::cout.write(recv_buf.data(), len); // (6)
+        std::cout.write(recvBuf.data(), len); // (6)
     } catch (std::exception& e)
     {
         std::cerr << e.what() << std::endl;
