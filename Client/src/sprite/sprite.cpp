@@ -7,6 +7,8 @@
 
 #include "sprite/sprite.hpp"
 
+#include <utility>
+
 Sprite::Sprite()
 {
     this->m_pathLogo          = "../assets/MainMenu/samuraiLogo.png";
@@ -18,7 +20,7 @@ Sprite::Sprite()
     this->m_pathBackBuild     = "../assets/Background/city_1/3.png";
     this->m_pathMidBuild      = "../assets/Background/city_1/4.png";
     this->m_pathFrontBuild    = "../assets/Background/city_1/5.png";
-    this->m_pathPlayer    = "../assets/Cars/cars/189.png";
+    this->m_pathPlayer        = "../assets/Cars/cars/189.png";
     this->easterEgg           = false;
 }
 
@@ -26,22 +28,22 @@ Sprite::Sprite()
 //     setter     //
 void Sprite::setLogoPath(std::string mString)
 {
-    this->m_pathLogo = mString;
+    this->m_pathLogo = std::move(mString);
 }
 
 void Sprite::setTitlePath(std::string mString)
 {
-    this->m_pathTitle = mString;
+    this->m_pathTitle = std::move(mString);
 }
 
 void Sprite::setMainSongPath(std::string mString)
 {
-    this->m_pathMainSong = mString;
+    this->m_pathMainSong = std::move(mString);
 }
 
 void Sprite::setBackPath(std::string mString)
 {
-    this->m_pathBack = mString;
+    this->m_pathBack = std::move(mString);
 }
 
 

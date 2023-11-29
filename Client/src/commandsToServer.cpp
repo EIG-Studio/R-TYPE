@@ -16,7 +16,6 @@ int CommandsToServer::sendToServer(std::string msg)
         udp::socket socket(ioService); // (1)
         socket.open(udp::v4());
 
-        // boost::array<char, 1> sendBuf = {0};                             // (2)
         socket.send_to(boost::asio::buffer(msg), receiverEndpoint); // (3)
 
         boost::array<char, 128> recvBuf{}; // (4)
