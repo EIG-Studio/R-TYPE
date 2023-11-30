@@ -1,53 +1,28 @@
-/*
-** EPITECH PROJECT, 2023
-** R-TYPE
-** File description:
-** server
-*/
+
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 #pragma once
 
-/*
-** EPITECH PROJECT, 2023
-** B-YEP-400-BDX-4-1-zappy-johanna.bureau
-** File description:
-** client
-*/
+class Server
+{
+public:
+    Server() : m_socket(m_ioService, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 7171))
+    {
+    }
 
+    void startListening();
 
-#include <iostream>
-#include <string>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
+private:
+    boost::asio::io_service      m_ioService;
+    boost::asio::ip::udp::socket m_socket;
 
-#define READ_BUFFER_SIZE 1024
+    void handleReceivedData(const boost::array<char, 128>&        recvBuf,
+                            const boost::asio::ip::udp::endpoint& remoteEndpoint,
+                            const boost::system::error_code&      error);
 
-#include <iostream>
-#include <string>
-#include <vector>
-
-namespace ServerRtype {
-    struct player_t {
-        int socketId;
-        std::string ip;
-        int port;
-        int id;
-    };
-
-    class Server {
-        public:
-            Server(std::string ip, int port);
-            ~Server() = default;
-            void send(std::string message);
-            std::string receive();
-            void connectPlayer(std::string ip, int port);
-
-        private:
-            std::vector<player_t> player;
-            std::vector<std::string> messageQueue;
-            std::string ip;
-            int port;
-            int socketId;
-    };
-}
+    void handlePositionUpdate(const boost::array<char, 128>& recvBuf, const boost::asio::ip::udp::endpoint& remoteEndpoint);
+};

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "sfml.hpp"
+
 #include <string>
 
 class Sprite : public sf::Transformable
@@ -45,5 +46,4 @@ private:
     std::string m_pathFrontBuild;
 
     std::string m_pathPlayer;
-
 };

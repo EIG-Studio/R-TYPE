@@ -6,14 +6,13 @@
 */
 
 #pragma once
-#include "systems.hpp"
 
 class IComponents
 {
 public:
     virtual ~IComponents() = 0;
 
-    private:
+private:
 };
 
 /********-Position Component-******/

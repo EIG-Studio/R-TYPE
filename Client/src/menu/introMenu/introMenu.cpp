@@ -6,17 +6,15 @@
 */
 
 #include "menu/introMenu/introMenu.hpp"
-#include "button.hpp"
-#include "music/music.hpp"
 
-#include <iostream>
+#include "button.hpp"
 
 Menu::Menu()
 {
     this->onMenu = true;
 }
 
-void Menu::setPath(Sprite  mSprite)
+void Menu::setPath(Sprite mSprite)
 {
     this->m_menuLogoTexture.loadFromFile(mSprite.getLogoPath());
     this->m_menuLogoSprite.setTexture(this->m_menuLogoTexture);
@@ -67,7 +65,7 @@ ChoiceMenu::ChoiceMenu()
     this->onChoice = false;
 }
 
-void ChoiceMenu::setPath(Sprite  mSprite)
+void ChoiceMenu::setPath(Sprite mSprite)
 {
     this->m_logoSamuraiTexture.loadFromFile(mSprite.getLogoPath());
     this->m_logoSamuraiSprite.setTexture(this->m_logoSamuraiTexture);
@@ -76,7 +74,6 @@ void ChoiceMenu::setPath(Sprite  mSprite)
     m_logoSamuraiSprite.setScale(87 / m_logoSamuraiSprite.getLocalBounds().width,
                                  100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_logoSamuraiSprite.setPosition(20, 20);
-
 }
 
 void ChoiceMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const

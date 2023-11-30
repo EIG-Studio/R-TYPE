@@ -24,7 +24,6 @@ Sprite::Sprite()
     this->easterEgg           = false;
 }
 
-
 //     setter     //
 void Sprite::setLogoPath(std::string mString)
 {
@@ -45,7 +44,6 @@ void Sprite::setBackPath(std::string mString)
 {
     this->m_pathBack = std::move(mString);
 }
-
 
 //     getter     //
 std::string Sprite::getLogoPath()

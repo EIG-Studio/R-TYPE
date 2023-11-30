@@ -6,19 +6,20 @@
 */
 
 #include "button.hpp"
+#include "commandsToServer.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
-#include "commandsToServer.hpp"
+
 #include <SFML/System.hpp>
 
 int main()
 {
     float movementSpeed = 5.0f;
-    //Calculating the milliseconds per frame for 144 FPS
+    // Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
-    float fps = 144;
+    float fps                   = 144;
 
     float millisecondsPerFrame = millisecondsPerSecond / fps;
 
@@ -37,17 +38,17 @@ int main()
         return -1;
     }
 
-    sf::Clock  clock;
-    sf::Clock  onGameClock;
+    sf::Clock        clock;
+    sf::Clock        onGameClock;
     CommandsToServer commandsToServer;
-    Sprite     sprite;
-    Menu       menu;
+    Sprite           sprite;
+    Menu             menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
     choiceMenu.setPath(sprite);
-    Game       game;
+    Game game;
     game.setPath(sprite);
-    Music      music;
+    Music music;
     music.setPath(sprite);
 
     Button playButton(window,
@@ -92,7 +93,8 @@ int main()
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
             }
-            if (event.type == sf::Event::KeyReleased) {
+            if (event.type == sf::Event::KeyReleased)
+            {
                 if (event.key.code == sf::Keyboard::K)
                     commandsToServer.sendToServer("TEST");
             }
@@ -124,7 +126,8 @@ int main()
             }
             if (game.onGame)
             {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                {
                     game.onGame         = false;
                     choiceMenu.onChoice = true;
                 }

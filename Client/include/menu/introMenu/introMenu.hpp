@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "sfml.hpp"
 #include "sprite/sprite.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
@@ -15,9 +14,9 @@ class Menu : public sf::Drawable, public sf::Transformable
 public:
     Menu();
     ~Menu() override = default;
-    sf::Clock blinkingText(sf::Clock  mClock, sf::Time mElapsed);
-    void setPath(Sprite mSprite);
-    bool onMenu;
+    sf::Clock blinkingText(sf::Clock mClock, sf::Time mElapsed);
+    void      setPath(Sprite mSprite);
+    bool      onMenu;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -26,8 +25,8 @@ private:
     sf::Texture m_menuTitleTexture;
     sf::Sprite  m_menuLogoSprite;
     sf::Sprite  m_menuTitleSprite;
-    sf::Font m_burnCityFont;
-    sf::Text m_burnCityText;
+    sf::Font    m_burnCityFont;
+    sf::Text    m_burnCityText;
 };
 
 class ChoiceMenu : public sf::Drawable, public sf::Transformable
