@@ -10,12 +10,12 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(${CMAKE_PROJECT_NAME}
+add_executable(${PROJECT_NAME}
     src/main.cpp
     )
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE)
-target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+# target_link_libraries(${PROJECT_NAME} PRIVATE)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 
-install(TARGETS ${CMAKE_PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME})

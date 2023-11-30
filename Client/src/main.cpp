@@ -26,13 +26,13 @@ int main()
     window.setFramerateLimit(144);
     window.setVerticalSyncEnabled(true);
     sf::Image icon;
-    if (!icon.loadFromFile("../assets/MainMenu/samuraiLogo.png"))
+    if (!icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png"))
     {
         return -1;
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     sf::Font font;
-    if (!font.loadFromFile("../assets/Fonts/retro.ttf"))
+    if (!font.loadFromFile("../Client/assets/Fonts/retro.ttf"))
     {
         return -1;
     }
@@ -99,9 +99,9 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg)
             {
                 music.musicMenu.stop();
-                sprite.setLogoPath("../assets/MainMenu/runnerLogo.png");
-                sprite.setTitlePath("../assets/MainMenu/runnerTitle.png");
-                sprite.setMainSongPath("../assets/Songs/runner.wav");
+                sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
+                sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
+                sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
                 music.setPath(sprite);
@@ -112,9 +112,9 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg)
             {
                 music.musicMenu.stop();
-                sprite.setLogoPath("../assets/MainMenu/runnerLogo.png");
-                sprite.setTitlePath("../assets/MainMenu/runnerTitle.png");
-                sprite.setMainSongPath("../assets/Songs/runner.wav");
+                sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
+                sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
+                sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
                 menu.setPath(sprite);
                 choiceMenu.setPath(sprite);
                 music.setPath(sprite);

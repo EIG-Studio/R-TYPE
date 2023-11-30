@@ -33,15 +33,15 @@ int main()
                 socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError); // (5)
             }
             // Jules
-            if (recvBuf.size() >= 3 && std::string(recvBuf.data(), 3) == "POS")
+            if (boost::array<char, 128>::size() >= 3 && std::string(recvBuf.data(), 3) == "POS")
             {
                 if (error && error != boost::asio::error::message_size) // (4)
                     throw boost::system::system_error(error);
-                
-                std::string posString = recvBuf.data();
-                std::istringstream iss(posString);
+
+                std::string              posString = recvBuf.data();
+                std::istringstream       iss(posString);
                 std::vector<std::string> tokens;
-                std::ostringstream newPos;
+                std::ostringstream       newPos;
 
                 // Reception et séparation pour plus de facilité de modification
                 std::string token;
@@ -51,16 +51,23 @@ int main()
                 }
 
                 // Calcul (ne marche que pour up pour l'instant)
-                float newPosX = std::stof(tokens[1]);
-                float newPosY = std::stof(tokens[2]);
+                float newPosX   = std::stof(tokens[1]);
+                float newPosY   = std::stof(tokens[2]);
                 float moveSpeed = std::stof(tokens[3]);
-                if (std::stof(tokens[4]) == 1) {
+                if (std::stof(tokens[4]) == 1)
+                {
                     newPosY = newPosY - moveSpeed;
-                } else if (std::stof(tokens[4]) == 2) {
+                }
+                else if (std::stof(tokens[4]) == 2)
+                {
                     newPosX = newPosX + moveSpeed;
-                } else if (std::stof(tokens[4]) == 3) {
+                }
+                else if (std::stof(tokens[4]) == 3)
+                {
                     newPosY = newPosY + moveSpeed;
-                } else if (std::stof(tokens[4]) == 4) {
+                }
+                else if (std::stof(tokens[4]) == 4)
+                {
                     newPosX = newPosX - moveSpeed;
                 }
                 // to string, envoie vers client
