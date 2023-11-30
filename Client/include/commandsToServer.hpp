@@ -11,11 +11,12 @@
 class CommandsToServer
 {
 private:
-    /* data */
+    std::string m_newPos;
 
 public:
     CommandsToServer()  = default;
     ~CommandsToServer() = default;
 
     int sendToServer(std::string msg);
+    std::string getNewPos();
 };

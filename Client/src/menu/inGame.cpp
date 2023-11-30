@@ -126,6 +126,38 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
+float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer) {
+    std::istringstream iss(mCommandsToServer.getNewPos());
+    std::vector<std::string> tokens;
+    std::ostringstream newPos;
+
+    // Reception et séparation pour plus de facilité de modification
+    std::string token;
+    while (std::getline(iss, token, ' '))
+    {
+        tokens.push_back(token);
+    }
+
+    float newPosX = std::stof(tokens[1]);
+    return newPosX;
+}
+
+float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer) {
+    std::istringstream iss(mCommandsToServer.getNewPos());
+    std::vector<std::string> tokens;
+    std::ostringstream newPos;
+
+    // Reception et séparation pour plus de facilité de modification
+    std::string token;
+    while (std::getline(iss, token, ' '))
+    {
+        tokens.push_back(token);
+    }
+
+    float newPosY = std::stof(tokens[2]);
+    return newPosY;
+}
+
 void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -136,7 +168,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 1";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            //this->m_playerSprite.setPosition(newPosX, newPosY);
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -147,7 +179,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 2";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            //this->m_playerSprite.setPosition(newPosX, newPosY);
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -158,7 +190,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 3";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            //this->m_playerSprite.setPosition(newPosX, newPosY);
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -169,7 +201,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 4";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            //this->m_playerSprite.setPosition(newPosX, newPosY);
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
 }
