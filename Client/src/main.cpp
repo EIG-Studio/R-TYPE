@@ -15,7 +15,7 @@
 
 int main()
 {
-    float movementSpeed = 3.0f;
+    float movementSpeed = 5.0f;
     //Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
     float fps = 144;
