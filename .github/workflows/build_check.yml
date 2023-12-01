@@ -19,10 +19,6 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
-      - name: Install Boost
-        if: runner.os == 'Linux'
-        run: sudo apt-get install libboost-all-dev
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -37,4 +33,3 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --install build --config Release
-
