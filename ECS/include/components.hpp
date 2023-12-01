@@ -33,17 +33,66 @@ private:
     float m_y;
 };
 
-/********-Life Component-******/
-class Life
+/********-Health Component-******/
+class Health
 {
 public:
-    Life();
-    ~Life() = default;
+    Health();
+    ~Health() = default;
 
-    float getLifePoint() const;
+    float getHealthPoint() const;
 
-    void setLifePoint(float mLp);
+    void setHealthPoint(float mHp);
 
 private:
-    float m_lp;
+    float m_hp;
+};
+
+/********-Damage Component-******/
+class Damage
+{
+    public:
+    Damage();
+    ~Damage();
+
+    float getDamagePoint() const;
+
+    void setDamagePoint(float mDp);
+
+    private:
+    float m_dp;
+};
+
+/********-Id Component-******/
+class Id
+{
+    public:
+    Id();
+    ~Id();
+
+    size_t getId() const;
+    void setId(size_t mId);
+
+    private:
+    size_t m_id;
+};
+
+/********-Type Component-******/
+class Type
+{
+    public:
+    Type();
+    ~Type();
+
+    enum class m_type {
+        TYPE1,
+        TYPE2,
+        TYPE3
+    };
+
+    m_type getType() const;
+    void setType(m_type newType);
+
+    private:
+    m_type currentType;
 };
