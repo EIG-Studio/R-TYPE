@@ -1,4 +1,13 @@
+/*
+** EPITECH PROJECT, 2023
+** R-TYPE
+** File description:
+** button
+*/
+
 #include <SFML/Graphics.hpp>
+
+#include <iostream>
 
 class Button
 {
@@ -45,6 +54,22 @@ public:
         return false;
     }
 
+    bool checkHover()
+    {
+        sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+        bool         hover    = m_button.getGlobalBounds().contains(mousePos);
+
+        if (hover)
+        {
+            m_button.setOutlineColor(sf::Color::Red);
+        }
+        else if (!hover)
+        {
+            m_button.setOutlineColor(sf::Color::White);
+        }
+        return false;
+    }
+
     void draw()
     {
         m_window.draw(m_button);
@@ -56,4 +81,5 @@ private:
     sf::RenderWindow&  m_window;
     sf::Text           m_text;
     bool               m_isClicked{false};
+    bool               m_isHover;
 };

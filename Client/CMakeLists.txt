@@ -16,7 +16,6 @@ FetchContent_Declare(SFML
 
 FetchContent_MakeAvailable(SFML)
 
-
 ################# CLANG FORMAT #################
 find_program(CLANG_FORMAT "clang-format")
 
