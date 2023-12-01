@@ -42,4 +42,6 @@ private:
 
     sf::Texture m_logoSamuraiTexture;
     sf::Sprite  m_logoSamuraiSprite;
+    sf::Font    m_mainMenuFont;
+    sf::Text    m_mainMenuText;
 };
