@@ -105,14 +105,14 @@ void ChoiceMenu::setCursorPosition(sf::RenderWindow& window) {
     }
     if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20)
     {
-        if (this->m_cursorSprite.getPosition().x < window.getPosition().x - 32)
+        if (this->m_cursorSprite.getPosition().x < 800 - 32)
         {
             this->m_cursorSprite.move(5, 0);
         }
     }
     if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20)
     {
-        if (this->m_cursorSprite.getPosition().y < window.getPosition().y - 32)
+        if (this->m_cursorSprite.getPosition().y < 600 - 32)
         {
             this->m_cursorSprite.move(0, 5);
         }
