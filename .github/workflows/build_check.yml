@@ -11,13 +11,18 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          # - { name: Windows Latest, os: windows-latest }
-          - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
+        # - { name: Windows Latest, os: windows-latest }
+          - { name: Linux GCC,      os: ubuntu-latest }
+          # - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
 
     steps:
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+
+      - name: Install Boost
+        if: runner.os == 'Linux'
+        run: sudo apt-get install libboost-all-dev
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,3 +38,4 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --install build --config Release
+
