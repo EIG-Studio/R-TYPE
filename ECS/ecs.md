@@ -5,15 +5,16 @@
 - Gravity
 - Shooter
 - Behavior
-- HealthPoint
-- Position
+- HealthPoint ##OK##
+- Position ##OK##
 - Velocity
-- Type
+- Type ##OK##
 - Size
 - Renderer (Texture & Sprite)
-- Damage
+- Damage ##OK##
 - Speed
 - HitBox
+- Id ##OK##
 
 ### System
 
