@@ -160,7 +160,11 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServ
 
 void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    if (sf::Joystick::isButtonPressed(0, 1))
+    {
+        commandsToServer.sendToServer("TEST");
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20)
     {
         if (this->m_playerSprite.getPosition().y > 0) {
             // Il faut bouger de movementSpeed à chaque fois
@@ -171,7 +175,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20)
     {
         if (this->m_playerSprite.getPosition().x < winX - 103) {
             // Il faut bouger de movementSpeed à chaque fois
@@ -182,7 +186,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20)
     {
         if (this->m_playerSprite.getPosition().y < winY - 37.75) {
             // Il faut bouger de movementSpeed à chaque fois
@@ -193,7 +197,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20)
     {
         if (this->m_playerSprite.getPosition().x > 0) {
             // Il faut bouger de movementSpeed à chaque fois
