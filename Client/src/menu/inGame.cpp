@@ -83,8 +83,8 @@ void Game::setPath(Sprite mSprite)
 
 void Game::moveParallax()
 {
-    this->m_backSprite.move(-15, 0);
-    this->m_backSprite2.move(-15, 0);
+    this->m_backSprite.move(-0.4, 0);
+    this->m_backSprite2.move(-0.4, 0);
 
     this->m_veryBackBuildSprite.move(-0.7, 0);
     this->m_veryBackBuildSprite2.move(-0.7, 0);
@@ -163,10 +163,6 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServ
 
 void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer)
 {
-    if (sf::Joystick::isButtonPressed(0, 1))
-    {
-        commandsToServer.sendToServer("TEST");
-    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20)
     {
         if (this->m_playerSprite.getPosition().y > 0)

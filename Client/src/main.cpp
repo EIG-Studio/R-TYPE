@@ -88,14 +88,19 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && menu.onMenu)
+            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu)
             {
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
             }
             if (event.type == sf::Event::KeyReleased)
             {
-                if (event.key.code == sf::Keyboard::K)
+                if (event.key.code == sf::Keyboard::S)
+                    commandsToServer.sendToServer("TEST");
+            }
+            if (event.type == sf::Event::JoystickButtonReleased && game.onGame)
+            {
+                if (event.joystickButton.button == sf::Joystick::Y)
                     commandsToServer.sendToServer("TEST");
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg)
@@ -126,7 +131,7 @@ int main()
             }
             if (game.onGame)
             {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7))
                 {
                     game.onGame         = false;
                     choiceMenu.onChoice = true;
@@ -147,7 +152,10 @@ int main()
         }
         else if (choiceMenu.onChoice)
         {
-            if (playButton.checkClick())
+            playButton.checkHover();
+            settingsButton.checkHover();
+            exitButton.checkHover();
+            if (playButton.checkClick() || sf::Joystick::isButtonPressed(0, 0))
             {
                 game.onGame         = true;
                 choiceMenu.onChoice = false;
