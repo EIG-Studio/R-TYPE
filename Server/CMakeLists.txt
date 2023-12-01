@@ -8,13 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 ################# FETCH #################
-include(FetchContent)
-FetchContent_Declare(
-  Boost
-  URL https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz
-  DOWNLOAD_EXTRACT_TIMESTAMP ON
-)
-FetchContent_MakeAvailable(Boost)
+
 
 ################# CLANG-FORMAT #################
 find_program(CLANG_FORMAT "clang-format")
