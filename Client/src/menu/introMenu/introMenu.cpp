@@ -69,11 +69,19 @@ void ChoiceMenu::setPath(Sprite mSprite)
 {
     this->m_logoSamuraiTexture.loadFromFile(mSprite.getLogoPath());
     this->m_logoSamuraiSprite.setTexture(this->m_logoSamuraiTexture);
+    this->m_mainMenuFont.loadFromFile(mSprite.getFontPath());
 
     //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite.setScale(87 / m_logoSamuraiSprite.getLocalBounds().width,
                                  100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_logoSamuraiSprite.setPosition(20, 20);
+
+    this->m_mainMenuText.setString("MAIN MENU");
+    this->m_mainMenuText.setFont(this->m_mainMenuFont);
+    this->m_mainMenuText.setCharacterSize(30);
+    this->m_mainMenuText.setFillColor(sf::Color::White);
+    this->m_mainMenuText.setPosition(800 / 2 - this->m_mainMenuText.getGlobalBounds().width / 2,
+                                     600 / 4 - this->m_mainMenuText.getGlobalBounds().height / 2);
 }
 
 void ChoiceMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -81,4 +89,5 @@ void ChoiceMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.transform *= getTransform();
     states.texture = &m_logoSamuraiTexture;
     target.draw(m_logoSamuraiSprite, states);
+    target.draw(m_mainMenuText, states);
 }
