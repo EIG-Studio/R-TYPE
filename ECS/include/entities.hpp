@@ -7,15 +7,16 @@
 
 #pragma once
 #include "components.hpp"
-#include <vector>
+
 #include <any>
+#include <vector>
 
 class Entities
 {
 public:
     Entities()  = default;
     ~Entities() = default;
-    std::vector<std::any> Components;
+    std::vector<std::any> components;
 
 private:
 };
@@ -29,17 +30,17 @@ public:
 
 private:
     Position m_position;
-    Life m_life;
+    Life     m_life;
 };
 
 /********-Enemy Entity-******/
 class Enemy
 {
 public:
-    Enemy() = default;
+    Enemy()  = default;
     ~Enemy() = default;
 
 private:
     Position m_position;
-    Life m_life;
+    Life     m_life;
 };

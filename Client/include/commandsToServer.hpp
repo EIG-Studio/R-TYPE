@@ -17,6 +17,6 @@ public:
     CommandsToServer()  = default;
     ~CommandsToServer() = default;
 
-    int sendToServer(std::string msg);
+    int         sendToServer(std::string msg);
     std::string getNewPos();
 };

@@ -7,23 +7,22 @@
 
 #pragma once
 
-#include "sfml.hpp"
-#include "sprite/sprite.hpp"
 #include "commandsToServer.hpp"
+#include "sprite/sprite.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
 public:
     Game();
     ~Game() override = default;
-    void setPath(Sprite mSprite);
-    void moveParallax();
-    void repeatParallax();
+    void  setPath(Sprite mSprite);
+    void  moveParallax();
+    void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
-    void moveSprite(float movementSpeed, float winX, float winY, CommandsToServer mCommandsToServer);
-    void colidePlayer();
-    bool onGame;
+    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer mCommandsToServer);
+    void  colidePlayer();
+    bool  onGame;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

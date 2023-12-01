@@ -11,19 +11,18 @@
 
 Sprite::Sprite()
 {
-    this->m_pathLogo          = "../assets/MainMenu/samuraiLogo.png";
-    this->m_pathTitle         = "../assets/MainMenu/samuraiTitle.png";
-    this->m_pathFont          = "../assets/Fonts/retro.ttf";
-    this->m_pathMainSong      = "../assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
-    this->m_pathBack          = "../assets/Background/city_1/1.png";
-    this->m_pathVeryBackBuild = "../assets/Background/city_1/2.png";
-    this->m_pathBackBuild     = "../assets/Background/city_1/3.png";
-    this->m_pathMidBuild      = "../assets/Background/city_1/4.png";
-    this->m_pathFrontBuild    = "../assets/Background/city_1/5.png";
-    this->m_pathPlayer        = "../assets/Cars/cars/189.png";
+    this->m_pathLogo          = "../Client/assets/MainMenu/samuraiLogo.png";
+    this->m_pathTitle         = "../Client/assets/MainMenu/samuraiTitle.png";
+    this->m_pathFont          = "../Client/assets/Fonts/retro.ttf";
+    this->m_pathMainSong      = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
+    this->m_pathBack          = "../Client/assets/Background/city_1/1.png";
+    this->m_pathVeryBackBuild = "../Client/assets/Background/city_1/2.png";
+    this->m_pathBackBuild     = "../Client/assets/Background/city_1/3.png";
+    this->m_pathMidBuild      = "../Client/assets/Background/city_1/4.png";
+    this->m_pathFrontBuild    = "../Client/assets/Background/city_1/5.png";
+    this->m_pathPlayer        = "../Client/assets/Cars/cars/189.png";
     this->easterEgg           = false;
 }
-
 
 //     setter     //
 void Sprite::setLogoPath(std::string mString)
@@ -45,7 +44,6 @@ void Sprite::setBackPath(std::string mString)
 {
     this->m_pathBack = std::move(mString);
 }
-
 
 //     getter     //
 std::string Sprite::getLogoPath()

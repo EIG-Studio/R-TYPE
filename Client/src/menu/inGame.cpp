@@ -6,6 +6,7 @@
 */
 
 #include "menu/inGame.hpp"
+
 #include <sstream>
 
 Game::Game()
@@ -126,10 +127,11 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
-float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer) {
-    std::istringstream iss(mCommandsToServer.getNewPos());
+float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
+{
+    std::istringstream       iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
-    std::ostringstream newPos;
+    std::ostringstream       newPos;
 
     // Reception et séparation pour plus de facilité de modification
     std::string token;
@@ -142,10 +144,11 @@ float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosX;
 }
 
-float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer) {
-    std::istringstream iss(mCommandsToServer.getNewPos());
+float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
+{
+    std::istringstream       iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
-    std::ostringstream newPos;
+    std::ostringstream       newPos;
 
     // Reception et séparation pour plus de facilité de modification
     std::string token;
@@ -166,46 +169,58 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20)
     {
-        if (this->m_playerSprite.getPosition().y > 0) {
+        if (this->m_playerSprite.getPosition().y > 0)
+        {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 1";
+            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+                << movementSpeed << " 1";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
+                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20)
     {
-        if (this->m_playerSprite.getPosition().x < winX - 103) {
+        if (this->m_playerSprite.getPosition().x < winX - 103)
+        {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 2";
+            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+                << movementSpeed << " 2";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
+                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20)
     {
-        if (this->m_playerSprite.getPosition().y < winY - 37.75) {
+        if (this->m_playerSprite.getPosition().y < winY - 37.75)
+        {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 3";
+            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+                << movementSpeed << " 3";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
+                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20)
     {
-        if (this->m_playerSprite.getPosition().x > 0) {
+        if (this->m_playerSprite.getPosition().x > 0)
+        {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " " << movementSpeed << " 4";
+            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+                << movementSpeed << " 4";
             std::string positionString = oss.str();
             commandsToServer.sendToServer(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
+                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
         }
     }
 }
