@@ -33,11 +33,13 @@ public:
     std::string getMidBuildPath();
     std::string getFrontBuildPath();
     std::string getPlayerPath();
+    std::string getCursorPath();
 
 private:
     std::string m_pathLogo;
     std::string m_pathTitle;
     std::string m_pathFont;
+    std::string m_pathCursor;
     std::string m_pathMainSong;
     std::string m_pathBack;
     std::string m_pathVeryBackBuild;

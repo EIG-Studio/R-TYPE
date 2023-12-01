@@ -14,6 +14,7 @@ Sprite::Sprite()
     this->m_pathLogo          = "../Client/assets/MainMenu/samuraiLogo.png";
     this->m_pathTitle         = "../Client/assets/MainMenu/samuraiTitle.png";
     this->m_pathFont          = "../Client/assets/Fonts/retro.ttf";
+    this->m_pathCursor        = "../Client/assets/Cursor/cursor_64.png";
     this->m_pathMainSong      = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
     this->m_pathBack          = "../Client/assets/Background/city_1/1.png";
     this->m_pathVeryBackBuild = "../Client/assets/Background/city_1/2.png";
@@ -60,6 +61,12 @@ std::string Sprite::getFontPath()
 {
     return this->m_pathFont;
 }
+
+std::string Sprite::getCursorPath()
+{
+    return this->m_pathCursor;
+}
+
 
 std::string Sprite::getMainSongPath()
 {
