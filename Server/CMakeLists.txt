@@ -47,7 +47,7 @@ add_executable(${PROJECT_NAME}
 ################# LIBRARIES #################
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
-
+set(BOOST_INCLUDE_LIBRARIES array asio)
 
 
 ################# INSTALL #################
