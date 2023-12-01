@@ -24,6 +24,7 @@ int main()
     float millisecondsPerFrame = millisecondsPerSecond / fps;
 
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
+    window.setMouseCursorVisible(false);
     window.setFramerateLimit(144);
     window.setVerticalSyncEnabled(true);
     sf::Image icon;
@@ -152,6 +153,7 @@ int main()
         }
         else if (choiceMenu.onChoice)
         {
+            choiceMenu.setCursorPosition(window);
             playButton.checkHover();
             settingsButton.checkHover();
             exitButton.checkHover();
@@ -168,10 +170,10 @@ int main()
             {
                 exit(0);
             }
-            window.draw(choiceMenu);
             playButton.draw();
             settingsButton.draw();
             exitButton.draw();
+            window.draw(choiceMenu);
         }
         else if (game.onGame)
         {

@@ -35,6 +35,7 @@ public:
     ChoiceMenu();
     ~ChoiceMenu() override = default;
     void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
     bool onChoice;
 
 private:
@@ -42,6 +43,10 @@ private:
 
     sf::Texture m_logoSamuraiTexture;
     sf::Sprite  m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite  m_cursorSprite;
     sf::Font    m_mainMenuFont;
     sf::Text    m_mainMenuText;
+    int         m_tempMouseX;
+    int         m_tempMouseY;
 };
