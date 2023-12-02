@@ -9,7 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success' &&
+        github.repository != 'EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle'
 
     steps:
       - uses: actions/checkout@v3
