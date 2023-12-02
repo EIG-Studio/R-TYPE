@@ -178,7 +178,7 @@ int main()
         else if (game.onGame)
         {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer);
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame)
             {
                 game.moveParallax();

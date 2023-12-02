@@ -22,6 +22,7 @@ public:
     void setTitlePath(std::string mString);
     void setMainSongPath(std::string mString);
     void setBackPath(std::string mString);
+    void setPlayerPath(std::string mString);
 
     std::string getLogoPath();
     std::string getTitlePath();

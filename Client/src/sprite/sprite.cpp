@@ -21,7 +21,7 @@ Sprite::Sprite()
     this->m_pathBackBuild     = "../Client/assets/Background/city_1/3.png";
     this->m_pathMidBuild      = "../Client/assets/Background/city_1/4.png";
     this->m_pathFrontBuild    = "../Client/assets/Background/city_1/5.png";
-    this->m_pathPlayer        = "../Client/assets/Cars/cars/189.png";
+    this->m_pathPlayer        = "../Client/assets/Cars/189_neutral.png";
     this->easterEgg           = false;
 }
 
@@ -44,6 +44,11 @@ void Sprite::setMainSongPath(std::string mString)
 void Sprite::setBackPath(std::string mString)
 {
     this->m_pathBack = std::move(mString);
+}
+
+void Sprite::setPlayerPath(std::string mString)
+{
+    this->m_pathPlayer = std::move(mString);
 }
 
 //     getter     //
