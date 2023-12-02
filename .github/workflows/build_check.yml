@@ -31,7 +31,15 @@ jobs:
     steps:
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev cmake clang-format clang-tidy
+        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev cmake clang-tidy
+
+      - name: Install clang-format 19
+        if: runner.os == 'Linux'
+        shell: bash
+        run: wget https://apt.llvm.org/llvm.sh
+             chmod +x llvm.sh
+             sudo ./llvm.sh 16
+             sudo apt install clang-format-16
 
       - name: Install Boost
         if: runner.os == 'Linux'
