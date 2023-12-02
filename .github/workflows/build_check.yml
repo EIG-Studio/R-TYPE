@@ -3,7 +3,7 @@ name: Build Check
 # on: [push, pull_request]
 on:
   push:
-  pull_request:
+  # pull_request:
     paths:
     - 'Client/**'
     - 'Server/**'
