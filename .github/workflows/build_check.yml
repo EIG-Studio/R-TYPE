@@ -36,7 +36,7 @@ jobs:
       - name: Install clang-format 16
         if: runner.os == 'Linux'
         shell: bash
-        run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install clang-format-16 && sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format
+        run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
 
       - name: Install Boost
         if: runner.os == 'Linux'
