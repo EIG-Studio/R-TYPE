@@ -36,6 +36,8 @@ public:
     ~ChoiceMenu() override = default;
     void setPath(Sprite mSprite);
     void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
     bool onChoice;
 
 private:

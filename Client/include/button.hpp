@@ -36,10 +36,11 @@ public:
         m_text.setPosition(position.x + size.x / 2.0f, position.y + size.y / 2.0f);
     }
 
-    bool checkClick()
+    bool checkClick(float cursorX, float cursorY)
     {
-        sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
-        bool clicked = m_button.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        bool clicked = m_button.getGlobalBounds().contains(cursorX, cursorY) &&
+                       (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0));
+
 
         if (clicked && !m_isClicked)
         {
@@ -54,10 +55,9 @@ public:
         return false;
     }
 
-    bool checkHover()
+    bool checkHover(float cursorX, float cursorY)
     {
-        sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
-        bool         hover    = m_button.getGlobalBounds().contains(mousePos);
+        bool hover = m_button.getGlobalBounds().contains(cursorX, cursorY);
 
         if (hover)
         {

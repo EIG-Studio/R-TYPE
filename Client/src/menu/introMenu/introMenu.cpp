@@ -77,8 +77,7 @@ void ChoiceMenu::setPath(Sprite mSprite)
     //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite.setScale(87 / m_logoSamuraiSprite.getLocalBounds().width,
                                  100 / m_logoSamuraiSprite.getLocalBounds().height);
-    m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width,
-                                 32 / m_cursorSprite.getLocalBounds().height);
+    m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
     m_logoSamuraiSprite.setPosition(20, 20);
     m_cursorSprite.setPosition(0, 0);
 
@@ -90,8 +89,10 @@ void ChoiceMenu::setPath(Sprite mSprite)
                                      600 / 4 - this->m_mainMenuText.getGlobalBounds().height / 2);
 }
 
-void ChoiceMenu::setCursorPosition(sf::RenderWindow& window) {
-    if (sf::Mouse::getPosition(window).x != this->m_tempMouseX && sf::Mouse::getPosition(window).y != this->m_tempMouseY) {
+void ChoiceMenu::setCursorPosition(sf::RenderWindow& window)
+{
+    if (sf::Mouse::getPosition(window).x != this->m_tempMouseX && sf::Mouse::getPosition(window).y != this->m_tempMouseY)
+    {
         this->m_cursorSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
         this->m_tempMouseX = sf::Mouse::getPosition(window).x;
         this->m_tempMouseY = sf::Mouse::getPosition(window).y;
@@ -125,6 +126,17 @@ void ChoiceMenu::setCursorPosition(sf::RenderWindow& window) {
         }
     }
 }
+
+float ChoiceMenu::getCursorPosX()
+{
+    return this->m_cursorSprite.getPosition().x;
+}
+
+float ChoiceMenu::getCursorPosY()
+{
+    return this->m_cursorSprite.getPosition().y;
+}
+
 
 void ChoiceMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

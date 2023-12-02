@@ -154,19 +154,19 @@ int main()
         else if (choiceMenu.onChoice)
         {
             choiceMenu.setCursorPosition(window);
-            playButton.checkHover();
-            settingsButton.checkHover();
-            exitButton.checkHover();
-            if (playButton.checkClick() || sf::Joystick::isButtonPressed(0, 0))
+            playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+            settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+            exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+            if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()))
             {
                 game.onGame         = true;
                 choiceMenu.onChoice = false;
             }
-            if (settingsButton.checkClick())
+            if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()))
             {
                 std::cout << "Setting button" << std::endl;
             }
-            if (exitButton.checkClick())
+            if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()))
             {
                 exit(0);
             }
