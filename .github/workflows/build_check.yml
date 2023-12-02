@@ -16,26 +16,34 @@ jobs:
           # - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
 
     steps:
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code Client/ ECS/ Server CMakeLists.txt || echo "Changes detected"
+
       - name: Install Linux Dependencies
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && steps.check_changes.outputs.return-code == '1'
         run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
       - name: Install Boost
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && steps.check_changes.outputs.return-code == '1'
         run: sudo apt-get install -y libboost-all-dev
 
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Configure
+        if: steps.check_changes.outputs.return-code == '1'
         shell: bash
         run: cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}}
 
       - name: Build
+        if: steps.check_changes.outputs.return-code == '1'
         shell: bash
         run: cmake --build build --config Release
 
       - name: Install
+        if: steps.check_changes.outputs.return-code == '1'
         shell: bash
         run: cmake --install build --config Release
 
