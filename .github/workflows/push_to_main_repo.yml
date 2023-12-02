@@ -17,6 +17,6 @@ jobs:
           fetch-depth: 0
       - uses: yesolutions/mirror-action@master
         with:
-          REMOTE: 'ssh://git@github.com:EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle.git'
+          REMOTE: 'ssh://git@github.com/EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle.git'
           GIT_SSH_PRIVATE_KEY: ${{ secrets.ACTION_GITHUB }}
           GIT_SSH_NO_VERIFY_HOST: "true"
