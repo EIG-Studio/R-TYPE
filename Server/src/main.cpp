@@ -34,8 +34,7 @@ void Server::handleReceivedData(const boost::array<char, 128>&        recvBuf,
 
         boost::system::error_code ignoredError;
         m_socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError);
-    }
-    else if (std::string(recvBuf.data(), 3) == "POS") {
+    } else if (std::string(recvBuf.data(), 3) == "POS") {
         if (error && error != boost::asio::error::message_size)
             throw boost::system::system_error(error);
 
@@ -61,14 +60,11 @@ void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const 
 
     if (std::stof(tokens[4]) == 1) {
         newPosY = newPosY - moveSpeed;
-    }
-    else if (std::stof(tokens[4]) == 2) {
+    } else if (std::stof(tokens[4]) == 2) {
         newPosX = newPosX + moveSpeed;
-    }
-    else if (std::stof(tokens[4]) == 3) {
+    } else if (std::stof(tokens[4]) == 3) {
         newPosY = newPosY + moveSpeed;
-    }
-    else if (std::stof(tokens[4]) == 4) {
+    } else if (std::stof(tokens[4]) == 4) {
         newPosX = newPosX - moveSpeed;
     }
 

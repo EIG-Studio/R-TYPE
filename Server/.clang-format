@@ -70,7 +70,7 @@ BraceWrapping:
     AfterUnion: true
     AfterExternBlock: true
     BeforeCatch: false
-    BeforeElse: true
+    BeforeElse: false
     BeforeLambdaBody: true
     BeforeWhile: false
     IndentBraces: false
