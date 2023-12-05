@@ -9,8 +9,7 @@
 
 void Server::startListening()
 {
-    while (true)
-    {
+    while (true) {
         boost::array<char, 128>        recvBuf{};
         boost::asio::ip::udp::endpoint remoteEndpoint;
         boost::system::error_code      error;
@@ -27,8 +26,7 @@ void Server::handleReceivedData(const boost::array<char, 128>&        recvBuf,
                                 const boost::asio::ip::udp::endpoint& remoteEndpoint,
                                 const boost::system::error_code&      error)
 {
-    if (strcmp(recvBuf.data(), "TEST") == 0)
-    {
+    if (strcmp(recvBuf.data(), "TEST") == 0) {
         if (error && error != boost::asio::error::message_size)
             throw boost::system::system_error(error);
 
@@ -37,8 +35,7 @@ void Server::handleReceivedData(const boost::array<char, 128>&        recvBuf,
         boost::system::error_code ignoredError;
         m_socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError);
     }
-    else if (std::string(recvBuf.data(), 3) == "POS")
-    {
+    else if (std::string(recvBuf.data(), 3) == "POS") {
         if (error && error != boost::asio::error::message_size)
             throw boost::system::system_error(error);
 
@@ -54,8 +51,7 @@ void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const 
     std::ostringstream       newPos;
 
     std::string token;
-    while (std::getline(iss, token, ' '))
-    {
+    while (std::getline(iss, token, ' ')) {
         tokens.push_back(token);
     }
 
@@ -63,20 +59,16 @@ void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const 
     float newPosY   = std::stof(tokens[2]);
     float moveSpeed = std::stof(tokens[3]);
 
-    if (std::stof(tokens[4]) == 1)
-    {
+    if (std::stof(tokens[4]) == 1) {
         newPosY = newPosY - moveSpeed;
     }
-    else if (std::stof(tokens[4]) == 2)
-    {
+    else if (std::stof(tokens[4]) == 2) {
         newPosX = newPosX + moveSpeed;
     }
-    else if (std::stof(tokens[4]) == 3)
-    {
+    else if (std::stof(tokens[4]) == 3) {
         newPosY = newPosY + moveSpeed;
     }
-    else if (std::stof(tokens[4]) == 4)
-    {
+    else if (std::stof(tokens[4]) == 4) {
         newPosX = newPosX - moveSpeed;
     }
 
@@ -89,12 +81,10 @@ void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const 
 
 int main()
 {
-    try
-    {
+    try {
         Server server;
         server.startListening();
-    } catch (std::exception& e)
-    {
+    } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
 
