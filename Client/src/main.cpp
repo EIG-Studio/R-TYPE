@@ -28,7 +28,7 @@ int main()
 
     // Obtenez un pointeur vers la fonction
     typedef void (*MyFunctionType)();
-    MyFunctionType myFunction = (MyFunctionType)dlsym(libraryHandle, "myFunction");
+    auto myFunction = (MyFunctionType)dlsym(libraryHandle, "myFunction");
 
     if (!myFunction)
     {
