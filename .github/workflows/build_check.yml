@@ -5,13 +5,13 @@ on:
     paths:
     - 'Client/**'
     - 'Server/**'
-    - 'ECS/**'
+    - 'GameEngine/**'
     - 'CMakeLists.txt'
   pull_request:
     paths:
     - 'Client/**'
     - 'Server/**'
-    - 'ECS/**'
+    - 'GameEngine/**'
     - 'CMakeLists.txt'
   workflow_dispatch:
 
