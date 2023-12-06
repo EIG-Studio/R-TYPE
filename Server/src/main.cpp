@@ -25,6 +25,8 @@ int main()
         return 1;
     }
 
+    return 0;
+
     dlclose(libraryHandle);
     return 0;
 }

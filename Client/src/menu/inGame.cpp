@@ -181,7 +181,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 1";
             std::string positionString = oss.str();
-            commandsToServer.sendToServer(positionString);
+            commandsToServer.sendToServerAsync(positionString);
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
                                              this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
@@ -197,7 +197,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 2";
             std::string positionString = oss.str();
-            commandsToServer.sendToServer(positionString);
+            commandsToServer.sendToServerAsync(positionString);
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
                                              this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
@@ -213,7 +213,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 3";
             std::string positionString = oss.str();
-            commandsToServer.sendToServer(positionString);
+            commandsToServer.sendToServerAsync(positionString);
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
                                              this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
@@ -229,7 +229,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 4";
             std::string positionString = oss.str();
-            commandsToServer.sendToServer(positionString);
+            commandsToServer.sendToServerAsync(positionString);
             this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
                                              this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");

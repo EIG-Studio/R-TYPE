@@ -97,12 +97,12 @@ int main()
             if (event.type == sf::Event::KeyReleased)
             {
                 if (event.key.code == sf::Keyboard::S)
-                    commandsToServer.sendToServer("TEST");
+                    auto sendFuture = commandsToServer.sendToServerAsync("TEST");
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame)
             {
                 if (event.joystickButton.button == sf::Joystick::Y)
-                    commandsToServer.sendToServer("TEST");
+                    auto sendFuture = commandsToServer.sendToServerAsync("TEST");
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg)
             {

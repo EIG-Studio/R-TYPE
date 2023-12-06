@@ -1,4 +1,3 @@
-
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
@@ -17,12 +16,14 @@ public:
     void startListening();
 
 private:
-    boost::asio::io_service      m_ioService;
-    boost::asio::ip::udp::socket m_socket;
+    boost::asio::io_service        m_ioService;
+    boost::asio::ip::udp::socket   m_socket;
+    boost::asio::ip::udp::endpoint m_remoteEndpoint; // Add this line
+    boost::array<char, 128>        m_recvBuf{};
 
-    void handleReceivedData(const boost::array<char, 128>&        recvBuf,
-                            const boost::asio::ip::udp::endpoint& remoteEndpoint,
-                            const boost::system::error_code&      error);
+    void handleReceivedData(const boost::system::error_code&      error,
+                            std::size_t                           bytesReceived,
+                            const boost::asio::ip::udp::endpoint& remoteEndpoint);
 
-    void handlePositionUpdate(const boost::array<char, 128>& recvBuf, const boost::asio::ip::udp::endpoint& remoteEndpoint);
+    void handlePositionUpdate();
 };

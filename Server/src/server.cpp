@@ -9,42 +9,47 @@
 
 void Server::startListening()
 {
-    while (true) {
-        boost::array<char, 128>        recvBuf{};
-        boost::asio::ip::udp::endpoint remoteEndpoint;
-        boost::system::error_code      error;
+    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf),
+                                m_remoteEndpoint,
+                                [this](const boost::system::error_code& error, std::size_t bytesReceived)
+                                {
+                                    handleReceivedData(error, bytesReceived, m_remoteEndpoint);
+                                    startListening();
+                                });
 
-        m_socket.receive_from(boost::asio::buffer(recvBuf), remoteEndpoint, 0, error);
-
-        std::cout << "Received: " << recvBuf.data() << std::endl;
-
-        handleReceivedData(recvBuf, remoteEndpoint, error);
-    }
+    m_ioService.run();
 }
 
-void Server::handleReceivedData(const boost::array<char, 128>&        recvBuf,
-                                const boost::asio::ip::udp::endpoint& remoteEndpoint,
-                                const boost::system::error_code&      error)
+void Server::handleReceivedData(const boost::system::error_code&      error,
+                                std::size_t                           bytesReceived,
+                                const boost::asio::ip::udp::endpoint& remoteEndpoint)
 {
-    if (strcmp(recvBuf.data(), "TEST") == 0) {
-        if (error && error != boost::asio::error::message_size)
-            throw boost::system::system_error(error);
+    if (!error && bytesReceived > 0) {
+        std::cout << "Received: " << m_recvBuf.data() << std::endl;
 
-        std::string message = "TEST_OK\n";
+        if (strcmp(m_recvBuf.data(), "TEST") == 0) {
+            std::string message = "TEST_OK\n";
 
-        boost::system::error_code ignoredError;
-        m_socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError);
-    } else if (std::string(recvBuf.data(), 3) == "POS") {
-        if (error && error != boost::asio::error::message_size)
-            throw boost::system::system_error(error);
-
-        handlePositionUpdate(recvBuf, remoteEndpoint);
+            m_socket.async_send_to(boost::asio::buffer(message),
+                                   remoteEndpoint,
+                                   [this](const boost::system::error_code&, std::size_t) {
+                                       std::cout << "TEST_OK\n" << std::endl;
+                                   });
+        } else if (std::string(m_recvBuf.data(), 3) == "POS") {
+            handlePositionUpdate();
+        }
     }
+
+    // Continue listening for the next packet
+    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf),
+                                m_remoteEndpoint,
+                                [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived)
+                                { handleReceivedData(nextError, nextBytesReceived, m_remoteEndpoint); });
 }
 
-void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const boost::asio::ip::udp::endpoint& remoteEndpoint)
+void Server::handlePositionUpdate()
 {
-    std::string              posString = recvBuf.data();
+    std::string              posString = m_recvBuf.data();
     std::istringstream       iss(posString);
     std::vector<std::string> tokens;
     std::ostringstream       newPos;
@@ -71,6 +76,8 @@ void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const 
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
     std::string message = newPos.str();
 
-    boost::system::error_code ignoredError;
-    m_socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError);
+    m_socket.async_send_to(boost::asio::buffer(message),
+                           m_remoteEndpoint,
+                           [this](const boost::system::error_code&, std::size_t)
+                           { std::cout << "message sent" << std::endl; });
 }

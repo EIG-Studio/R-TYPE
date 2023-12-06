@@ -6,17 +6,20 @@
 */
 
 #pragma once
+
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <future>
 #include <iostream>
+#include <string>
 
 class CommandsToServer
 {
+public:
+    std::string getNewPos() const;
+
+    std::future<void> sendToServerAsync(std::string msg);
+
 private:
     std::string m_newPos;
-
-public:
-    CommandsToServer()  = default;
-    ~CommandsToServer() = default;
-
-    int         sendToServer(std::string msg);
-    std::string getNewPos();
 };
