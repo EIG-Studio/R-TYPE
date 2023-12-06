@@ -2,7 +2,7 @@
 
 ### Components
 
-- Gravity
+- Gravity [V]
 - Shooter
 - Behavior
 - HealthPoint [V]

@@ -137,3 +137,21 @@ private:
     std::pair<int, int> _originPos;
     std::pair<int, int> _endPos;
 };
+
+/********-Gravity Component-******/
+class Gravity
+{
+public:
+    Gravity(float gravity, bool isGravity);
+    ~Gravity() = default;
+
+    float getGravity() const;
+    bool isGravity() const;
+
+    void setGravity(float newGravity);
+    void setIsGravity(bool isGravity);
+
+private:
+    bool _isGravity;
+    float _Gravity;
+};
