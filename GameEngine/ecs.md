@@ -7,7 +7,7 @@
 - Behavior
 - HealthPoint [V]
 - Position [V]
-- Velocity
+- Velocity [V]
 - Type
 - Size
 - Renderer (Texture & Sprite)

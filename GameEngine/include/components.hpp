@@ -8,6 +8,7 @@
 #pragma once
 
 #include <utility>
+#include <cstddef>
 
 class IComponents
 {
@@ -50,7 +51,7 @@ private:
     float m_lp;
 };
 
-/********-HealthPoint Component-******/
+/********-Velocity Component-******/
 class Velocity
 {
 public:
@@ -63,4 +64,32 @@ public:
 
 private:
     std::pair<int, int> _velo;
+};
+
+/********-ID Component-******/
+class ID
+{
+public:
+    ID(std::size_t id);
+    ~ID() = default;
+
+    std::size_t getID() const;
+
+private:
+    std::size_t _ID;
+};
+
+/********-Speed Component-******/
+class Speed
+{
+public:
+    Speed(int speed);
+    ~Speed() = default;
+
+    int getSpeed() const;
+
+    void setSpeed(int newspeed);
+
+private:
+    int _Speed;
 };

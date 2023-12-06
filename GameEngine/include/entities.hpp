@@ -30,7 +30,7 @@ public:
 
 private:
     Position m_position;
-    Life     m_life;
+    HealthPoint m_life;
 };
 
 /********-Enemy Entity-******/
@@ -42,5 +42,5 @@ public:
 
 private:
     Position m_position;
-    Life     m_life;
+    HealthPoint m_life;
 };
