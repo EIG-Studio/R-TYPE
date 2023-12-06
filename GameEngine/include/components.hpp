@@ -155,3 +155,18 @@ private:
     bool _isGravity;
     float _Gravity;
 };
+
+/********-Shooter Component-******/
+class Shooter
+{
+public:
+    Shooter(bool isShooting);
+    ~Shooter() = default;
+
+    bool isShooter() const;
+
+    void setIsShooting(bool isShooting);
+
+private:
+    bool _isShooting;
+};
