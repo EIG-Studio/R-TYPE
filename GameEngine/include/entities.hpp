@@ -12,6 +12,7 @@
 #include <vector>
 
 #include <cstdint>
+#include <cassert>
 
 using Entity             = std::uint32_t;
 const Entity maxEntities = 1000;
