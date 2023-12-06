@@ -9,11 +9,11 @@
 - Position [V]
 - Velocity [V]
 - Type
-- Size
+- Size [V]
 - Renderer (Texture & Sprite)
 - Damage [V]
 - Speed [V]
-- HitBox
+- HitBox [V]
 - ID [V]
 
 ### System

@@ -14,10 +14,10 @@ Speed::Speed(int speed)
 
 int Speed::getSpeed() const
 {
-    return this->_Speed
+    return this->_Speed;
 }
 
-void Speed::setSpeed(int newspeed)
+void Speed::setSpeed(int newSpeed)
 {
-    this->_Speed = newspeed;
+    this->_Speed = newSpeed;
 }

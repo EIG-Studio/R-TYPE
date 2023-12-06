@@ -17,7 +17,7 @@ float Damage::getDamage() const
     return this->_Damage;
 }
 
-void Damage::setDamage(int newdamage)
+void Damage::setDamage(int newDamage)
 {
-    this->_Damage = newdamage;
+    this->_Damage = newDamage;
 }
