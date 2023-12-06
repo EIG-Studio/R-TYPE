@@ -17,6 +17,10 @@
 using Entity             = std::uint32_t;
 const Entity maxEntities = 1000;
 
+extern "C" {
+    void myFunction();
+}
+
 class EntityManager
 {
 public:

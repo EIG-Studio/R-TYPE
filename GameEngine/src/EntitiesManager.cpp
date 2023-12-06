@@ -6,6 +6,7 @@
 */
 
 #include "entities.hpp"
+#include <iostream>
 
 
 EntityManager::EntityManager()
@@ -23,6 +24,12 @@ Entity EntityManager::createEntity()
     Entity id = m_availableEntities.back();
     m_availableEntities.pop_back();
     return id;
+}
+
+extern "C" {
+    void myFunction() {
+        std::cout << "Hello from myFunction!" << std::endl;
+    }
 }
 
 void EntityManager::destroyEntity(Entity entity)
