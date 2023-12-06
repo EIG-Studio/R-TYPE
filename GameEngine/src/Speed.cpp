@@ -9,15 +9,15 @@
 
 Speed::Speed(int speed)
 {
-    this->_Speed = speed;
+    this->m_speed = speed;
 }
 
 int Speed::getSpeed() const
 {
-    return this->_Speed;
+    return this->m_speed;
 }
 
 void Speed::setSpeed(int newSpeed)
 {
-    this->_Speed = newSpeed;
+    this->m_speed = newSpeed;
 }

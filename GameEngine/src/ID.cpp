@@ -9,10 +9,10 @@
 
 ID::ID(std::size_t id)
 {
-    this->_ID = id;
+    this->m_id = id;
 }
 
 std::size_t ID::getID() const
 {
-    return this->_ID;
+    return this->m_id;
 }

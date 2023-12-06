@@ -9,15 +9,15 @@
 
 Shooter::Shooter(bool isShooting)
 {
-    this->_isShooting = isShooting;
+    this->m_isShooting = isShooting;
 }
 
 bool Shooter::isShooter() const
 {
-    return this->_isShooting;
+    return this->m_isShooting;
 }
 
 void Shooter::setIsShooting(bool isShooting)
 {
-    this->_isShooting = isShooting;
+    this->m_isShooting = isShooting;
 }

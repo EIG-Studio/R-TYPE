@@ -9,15 +9,15 @@
 
 Damage::Damage(float damage)
 {
-    this->_Damage = damage;
+    this->m_damage = damage;
 }
 
 float Damage::getDamage() const
 {
-    return this->_Damage;
+    return this->m_damage;
 }
 
 void Damage::setDamage(int newDamage)
 {
-    this->_Damage = newDamage;
+    this->m_damage = newDamage;
 }

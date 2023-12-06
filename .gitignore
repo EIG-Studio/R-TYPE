@@ -47,6 +47,7 @@ _deps
 compile_commands.json
 .cache
 build/*
-samurai
+
+samurai_ecs
 samurai_server
 samurai_client

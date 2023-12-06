@@ -9,18 +9,17 @@
 
 Position::Position(std::pair<int, int> originPos)
 {
-    this->_pos.first = originPos.first;
-    this->_pos.second = originPos.second;
+    this->m_pos.first  = originPos.first;
+    this->m_pos.second = originPos.second;
 }
 
 std::pair<int, int> Position::getPosition() const
 {
-    return this->_pos;
+    return this->m_pos;
 };
 
 void Position::setPosition(std::pair<int, int> newPos)
 {
-    this->_pos.first = newPos.first;
-    this->_pos.second = newPos.second;
+    this->m_pos.first  = newPos.first;
+    this->m_pos.second = newPos.second;
 };
-

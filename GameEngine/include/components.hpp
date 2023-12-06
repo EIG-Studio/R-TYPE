@@ -30,7 +30,7 @@ public:
     void setPosition(std::pair<int, int> newPos);
 
 private:
-    std::pair<int, int> _pos;
+    std::pair<int, int> m_pos;
 };
 
 /********-HealthPoint Component-******/
@@ -60,7 +60,7 @@ public:
     void setVelocity(int x, int y);
 
 private:
-    std::pair<int, int> _velo;
+    std::pair<int, int> m_velo;
 };
 
 /********-ID Component-******/
@@ -73,7 +73,7 @@ public:
     std::size_t getID() const;
 
 private:
-    std::size_t _ID;
+    std::size_t m_id;
 };
 
 /********-Speed Component-******/
@@ -88,7 +88,7 @@ public:
     void setSpeed(int newSpeed);
 
 private:
-    int _Speed;
+    int m_speed;
 };
 
 /********-Damage Component-******/
@@ -103,7 +103,7 @@ public:
     void setDamage(int newDamage);
 
 private:
-    float _Damage;
+    float m_damage;
 };
 
 /********-Size Component-******/
@@ -118,7 +118,7 @@ public:
     void setSize(int newSize);
 
 private:
-    float _Size;
+    float m_size;
 };
 
 /********-HitBox Component-******/
@@ -134,8 +134,8 @@ public:
     void setHitBoxPosition(std::pair<int, int> originPos, std::pair<int, int> endPos);
 
 private:
-    std::pair<int, int> _originPos;
-    std::pair<int, int> _endPos;
+    std::pair<int, int> m_originPos;
+    std::pair<int, int> m_endPos;
 };
 
 /********-Gravity Component-******/
@@ -152,8 +152,8 @@ public:
     void setIsGravity(bool isGravity);
 
 private:
-    bool _isGravity;
-    float _Gravity;
+    bool m_isGravity;
+    float m_gravity;
 };
 
 /********-Shooter Component-******/
@@ -168,5 +168,5 @@ public:
     void setIsShooting(bool isShooting);
 
 private:
-    bool _isShooting;
+    bool m_isShooting;
 };

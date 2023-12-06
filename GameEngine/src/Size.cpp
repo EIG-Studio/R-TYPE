@@ -9,15 +9,15 @@
 
 Size::Size(float size)
 {
-    this->_Size = size;
+    this->m_size = size;
 }
 
 float Size::getSize() const
 {
-    return this->_Size;
+    return this->m_size;
 }
 
 void Size::setSize(int newSize)
 {
-    this->_Size = newSize;
+    this->m_size = newSize;
 }

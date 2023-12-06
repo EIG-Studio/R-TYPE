@@ -9,26 +9,26 @@
 
 Gravity::Gravity(float gravity, bool isGravity)
 {
-    this->_Gravity = gravity;
-    this->_isGravity = isGravity;
+    this->m_gravity   = gravity;
+    this->m_isGravity = isGravity;
 }
 
 float Gravity::getGravity() const
 {
-    return this->_Gravity;
+    return this->m_gravity;
 }
 
 bool Gravity::isGravity() const
 {
-    return this->_isGravity;
+    return this->m_isGravity;
 }
 
 void Gravity::setGravity(float newGravity)
 {
-    this->_Gravity = newGravity;
+    this->m_gravity = newGravity;
 }
 
 void Gravity::setIsGravity(bool isGravity)
 {
-    this->_isGravity = isGravity;
+    this->m_isGravity = isGravity;
 }
