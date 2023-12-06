@@ -8,28 +8,37 @@
 #pragma once
 #include "components.hpp"
 
-#include <any>
+#include <unordered_map>
 #include <vector>
 
-class Entities
+#include <cstdint>
+
+using Entity             = std::uint32_t;
+const Entity maxEntities = 1000;
+
+class EntityManager
 {
 public:
-    Entities()  = default;
-    ~Entities() = default;
-    std::vector<std::any> components;
+    EntityManager();
+    Entity createEntity();
+    void   destroyEntity(Entity entity);
 
 private:
+    std::vector<Entity>                  m_availableEntities;
+    std::unordered_map<Entity, Position> m_positions;
+    std::unordered_map<Entity, Velocity> m_velocities;
 };
+
 
 /********-Player Entity-******/
 class Player
 {
 public:
-    Player()  = default;
+    Player()  = delete;
     ~Player() = default;
 
 private:
-    Position m_position;
+    Position    m_position;
     HealthPoint m_life;
 };
 
@@ -37,10 +46,10 @@ private:
 class Enemy
 {
 public:
-    Enemy()  = default;
+    Enemy()  = delete;
     ~Enemy() = default;
 
 private:
-    Position m_position;
+    Position    m_position;
     HealthPoint m_life;
 };

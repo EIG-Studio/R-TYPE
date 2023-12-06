@@ -9,12 +9,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # )
 
 add_executable(${CMAKE_PROJECT_NAME}
-    src/main.cpp
     src/Damage.cpp
+    src/EntitiesManager.cpp
     src/Gravity.cpp
     src/HealthPoint.cpp
     src/HitBox.cpp
     src/ID.cpp
+    src/main.cpp
     src/Position.cpp
     src/Shooter.cpp
     src/Size.cpp
