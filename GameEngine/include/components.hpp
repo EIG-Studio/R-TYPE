@@ -40,7 +40,7 @@ private:
 class HealthPoint
 {
 public:
-    HealthPoint();
+    HealthPoint(float hp);
     ~HealthPoint() = default;
 
     float getHealthPoint() const;
@@ -92,4 +92,19 @@ public:
 
 private:
     int _Speed;
+};
+
+/********-Damage Component-******/
+class Damage
+{
+public:
+    Damage(float damage);
+    ~Damage() = default;
+
+    float getDamage() const;
+
+    void setDamage(int newdamage);
+
+private:
+    float _Damage;
 };

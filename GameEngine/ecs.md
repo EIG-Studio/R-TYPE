@@ -11,9 +11,10 @@
 - Type
 - Size
 - Renderer (Texture & Sprite)
-- Damage
-- Speed
+- Damage [V]
+- Speed [V]
 - HitBox
+- ID [V]
 
 ### System
 

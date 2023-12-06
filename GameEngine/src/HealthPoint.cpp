@@ -7,9 +7,9 @@
 
 #include "components.hpp"
 
-HealthPoint::HealthPoint()
+HealthPoint::HealthPoint(float hp)
 {
-    this->m_lp = 100;
+    this->m_lp = hp;
 }
 
 float HealthPoint::getHealthPoint() const
