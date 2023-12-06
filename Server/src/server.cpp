@@ -30,9 +30,14 @@ void Server::handleReceivedData(const boost::system::error_code&      error,
         if (strcmp(m_recvBuf.data(), "TEST") == 0) {
             std::string message = "TEST_OK\n";
 
-            // std::cout << "Sending: " << std::bitset<8>(message).to_string().c_str() << std::endl;
+            // Convert ASCII message to binary
+            std::string binaryMessage;
+            for (char c : message) {
+                binaryMessage += std::bitset<8>(c).to_string();
+                binaryMessage += "\n";
+            }
 
-            m_socket.async_send_to(boost::asio::buffer(std::bitset<8>(message).to_string().c_str(), 8),
+            m_socket.async_send_to(boost::asio::buffer(binaryMessage),
                                    remoteEndpoint,
                                    [this](const boost::system::error_code&, std::size_t) {
                                        std::cout << "TEST_OK sent\n" << std::endl;
@@ -52,6 +57,7 @@ void Server::handleReceivedData(const boost::system::error_code&      error,
                                     m_recvBuf.fill(0);
                                 });
 }
+
 
 void Server::handlePositionUpdate()
 {
@@ -82,7 +88,7 @@ void Server::handlePositionUpdate()
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
     std::string message = newPos.str();
 
-    m_socket.async_send_to(boost::asio::buffer(std::bitset<8>(message).to_string().c_str(), 8),
+    m_socket.async_send_to(boost::asio::buffer(message),
                            m_remoteEndpoint,
                            [this](const boost::system::error_code&, std::size_t) {
                                std::cout << "NEW_POS sent\n" << std::endl;
