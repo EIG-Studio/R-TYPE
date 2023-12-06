@@ -10,6 +10,10 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
+add_library(${CMAKE_PROJECT_NAME} SHARED
+    src/your_library_source_file.cpp
+)
+
 add_executable(${CMAKE_PROJECT_NAME}
     src/main.cpp
     )
