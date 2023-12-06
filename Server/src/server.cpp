@@ -44,7 +44,10 @@ void Server::handleReceivedData(const boost::system::error_code&      error,
     m_socket.async_receive_from(boost::asio::buffer(m_recvBuf),
                                 m_remoteEndpoint,
                                 [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived)
-                                { handleReceivedData(nextError, nextBytesReceived, m_remoteEndpoint); });
+                                {
+                                    handleReceivedData(nextError, nextBytesReceived, m_remoteEndpoint);
+                                    m_recvBuf.fill(0);
+                                });
 }
 
 void Server::handlePositionUpdate()
@@ -78,6 +81,7 @@ void Server::handlePositionUpdate()
 
     m_socket.async_send_to(boost::asio::buffer(message),
                            m_remoteEndpoint,
-                           [this](const boost::system::error_code&, std::size_t)
-                           { std::cout << "message sent" << std::endl; });
+                           [this](const boost::system::error_code&, std::size_t) {
+                               std::cout << "NEW_POS sent\n" << std::endl;
+                           });
 }
