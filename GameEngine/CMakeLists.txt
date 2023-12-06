@@ -4,7 +4,7 @@ project(samurai_ecs)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(EntitiesManager
+add_library(EntitiesManager SHARED
     src/EntitiesManager.cpp
 )
 

@@ -6,6 +6,7 @@
 */
 
 #include "server.hpp"
+
 #include <dlfcn.h>
 
 int main()
