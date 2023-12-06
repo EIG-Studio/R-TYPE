@@ -46,7 +46,7 @@ add_executable(${PROJECT_NAME}
 
 ################# LIBRARIES #################
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_link_libraries(${PROJECT_NAME} PRIVATE pthread sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
+target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 
