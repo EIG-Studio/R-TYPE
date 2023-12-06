@@ -12,3 +12,4 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ################# subdirectory #################
 add_subdirectory(Client)
 add_subdirectory(Server)
+add_subdirectory(GameEngine)
