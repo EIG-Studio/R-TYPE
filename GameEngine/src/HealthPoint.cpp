@@ -7,17 +7,17 @@
 
 #include "components.hpp"
 
-Life::Life()
+HealthPoint::HealthPoint()
 {
     this->m_lp = 100;
 }
 
-float Life::getLifePoint() const
+float HealthPoint::getHealthPoint() const
 {
     return this->m_lp;
 }
 
-void Life::setLifePoint(float mLp)
+void HealthPoint::setHealthPoint(float mLp)
 {
     this->m_lp = mLp;
 }
