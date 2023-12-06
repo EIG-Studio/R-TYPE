@@ -34,7 +34,6 @@ void Server::handleReceivedData(const boost::system::error_code&      error,
             std::string binaryMessage;
             for (char c : message) {
                 binaryMessage += std::bitset<8>(c).to_string();
-                binaryMessage += "\n";
             }
 
             m_socket.async_send_to(boost::asio::buffer(binaryMessage),
@@ -88,7 +87,11 @@ void Server::handlePositionUpdate()
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
     std::string message = newPos.str();
 
-    m_socket.async_send_to(boost::asio::buffer(message),
+    std::string binaryMessage;
+    for (char c : message) {
+        binaryMessage += std::bitset<8>(c).to_string();
+    }
+    m_socket.async_send_to(boost::asio::buffer(binaryMessage),
                            m_remoteEndpoint,
                            [this](const boost::system::error_code&, std::size_t) {
                                std::cout << "NEW_POS sent\n" << std::endl;
