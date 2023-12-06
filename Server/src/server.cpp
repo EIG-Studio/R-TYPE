@@ -74,4 +74,3 @@ void Server::handlePositionUpdate(const boost::array<char, 128>& recvBuf, const 
     boost::system::error_code ignoredError;
     m_socket.send_to(boost::asio::buffer(message), remoteEndpoint, 0, ignoredError);
 }
-

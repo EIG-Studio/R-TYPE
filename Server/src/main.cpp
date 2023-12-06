@@ -11,7 +11,7 @@
 
 int main()
 {
-    void* libraryHandle = dlopen("GameEngine/build/samurai_ecs.so", RTLD_LAZY);
+    void* libraryHandle = dlopen("../GameEngine/build/libEntitiesManager.so", RTLD_LAZY);
 
     if (!libraryHandle) {
         std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
