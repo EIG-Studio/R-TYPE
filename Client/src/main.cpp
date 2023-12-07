@@ -116,11 +116,11 @@ int main()
             }
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::S)
-                    auto sendFuture = commandsToServer.sendToServerAsync("TEST");
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y)
-                    auto sendFuture = commandsToServer.sendToServerAsync("TEST");
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
                 music.musicMenu.stop();

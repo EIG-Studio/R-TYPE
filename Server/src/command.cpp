@@ -12,8 +12,8 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
     if (!error && bytesReceived > 0) {
         std::cout << "Received: " << m_recvBuf.data() << std::endl;
 
-        if (strcmp(m_recvBuf.data(), "TEST") == 0) {
-            std::string message = "TEST_OK\n";
+        if (strcmp(m_recvBuf.data(), "SHOOT") == 0) {
+            std::string message = "CREATED\n";
             sendMessage(message);
         } else if (std::string(m_recvBuf.data(), 3) == "POS") {
             handlePositionUpdate();
