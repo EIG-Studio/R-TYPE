@@ -23,7 +23,7 @@ void handleReceive(const boost::system::error_code& error, size_t len, boost::ar
 {
     if (!error && len >= 7) {
         std::string asciiString(binaryToText(recvBuf.data()));
-        std::cout << asciiString << std::endl;
+        std::cout << asciiString;
 
         if (std::string(asciiString.data(), 7) == "NEW_POS") {
             mNewPos = asciiString;

@@ -15,6 +15,7 @@ public:
     }
 
     void startListening();
+    void sendMessage(std::string message);
 
 private:
     boost::asio::io_service m_ioService;
@@ -23,6 +24,5 @@ private:
     boost::array<char, 128> m_recvBuf{};
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
-
     void handlePositionUpdate();
 };

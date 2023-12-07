@@ -30,6 +30,7 @@ add_custom_target(
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/server.cpp
+    src/command.cpp
 )
 
 
