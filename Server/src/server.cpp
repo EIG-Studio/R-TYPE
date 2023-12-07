@@ -9,13 +9,12 @@
 
 void Server::startListening()
 {
-    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf),
-                                m_remoteEndpoint,
-                                [this](const boost::system::error_code& error, std::size_t bytesReceived)
-                                {
-                                    handleReceivedData(error, bytesReceived);
-                                    startListening();
-                                });
+    auto receiveCallback = [this](const boost::system::error_code& error, std::size_t bytesReceived)
+    {
+        handleReceivedData(error, bytesReceived);
+        startListening();
+    };
+    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf), m_remoteEndpoint, receiveCallback);
     m_ioService.run();
 }
 
@@ -44,14 +43,13 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
         }
     }
 
-    // Continue listening for the next packet
-    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf),
-                                m_remoteEndpoint,
-                                [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived)
-                                {
-                                    handleReceivedData(nextError, nextBytesReceived);
-                                    m_recvBuf.fill(0);
-                                });
+    auto receiveCallback = [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived)
+    {
+        handleReceivedData(nextError, nextBytesReceived);
+        m_recvBuf.fill(0);
+    };
+
+    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf), m_remoteEndpoint, receiveCallback);
 }
 
 
@@ -88,9 +86,10 @@ void Server::handlePositionUpdate()
     for (char c : message) {
         binaryMessage += std::bitset<8>(c).to_string();
     }
-    m_socket.async_send_to(boost::asio::buffer(binaryMessage),
-                           m_remoteEndpoint,
-                           [this](const boost::system::error_code&, std::size_t) {
-                               std::cout << "NEW_POS sent\n" << std::endl;
-                           });
+
+    auto sendCallback = [this](const boost::system::error_code&, std::size_t) {
+        std::cout << "NEW_POS sent\n" << std::endl;
+    };
+
+    m_socket.async_send_to(boost::asio::buffer(binaryMessage), m_remoteEndpoint, sendCallback);
 }
