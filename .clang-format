@@ -18,7 +18,7 @@ TabWidth: 4
 UseTab: Never
 
 # Alignment
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveBitFields: Consecutive
 AlignConsecutiveDeclarations: Consecutive
@@ -55,14 +55,14 @@ BinPackArguments: false
 BinPackParameters: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 0
-Cpp11BracedListStyle: true
+# Cpp11BracedListStyle: true
 
 # Braces
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterCaseLabel: true
     AfterClass: true
-    AfterControlStatement: Always
+    AfterControlStatement: false
     AfterEnum: true
     AfterFunction: true
     AfterNamespace: true
@@ -70,8 +70,8 @@ BraceWrapping:
     AfterUnion: true
     AfterExternBlock: true
     BeforeCatch: false
-    BeforeElse: true
-    BeforeLambdaBody: true
+    BeforeElse: false
+    BeforeLambdaBody: false
     BeforeWhile: false
     IndentBraces: false
     SplitEmptyFunction: true

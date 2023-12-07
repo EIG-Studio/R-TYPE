@@ -9,8 +9,7 @@
 
 void Server::startListening()
 {
-    auto receiveCallback = [this](const boost::system::error_code& error, std::size_t bytesReceived)
-    {
+    auto receiveCallback = [this](const boost::system::error_code& error, std::size_t bytesReceived) {
         handleReceivedData(error, bytesReceived);
         startListening();
     };
@@ -32,19 +31,16 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
                 binaryMessage += std::bitset<8>(c).to_string();
             }
 
-            m_socket.async_send_to(boost::asio::buffer(binaryMessage),
-                                   m_remoteEndpoint,
-                                   [this](const boost::system::error_code&, std::size_t) {
-                                       std::cout << "TEST_OK sent\n" << std::endl;
-                                   });
+            m_socket.async_send_to(boost::asio::buffer(binaryMessage), m_remoteEndpoint, [this](const boost::system::error_code&, std::size_t) {
+                std::cout << "TEST_OK sent\n" << std::endl;
+            });
 
         } else if (std::string(m_recvBuf.data(), 3) == "POS") {
             handlePositionUpdate();
         }
     }
 
-    auto receiveCallback = [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived)
-    {
+    auto receiveCallback = [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived) {
         handleReceivedData(nextError, nextBytesReceived);
         m_recvBuf.fill(0);
     };

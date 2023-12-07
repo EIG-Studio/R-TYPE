@@ -18,7 +18,7 @@ TabWidth: 4
 UseTab: Never
 
 # Alignment
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveBitFields: Consecutive
 AlignConsecutiveDeclarations: Consecutive
@@ -71,7 +71,7 @@ BraceWrapping:
     AfterExternBlock: true
     BeforeCatch: false
     BeforeElse: false
-    BeforeLambdaBody: true
+    BeforeLambdaBody: false
     BeforeWhile: false
     IndentBraces: false
     SplitEmptyFunction: true

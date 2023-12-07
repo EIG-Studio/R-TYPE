@@ -20,8 +20,7 @@ int main()
 {
     void* libraryHandle = dlopen("GameEngine/libEntitiesManager.so", RTLD_LAZY);
 
-    if (!libraryHandle)
-    {
+    if (!libraryHandle) {
         std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
         return 84;
     }
@@ -30,8 +29,7 @@ int main()
     typedef void (*MyFunctionType)();
     auto myFunction = (MyFunctionType)dlsym(libraryHandle, "myFunction");
 
-    if (!myFunction)
-    {
+    if (!myFunction) {
         std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
         dlclose(libraryHandle);
         return 84;
@@ -52,14 +50,12 @@ int main()
     window.setFramerateLimit(144);
     window.setVerticalSyncEnabled(true);
     sf::Image icon;
-    if (!icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png"))
-    {
+    if (!icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png")) {
         return -1;
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     sf::Font font;
-    if (!font.loadFromFile("../Client/assets/Fonts/retro.ttf"))
-    {
+    if (!font.loadFromFile("../Client/assets/Fonts/retro.ttf")) {
         return -1;
     }
 
@@ -76,60 +72,57 @@ int main()
     Music music;
     music.setPath(sprite);
 
-    Button playButton(window,
-                      sf::Vector2f(200, 50),
-                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 - 60),
-                      sf::Color::Black,
-                      sf::Color::White,
-                      2.0f,
-                      "Play",
-                      font,
-                      20);
+    Button playButton(
+        window,
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 - 60),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Play",
+        font,
+        20);
 
-    Button settingsButton(window,
-                          sf::Vector2f(200, 50),
-                          sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
-                          sf::Color::Black,
-                          sf::Color::White,
-                          2.0f,
-                          "Settings",
-                          font,
-                          20);
+    Button settingsButton(
+        window,
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Settings",
+        font,
+        20);
 
-    Button exitButton(window,
-                      sf::Vector2f(200, 50),
-                      sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
-                      sf::Color::Black,
-                      sf::Color::White,
-                      2.0f,
-                      "Exit",
-                      font,
-                      20);
+    Button exitButton(
+        window,
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Exit",
+        font,
+        20);
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event{};
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu)
-            {
+            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
                 menu.onMenu         = false;
                 choiceMenu.onChoice = true;
             }
-            if (event.type == sf::Event::KeyReleased)
-            {
+            if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::S)
                     auto sendFuture = commandsToServer.sendToServerAsync("TEST");
             }
-            if (event.type == sf::Event::JoystickButtonReleased && game.onGame)
-            {
+            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y)
                     auto sendFuture = commandsToServer.sendToServerAsync("TEST");
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg)
-            {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
                 music.musicMenu.stop();
                 sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
                 sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
@@ -141,8 +134,7 @@ int main()
                 music.musicMenu.play();
                 sprite.easterEgg = true;
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg)
-            {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg) {
                 music.musicMenu.stop();
                 sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
                 sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
@@ -154,57 +146,45 @@ int main()
                 music.musicMenu.play();
                 sprite.easterEgg = true;
             }
-            if (game.onGame)
-            {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7))
-                {
+            if (game.onGame) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7)) {
                     game.onGame         = false;
                     choiceMenu.onChoice = true;
                 }
             }
         }
         window.clear();
-        if (menu.onMenu)
-        {
-            if (music.playMenuMusic)
-            {
+        if (menu.onMenu) {
+            if (music.playMenuMusic) {
                 music.musicMenu.play();
                 music.playMenuMusic = false;
             }
             sf::Time elapsed = clock.getElapsedTime();
             clock            = menu.blinkingText(clock, elapsed);
             window.draw(menu);
-        }
-        else if (choiceMenu.onChoice)
-        {
+        } else if (choiceMenu.onChoice) {
             choiceMenu.setCursorPosition(window);
             playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-            if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()))
-            {
+            if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 game.onGame         = true;
                 choiceMenu.onChoice = false;
             }
-            if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()))
-            {
+            if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 std::cout << "Setting button" << std::endl;
             }
-            if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()))
-            {
+            if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 exit(0);
             }
             playButton.draw();
             settingsButton.draw();
             exitButton.draw();
             window.draw(choiceMenu);
-        }
-        else if (game.onGame)
-        {
+        } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
-            if (renderElapsed.asMilliseconds() > millisecondsPerFrame)
-            {
+            if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveParallax();
                 game.repeatParallax();
                 onGameClock.restart();

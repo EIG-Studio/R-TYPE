@@ -12,15 +12,16 @@
 class Button
 {
 public:
-    Button(sf::RenderWindow&   window,
-           const sf::Vector2f& size,
-           const sf::Vector2f& position,
-           const sf::Color&    fillColor,
-           const sf::Color&    outlineColor,
-           float               outlineThickness,
-           const std::string&  textString,
-           const sf::Font&     font,
-           unsigned int        characterSize) :
+    Button(
+        sf::RenderWindow&   window,
+        const sf::Vector2f& size,
+        const sf::Vector2f& position,
+        const sf::Color&    fillColor,
+        const sf::Color&    outlineColor,
+        float               outlineThickness,
+        const std::string&  textString,
+        const sf::Font&     font,
+        unsigned int        characterSize) :
     m_window(window),
     m_text(textString, font, characterSize)
     {
@@ -42,13 +43,10 @@ public:
                        (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0));
 
 
-        if (clicked && !m_isClicked)
-        {
+        if (clicked && !m_isClicked) {
             m_isClicked = true;
             return true;
-        }
-        else if (!clicked)
-        {
+        } else if (!clicked) {
             m_isClicked = false;
         }
 
@@ -59,12 +57,9 @@ public:
     {
         bool hover = m_button.getGlobalBounds().contains(cursorX, cursorY);
 
-        if (hover)
-        {
+        if (hover) {
             m_button.setOutlineColor(sf::Color::Red);
-        }
-        else if (!hover)
-        {
+        } else if (!hover) {
             m_button.setOutlineColor(sf::Color::White);
         }
         return false;
