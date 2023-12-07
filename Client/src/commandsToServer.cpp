@@ -57,7 +57,7 @@ std::future<void> CommandsToServer::sendToServerAsync(std::string msg)
 
                               if (len >= 7 && std::string(asciiString.data(), 7) == "NEW_POS")
                               {
-                                  m_newPos = asciiString.data();
+                                  m_newPos = asciiString;
                               }
                           } catch (std::exception& e)
                           {
