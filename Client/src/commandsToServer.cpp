@@ -7,17 +7,15 @@
 
 std::string binaryToText(const std::string& binaryString)
 {
+    int decimalValue = 0;
+    char character = 0;
     std::string text;
 
     for (size_t i = 0; i < binaryString.length(); i += 8) {
-        std::string binaryGroup = binaryString.substr(i, 8);
-
-        int decimalValue = std::bitset<8>(binaryGroup).to_ulong();
-
-        char character = static_cast<char>(decimalValue);
+        decimalValue = std::bitset<8>(binaryString.substr(i, 8)).to_ulong();
+        character = static_cast<char>(decimalValue);
         text += character;
     }
-
     return text;
 }
 

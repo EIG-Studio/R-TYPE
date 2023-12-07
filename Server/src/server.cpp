@@ -51,18 +51,18 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
 
 void Server::handlePositionUpdate()
 {
-    std::string              posString = m_recvBuf.data();
-    std::istringstream       iss(posString);
+    std::string posString = m_recvBuf.data();
+    std::istringstream iss(posString);
     std::vector<std::string> tokens;
-    std::ostringstream       newPos;
+    std::ostringstream newPos;
 
     std::string token;
     while (std::getline(iss, token, ' ')) {
         tokens.push_back(token);
     }
 
-    float newPosX   = std::stof(tokens[1]);
-    float newPosY   = std::stof(tokens[2]);
+    float newPosX = std::stof(tokens[1]);
+    float newPosY = std::stof(tokens[2]);
     float moveSpeed = std::stof(tokens[3]);
 
     if (std::stof(tokens[4]) == 1) {

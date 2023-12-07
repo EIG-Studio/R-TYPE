@@ -41,7 +41,7 @@ int main()
     float movementSpeed = 5.0f;
     // Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
-    float fps                   = 144;
+    float fps = 144;
 
     float millisecondsPerFrame = millisecondsPerSecond / fps;
 
@@ -59,11 +59,11 @@ int main()
         return -1;
     }
 
-    sf::Clock        clock;
-    sf::Clock        onGameClock;
+    sf::Clock clock;
+    sf::Clock onGameClock;
     CommandsToServer commandsToServer;
-    Sprite           sprite;
-    Menu             menu;
+    Sprite sprite;
+    Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
     choiceMenu.setPath(sprite);
@@ -111,7 +111,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
-                menu.onMenu         = false;
+                menu.onMenu = false;
                 choiceMenu.onChoice = true;
             }
             if (event.type == sf::Event::KeyReleased) {
@@ -148,7 +148,7 @@ int main()
             }
             if (game.onGame) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7)) {
-                    game.onGame         = false;
+                    game.onGame = false;
                     choiceMenu.onChoice = true;
                 }
             }
@@ -160,7 +160,7 @@ int main()
                 music.playMenuMusic = false;
             }
             sf::Time elapsed = clock.getElapsedTime();
-            clock            = menu.blinkingText(clock, elapsed);
+            clock = menu.blinkingText(clock, elapsed);
             window.draw(menu);
         } else if (choiceMenu.onChoice) {
             choiceMenu.setCursorPosition(window);
@@ -168,7 +168,7 @@ int main()
             settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
-                game.onGame         = true;
+                game.onGame = true;
                 choiceMenu.onChoice = false;
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {

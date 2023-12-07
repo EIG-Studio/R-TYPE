@@ -13,15 +13,15 @@ class Button
 {
 public:
     Button(
-        sf::RenderWindow&   window,
+        sf::RenderWindow& window,
         const sf::Vector2f& size,
         const sf::Vector2f& position,
-        const sf::Color&    fillColor,
-        const sf::Color&    outlineColor,
-        float               outlineThickness,
-        const std::string&  textString,
-        const sf::Font&     font,
-        unsigned int        characterSize) :
+        const sf::Color& fillColor,
+        const sf::Color& outlineColor,
+        float outlineThickness,
+        const std::string& textString,
+        const sf::Font& font,
+        unsigned int characterSize) :
     m_window(window),
     m_text(textString, font, characterSize)
     {
@@ -73,8 +73,8 @@ public:
 
 private:
     sf::RectangleShape m_button;
-    sf::RenderWindow&  m_window;
-    sf::Text           m_text;
-    bool               m_isClicked{false};
-    bool               m_isHover;
+    sf::RenderWindow& m_window;
+    sf::Text m_text;
+    bool m_isClicked{false};
+    bool m_isHover;
 };
