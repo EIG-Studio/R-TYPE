@@ -22,9 +22,7 @@ private:
     boost::asio::ip::udp::endpoint m_remoteEndpoint; // Add this line
     boost::array<char, 128>        m_recvBuf{};
 
-    void handleReceivedData(const boost::system::error_code&      error,
-                            std::size_t                           bytesReceived,
-                            const boost::asio::ip::udp::endpoint& remoteEndpoint);
+    void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
 
     void handlePositionUpdate();
 };

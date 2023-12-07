@@ -13,16 +13,13 @@ void Server::startListening()
                                 m_remoteEndpoint,
                                 [this](const boost::system::error_code& error, std::size_t bytesReceived)
                                 {
-                                    handleReceivedData(error, bytesReceived, m_remoteEndpoint);
+                                    handleReceivedData(error, bytesReceived);
                                     startListening();
                                 });
-
     m_ioService.run();
 }
 
-void Server::handleReceivedData(const boost::system::error_code&      error,
-                                std::size_t                           bytesReceived,
-                                const boost::asio::ip::udp::endpoint& remoteEndpoint)
+void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived)
 {
     if (!error && bytesReceived > 0) {
         std::cout << "Received: " << m_recvBuf.data() << std::endl;
@@ -37,7 +34,7 @@ void Server::handleReceivedData(const boost::system::error_code&      error,
             }
 
             m_socket.async_send_to(boost::asio::buffer(binaryMessage),
-                                   remoteEndpoint,
+                                   m_remoteEndpoint,
                                    [this](const boost::system::error_code&, std::size_t) {
                                        std::cout << "TEST_OK sent\n" << std::endl;
                                    });
@@ -52,7 +49,7 @@ void Server::handleReceivedData(const boost::system::error_code&      error,
                                 m_remoteEndpoint,
                                 [this](const boost::system::error_code& nextError, std::size_t nextBytesReceived)
                                 {
-                                    handleReceivedData(nextError, nextBytesReceived, m_remoteEndpoint);
+                                    handleReceivedData(nextError, nextBytesReceived);
                                     m_recvBuf.fill(0);
                                 });
 }
