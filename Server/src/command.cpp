@@ -11,12 +11,15 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
 {
     if (!error && bytesReceived > 0) {
         std::cout << "Received: " << m_recvBuf.data() << std::endl;
-
-        if (strcmp(m_recvBuf.data(), "SHOOT") == 0) {
-            std::string message = "CREATED\n";
-            sendMessage(message);
-        } else if (std::string(m_recvBuf.data(), 3) == "POS") {
+        std::string command = std::string(m_recvBuf.data());
+        if (command.find("SHOOT") == 0) {
+            sendMessage("CREATED\n");
+        } else if (command.find("POS") == 0) {
             handlePositionUpdate();
+        } else if (command.find("LOGIN") == 0) {
+            // createPlayer();
+        } else if (command.find("EXIT") == 0) {
+            // deletePlayer();
         }
     }
 }

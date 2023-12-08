@@ -21,12 +21,20 @@ std::string binaryToText(const std::string& binaryString)
 
 void handleReceive(const boost::system::error_code& error, size_t len, boost::array<char, 2048>& recvBuf, std::string& mNewPos)
 {
-    if (!error && len >= 7) {
+    if (!error && len > 0) {
         std::string asciiString(binaryToText(recvBuf.data()));
         std::cout << asciiString;
 
-        if (std::string(asciiString.data(), 7) == "NEW_POS") {
+        if (asciiString.find("NEW_POS") == 0) {
             mNewPos = asciiString;
+        } else if (asciiString.find("UPDATE") == 0) {
+            // updateEntity();
+        } else if (asciiString.find("NEW") == 0) {
+            // createEntity();
+        } else if (asciiString.find("WIN") == 0) {
+            // win();
+        } else if (asciiString.find("LOOSE") == 0) {
+            // loose();
         }
     } else {
         std::cerr << "Error in handleReceive: " << error.message() << std::endl;
