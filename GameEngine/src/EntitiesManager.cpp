@@ -6,13 +6,13 @@
 */
 
 #include "entities.hpp"
+
 #include <iostream>
 
 
 EntityManager::EntityManager()
 {
-    for (Entity entity = 0; entity < maxEntities; ++entity)
-    {
+    for (Entity entity = 0; entity < maxEntities; ++entity) {
         m_availableEntities.push_back(entity);
     }
 }
@@ -26,9 +26,11 @@ Entity EntityManager::createEntity()
     return id;
 }
 
-extern "C" {
-    void myFunction() {
-        std::cout << "Hello from myFunction!" << std::endl;
+extern "C"
+{
+    void myFunction()
+    {
+        std::cout << "HELLO UP" << std::endl;
     }
 }
 

@@ -35,7 +35,6 @@ int main()
         return 84;
     }
 
-    // Appelez la fonction
     myFunction();
 
     float movementSpeed = 5.0f;
