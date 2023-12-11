@@ -24,6 +24,7 @@ add_executable(${CMAKE_PROJECT_NAME}
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE EntitiesManager)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_include_directories(EntitiesManager PRIVATE include)
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
