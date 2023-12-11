@@ -5,18 +5,43 @@
 ** ECS
 */
 
-#include <dlfcn.h>
 #pragma once
 
-class ECS {
-    public:
-        ECS() = default;
-        ~ECS() = default;
+#include <dlfcn.h>
+#include <iostream>
 
-        void* libraryHandle = dlopen("GameEngine/libEntitiesManager.so", RTLD_LAZY);
-        using MyFunctionType = void (*)();
-        auto myFunction = (MyFunctionType)dlsym(libraryHandle, "myFunction");
+class ECS
+{
+public:
+    ECS(const char* libraryPath)
+    {
+        m_libraryHandle = dlopen(libraryPath, RTLD_LAZY);
 
-    protected:
-    private:
+        if (!m_libraryHandle) {
+            std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
+        }
+    }
+
+    ~ECS()
+    {
+        if (m_libraryHandle) {
+            dlclose(m_libraryHandle);
+        }
+    }
+
+    void callMyFunction()
+    {
+        typedef void (*MyFunctionType)();
+        auto myFunction = (MyFunctionType)dlsym(m_libraryHandle, "myFunction");
+
+        if (!myFunction) {
+            std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
+        }
+
+        myFunction();
+    }
+
+private:
+    void* m_libraryHandle;
 };
+;
