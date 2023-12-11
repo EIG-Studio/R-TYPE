@@ -13,7 +13,9 @@
 class ECS
 {
 public:
-    ECS(const char* libraryPath)
+    ECS() = default;
+
+    void setPath(const char* libraryPath)
     {
         m_libraryHandle = dlopen(libraryPath, RTLD_LAZY);
 
@@ -42,6 +44,6 @@ public:
     }
 
 private:
-    void* m_libraryHandle;
+    void* m_libraryHandle{};
 };
 ;

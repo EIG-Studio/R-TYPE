@@ -19,8 +19,9 @@
 
 int main()
 {
-    ECS ecs("GameEngine/libEntitiesManager.so");
-    ecs.callMyFunction();
+    ECS ecs;
+    ecs.setPath("GameEngine/libEntitiesManager.so");
+
 
     float movementSpeed = 5.0f;
     // Calculating the milliseconds per frame for 144 FPS
@@ -167,7 +168,7 @@ int main()
             window.draw(choiceMenu);
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite, ecs);
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveParallax();
                 game.repeatParallax();
