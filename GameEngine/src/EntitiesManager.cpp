@@ -30,19 +30,19 @@ extern "C"
 {
     void moveUp()
     {
-        std::cout << "HELLO UP" << std::endl;
+        std::cout << "UP" << std::endl;
     }
     void moveRight()
     {
-        std::cout << "HELLO RIGHT" << std::endl;
+        std::cout << "RIGHT" << std::endl;
     }
     void moveDown()
     {
-        std::cout << "HELLO DOWN" << std::endl;
+        std::cout << "DOWN" << std::endl;
     }
     void moveLeft()
     {
-        std::cout << "HELLO LEFT" << std::endl;
+        std::cout << "LEFT" << std::endl;
     }
 }
 
