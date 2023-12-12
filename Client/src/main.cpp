@@ -84,6 +84,17 @@ int main()
         font,
         20);
 
+    Button retourButton(
+        window,
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 + 150, window.getSize().y / 2 + 200),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Retour",
+        font,
+        20);
+
     Button exitButton(
         window,
         sf::Vector2f(200, 50),
@@ -174,7 +185,13 @@ int main()
             exitButton.draw();
             window.draw(choiceMenu);
         } else if (settingMenu.onSetting) {
+            retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
             settingMenu.setCursorPosition(window);
+            if (retourButton.checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
+                settingMenu.onSetting = false;
+                choiceMenu.onChoice = true;
+            }
+            retourButton.draw();
             window.draw(settingMenu);
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();

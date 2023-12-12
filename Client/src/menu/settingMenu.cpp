@@ -65,6 +65,16 @@ void SettingMenu::setCursorPosition(sf::RenderWindow& window)
     }
 }
 
+float SettingMenu::getCursorPosX()
+{
+    return this->m_cursorSprite.getPosition().x;
+}
+
+float SettingMenu::getCursorPosY()
+{
+    return this->m_cursorSprite.getPosition().y;
+}
+
 void SettingMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();

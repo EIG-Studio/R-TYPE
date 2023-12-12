@@ -16,6 +16,8 @@ public:
     ~SettingMenu() override = default;
     void setPath(Sprite mSprite);
     void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
     bool onSetting;
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
