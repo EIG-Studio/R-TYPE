@@ -31,16 +31,52 @@ public:
         }
     }
 
-    void callMyFunction()
+    void callMoveUp()
     {
         typedef void (*MyFunctionType)();
-        auto myFunction = (MyFunctionType)dlsym(m_libraryHandle, "myFunction");
+        auto moveUp = (MyFunctionType)dlsym(m_libraryHandle, "moveUp");
 
-        if (!myFunction) {
+        if (!moveUp) {
             std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
         }
 
-        myFunction();
+        moveUp();
+    }
+
+    void callMoveRight()
+    {
+        typedef void (*MyFunctionType)();
+        auto moveRight = (MyFunctionType)dlsym(m_libraryHandle, "moveRight");
+
+        if (!moveRight) {
+            std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
+        }
+
+        moveRight();
+    }
+
+    void callMoveDown()
+    {
+        typedef void (*MyFunctionType)();
+        auto moveDown = (MyFunctionType)dlsym(m_libraryHandle, "moveDown");
+
+        if (!moveDown) {
+            std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
+        }
+
+        moveDown();
+    }
+
+    void callMoveLeft()
+    {
+        typedef void (*MyFunctionType)();
+        auto moveLeft = (MyFunctionType)dlsym(m_libraryHandle, "moveLeft");
+
+        if (!moveLeft) {
+            std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
+        }
+
+        moveLeft();
     }
 
 private:

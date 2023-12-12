@@ -28,9 +28,21 @@ Entity EntityManager::createEntity()
 
 extern "C"
 {
-    void myFunction()
+    void moveUp()
     {
         std::cout << "HELLO UP" << std::endl;
+    }
+    void moveRight()
+    {
+        std::cout << "HELLO RIGHT" << std::endl;
+    }
+    void moveDown()
+    {
+        std::cout << "HELLO DOWN" << std::endl;
+    }
+    void moveLeft()
+    {
+        std::cout << "HELLO LEFT" << std::endl;
     }
 }
 

@@ -170,7 +170,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
         if (this->m_playerSprite.getPosition().y > 0) {
-            ecs.callMyFunction();
+            ecs.callMoveUp();
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
@@ -185,6 +185,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
         if (this->m_playerSprite.getPosition().x < winX - 103) {
+            ecs.callMoveRight();
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
@@ -199,6 +200,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
         if (this->m_playerSprite.getPosition().y < winY - 37.75) {
+            ecs.callMoveDown();
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
@@ -213,6 +215,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
         if (this->m_playerSprite.getPosition().x > 0) {
+            ecs.callMoveLeft();
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
