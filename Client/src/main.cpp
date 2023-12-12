@@ -5,6 +5,7 @@
 ** main
 */
 
+#include "ECS.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
 #include "menu/inGame.hpp"
@@ -18,25 +19,9 @@
 
 int main()
 {
-    void* libraryHandle = dlopen("GameEngine/libEntitiesManager.so", RTLD_LAZY);
+    ECS ecs;
+    ecs.setPath("GameEngine/libEntitiesManager.so");
 
-    if (!libraryHandle) {
-        std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
-        return 84;
-    }
-
-    // Obtenez un pointeur vers la fonction
-    typedef void (*MyFunctionType)();
-    auto myFunction = (MyFunctionType)dlsym(libraryHandle, "myFunction");
-
-    if (!myFunction) {
-        std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
-        dlclose(libraryHandle);
-        return 84;
-    }
-
-    // Appelez la fonction
-    myFunction();
 
     float movementSpeed = 5.0f;
     // Calculating the milliseconds per frame for 144 FPS
@@ -183,7 +168,7 @@ int main()
             window.draw(choiceMenu);
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite, ecs);
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveParallax();
                 game.repeatParallax();

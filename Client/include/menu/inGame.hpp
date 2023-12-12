@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "ECS.hpp"
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
 
@@ -21,7 +22,7 @@ public:
     void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
-    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer mCommandsToServer, Sprite mSprite);
+    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer mCommandsToServer, Sprite mSprite, ECS& ecs);
     void  colidePlayer();
     bool  onGame;
 

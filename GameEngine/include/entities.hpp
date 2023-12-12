@@ -7,6 +7,8 @@
 
 #pragma once
 #include "components.hpp"
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 #include <unordered_map>
 #include <vector>

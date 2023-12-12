@@ -50,31 +50,29 @@ void Game::setPath(Sprite mSprite)
     m_backSprite2.setScale(1152 / m_backSprite2.getLocalBounds().width, 648 / m_backSprite2.getLocalBounds().height);
     m_backSprite2.setPosition(m_backSprite2.getLocalBounds().width * 2, 0);
 
-    m_veryBackBuildSprite.setScale(1152 / m_veryBackBuildSprite.getLocalBounds().width,
-                                   648 / m_veryBackBuildSprite.getLocalBounds().height);
+    m_veryBackBuildSprite
+        .setScale(1152 / m_veryBackBuildSprite.getLocalBounds().width, 648 / m_veryBackBuildSprite.getLocalBounds().height);
     m_veryBackBuildSprite.setPosition(0, 0);
-    m_veryBackBuildSprite2.setScale(1152 / m_veryBackBuildSprite2.getLocalBounds().width,
-                                    648 / m_veryBackBuildSprite2.getLocalBounds().height);
+    m_veryBackBuildSprite2
+        .setScale(1152 / m_veryBackBuildSprite2.getLocalBounds().width, 648 / m_veryBackBuildSprite2.getLocalBounds().height);
     m_veryBackBuildSprite2.setPosition(m_veryBackBuildSprite2.getLocalBounds().width * 2, 0);
 
-    m_backBuildSprite.setScale(1152 / m_backBuildSprite.getLocalBounds().width,
-                               648 / m_backBuildSprite.getLocalBounds().height);
+    m_backBuildSprite.setScale(1152 / m_backBuildSprite.getLocalBounds().width, 648 / m_backBuildSprite.getLocalBounds().height);
     m_backBuildSprite.setPosition(0, 0);
-    m_backBuildSprite2.setScale(1152 / m_backBuildSprite2.getLocalBounds().width,
-                                648 / m_backBuildSprite2.getLocalBounds().height);
+    m_backBuildSprite2
+        .setScale(1152 / m_backBuildSprite2.getLocalBounds().width, 648 / m_backBuildSprite2.getLocalBounds().height);
     m_backBuildSprite2.setPosition(m_backBuildSprite2.getLocalBounds().width * 2, 0);
 
     m_midBuildSprite.setScale(1152 / m_midBuildSprite.getLocalBounds().width, 648 / m_midBuildSprite.getLocalBounds().height);
     m_midBuildSprite.setPosition(0, 0);
-    m_midBuildSprite2.setScale(1152 / m_midBuildSprite2.getLocalBounds().width,
-                               648 / m_midBuildSprite2.getLocalBounds().height);
+    m_midBuildSprite2.setScale(1152 / m_midBuildSprite2.getLocalBounds().width, 648 / m_midBuildSprite2.getLocalBounds().height);
     m_midBuildSprite2.setPosition(m_midBuildSprite2.getLocalBounds().width * 2, 0);
 
-    m_frontBuildSprite.setScale(1152 / m_frontBuildSprite.getLocalBounds().width,
-                                648 / m_frontBuildSprite.getLocalBounds().height);
+    m_frontBuildSprite
+        .setScale(1152 / m_frontBuildSprite.getLocalBounds().width, 648 / m_frontBuildSprite.getLocalBounds().height);
     m_frontBuildSprite.setPosition(0, 0);
-    m_frontBuildSprite2.setScale(1152 / m_frontBuildSprite2.getLocalBounds().width,
-                                 648 / m_frontBuildSprite2.getLocalBounds().height);
+    m_frontBuildSprite2
+        .setScale(1152 / m_frontBuildSprite2.getLocalBounds().width, 648 / m_frontBuildSprite2.getLocalBounds().height);
     m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 
     m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
@@ -135,14 +133,13 @@ void Game::repeatParallax()
 
 float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
 {
-    std::istringstream       iss(mCommandsToServer.getNewPos());
+    std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
-    std::ostringstream       newPos;
+    std::ostringstream newPos;
 
     // Reception et séparation pour plus de facilité de modification
     std::string token;
-    while (std::getline(iss, token, ' '))
-    {
+    while (std::getline(iss, token, ' ')) {
         tokens.push_back(token);
     }
 
@@ -152,14 +149,13 @@ float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServ
 
 float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
 {
-    std::istringstream       iss(mCommandsToServer.getNewPos());
+    std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
-    std::ostringstream       newPos;
+    std::ostringstream newPos;
 
     // Reception et séparation pour plus de facilité de modification
     std::string token;
-    while (std::getline(iss, token, ' '))
-    {
+    while (std::getline(iss, token, ' ')) {
         tokens.push_back(token);
     }
 
@@ -167,71 +163,64 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosY;
 }
 
-void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer, Sprite mSprite)
+void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer, Sprite mSprite, ECS& ecs)
 {
     float tempPosX = this->m_playerSprite.getPosition().x;
     float tempPosY = this->m_playerSprite.getPosition().y;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20)
-    {
-        if (this->m_playerSprite.getPosition().y > 0)
-        {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
+        if (this->m_playerSprite.getPosition().y > 0) {
+            ecs.callMyFunction();
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 1";
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
-                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite
+                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
             this->setPlayerPath(mSprite);
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20)
-    {
-        if (this->m_playerSprite.getPosition().x < winX - 103)
-        {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
+        if (this->m_playerSprite.getPosition().x < winX - 103) {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 2";
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
-                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite
+                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
             this->setPlayerPath(mSprite);
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20)
-    {
-        if (this->m_playerSprite.getPosition().y < winY - 37.75)
-        {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
+        if (this->m_playerSprite.getPosition().y < winY - 37.75) {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 3";
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
-                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite
+                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
             this->setPlayerPath(mSprite);
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20)
-    {
-        if (this->m_playerSprite.getPosition().x > 0)
-        {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
+        if (this->m_playerSprite.getPosition().x > 0) {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 4";
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
-            this->m_playerSprite.setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer),
-                                             this->setNewPositionY(this->m_playerSprite, commandsToServer));
+            this->m_playerSprite
+                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");
             this->setPlayerPath(mSprite);
         }

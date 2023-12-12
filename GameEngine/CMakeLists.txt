@@ -4,6 +4,16 @@ project(samurai_ecs)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+
+################# FETCH #################
+include(FetchContent)
+
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.x)
+
+FetchContent_MakeAvailable(SFML)
+
 add_library(EntitiesManager SHARED
     src/EntitiesManager.cpp
 )
@@ -23,7 +33,7 @@ add_executable(${CMAKE_PROJECT_NAME}
     # src/Velocity.cpp
 )
 
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE EntitiesManager)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE EntitiesManager pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE include)
 target_include_directories(EntitiesManager PRIVATE include)
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
