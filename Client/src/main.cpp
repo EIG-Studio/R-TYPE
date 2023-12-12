@@ -20,7 +20,7 @@
 int main()
 {
     ECS ecs;
-    ecs.setPath("GameEngine/libEntitiesManager.so");
+    ecs.setPath("GameEngine/libsamurai_ecs.so");
 
 
     float movementSpeed = 5.0f;
