@@ -19,8 +19,15 @@ private:
 };
 
 /********-Position Component-******/
-struct Position {
-    float x, y;
+class Position
+{
+public:
+    Position(std::pair<int, int> originPos);
+    ~Position() = default;
+    std::pair<int, int> getPosition() const;
+    void setPosition(std::pair<int, int> newPos);
+private:
+    std::pair<int, int> _pos;
 };
 
 /********-HealthPoint Component-******/
@@ -39,8 +46,17 @@ private:
 };
 
 /********-Velocity Component-******/
-struct Velocity {
-    float dx, dy;
+class Velocity
+{
+public:
+    Velocity();
+    ~Velocity() = default;
+    std::pair<int, int> getVelocity() const;
+    void setVelocity(int x, int y);
+
+private:
+    std::pair<int, int> _velo;
+
 };
 
 /********-ID Component-******/
