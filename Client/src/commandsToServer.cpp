@@ -59,24 +59,13 @@ std::future<void> CommandsToServer::sendToServerAsync(std::string msg)
     return std::async(std::launch::async, [this, msg = std::move(msg)] {
         try {
             boost::asio::io_service ioService;
-
-            boost::asio::ip::udp::endpoint receiverEndpoint(
-                boost::asio::ip::address::from_string(
-                    "12"
-                    "7."
-                    "0."
-                    "0."
-                    "1"),
-                7171);
-
+            boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
             boost::asio::ip::udp::socket socket(ioService);
-            socket.open(boost::asio::ip::udp::v4());
-
-            sendToServer(socket, msg);
-
             boost::array<char, 2048> recvBuf{};
-            asyncReceive(socket, recvBuf, m_newPos);
 
+            socket.open(boost::asio::ip::udp::v4());
+            sendToServer(socket, msg);
+            asyncReceive(socket, recvBuf, m_newPos);
             ioService.run();
         } catch (std::exception& e) {
             std::cerr << e.what() << std::endl;
