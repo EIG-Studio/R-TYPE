@@ -43,7 +43,7 @@ void handleReceive(const boost::system::error_code& error, size_t len, boost::ar
 
 void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
 {
-    boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string("10.134.197.128"), 7171);
+    boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
     socket.send_to(boost::asio::buffer(msg), receiverEndpoint);
 }
 
