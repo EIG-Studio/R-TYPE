@@ -13,6 +13,8 @@
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
 
+#include <SFML/Window/Keyboard.hpp>
+
 #include <SFML/System.hpp>
 
 #include <dlfcn.h>
@@ -152,7 +154,8 @@ int main()
             playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-            if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
+            if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
+                sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
                 game.onGame = true;
                 choiceMenu.onChoice = false;
             }
