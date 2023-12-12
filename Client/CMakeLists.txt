@@ -36,6 +36,7 @@ add_custom_target(
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/menu/introMenu/introMenu.cpp
+    src/menu/settingMenu.cpp
     src/sprite/sprite.cpp
     src/music/music.cpp
     src/menu/inGame.cpp

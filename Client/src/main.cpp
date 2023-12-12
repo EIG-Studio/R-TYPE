@@ -10,6 +10,7 @@
 #include "commandsToServer.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
+#include "menu/settingMenu.hpp"
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
 
@@ -54,6 +55,8 @@ int main()
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
     choiceMenu.setPath(sprite);
+    SettingMenu settingMenu;
+    settingMenu.setPath(sprite);
     Game game;
     game.setPath(sprite);
     Music music;
@@ -160,7 +163,8 @@ int main()
                 choiceMenu.onChoice = false;
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
-                std::cout << "Setting button" << std::endl;
+                settingMenu.onSetting = true;
+                choiceMenu.onChoice = false;
             }
             if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 exit(0);
@@ -169,6 +173,9 @@ int main()
             settingsButton.draw();
             exitButton.draw();
             window.draw(choiceMenu);
+        } else if (settingMenu.onSetting) {
+            settingMenu.setCursorPosition(window);
+            window.draw(settingMenu);
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite, ecs);
