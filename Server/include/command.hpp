@@ -21,6 +21,6 @@ public:
     static void handlePositionUpdate();
 
 private:
-    std::unordered_map<std::string, std::function<void()>> commands{
+    std::unordered_map<std::string, std::function<void()>> m_commands{
         {"POS", [&]() { FunctionPointer::handlePositionUpdate(); }}};
 };
