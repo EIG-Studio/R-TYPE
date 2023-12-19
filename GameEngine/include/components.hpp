@@ -26,8 +26,9 @@ public:
     ~Position() = default;
     std::pair<int, int> getPosition() const;
     void setPosition(std::pair<int, int> newPos);
+
 private:
-    std::pair<int, int> _pos;
+    std::pair<int, int> m_pos;
 };
 
 /********-HealthPoint Component-******/
@@ -55,8 +56,7 @@ public:
     void setVelocity(int x, int y);
 
 private:
-    std::pair<int, int> _velo;
-
+    std::pair<int, int> m_velo;
 };
 
 /********-ID Component-******/
