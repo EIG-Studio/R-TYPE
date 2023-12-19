@@ -18,7 +18,7 @@ void Server::startListening()
     m_ioService.run();
 }
 
-void Server::sendMessage(std::string message)
+void Server::sendMessage(const std::string& message)
 {
     std::string binaryMessage;
 

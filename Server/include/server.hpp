@@ -15,7 +15,7 @@ public:
     }
 
     void startListening();
-    void sendMessage(std::string message);
+    void sendMessage(const std::string& message);
 
 private:
     boost::asio::io_service m_ioService;
