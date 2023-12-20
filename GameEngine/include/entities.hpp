@@ -7,19 +7,22 @@
 
 #pragma once
 #include "components.hpp"
-#include <SFML/System.hpp>
+
 #include <SFML/Window.hpp>
+
+#include <SFML/System.hpp>
 
 #include <unordered_map>
 #include <vector>
 
-#include <cstdint>
 #include <cassert>
+#include <cstdint>
 
-using Entity             = std::uint32_t;
+using Entity = std::uint32_t;
 const Entity maxEntities = 1000;
 
-extern "C" {
+extern "C"
+{
     void moveUp();
     void moveRight();
     void moveDown();
@@ -31,22 +34,22 @@ class EntityManager
 public:
     EntityManager();
     Entity createEntity();
-    template<typename... Components>
+    template <typename... Components>
     EntityManager(Components&&... components);
 
-    template<typename Component>
+    template <typename Component>
     Component* getComponent() const;
 
-    template<typename Component, typename... Rest>
+    template <typename Component, typename... Rest>
     void addComponents(Component&& component, Rest&&... rest);
-    void   destroyEntity(Entity entity);
+    void destroyEntity(Entity entity);
 
 private:
-    std::vector<Entity>                  m_availableEntities;
+    std::vector<Entity> m_availableEntities;
     std::unordered_map<Entity, Position> m_positions;
     std::unordered_map<Entity, Velocity> m_velocities;
     std::unordered_map<size_t, std::unique_ptr<void>> components;
-    template<typename Component>
+    template <typename Component>
     void addComponent(Component&& component);
 };
 
@@ -61,11 +64,11 @@ private:
 class Player
 {
 public:
-    Player()  = delete;
+    Player() = delete;
     ~Player() = default;
 
 private:
-    Position    m_position;
+    Position m_position;
     HealthPoint m_life;
 };
 
@@ -73,11 +76,11 @@ private:
 class Enemy
 {
 public:
-    Enemy()  = delete;
+    Enemy() = delete;
     ~Enemy() = default;
 
 private:
-    Position    m_position;
+    Position m_position;
     HealthPoint m_life;
 };
 
@@ -89,5 +92,7 @@ public:
     ~Registry() = default;
 
 private:
+    Entity createEntity();
+    void destroyEntity(Entity entity);
     std::vector<Entity> m_availableEntities;
 };
