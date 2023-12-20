@@ -25,13 +25,12 @@ int main()
 
         typedef Registry* (*MyFunctionType)();
         auto factory = (MyFunctionType)dlsym(libraryHandle, "factory");
-
         if (!factory) {
-            std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
-        }
+            std::cerr << "Failed to find the symbol factory: " << dlerror() << std::endl;
+            // Handle the error accordingly
+        } // factory();
 
-        // factory();
-
+        factory();
 
         std::thread serverThread(&Server::startListening, &server);
         serverThread.join();

@@ -21,7 +21,7 @@ T& Registry::getComponent(Entity &entity, T component)
     return std::any_cast<T&>(entity.mComponents[component]);
 }
 
-extern "C++" Registry* factory()
+extern "C" Registry* factory()
 {
     return new Registry();
 }
