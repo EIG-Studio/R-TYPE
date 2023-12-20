@@ -10,6 +10,7 @@
 #include "commandsToServer.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
+#include "menu/settingMenu.hpp"
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
 
@@ -54,6 +55,8 @@ int main()
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
     choiceMenu.setPath(sprite);
+    SettingMenu settingMenu;
+    settingMenu.setPath(sprite);
     Game game;
     game.setPath(sprite);
     Music music;
@@ -78,6 +81,17 @@ int main()
         sf::Color::White,
         2.0f,
         "Settings",
+        font,
+        20);
+
+    Button retourButton(
+        window,
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 + 150, window.getSize().y / 2 + 200),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Retour",
         font,
         20);
 
@@ -160,7 +174,8 @@ int main()
                 choiceMenu.onChoice = false;
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
-                std::cout << "Setting button" << std::endl;
+                settingMenu.onSetting = true;
+                choiceMenu.onChoice = false;
             }
             if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 exit(0);
@@ -169,6 +184,15 @@ int main()
             settingsButton.draw();
             exitButton.draw();
             window.draw(choiceMenu);
+        } else if (settingMenu.onSetting) {
+            retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
+            settingMenu.setCursorPosition(window);
+            if (retourButton.checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
+                settingMenu.onSetting = false;
+                choiceMenu.onChoice = true;
+            }
+            retourButton.draw();
+            window.draw(settingMenu);
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite, ecs);

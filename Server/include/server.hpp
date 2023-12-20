@@ -15,12 +15,12 @@ public:
     }
 
     void startListening();
-    void sendMessage(std::string message);
+    void sendMessage(const std::string& message);
 
 private:
     boost::asio::io_service m_ioService;
     boost::asio::ip::udp::socket m_socket;
-    boost::asio::ip::udp::endpoint m_remoteEndpoint; // Add this line
+    boost::asio::ip::udp::endpoint m_remoteEndpoint;
     boost::array<char, 128> m_recvBuf{};
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
