@@ -20,3 +20,8 @@ T& Registry::getComponent(Entity &entity, T component)
         throw std::runtime_error("Component does not exist");
     return std::any_cast<T&>(entity.mComponents[component]);
 }
+
+extern "C++" Registry factory()
+{
+    return Registry();
+}

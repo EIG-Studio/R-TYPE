@@ -61,7 +61,7 @@ private:
 };
 
 /********-Registry-******/
-extern "C++" class Registry
+class Registry
 {
 public:
     Registry() = default;
@@ -78,3 +78,5 @@ public:
 private:
     std::vector<Entity> m_entities;
 };
+
+extern "C++" Registry factory();
