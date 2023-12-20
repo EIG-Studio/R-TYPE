@@ -80,3 +80,14 @@ private:
     Position    m_position;
     HealthPoint m_life;
 };
+
+/********-Registry-******/
+class Registry
+{
+public:
+    Registry() = default;
+    ~Registry() = default;
+
+private:
+    std::vector<Entity> m_availableEntities;
+};
