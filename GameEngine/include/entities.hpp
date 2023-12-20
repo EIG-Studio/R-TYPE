@@ -12,14 +12,13 @@
 
 #include <SFML/System.hpp>
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
+#include <any>
 
 #include <cassert>
 #include <cstdint>
-
-using Entity = std::uint32_t;
-const Entity maxEntities = 1000;
 
 extern "C"
 {
@@ -28,6 +27,16 @@ extern "C"
     void moveDown();
     void moveLeft();
 }
+
+class Entity
+{
+public:
+    Entity();
+    ~Entity();
+
+    std::vector<std::any> mComponents;
+private:
+};
 
 class EntityManager
 {
@@ -45,43 +54,9 @@ public:
     void destroyEntity(Entity entity);
 
 private:
-    std::vector<Entity> m_availableEntities;
-    std::unordered_map<Entity, Position> m_positions;
-    std::unordered_map<Entity, Velocity> m_velocities;
-    std::unordered_map<size_t, std::unique_ptr<void>> components;
+    std::vector<Entity> m_entities;
     template <typename Component>
     void addComponent(Component&& component);
-};
-
-class registry
-{
-public:
-
-private:
-};
-
-/********-Player Entity-******/
-class Player
-{
-public:
-    Player() = delete;
-    ~Player() = default;
-
-private:
-    Position m_position;
-    HealthPoint m_life;
-};
-
-/********-Enemy Entity-******/
-class Enemy
-{
-public:
-    Enemy() = delete;
-    ~Enemy() = default;
-
-private:
-    Position m_position;
-    HealthPoint m_life;
 };
 
 /********-Registry-******/
@@ -90,9 +65,9 @@ class Registry
 public:
     Registry() = default;
     ~Registry() = default;
-
-private:
     Entity createEntity();
     void destroyEntity(Entity entity);
-    std::vector<Entity> m_availableEntities;
+
+private:
+    std::vector<Entity> m_entities;
 };
