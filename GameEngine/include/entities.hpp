@@ -76,11 +76,5 @@ public:
     T& getComponent(Entity entity);
 
 private:
-    template <typename T>
-    std::unordered_map<Entity, T>& getComponentStorage()
-    {
-        static std::unordered_map<Entity, T> storage;
-        return storage;
-    }
     std::vector<Entity> m_entities;
 };
