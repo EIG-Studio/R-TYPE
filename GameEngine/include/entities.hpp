@@ -61,7 +61,7 @@ private:
 };
 
 /********-Registry-******/
-class Registry
+extern "C++" class Registry
 {
 public:
     Registry() = default;
