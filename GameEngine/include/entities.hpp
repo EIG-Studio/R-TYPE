@@ -70,6 +70,8 @@ public:
     template<typename T>
     void addComponent(Entity entity, T component);
     template<typename T>
+    void removeComponent(Entity entity, T component);
+    template<typename T>    
     T& getComponent(Entity entity);
 
 private:
