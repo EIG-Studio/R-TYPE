@@ -73,7 +73,7 @@ public:
     template <typename T>
     void removeComponent(Entity entity, T component);
     template <typename T>
-    T& getComponent(Entity entity);
+    T& getComponent(Entity entity, T component);
 
 private:
     std::vector<Entity> m_entities;
