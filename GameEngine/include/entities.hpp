@@ -12,10 +12,10 @@
 
 #include <SFML/System.hpp>
 
+#include <any>
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include <any>
 
 #include <cassert>
 #include <cstdint>
@@ -35,6 +35,7 @@ public:
     ~Entity();
 
     std::vector<std::any> mComponents;
+
 private:
 };
 
@@ -67,16 +68,17 @@ public:
     ~Registry() = default;
     Entity createEntity();
     void destroyEntity(Entity entity);
-    template<typename T>
+    template <typename T>
     void addComponent(Entity entity, T component);
-    template<typename T>
+    template <typename T>
     void removeComponent(Entity entity, T component);
-    template<typename T>    
+    template <typename T>
     T& getComponent(Entity entity);
 
 private:
-    template<typename T>
-    std::unordered_map<Entity, T>& getComponentStorage() {
+    template <typename T>
+    std::unordered_map<Entity, T>& getComponentStorage()
+    {
         static std::unordered_map<Entity, T> storage;
         return storage;
     }
