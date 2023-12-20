@@ -79,4 +79,4 @@ private:
     std::vector<Entity> m_entities;
 };
 
-extern "C++" Registry factory();
+extern "C++" Registry* factory();
