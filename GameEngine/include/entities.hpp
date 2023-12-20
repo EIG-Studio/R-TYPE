@@ -73,10 +73,10 @@ public:
     template <typename T>
     void removeComponent(Entity entity, T component);
     template <typename T>
-    T& getComponent(Entity &entity, T component);
+    T& getComponent(Entity& entity, T component);
 
 private:
     std::vector<Entity> m_entities;
 };
 
-extern "C++" Registry* factory();
+extern "C" Registry* factory();

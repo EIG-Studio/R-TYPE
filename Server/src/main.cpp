@@ -5,9 +5,12 @@
 ** main
 */
 
+#include "../../GameEngine/include/entities.hpp"
 #include "server.hpp"
 
 #include <dlfcn.h>
+#include <thread>
+
 
 int main()
 {
@@ -19,7 +22,19 @@ int main()
     }
     try {
         Server server;
-        server.startListening();
+
+        typedef Registry* (*MyFunctionType)();
+        auto factory = (MyFunctionType)dlsym(libraryHandle, "factory");
+
+        if (!factory) {
+            std::cerr << "Failed to find the symbol myFunction: " << dlerror() << std::endl;
+        }
+
+        // factory();
+
+
+        std::thread serverThread(&Server::startListening, &server);
+        serverThread.join();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;

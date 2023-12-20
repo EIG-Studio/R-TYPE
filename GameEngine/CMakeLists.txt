@@ -37,7 +37,7 @@ add_custom_target(
 
 ################# EXECUTABLE #################
 add_library(${PROJECT_NAME} SHARED
-    src/EntitiesManager.cpp
+    # src/EntitiesManager.cpp
     src/Damage.cpp
     src/Gravity.cpp
     src/HealthPoint.cpp
