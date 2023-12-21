@@ -9,9 +9,13 @@
 
 #include "components.hpp"
 
-#include <utility>
+#include <SFML/Graphics/RenderWindow.hpp>
+
+#include <SFML/Window/Window.hpp>
+
 #include <functional>
 #include <map>
+#include <utility>
 
 void shootingSystem(Entity entity, Registry& registry)
 {
@@ -163,7 +167,16 @@ void iaSystem(Entity entity, Registry& registry)
     // Implementation for AI system
 }
 
-void renderSystem(Entity entity, Registry& registry)
+void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
-    // Implementation for rendering system
+    if (!registry.hasComponent(entity, Renderer{}))
+        return;
+    if (!registry.hasComponent(entity, Position{}))
+        return;
+    registry.getComponent(entity, Renderer{})
+        .getRenderer()
+        .setPosition(
+            registry.getComponent(entity, Position{}).getPosition().first,
+            registry.getComponent(entity, Position{}).getPosition().second);
+    window.draw(registry.getComponent(entity, Renderer{}).getRenderer());
 }
