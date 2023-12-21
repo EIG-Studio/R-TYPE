@@ -10,7 +10,6 @@
 #include <iostream>
 Position::Position(std::pair<float, float> originPos)
 {
-    std::cout << "hello" << std::endl;
     this->m_pos.first = originPos.first;
     this->m_pos.second = originPos.second;
 }
