@@ -12,9 +12,11 @@
 #include <iostream>
 #include <memory>
 
-template <typename T> class DLLoader {
-  public:
-    DLLoader(const std::string &path)
+template <typename T>
+class DLLoader
+{
+public:
+    DLLoader(const std::string& path)
     {
         std::unique_ptr<T> (*factory)();
 
@@ -23,7 +25,7 @@ template <typename T> class DLLoader {
             std::cout << "dlopen: " << dlerror() << std::endl;
             exit(84);
         }
-        *(void **) (&factory) = dlsym(m_lib, "factory");
+        *(void**)(&factory) = dlsym(m_lib, "factory");
         if (!factory) {
             std::cout << "dlsym: " << dlerror() << std::endl;
             exit(84);
@@ -36,17 +38,16 @@ template <typename T> class DLLoader {
         m_lib = nullptr;
         m_instance.reset();
     };
-    T *getInstance() const
+    T* getInstance() const
     {
         if (!m_instance) {
-            std::cout << "Failed to load instance from shared factory."
-                      << std::endl;
+            std::cout << "Failed to load instance from shared factory." << std::endl;
             exit(84);
         }
         return m_instance.get();
     };
 
-    void reload(const std::string &path)
+    void reload(const std::string& path)
     {
         std::unique_ptr<T> (*factory)();
 
@@ -59,7 +60,7 @@ template <typename T> class DLLoader {
             std::cout << "dlopen: " << dlerror() << std::endl;
             exit(84);
         }
-        *(void **) (&factory) = dlsym(m_lib, "factory");
+        *(void**)(&factory) = dlsym(m_lib, "factory");
         if (!factory) {
             std::cout << "dlsym: " << dlerror() << std::endl;
             exit(84);
@@ -67,8 +68,8 @@ template <typename T> class DLLoader {
         this->m_instance = std::move(factory());
     };
 
-  private:
-    void *m_lib;
+private:
+    void* m_lib;
     std::unique_ptr<T> m_instance;
 };
 

@@ -30,21 +30,23 @@ int main()
         }
 
         Registry* registry;
+        Entity entity;
         registry = factory();
-        // registry->createEntity();
-        // registry->addComponent(Entity entity, T component)
-        
+        entity = registry->createEntity();
+        registry->addComponent(entity, Position(std::make_pair(0, 0)));
+        // registry->addComponent(entity, HealthPoint(100));
+        // registry->addComponent(entity, Velocity());
+        // registry->addComponent(entity, ID(0));
+        //
 
         std::thread serverThread(&Server::startListening, &server);
-        std::thread serverThread2(&Server::startSending, &server);
+        // std::thread serverThread2(&Server::startSending, &server);
         serverThread.join();
-        serverThread2.join();
+        // serverThread2.join();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
     }
-
-    return 0;
 
     dlclose(libraryHandle);
     return 0;

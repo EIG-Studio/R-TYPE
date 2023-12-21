@@ -31,8 +31,8 @@ extern "C"
 class Entity
 {
 public:
-    Entity();
-    ~Entity();
+    Entity() = default;
+    ~Entity() = default;
 
     std::vector<std::any> mComponents;
 

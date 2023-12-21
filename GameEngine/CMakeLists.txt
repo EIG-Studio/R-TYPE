@@ -49,6 +49,7 @@ add_library(${PROJECT_NAME} SHARED
     src/Speed.cpp
     src/Systems.cpp
     src/Registry.cpp
+    src/Position.cpp
 )
 
 
