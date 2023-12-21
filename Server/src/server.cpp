@@ -25,15 +25,15 @@ void Server::startSending()
     while (true) {
         message = "";
         this->m_mutex.lock();
-        if (m_messages.size() > 0 && m_messages.back().second < nb_clients) {
+        if (m_messages.size() > 0) {
             message = m_messages.back().first;
             m_messages.back().second++;
         }
         this->m_mutex.unlock();
         if (message != "") {
-            std::cout << message << std::endl;
+            sendMessage(message);
             this->m_mutex.lock();
-            if (m_messages.back().second > nb_clients)
+            if (m_messages.back().second >= nb_clients)
                 m_messages.pop_back();
             this->m_mutex.unlock();
         } else {
