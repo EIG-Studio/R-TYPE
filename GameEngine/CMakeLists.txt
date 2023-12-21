@@ -36,7 +36,7 @@ add_custom_target(
 
 
 ################# EXECUTABLE #################
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} STATIC
     # src/EntitiesManager.cpp
     src/Damage.cpp
     src/Gravity.cpp

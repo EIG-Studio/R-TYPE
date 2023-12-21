@@ -37,6 +37,8 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
     src/server.cpp
     src/command.cpp
+    # ../build/GameEngine/libsamurai_ecs.a
+    
     # ../GameEngine/src/Registry.cpp
 )
 
@@ -44,7 +46,7 @@ add_executable(${PROJECT_NAME}
 
 ################# LIBRARIES #################
 target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include)
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network pthread dl)
+target_link_libraries(${PROJECT_NAME} PUBLIC sfml-window sfml-graphics sfml-system sfml-audio sfml-network pthread dl)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 

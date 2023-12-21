@@ -14,24 +14,18 @@
 
 int main()
 {
-    void* libraryHandle = dlopen("GameEngine/libsamurai_ecs.so", RTLD_LAZY);
-
-    if (!libraryHandle) {
-        std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
-        return 84;
-    }
+    // void* libraryHandle = dlopen("GameEngine/libsamurai_ecs.so", RTLD_LAZY);
+    //
+    // if (!libraryHandle) {
+    //     std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
+    //     return 84;
+    // }
     try {
         Server server;
 
-        typedef Registry* (*MyFunctionType)();
-        auto factory = (MyFunctionType)dlsym(libraryHandle, "factory");
-        if (!factory) {
-            std::cerr << "Failed to find the symbol factory: " << dlerror() << std::endl;
-        }
 
-        Registry* registry;
-        registry = factory();
-        registry->createEntity();
+        Registry registry = Registry();
+        registry.createEntity();
 
         std::thread serverThread(&Server::startListening, &server);
         // std::thread serverThread2(&Server::startSending, &server);
@@ -42,6 +36,6 @@ int main()
         return 1;
     }
 
-    dlclose(libraryHandle);
+    // dlclose(libraryHandle);
     return 0;
 }
