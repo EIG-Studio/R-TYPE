@@ -170,11 +170,9 @@ void iaSystem(Entity entity, Registry& registry)
 #include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
-    if (!registry.hasComponent(entity, Renderer{}))
+    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
-    std::cout << "On passe iciiiii!" << std::endl;
-    if (!registry.hasComponent(entity, Position{}))
-        return;
+    std::cout << "On passe iciiiii lalalalala!" << std::endl;
     registry.getComponent(entity, Renderer{})
         .getRenderer()
         .setPosition(

@@ -9,7 +9,7 @@ Entity Registry::createEntity()
     Entity newEntity = Entity();
     ID newID = ID(this->m_id);
 
-    addComponent(newEntity, newID);
+    newEntity.mComponents.emplace_back(newID);
     m_entities.push_back(newEntity);
     this->m_id += 1;
     return newEntity;
@@ -35,7 +35,6 @@ std::string Registry::systemsManager(sf::RenderWindow& window)
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
             shootingSystem(entity, *this);
-            // std::cout << "On passe ici!" << std::endl;
             deathSystem(entity, *this);
             movementSystem(entity, *this);
             collisionSystem(entity, m_entities, *this);

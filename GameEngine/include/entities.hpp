@@ -18,6 +18,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 #include <cassert>
 #include <cstdint>
@@ -93,7 +94,7 @@ void Registry::removeComponent(Entity entity, T component)
 
     for (size_t i = 0; i < entity.mComponents.size(); i++) {
         try {
-            std::any_cast<T>(component);
+            std::any_cast<T>(entity.mComponents[i]);
             index = i;
         } catch (const std::bad_any_cast&) {
             continue;
@@ -113,9 +114,10 @@ void Registry::removeComponent(Entity entity, T component)
 template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {
+    component;
     for (auto& mComponent : entity.mComponents) {
         try {
-            std::any_cast<T>(component);
+            std::any_cast<T>(mComponent);
             return std::any_cast<T&>(mComponent);
         } catch (const std::bad_any_cast&) {
             continue;
@@ -127,9 +129,10 @@ T& Registry::getComponent(Entity& entity, T component)
 template <typename T>
 bool Registry::hasComponent(Entity& entity, T component)
 {
+    component;
     for (const auto& otherComponent : entity.mComponents) {
         try {
-            std::any_cast<T>(component);
+            std::any_cast<T>(otherComponent);
             return true;
         } catch (const std::bad_any_cast&) {
             continue;
