@@ -15,6 +15,7 @@
 class Position
 {
 public:
+    Position() = default;
     Position(std::pair<int, int> originPos);
     ~Position() = default;
     std::pair<int, int> getPosition() const;
@@ -28,6 +29,7 @@ private:
 class HealthPoint
 {
 public:
+    HealthPoint() = default;
     HealthPoint(float hp);
     ~HealthPoint() = default;
 
@@ -56,6 +58,7 @@ private:
 class ID
 {
 public:
+    ID() = default;
     ID(std::size_t id);
     ~ID() = default;
 
@@ -69,6 +72,7 @@ private:
 class Speed
 {
 public:
+    Speed() = default;
     Speed(int speed);
     ~Speed() = default;
 
@@ -84,6 +88,7 @@ private:
 class Damage
 {
 public:
+    Damage() = default;
     Damage(float damage);
     ~Damage() = default;
 
@@ -99,6 +104,7 @@ private:
 class Size
 {
 public:
+    Size() = default;
     Size(float size);
     ~Size() = default;
 
@@ -114,6 +120,7 @@ private:
 class HitBox
 {
 public:
+    HitBox() = default;
     HitBox(std::pair<int, int> originPos, std::pair<int, int> endPos);
     ~HitBox() = default;
 
@@ -131,6 +138,7 @@ private:
 class Gravity
 {
 public:
+    Gravity() = default;
     Gravity(float gravity, bool isGravity);
     ~Gravity() = default;
 
@@ -149,13 +157,39 @@ private:
 class Shooter
 {
 public:
+    Shooter() = default;
     Shooter(bool isShooting);
     ~Shooter() = default;
 
-    bool isShooter() const;
+    bool isShooting() const;
 
     void setIsShooting(bool isShooting);
 
 private:
     bool m_isShooting;
+};
+
+/********-Type Component-******/
+
+enum class EntityType {
+    Player,
+    Enemy,
+    Player_Projectile,
+    Enemy_Projectile,
+    Wall,
+};
+
+class Type
+{
+public:
+    Type() = default;
+    Type(EntityType entityType);
+    ~Type() = default;
+
+    EntityType getEntityType() const;
+
+    void setEntityType(EntityType entityType);
+
+private:
+    EntityType m_entityType;
 };

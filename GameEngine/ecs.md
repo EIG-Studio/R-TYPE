@@ -8,7 +8,7 @@
 - HealthPoint [V]
 - Position [V]
 - Velocity [V]
-- Type
+- Type [V] -> change en Compo Tags -<Advanced>-
 - Size [V]
 - Renderer (Texture & Sprite)
 - Damage [V]
@@ -31,24 +31,24 @@
 
 ### Entity
 
-Class Entity
+Class Entity [V]
 
-vector any pour le compo
-constructor choisir les compo à mettre dedans
+vector any pour le compo [V]
+constructor choisir les compo à mettre dedans [V]
 
 ### Registry
 
-Class Registry
+Class Registry [V]
 
-Vector Entities
-Factory Entity ==> SendChange(NEW ID POS TYPE)
-Destroy Entity ==> SendChange(ID DEAD)
+Vector Entities [V]
+Factory Entity ==> SendChange(NEW ID POS TYPE) [V]
+Destroy Entity ==> SendChange(ID DEAD) [V]
 Manage System (Input serveur ID Velo) ==> SendChange(ID POS)
 
 Pour le 22 :
-- Pouvoir créer le registry
-- Pouvoir créer des entities
-- Pouvoir choisir les components dans l'entity
+- Pouvoir créer le registry [V]
+- Pouvoir créer des entities [V]
+- Pouvoir choisir les components dans l'entity [V]
 - Avoir Tout les systems basiques
 - Avoir le SendChange pour le serveur
 - Essayer de faire en sorte d'être le plus générique

@@ -12,7 +12,7 @@ Shooter::Shooter(bool isShooting)
     this->m_isShooting = isShooting;
 }
 
-bool Shooter::isShooter() const
+bool Shooter::isShooting() const
 {
     return this->m_isShooting;
 }

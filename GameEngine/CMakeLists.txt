@@ -37,7 +37,6 @@ add_custom_target(
 
 ################# EXECUTABLE #################
 add_library(${PROJECT_NAME} STATIC
-    # src/EntitiesManager.cpp
     src/Damage.cpp
     src/Gravity.cpp
     src/HealthPoint.cpp
@@ -50,6 +49,8 @@ add_library(${PROJECT_NAME} STATIC
     src/Systems.cpp
     src/Registry.cpp
     src/Position.cpp
+    src/Type.cpp
+    src/Velocity.cpp
 )
 
 

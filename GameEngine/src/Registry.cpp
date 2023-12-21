@@ -1,30 +1,8 @@
 #include "entities.hpp"
+#include "Systems.hpp"
 #include <any>
 
 #include <cstddef>
-
-// template <typename T>
-// void Registry::addComponent(Entity entity, T component)
-// {
-//     entity.mComponents.push_back(component);
-// }
-
-// template <typename T>
-// void Registry::removeComponent(Entity entity, T component)
-// {
-//     int index = entity.mComponents[component].has_value();
-//     entity.mComponents.erase(entity.mComponents.begin() + index);
-// }
-//
-// template <typename T>
-// T& Registry::getComponent(Entity& entity, T component)
-// {
-//     for (auto & mComponent : entity.mComponents) {
-//         if ((mComponent).type() == component.type())
-//             return std::any_cast<T&>(mComponent);
-//     }
-//     throw std::runtime_error("Component does not exist");
-// }
 
 Entity Registry::createEntity()
 {
@@ -49,4 +27,18 @@ void Registry::destroyEntity(Entity entity)
         if (newID.getID() == id)
             m_entities.erase(m_entities.begin() + i);
     }
+}
+#include <iostream>
+
+std::string Registry::systemsManager()
+{
+    if (!m_entities.empty())
+        for (const Entity& entity : m_entities) {
+            shootingSystem(entity, *this);
+            std::cout << "On passe ici!" << std::endl;
+            deathSystem(entity, *this);
+            movementSystem(entity, *this);
+            collisionSystem(entity, m_entities, *this);
+        }
+    return "Hello";
 }

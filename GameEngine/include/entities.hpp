@@ -8,6 +8,7 @@
 #pragma once
 #include "components.hpp"
 
+
 #include <SFML/Window.hpp>
 
 #include <SFML/System.hpp>
@@ -39,28 +40,6 @@ public:
 private:
 };
 
-
-// class EntityManager
-// {
-// public:
-//     EntityManager();
-//     Entity createEntity();
-//     template <typename... Components>
-//     EntityManager(Components&&... components);
-//
-//     template <typename Component>
-//     Component* getComponent() const;
-//
-//     template <typename Component, typename... Rest>
-//     void addComponents(Component&& component, Rest&&... rest);
-//     void destroyEntity(Entity entity);
-//
-// private:
-//     std::vector<Entity> m_entities;
-//     template <typename Component>
-//     void addComponent(Component&& component);
-// };
-
 /********-Registry-******/
 class Registry
 {
@@ -75,6 +54,19 @@ public:
     void removeComponent(Entity entity, T component);
     template <typename T>
     T& getComponent(Entity& entity, T component);
+    std::string systemsManager();
+
+    template <typename T>
+    bool hasComponent(Entity& entity, T component) {
+        for (const auto& otherComponent : entity.mComponents) {
+            try {
+                std::any_cast<T>(component);
+                return true;
+            } catch (const std::bad_any_cast&) {
+            }
+        }
+        return false;
+    }
 
 private:
     std::vector<Entity> m_entities;
@@ -98,9 +90,12 @@ template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {
     for (auto & mComponent : entity.mComponents) {
-        if ((mComponent).type() == component.type())
+        try {
+            std::any_cast<T>(component);
             return std::any_cast<T&>(mComponent);
+        } catch (const std::bad_any_cast&) {
+        }
     }
-    throw std::runtime_error("Component does not exist");
+    return component;
 }
 
