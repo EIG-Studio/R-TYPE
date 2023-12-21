@@ -56,6 +56,7 @@ void Server::handlePositionUpdate()
     // sendMessage(newPos.str());
 }
 
+
 void FunctionPointer::executeCommand(const std::string& command)
 {
     if (this->m_commands.count(command) == 0) {
