@@ -1,32 +1,30 @@
 #include "entities.hpp"
 #include <any>
 
-#include <any>
-
 #include <cstddef>
 
-template <typename T>
-void Registry::addComponent(Entity entity, T component)
-{
-    entity.mComponents.push_back(component);
-}
+// template <typename T>
+// void Registry::addComponent(Entity entity, T component)
+// {
+//     entity.mComponents.push_back(component);
+// }
 
-template <typename T>
-void Registry::removeComponent(Entity entity, T component)
-{
-    int index = entity.mComponents[component].has_value();
-    entity.mComponents.erase(entity.mComponents.begin() + index);
-}
-
-template <typename T>
-T& Registry::getComponent(Entity& entity, T component)
-{
-    for (auto & mComponent : entity.mComponents) {
-        if ((mComponent).type() == component.type())
-            return std::any_cast<T&>(mComponent);
-    }
-    throw std::runtime_error("Component does not exist");
-}
+// template <typename T>
+// void Registry::removeComponent(Entity entity, T component)
+// {
+//     int index = entity.mComponents[component].has_value();
+//     entity.mComponents.erase(entity.mComponents.begin() + index);
+// }
+//
+// template <typename T>
+// T& Registry::getComponent(Entity& entity, T component)
+// {
+//     for (auto & mComponent : entity.mComponents) {
+//         if ((mComponent).type() == component.type())
+//             return std::any_cast<T&>(mComponent);
+//     }
+//     throw std::runtime_error("Component does not exist");
+// }
 
 Entity Registry::createEntity()
 {

@@ -24,6 +24,8 @@ int main()
         entity = registry.createEntity();
         Position position = Position(std::make_pair(0, 0));
         registry.addComponent(entity, position);
+        registry.addComponent(entity, Shooter(true));
+        registry.addComponent(entity, HitBox(std::make_pair(0, 0), std::make_pair(0, 0)));
 
 
         std::thread serverThread(&Server::startListening, &server);
