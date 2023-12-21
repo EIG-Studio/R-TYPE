@@ -23,12 +23,16 @@ void Server::startSending()
     std::string message;
 
     while (true) {
-        message = nullptr;
+        message = "";
         this->m_mutex.lock();
-        message = m_messages.back();
+        if (m_messages.size() > 0 && m_messages.back().second < nb_clients) {
+            message = m_messages.back().first;
+            m_messages.back().second++;
+        }
         this->m_mutex.unlock();
-        if (!message.empty()) {
+        if (message != "") {
             sendMessage(message);
+            std::cout << message << std::endl;
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         }

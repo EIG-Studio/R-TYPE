@@ -50,7 +50,10 @@ void Server::handlePositionUpdate()
     else if (direction == 4)
         newPosX -= moveSpeed;
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
-    sendMessage(newPos.str());
+    this->m_mutex.lock();
+    m_messages.emplace_front(make_pair(newPos.str(), 0));
+    this->m_mutex.unlock();
+    // sendMessage(newPos.str());
 }
 
 void FunctionPointer::executeCommand(const std::string& command)

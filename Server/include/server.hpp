@@ -10,11 +10,12 @@
 #include <bitset>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
+#include <deque>
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <thread>
-#include <vector>
+#include <utility>
 
 class Server
 {
@@ -32,8 +33,9 @@ private:
     boost::asio::ip::udp::socket m_socket;
     boost::asio::ip::udp::endpoint m_remoteEndpoint;
     boost::array<char, 128> m_recvBuf{};
-    std::vector<std::string> m_messages;
+    std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
+    int nb_clients = 1;
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
     void handlePositionUpdate();
