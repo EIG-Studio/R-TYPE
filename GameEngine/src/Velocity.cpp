@@ -13,12 +13,12 @@ Velocity::Velocity()
     this->m_velo.second = 0;
 }
 
-std::pair<int, int> Velocity::getVelocity() const
+std::pair<float, float> Velocity::getVelocity() const
 {
     return this->m_velo;
 }
 
-void Velocity::setVelocity(int x, int y)
+void Velocity::setVelocity(float x, float y)
 {
     this->m_velo.first = x;
     this->m_velo.second = y;

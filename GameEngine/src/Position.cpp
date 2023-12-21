@@ -7,18 +7,18 @@
 
 #include "components.hpp"
 
-Position::Position(std::pair<int, int> originPos)
+Position::Position(std::pair<float, float> originPos)
 {
     this->m_pos.first = originPos.first;
     this->m_pos.second = originPos.second;
 }
 
-std::pair<int, int> Position::getPosition() const
+std::pair<float, float> Position::getPosition() const
 {
     return this->m_pos;
 };
 
-void Position::setPosition(std::pair<int, int> newPos)
+void Position::setPosition(std::pair<float, float> newPos)
 {
     this->m_pos.first = newPos.first;
     this->m_pos.second = newPos.second;
