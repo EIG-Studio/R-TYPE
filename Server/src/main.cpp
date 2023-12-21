@@ -6,6 +6,7 @@
 */
 
 #include "../../GameEngine/include/entities.hpp"
+#include "components.hpp"
 #include "server.hpp"
 
 #include <dlfcn.h>
@@ -14,18 +15,16 @@
 
 int main()
 {
-    // void* libraryHandle = dlopen("GameEngine/libsamurai_ecs.so", RTLD_LAZY);
-    //
-    // if (!libraryHandle) {
-    //     std::cerr << "Failed to load the shared library: " << dlerror() << std::endl;
-    //     return 84;
-    // }
     try {
         Server server;
 
 
         Registry registry = Registry();
-        registry.createEntity();
+        Entity entity;
+        entity = registry.createEntity();
+        Position position = Position(std::make_pair(0, 0));
+        registry.addComponent(entity, position);
+
 
         std::thread serverThread(&Server::startListening, &server);
         // std::thread serverThread2(&Server::startSending, &server);
@@ -36,6 +35,5 @@ int main()
         return 1;
     }
 
-    // dlclose(libraryHandle);
     return 0;
 }

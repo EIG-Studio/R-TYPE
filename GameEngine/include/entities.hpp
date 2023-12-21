@@ -40,26 +40,26 @@ private:
 };
 
 
-class EntityManager
-{
-public:
-    EntityManager();
-    Entity createEntity();
-    template <typename... Components>
-    EntityManager(Components&&... components);
-
-    template <typename Component>
-    Component* getComponent() const;
-
-    template <typename Component, typename... Rest>
-    void addComponents(Component&& component, Rest&&... rest);
-    void destroyEntity(Entity entity);
-
-private:
-    std::vector<Entity> m_entities;
-    template <typename Component>
-    void addComponent(Component&& component);
-};
+// class EntityManager
+// {
+// public:
+//     EntityManager();
+//     Entity createEntity();
+//     template <typename... Components>
+//     EntityManager(Components&&... components);
+//
+//     template <typename Component>
+//     Component* getComponent() const;
+//
+//     template <typename Component, typename... Rest>
+//     void addComponents(Component&& component, Rest&&... rest);
+//     void destroyEntity(Entity entity);
+//
+// private:
+//     std::vector<Entity> m_entities;
+//     template <typename Component>
+//     void addComponent(Component&& component);
+// };
 
 /********-Registry-******/
 class Registry
@@ -80,3 +80,4 @@ private:
     std::vector<Entity> m_entities;
     size_t m_id = 0;
 };
+

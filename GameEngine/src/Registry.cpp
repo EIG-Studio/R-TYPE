@@ -1,5 +1,7 @@
 #include "entities.hpp"
 
+#include <any>
+
 #include <cstddef>
 
 template <typename T>
@@ -47,4 +49,13 @@ void Registry::destroyEntity(Entity entity)
     // m_entities.back();
     // loop on entities to get the entity with id wanted then erase the entity with the id asked
     // m_entities.();
+    // std::cast
+
+    // cast std::any to size_t
+    // size_t id = std::any_cast(entity.mComponents[0].getID());
+    // for (size_t i = 0; i < m_entities.size(); i++) {
+    //     if (std::any_cast(m_entities[i].mComponents[0].getID()) == id) {
+    //         m_entities.erase(m_entities.begin() + i);
+    //     }
+    // }
 }

@@ -43,7 +43,6 @@ add_executable(${PROJECT_NAME}
 
 ################# LIBRARIES #################
 target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include)
-target_link_directories(${PROJECT_NAME} PRIVATE ../build/GameEngine)
 target_link_libraries(${PROJECT_NAME} PUBLIC sfml-window sfml-graphics sfml-system sfml-audio sfml-network pthread dl samurai_ecs)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
