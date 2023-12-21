@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+
 #include <utility>
 
 #include <cstddef>
@@ -201,13 +204,14 @@ class Renderer
 {
 public:
     Renderer() = default;
-    Renderer(float renderer);
+    Renderer(std::string& texturePath);
     ~Renderer() = default;
 
-    float getRenderer() const;
+    sf::Sprite getRenderer() const;
 
-    void setRenderer(float newRenderer);
+    void setRenderer(std::string& texturePath);
 
 private:
-    float m_renderer;
+    sf::Texture m_texture;
+    sf::Sprite m_sprite;
 };

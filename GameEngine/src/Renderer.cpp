@@ -1,16 +1,32 @@
 #include "components.hpp"
+#include <SFML/Graphics/Sprite.hpp>
+#include <iostream>
 
-Renderer::Renderer(float rendererComponent)
+Renderer::Renderer(std::string &texturePath)
 {
-    this->m_renderer = rendererComponent;
+    sf::Texture texture;
+    if (!texture.loadFromFile(texturePath)) {
+        std::cerr << "Error: texture not found" << std::endl;
+        exit(84);
+    }
+    this->m_texture = texture;
+    this->m_sprite.setTexture(this->m_texture);
 }
 
-float Renderer::getRenderer() const
+sf::Sprite Renderer::getRenderer() const
 {
-    return this->m_renderer;
+    return this->m_sprite;
+
 }
 
-void Renderer::setRenderer(float newRendererComponent)
+void Renderer::setRenderer(std::string &texturePath)
 {
-    this->m_renderer = newRendererComponent;
+    sf::Sprite sprite;
+    sf::Texture texture;
+    if (!texture.loadFromFile(texturePath)) {
+        std::cerr << "Error: texture not found" << std::endl;
+        exit(84);
+    }
+    this->m_texture = texture;
+    this->m_sprite.setTexture(this->m_texture);
 }
