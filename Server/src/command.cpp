@@ -7,13 +7,20 @@
 
 #include "command.hpp"
 
+void Server::addMessage(const std::string& message)
+{
+    this->m_mutex.lock();
+    m_messages.emplace_front(make_pair(message, 0));
+    this->m_mutex.unlock();
+}
+
 void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived)
 {
     if (!error && bytesReceived > 0) {
         std::cout << "Received: " << m_recvBuf.data() << std::endl;
         std::string command = std::string(m_recvBuf.data());
         if (command.find("SHOOT") == 0) {
-            sendMessage("CREATED\n");
+            addMessage("CREATED\n");
         } else if (command.find("POS") == 0) {
             handlePositionUpdate();
         } else if (command.find("LOGIN") == 0) {
@@ -50,8 +57,9 @@ void Server::handlePositionUpdate()
     else if (direction == 4)
         newPosX -= moveSpeed;
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
-    sendMessage(newPos.str());
+    addMessage(newPos.str());
 }
+
 
 void FunctionPointer::executeCommand(const std::string& command)
 {
