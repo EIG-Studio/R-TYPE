@@ -21,14 +21,6 @@
 #include <cassert>
 #include <cstdint>
 
-extern "C"
-{
-    void moveUp();
-    void moveRight();
-    void moveDown();
-    void moveLeft();
-}
-
 class Entity
 {
 public:
