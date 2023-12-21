@@ -140,6 +140,14 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
 
         // if (registry.getComponent(otherEntity, HitBox{}).getHitBox() && registry.getComponent(entity, HitBox{}).getHitBox())
         //     map[registry.getComponent(entity, Type{}).getEntityType()](entity, otherEntity, registry);
+
+        std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
+            {EntityType::Player, collisionPlayer},
+            {EntityType::Enemy, collisionEnemy},
+            {EntityType::Player_Projectile, collisionProjectile},
+            {EntityType::Enemy_Projectile, collisionProjectile},
+        };
+
     }
 }
 
