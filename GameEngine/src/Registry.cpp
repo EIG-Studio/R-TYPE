@@ -1,4 +1,5 @@
 #include "entities.hpp"
+#include <any>
 
 #include <any>
 
@@ -20,14 +21,11 @@ void Registry::removeComponent(Entity entity, T component)
 template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {
-    for (size_t i = 0; i < entity.mComponents.size(); i++) {
-        if (entity.mComponents[i].has_value() == component)
-            return std::any_cast<T&>(entity.mComponents[i]);
+    for (auto & mComponent : entity.mComponents) {
+        if ((mComponent).type() == component.type())
+            return std::any_cast<T&>(mComponent);
     }
-
-    if (!entity.mComponents[component].has_value())
-        throw std::runtime_error("Component does not exist");
-    return std::any_cast<T&>(entity.mComponents[component]);
+    throw std::runtime_error("Component does not exist");
 }
 
 Entity Registry::createEntity()
@@ -43,19 +41,14 @@ Entity Registry::createEntity()
 
 void Registry::destroyEntity(Entity entity)
 {
-    assert(!m_entities.empty());
-    // get id de l'entity en question
-    // size_t id = entity.mComponents
-    // m_entities.back();
-    // loop on entities to get the entity with id wanted then erase the entity with the id asked
-    // m_entities.();
-    // std::cast
+    ID newID = any_cast<ID>(entity.mComponents[0]);
+    size_t id = newID.getID();
 
-    // cast std::any to size_t
-    // size_t id = std::any_cast(entity.mComponents[0].getID());
-    // for (size_t i = 0; i < m_entities.size(); i++) {
-    //     if (std::any_cast(m_entities[i].mComponents[0].getID()) == id) {
-    //         m_entities.erase(m_entities.begin() + i);
-    //     }
-    // }
+    assert(!m_entities.empty());
+
+    for (size_t i = 0; i < m_entities.size(); i++) {
+        newID = any_cast<ID>(m_entities[i].mComponents[0]);
+        if (newID.getID() == id)
+            m_entities.erase(m_entities.begin() + i);
+    }
 }
