@@ -66,14 +66,47 @@ private:
 template <typename T>
 void Registry::addComponent(Entity entity, T component)
 {
+    ID newID = any_cast<ID>(entity.mComponents[0]);
+    size_t id = newID.getID();
+
+    if (hasComponent(entity, component))
+        return;
+
     entity.mComponents.push_back(component);
+
+    for (size_t i = 0; i < m_entities.size(); i++) {
+        newID = any_cast<ID>(m_entities[i].mComponents[0]);
+        if (newID.getID() == id)
+            m_entities[i] = entity;
+    }
 }
 
 template <typename T>
 void Registry::removeComponent(Entity entity, T component)
 {
-    int index = entity.mComponents[component].has_value();
+    ID newID = any_cast<ID>(entity.mComponents[0]);
+    size_t id = newID.getID();
+    int index = 0;
+
+    if (!hasComponent(entity, component))
+        return;
+
+    for (size_t i = 0; i < entity.mComponents.size(); i++) {
+        try {
+            std::any_cast<T>(component);
+            index = i;
+        } catch (const std::bad_any_cast&) {
+            continue;
+        }
+    }
+
     entity.mComponents.erase(entity.mComponents.begin() + index);
+
+    for (size_t i = 0; i < m_entities.size(); i++) {
+        newID = any_cast<ID>(m_entities[i].mComponents[0]);
+        if (newID.getID() == id)
+            m_entities[i] = entity;
+    }
 }
 
 #include <iostream>
