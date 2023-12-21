@@ -195,17 +195,19 @@ private:
     EntityType m_entityType;
 };
 
-class RendererComponent
+/********-Renderer Component-******/
+
+class Renderer
 {
 public:
-    RendererComponent() = default;
-    RendererComponent(float rendererComponent);
-    ~RendererComponent() = default;
+    Renderer() = default;
+    Renderer(float renderer);
+    ~Renderer() = default;
 
-    float getRendererComponent() const;
+    float getRenderer() const;
 
-    void setRendererComponent(float newRendererComponent);
+    void setRenderer(float newRenderer);
 
 private:
-    float m_rendererComponent;
+    float m_renderer;
 };

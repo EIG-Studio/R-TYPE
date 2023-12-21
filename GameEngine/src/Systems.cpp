@@ -10,6 +10,8 @@
 #include "components.hpp"
 
 #include <utility>
+#include <functional>
+#include <map>
 
 void shootingSystem(Entity entity, Registry& registry)
 {
@@ -129,25 +131,30 @@ bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<flo
 
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
 {
+    std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
+        {EntityType::Player, collisionPlayer},
+        {EntityType::Enemy, collisionEnemy},
+        {EntityType::Player_Projectile, collisionProjectile},
+        {EntityType::Enemy_Projectile, collisionProjectile},
+    };
+    EntityType entityType;
+
     if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
         return;
 
+    entityType = registry.getComponent(entity, Type{}).getEntityType();
     for (auto& otherEntity : entities) {
         if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
             continue;
         if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID())
             continue;
 
-        // if (registry.getComponent(otherEntity, HitBox{}).getHitBox() && registry.getComponent(entity, HitBox{}).getHitBox())
-        //     map[registry.getComponent(entity, Type{}).getEntityType()](entity, otherEntity, registry);
-
-        std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
-            {EntityType::Player, collisionPlayer},
-            {EntityType::Enemy, collisionEnemy},
-            {EntityType::Player_Projectile, collisionProjectile},
-            {EntityType::Enemy_Projectile, collisionProjectile},
-        };
-
+        auto it = map.find(entityType);
+        if (it != map.end()) {
+            it->second(entity, otherEntity, registry);
+        } else {
+            continue;
+        }
     }
 }
 
