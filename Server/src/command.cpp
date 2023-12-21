@@ -53,7 +53,6 @@ void Server::handlePositionUpdate()
     this->m_mutex.lock();
     m_messages.emplace_front(make_pair(newPos.str(), 0));
     this->m_mutex.unlock();
-    // sendMessage(newPos.str());
 }
 
 

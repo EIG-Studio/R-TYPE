@@ -31,10 +31,13 @@ void Server::startSending()
         }
         this->m_mutex.unlock();
         if (message != "") {
-            sendMessage(message);
             std::cout << message << std::endl;
+            this->m_mutex.lock();
+            if (m_messages.back().second > nb_clients)
+                m_messages.pop_back();
+            this->m_mutex.unlock();
         } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
 }
