@@ -55,8 +55,8 @@ void Server::handlePositionUpdate()
 
 void FunctionPointer::executeCommand(const std::string& command)
 {
-    if (this->commands.count(command) == 0) {
+    if (this->m_commands.count(command) == 0) {
         throw std::runtime_error("Command not found");
     }
-    this->commands[command]();
+    this->m_commands[command]();
 }
