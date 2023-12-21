@@ -6,7 +6,9 @@
 */
 
 #include "Systems.hpp"
+
 #include "components.hpp"
+
 #include <utility>
 
 void shootingSystem(Entity entity, Registry& registry)
@@ -40,8 +42,7 @@ void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 
 void movementSystem(Entity entity, Registry& registry)
 {
-    if (!registry.hasComponent(entity, Speed{}) ||
-        !registry.hasComponent(entity, Velocity{}) ||
+    if (!registry.hasComponent(entity, Speed{}) || !registry.hasComponent(entity, Velocity{}) ||
         !registry.hasComponent(entity, Position{}))
         return;
 
@@ -49,23 +50,24 @@ void movementSystem(Entity entity, Registry& registry)
     auto& velocity = registry.getComponent(entity, Velocity{});
     auto& speed = registry.getComponent(entity, Speed{});
 
-    position.setPosition({position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
-                          position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
+    position.setPosition(
+        {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
+         position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
 
     velocity.setVelocity(0, 0);
 }
 
 void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
 {
-    if (!registry.hasComponent(entity, Position{}) ||
-        !registry.hasComponent(otherEntity, Position{}))
+    if (!registry.hasComponent(entity, Position{}) || !registry.hasComponent(otherEntity, Position{}))
         return;
 
     auto& positionEntity = registry.getComponent(entity, Position{});
     auto& positionOtherEntity = registry.getComponent(otherEntity, Position{});
 
     positionEntity.setPosition({positionEntity.getPosition().first + 1, positionEntity.getPosition().second + 1});
-    positionOtherEntity.setPosition({positionOtherEntity.getPosition().first - 1, positionOtherEntity.getPosition().second - 1});
+    positionOtherEntity.setPosition(
+        {positionOtherEntity.getPosition().first - 1, positionOtherEntity.getPosition().second - 1});
 }
 
 void collisionPlayer(const Entity& entity, Entity otherEntity, Registry& registry)
@@ -119,15 +121,19 @@ void collisionProjectile(const Entity& entity, Entity otherEntity, Registry& reg
         registry.destroyEntity(entity);
 }
 
+
+bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<float, float> end)
+{
+    return x > origin.first && x < origin.first + end.first && y > origin.second && y < origin.second + end.second;
+}
+
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
 {
-    if (!registry.hasComponent(entity, HitBox{}) ||
-        !registry.hasComponent(entity, Type{}))
+    if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
         return;
 
     for (auto& otherEntity : entities) {
-        if (!registry.hasComponent(entity, HitBox{}) ||
-            !registry.hasComponent(entity, Type{}))
+        if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
             continue;
         if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID())
             continue;
