@@ -73,15 +73,15 @@ class Speed
 {
 public:
     Speed() = default;
-    Speed(int speed);
+    Speed(float speed);
     ~Speed() = default;
 
-    int getSpeed() const;
+    float getSpeed() const;
 
-    void setSpeed(int newSpeed);
+    void setSpeed(float newSpeed);
 
 private:
-    int m_speed;
+    float m_speed;
 };
 
 /********-Damage Component-******/
