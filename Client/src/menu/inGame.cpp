@@ -163,7 +163,7 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosY;
 }
 
-void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer, Sprite mSprite, ECS& ecs)
+void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer, Sprite mSprite)
 {
     float tempPosX = this->m_playerSprite.getPosition().x;
     float tempPosY = this->m_playerSprite.getPosition().y;
@@ -177,7 +177,9 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
             //
-            ecs.callMoveUp();
+            // ecs.callMoveUp();
+            std::cout << "UP" << std::endl;
+
             this->m_playerSprite
                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             //
@@ -194,7 +196,8 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
             //
-            ecs.callMoveRight();
+            // ecs.callMoveRight();
+            std::cout << "RIGHT" << std::endl;
             this->m_playerSprite
                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             //
@@ -211,7 +214,8 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
             //
-            ecs.callMoveDown();
+            // ecs.callMoveDown();
+            std::cout << "DOWN" << std::endl;
             this->m_playerSprite
                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             //
@@ -228,7 +232,8 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
             //
-            ecs.callMoveLeft();
+            // ecs.callMoveLeft();
+            std::cout << "LEFT" << std::endl;
             this->m_playerSprite
                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
             //

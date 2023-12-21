@@ -22,8 +22,8 @@
 
 int main()
 {
-    ECS ecs;
-    ecs.setPath("GameEngine/libsamurai_ecs.so");
+    // ECS ecs;
+    // ecs.setPath("GameEngine/libsamurai_ecs.so");
 
 
     float movementSpeed = 5.0f;
@@ -195,7 +195,7 @@ int main()
             window.draw(settingMenu);
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite, ecs);
+            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveParallax();
                 game.repeatParallax();

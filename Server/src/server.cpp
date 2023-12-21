@@ -25,12 +25,12 @@ void Server::startSending()
     while (true) {
         message = "";
         this->m_mutex.lock();
-        if (m_messages.size() > 0) {
+        if (!m_messages.empty()) {
             message = m_messages.back().first;
             m_messages.back().second++;
         }
         this->m_mutex.unlock();
-        if (message != "") {
+        if (!message.empty()) {
             sendMessage(message);
             this->m_mutex.lock();
             if (m_messages.back().second >= nb_clients)
