@@ -5,8 +5,8 @@
 ** main
 */
 
-#include "../../GameEngine/include/entities.hpp"
 #include "components.hpp"
+#include "entities.hpp"
 #include "server.hpp"
 
 #include <dlfcn.h>
