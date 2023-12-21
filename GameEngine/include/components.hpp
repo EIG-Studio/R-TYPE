@@ -174,7 +174,7 @@ private:
 
 /********-Type Component-******/
 
-enum class EntityType
+enum EntityType
 {
     Player,
     Enemy,

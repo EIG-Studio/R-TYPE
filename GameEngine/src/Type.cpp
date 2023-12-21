@@ -7,6 +7,11 @@
 
 #include "components.hpp"
 
+Type::Type(EntityType entityType)
+{
+    this->m_entityType = entityType;
+}
+
 EntityType Type::getEntityType() const
 {
     return this->m_entityType;
