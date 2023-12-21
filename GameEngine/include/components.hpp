@@ -16,13 +16,13 @@ class Position
 {
 public:
     Position() = default;
-    Position(std::pair<int, int> originPos);
+    Position(std::pair<float, float> originPos);
     ~Position() = default;
-    std::pair<int, int> getPosition() const;
-    void setPosition(std::pair<int, int> newPos);
+    std::pair<float, float> getPosition() const;
+    void setPosition(std::pair<float, float> newPos);
 
 private:
-    std::pair<int, int> m_pos;
+    std::pair<float, float> m_pos;
 };
 
 /********-HealthPoint Component-******/
@@ -47,11 +47,11 @@ class Velocity
 public:
     Velocity();
     ~Velocity() = default;
-    std::pair<int, int> getVelocity() const;
-    void setVelocity(int x, int y);
+    std::pair<float, float> getVelocity() const;
+    void setVelocity(float x, float y);
 
 private:
-    std::pair<int, int> m_velo;
+    std::pair<float, float> m_velo;
 };
 
 /********-ID Component-******/
@@ -121,17 +121,17 @@ class HitBox
 {
 public:
     HitBox() = default;
-    HitBox(std::pair<int, int> originPos, std::pair<int, int> endPos);
+    HitBox(std::pair<float, float> originPos, std::pair<float, float> size);
     ~HitBox() = default;
 
-    std::pair<int, int> getOriginHitBoxPosition() const;
-    std::pair<int, int> getEndHitBoxPosition() const;
+    std::pair<float, float> getOriPos() const;
+    std::pair<float, float> getSize() const;
 
-    void setHitBoxPosition(std::pair<int, int> originPos, std::pair<int, int> endPos);
+    void setHitBoxPosition(std::pair<float, float> originPos, std::pair<float, float> size);
 
 private:
-    std::pair<int, int> m_originPos;
-    std::pair<int, int> m_endPos;
+    std::pair<float, float> m_originPos;
+    std::pair<float, float> m_size;
 };
 
 /********-Gravity Component-******/

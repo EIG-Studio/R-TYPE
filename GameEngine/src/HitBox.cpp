@@ -7,27 +7,27 @@
 
 #include "components.hpp"
 
-HitBox::HitBox(std::pair<int, int> originPos, std::pair<int, int> endPos)
+HitBox::HitBox(std::pair<float, float> originPos, std::pair<float, float> size)
 {
     this->m_originPos.first = originPos.first;
     this->m_originPos.second = originPos.second;
-    this->m_endPos.first = endPos.first;
-    this->m_endPos.second = endPos.second;
+    this->m_size.first = size.first;
+    this->m_size.second = size.second;
 }
 
-std::pair<int, int> HitBox::getOriginHitBoxPosition() const
+std::pair<float, float> HitBox::getOriPos() const
 {
     return this->m_originPos;
 }
-std::pair<int, int> HitBox::getEndHitBoxPosition() const
+std::pair<float, float> HitBox::getSize() const
 {
-    return this->m_endPos;
+    return this->m_size;
 }
 
-void HitBox::setHitBoxPosition(std::pair<int, int> originPos, std::pair<int, int> endPos)
+void HitBox::setHitBoxPosition(std::pair<float, float> originPos, std::pair<float, float> size)
 {
     this->m_originPos.first = originPos.first;
     this->m_originPos.second = originPos.second;
-    this->m_endPos.first = endPos.first;
-    this->m_endPos.second = endPos.second;
+    this->m_size.first = size.first;
+    this->m_size.second = size.second;
 }
