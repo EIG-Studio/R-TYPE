@@ -171,7 +171,8 @@ private:
 
 /********-Type Component-******/
 
-enum class EntityType {
+enum class EntityType
+{
     Player,
     Enemy,
     Player_Projectile,
@@ -192,4 +193,19 @@ public:
 
 private:
     EntityType m_entityType;
+};
+
+class RendererComponent
+{
+public:
+    RendererComponent() = default;
+    RendererComponent(float rendererComponent);
+    ~RendererComponent() = default;
+
+    float getRendererComponent() const;
+
+    void setRendererComponent(float newRendererComponent);
+
+private:
+    float m_rendererComponent;
 };

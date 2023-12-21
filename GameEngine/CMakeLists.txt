@@ -46,6 +46,7 @@ add_library(${PROJECT_NAME} STATIC
     src/Shooter.cpp
     src/Size.cpp
     src/Speed.cpp
+    src/RendererComponent.cpp
     src/Systems.cpp
     src/Registry.cpp
     src/Position.cpp
