@@ -20,7 +20,7 @@ int main()
         Registry registry = Registry();
         Entity entity;
         entity = registry.createEntity();
-        entity = registry.addComponent(entity, Position({100, 100}));
+        entity = registry.addComponent(entity, Position(std::make_pair(200, 600)));
         // registry.addComponent(entity, Velocity());
         // registry.addComponent(entity, Speed(0));
         // registry.addComponent(entity, HealthPoint(100));
