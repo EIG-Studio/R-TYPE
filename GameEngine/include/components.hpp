@@ -204,7 +204,7 @@ class Renderer
 {
 public:
     Renderer() = default;
-    Renderer(std::string& texturePath);
+    Renderer(std::string texturePath);
     ~Renderer() = default;
 
     sf::Sprite getRenderer() const;

@@ -16,21 +16,44 @@
 int main()
 {
     try {
-        Server server;
-
-
+        sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
         Registry registry = Registry();
         Entity entity;
         entity = registry.createEntity();
-        registry.addComponent(entity, Position({0, 0}));
-        registry.addComponent(entity, Velocity());
-        registry.addComponent(entity, Speed(1));
-        registry.addComponent(entity, HealthPoint(100));
-        registry.addComponent(entity, Damage(10));
-        registry.addComponent(entity, Shooter());
+        registry.addComponent(entity, Position({100, 100}));
+        // registry.addComponent(entity, Velocity());
+        // registry.addComponent(entity, Speed(0));
+        // registry.addComponent(entity, HealthPoint(100));
+        // registry.addComponent(entity, Damage(0));
+        // registry.addComponent(entity, Shooter());
         registry.addComponent(entity, Type(std::any_cast<EntityType>(Player)));
+        registry.addComponent(entity, Renderer("../Client/assets/Cars/cars/1.png"));
+        // if (registry.hasComponent(entity, Position());
 
-        registry.systemsManager();
+        while (window.isOpen()) {
+            sf::Event event{};
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    window.close();
+                }
+            }
+
+            // Mettre à jour le jeu ici
+
+            // Effacer l'écran
+            window.clear();
+
+            // Dessiner les éléments du jeu ici
+
+            // Afficher la fenêtre
+
+
+            registry.systemsManager(window);
+            window.display();
+        }
+
+        Server server;
+
 
         std::thread serverThread(&Server::startListening, &server);
         std::thread serverThread2(&Server::startSending, &server);

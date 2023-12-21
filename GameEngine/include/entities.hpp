@@ -8,6 +8,8 @@
 #pragma once
 #include "components.hpp"
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #include <SFML/Window.hpp>
 
 #include <SFML/System.hpp>
@@ -45,13 +47,19 @@ public:
     void removeComponent(Entity entity, T component);
     template <typename T>
     T& getComponent(Entity& entity, T component);
-    std::string systemsManager();
+    std::string systemsManager(sf::RenderWindow& window);
 
     template <typename T>
     bool hasComponent(Entity& entity, T component);
 
+    // void setWindow(sf::RenderWindow window)
+    // {
+    //     m_window = std::move(window);
+    // }
+
 private:
     std::vector<Entity> m_entities;
+    sf::RenderWindow m_window;
     size_t m_id = 0;
 };
 
@@ -68,6 +76,7 @@ void Registry::removeComponent(Entity entity, T component)
     entity.mComponents.erase(entity.mComponents.begin() + index);
 }
 
+#include <iostream>
 template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {

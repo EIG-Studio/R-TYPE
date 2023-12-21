@@ -167,10 +167,12 @@ void iaSystem(Entity entity, Registry& registry)
     // Implementation for AI system
 }
 
+#include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
     if (!registry.hasComponent(entity, Renderer{}))
         return;
+    std::cout << "On passe iciiiii!" << std::endl;
     if (!registry.hasComponent(entity, Position{}))
         return;
     registry.getComponent(entity, Renderer{})

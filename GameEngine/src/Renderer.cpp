@@ -2,7 +2,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 
-Renderer::Renderer(std::string &texturePath)
+Renderer::Renderer(std::string texturePath)
 {
     sf::Texture texture;
     if (!texture.loadFromFile(texturePath)) {
