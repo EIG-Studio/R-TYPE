@@ -18,6 +18,23 @@ void Server::startListening()
     m_ioService.run();
 }
 
+void Server::startSending()
+{
+    std::string message;
+
+    while (true) {
+        message = nullptr;
+        this->m_mutex.lock();
+        message = m_messages.back();
+        this->m_mutex.unlock();
+        if (!message.empty()) {
+            sendMessage(message);
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        }
+    }
+}
+
 void Server::sendMessage(const std::string& message)
 {
     std::string binaryMessage;
