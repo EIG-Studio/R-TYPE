@@ -8,15 +8,8 @@
 #pragma once
 
 #include <utility>
+
 #include <cstddef>
-
-class IComponents
-{
-public:
-    virtual ~IComponents() = 0;
-
-private:
-};
 
 /********-Position Component-******/
 class Position
