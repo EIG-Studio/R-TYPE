@@ -1,11 +1,20 @@
+/*
+** EPITECH PROJECT, 2023
+** R-TYPE
+** File description:
+** server
+*/
+
+#pragma once
+
 #include <bitset>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
+#include <memory>
 #include <sstream>
+#include <thread>
 #include <vector>
-
-#pragma once
 
 class Server
 {
@@ -15,13 +24,16 @@ public:
     }
 
     void startListening();
-    void sendMessage(std::string message);
+    void startSending();
+    void sendMessage(const std::string& message);
 
 private:
     boost::asio::io_service m_ioService;
     boost::asio::ip::udp::socket m_socket;
-    boost::asio::ip::udp::endpoint m_remoteEndpoint; // Add this line
+    boost::asio::ip::udp::endpoint m_remoteEndpoint;
     boost::array<char, 128> m_recvBuf{};
+    std::vector<std::string> m_messages;
+    std::mutex m_mutex;
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
     void handlePositionUpdate();
