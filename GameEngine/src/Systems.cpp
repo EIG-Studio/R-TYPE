@@ -108,10 +108,8 @@ void collisionSystem(Entity entity, std::vector<Entity> entities)
 
 void iaSystem(Entity entity)
 {
-
 }
 
 void renderSystem(Entity entity)
 {
-
 }

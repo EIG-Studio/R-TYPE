@@ -9,7 +9,7 @@
 
 Gravity::Gravity(float gravity, bool isGravity)
 {
-    this->m_gravity   = gravity;
+    this->m_gravity = gravity;
     this->m_isGravity = isGravity;
 }
 

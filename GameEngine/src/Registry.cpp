@@ -1,4 +1,5 @@
 #include "entities.hpp"
+
 #include <cstddef>
 
 template <typename T>
@@ -15,7 +16,7 @@ void Registry::removeComponent(Entity entity, T component)
 }
 
 template <typename T>
-T& Registry::getComponent(Entity &entity, T component)
+T& Registry::getComponent(Entity& entity, T component)
 {
     if (!entity.mComponents[component].has_value())
         throw std::runtime_error("Component does not exist");
@@ -41,9 +42,4 @@ void Registry::destroyEntity(Entity entity)
     // m_entities.back();
     // loop on entities to get the entity with id wanted then erase the entity with the id asked
     // m_entities.();
-}
-
-extern "C" Registry* factory()
-{
-    return new Registry();
 }

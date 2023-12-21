@@ -9,7 +9,7 @@
 
 Velocity::Velocity()
 {
-    this->m_velo.first  = 0;
+    this->m_velo.first = 0;
     this->m_velo.second = 0;
 }
 
@@ -20,6 +20,6 @@ std::pair<int, int> Velocity::getVelocity() const
 
 void Velocity::setVelocity(int x, int y)
 {
-    this->m_velo.first  = x;
+    this->m_velo.first = x;
     this->m_velo.second = y;
 }

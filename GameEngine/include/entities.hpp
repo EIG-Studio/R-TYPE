@@ -39,6 +39,7 @@ public:
 private:
 };
 
+
 class EntityManager
 {
 public:
@@ -79,5 +80,3 @@ private:
     std::vector<Entity> m_entities;
     size_t m_id = 0;
 };
-
-extern "C" Registry* factory();

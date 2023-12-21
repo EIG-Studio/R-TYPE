@@ -9,10 +9,10 @@
 
 HitBox::HitBox(std::pair<int, int> originPos, std::pair<int, int> endPos)
 {
-    this->m_originPos.first  = originPos.first;
+    this->m_originPos.first = originPos.first;
     this->m_originPos.second = originPos.second;
-    this->m_endPos.first     = endPos.first;
-    this->m_endPos.second    = endPos.second;
+    this->m_endPos.first = endPos.first;
+    this->m_endPos.second = endPos.second;
 }
 
 std::pair<int, int> HitBox::getOriginHitBoxPosition() const
@@ -26,8 +26,8 @@ std::pair<int, int> HitBox::getEndHitBoxPosition() const
 
 void HitBox::setHitBoxPosition(std::pair<int, int> originPos, std::pair<int, int> endPos)
 {
-    this->m_originPos.first  = originPos.first;
+    this->m_originPos.first = originPos.first;
     this->m_originPos.second = originPos.second;
-    this->m_endPos.first     = endPos.first;
-    this->m_endPos.second    = endPos.second;
+    this->m_endPos.first = endPos.first;
+    this->m_endPos.second = endPos.second;
 }

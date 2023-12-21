@@ -30,14 +30,8 @@ int main()
         }
 
         Registry* registry;
-        Entity entity;
         registry = factory();
-        entity = registry->createEntity();
-        registry->addComponent(entity, Position(std::make_pair(0, 0)));
-        // registry->addComponent(entity, HealthPoint(100));
-        // registry->addComponent(entity, Velocity());
-        // registry->addComponent(entity, ID(0));
-        //
+        registry->createEntity();
 
         std::thread serverThread(&Server::startListening, &server);
         // std::thread serverThread2(&Server::startSending, &server);
