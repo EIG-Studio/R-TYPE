@@ -131,12 +131,6 @@ bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<flo
 
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
 {
-    std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
-        {EntityType::Player, collisionPlayer},
-        {EntityType::Enemy, collisionEnemy},
-        {EntityType::Player_Projectile, collisionProjectile},
-        {EntityType::Enemy_Projectile, collisionProjectile},
-    };
     EntityType entityType;
 
     if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
@@ -149,13 +143,13 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
         if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID())
             continue;
 
-        auto it = map.find(entityType);
-        if (it != map.end()) {
-            it->second(entity, otherEntity, registry);
-        } else {
-            continue;
-        }
-    }
+        if (entityType == EntityType::Player)
+            collisionPlayer(entity, otherEntity, registry);
+        else if (entityType == EntityType::Enemy)
+            collisionEnemy(entity, otherEntity, registry);
+        else if (entityType == EntityType::Player_Projectile || entityType == EntityType::Enemy_Projectile)
+            collisionProjectile(entity, otherEntity, registry);
+       }
 }
 
 void iaSystem(Entity entity, Registry& registry)
