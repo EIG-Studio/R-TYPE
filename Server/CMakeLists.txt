@@ -8,7 +8,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 ################# FETCH #################
+include(FetchContent)
 
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.x)
+
+FetchContent_MakeAvailable(SFML)
 
 ################# CLANG-FORMAT #################
 find_program(CLANG_FORMAT "clang-format")
@@ -37,7 +43,7 @@ add_executable(${PROJECT_NAME}
 
 ################# LIBRARIES #################
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl)
+target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 
