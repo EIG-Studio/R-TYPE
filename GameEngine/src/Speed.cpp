@@ -7,17 +7,17 @@
 
 #include "components.hpp"
 
-Speed::Speed(int speed)
+Speed::Speed(float speed)
 {
     this->m_speed = speed;
 }
 
-int Speed::getSpeed() const
+float Speed::getSpeed() const
 {
     return this->m_speed;
 }
 
-void Speed::setSpeed(int newSpeed)
+void Speed::setSpeed(float newSpeed)
 {
     this->m_speed = newSpeed;
 }
