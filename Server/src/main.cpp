@@ -27,10 +27,13 @@ int main()
         auto factory = (MyFunctionType)dlsym(libraryHandle, "factory");
         if (!factory) {
             std::cerr << "Failed to find the symbol factory: " << dlerror() << std::endl;
-            // Handle the error accordingly
-        } // factory();
+        }
 
-        factory();
+        Registry* registry;
+        registry = factory();
+        // registry->createEntity();
+        // registry->addComponent(Entity entity, T component)
+        
 
         std::thread serverThread(&Server::startListening, &server);
         std::thread serverThread2(&Server::startSending, &server);
