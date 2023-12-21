@@ -8,7 +8,6 @@
 #pragma once
 #include "components.hpp"
 
-
 #include <SFML/Window.hpp>
 
 #include <SFML/System.hpp>
@@ -49,16 +48,7 @@ public:
     std::string systemsManager();
 
     template <typename T>
-    bool hasComponent(Entity& entity, T component) {
-        for (const auto& otherComponent : entity.mComponents) {
-            try {
-                std::any_cast<T>(component);
-                return true;
-            } catch (const std::bad_any_cast&) {
-            }
-        }
-        return false;
-    }
+    bool hasComponent(Entity& entity, T component);
 
 private:
     std::vector<Entity> m_entities;
@@ -81,13 +71,27 @@ void Registry::removeComponent(Entity entity, T component)
 template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {
-    for (auto & mComponent : entity.mComponents) {
+    for (auto& mComponent : entity.mComponents) {
         try {
             std::any_cast<T>(component);
             return std::any_cast<T&>(mComponent);
         } catch (const std::bad_any_cast&) {
+            continue;
         }
     }
-    return component;
+    throw std::runtime_error("Component not found");
 }
 
+template <typename T>
+bool Registry::hasComponent(Entity& entity, T component)
+{
+    for (const auto& otherComponent : entity.mComponents) {
+        try {
+            std::any_cast<T>(component);
+            return true;
+        } catch (const std::bad_any_cast&) {
+            continue;
+        }
+    }
+    return false;
+}
