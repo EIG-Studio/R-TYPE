@@ -18,6 +18,11 @@ void Registry::removeComponent(Entity entity, T component)
 template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {
+    for (size_t i = 0; i < entity.mComponents.size(); i++) {
+        if (entity.mComponents[i].has_value() == component)
+            return std::any_cast<T&>(entity.mComponents[i]);
+    }
+
     if (!entity.mComponents[component].has_value())
         throw std::runtime_error("Component does not exist");
     return std::any_cast<T&>(entity.mComponents[component]);
