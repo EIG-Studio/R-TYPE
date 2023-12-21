@@ -43,7 +43,7 @@ public:
     Entity createEntity();
     void destroyEntity(Entity entity);
     template <typename T>
-    void addComponent(Entity entity, T component);
+    Entity addComponent(Entity entity, T component);
     template <typename T>
     void removeComponent(Entity entity, T component);
     template <typename T>
@@ -65,13 +65,13 @@ private:
 };
 
 template <typename T>
-void Registry::addComponent(Entity entity, T component)
+Entity Registry::addComponent(Entity entity, T component)
 {
     ID newID = any_cast<ID>(entity.mComponents[0]);
     size_t id = newID.getID();
 
     if (hasComponent(entity, component))
-        return;
+        return entity;
 
     entity.mComponents.push_back(component);
 
@@ -80,6 +80,7 @@ void Registry::addComponent(Entity entity, T component)
         if (newID.getID() == id)
             m_entities[i] = entity;
     }
+    return entity;
 }
 
 template <typename T>
