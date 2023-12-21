@@ -1,4 +1,5 @@
 #include "entities.hpp"
+#include <cstddef>
 
 template <typename T>
 void Registry::addComponent(Entity entity, T component)
@@ -23,11 +24,23 @@ T& Registry::getComponent(Entity &entity, T component)
 
 Entity Registry::createEntity()
 {
-    assert(!m_entities.empty());
+    Entity newEntity = Entity();
+    ID newID = ID(this->m_id);
 
-    Entity id = m_entities.back();
-    m_entities.pop_back();
-    return id;
+    addComponent(newEntity, newID);
+    m_entities.push_back(newEntity);
+    this->m_id += 1;
+    return newEntity;
+}
+
+void Registry::destroyEntity(Entity entity)
+{
+    assert(!m_entities.empty());
+    // get id de l'entity en question
+    // size_t id = entity.mComponents
+    // m_entities.back();
+    // loop on entities to get the entity with id wanted then erase the entity with the id asked
+    // m_entities.();
 }
 
 extern "C" Registry* factory()
