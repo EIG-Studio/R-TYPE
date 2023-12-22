@@ -8,7 +8,11 @@
 #ifndef DLLOADER_HPP_
 #define DLLOADER_HPP_
 
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <dlfcn.h>
+#endif
 #include <iostream>
 #include <memory>
 
