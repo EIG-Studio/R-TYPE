@@ -10,7 +10,7 @@
 - Velocity [V]
 - Type [V] -> change en Compo Tags -<Advanced>-
 - Size [V]
-- Renderer (Texture & Sprite)
+- Renderer (Texture & Sprite) [V]
 - Damage [V]
 - Speed [V]
 - HitBox [V]
@@ -20,14 +20,14 @@
 
 - GravitySystem -<Advanced>- (Gére la gravity de l'entitée)
 - BehaviorSystem -<Advanced>- (Gére un script pour manage une entitée à la place des autres sytèmes )
-- ShootingSystem -<Basic>- (Gére la création de Projectile quand une entité tire)
-- DeathSystem -<Basic>- (Gére la mort des entitées)
-- DamagedSystem -<Basic>- (Gére les dégats infliger)
-- MovementSystem -<Basic>- (Permet de gérer les mouvements des entitées)
-- IASystem -<Basic>- (Pour l'enemie, qu'il puisse tiré ou bougé)
-- RendererSystem -<Basic>- (Display on client side)
-- CollisionSystem -<Basic>- (Gére les collisions entre deux entités en fontion de leur type)
-- NoMoveSystem -<Basic>- (Bloque l'overlap entre 2 entitées)
+- ShootingSystem -<Basic>- (Gére la création de Projectile quand une entité tire) [V]
+- DeathSystem -<Basic>- (Gére la mort des entitées) [V]
+- DamagedSystem -<Basic>- (Gére les dégats infliger) [V]
+- MovementSystem -<Basic>- (Permet de gérer les mouvements des entitées) [V]
+- IASystem -<Basic>- (Pour l'enemie, qu'il puisse tiré ou bougé) [V]
+- RendererSystem -<Basic>- (Display on client side) [V]
+- CollisionSystem -<Basic>- (Gére les collisions entre deux entités en fontion de leur type) [V]
+- NoMoveSystem -<Basic>- (Bloque l'overlap entre 2 entitées) [V]
 
 ### Entity
 
@@ -49,6 +49,6 @@ Pour le 22 :
 - Pouvoir créer le registry [V]
 - Pouvoir créer des entities [V]
 - Pouvoir choisir les components dans l'entity [V]
-- Avoir Tout les systems basiques
+- Avoir Tout les systems basiques [V]
 - Avoir le SendChange pour le serveur
 - Essayer de faire en sorte d'être le plus générique
