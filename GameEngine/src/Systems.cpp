@@ -175,6 +175,9 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
 
     sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
+    // set position
+    sprite.setPosition(registry.getComponent(entity, Position{}).getPosition().first,
+        registry.getComponent(entity, Position{}).getPosition().second);
     sprite.setTexture(text);
     window.draw(sprite);
 }
