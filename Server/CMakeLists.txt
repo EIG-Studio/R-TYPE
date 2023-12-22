@@ -5,21 +5,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ################# FETCH #################
-include(FetchContent)
+# include(FetchContent)
+#
+# FetchContent_Declare(SFML
+#     GIT_REPOSITORY https://github.com/SFML/SFML.git
+#     GIT_TAG 2.6.x)
+#
+# FetchContent_MakeAvailable(SFML)
 
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
-
-FetchContent_Declare(
-  Boost
-  URL https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.xz
-  URL_MD5 893b5203b862eb9bbd08553e24ff146a
-  DOWNLOAD_EXTRACT_TIMESTAMP ON
-)
-
-FetchContent_MakeAvailable(SFML Boost)
-
+find_package(boost sfml REQUIRED)
 ################# CLANG-FORMAT #################
 find_program(CLANG_FORMAT "clang-format")
 
@@ -42,8 +36,9 @@ add_executable(${PROJECT_NAME}
 )
 
 ################# LIBRARIES #################
-target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include ${Boost_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC sfml-window sfml-graphics sfml-system sfml-audio sfml-network pthread dl ${Boost_LIBRARIES} samurai_ecs)
+
+target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC sfml-window sfml-graphics sfml-system sfml-audio sfml-network pthread dl boost::boost samurai_ecs)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 ################# INSTALL #################
