@@ -46,9 +46,12 @@ add_executable(${PROJECT_NAME}
 
 ################# LIBRARIES #################
 target_include_directories(${PROJECT_NAME} PRIVATE include ${Boost_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network Boost::boost)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network Boost::boost)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
+if (NOT WIN32)
+    target_link_libraries(${PROJECT_NAME} PUBLIC pthread dl)
+endif()
 
 
 ################# INSTALL #################
