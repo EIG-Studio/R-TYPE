@@ -25,7 +25,7 @@ jobs:
       matrix:
         platform:
           - { name: Windows Latest, os: windows-latest }
-          # - { name: Linux GCC,      os: ubuntu-latest }
+          - { name: Linux GCC,      os: ubuntu-latest }
           # - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
 
     steps:

@@ -5,15 +5,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ################# FETCH #################
-# include(FetchContent)
-#
-# FetchContent_Declare(SFML
-#     GIT_REPOSITORY https://github.com/SFML/SFML.git
-#     GIT_TAG 2.6.x)
-#
-# FetchContent_MakeAvailable(SFML)
+include(FetchContent)
 
-find_package(boost sfml REQUIRED)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.x)
+
+FetchContent_MakeAvailable(SFML)
+
+find_package(Boost REQUIRED)
 ################# CLANG-FORMAT #################
 find_program(CLANG_FORMAT "clang-format")
 
