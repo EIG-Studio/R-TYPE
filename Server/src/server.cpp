@@ -46,10 +46,8 @@ void Server::sendMessage(const std::string& message)
 {
     std::string binaryMessage;
 
-    for (char c : message) {
+    for (char c : message)
         binaryMessage += std::bitset<8>(c).to_string();
-    }
-
     m_socket.async_send_to(boost::asio::buffer(binaryMessage), m_remoteEndpoint, [this](const boost::system::error_code&, std::size_t) {
         std::cout << "message sent to: " << m_remoteEndpoint << std::endl;
     });
