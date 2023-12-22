@@ -40,4 +40,5 @@ private:
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
+    void createPlayer();
 };
