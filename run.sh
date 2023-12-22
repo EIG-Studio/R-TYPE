@@ -10,10 +10,12 @@ if [ -d "$BUILD_DIR" ]; then
     fi
 fi
 
-mkdir "$BUILD_DIR"
+conan install . --output-folder=build --build=missing
+
+mkdir -p "$BUILD_DIR"
 
 cd "$BUILD_DIR"
 
-cmake ..
+cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/build/Release/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
 
 make -j "$(nproc)"
