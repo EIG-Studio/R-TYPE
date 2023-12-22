@@ -4,9 +4,15 @@
 
 # TOC
 
+- [Player](#player)
 - [Position](#position)
 - [Input](#input)
 
+## Player
+
+Message: `NEW ID POS TYPE`
+
+This message is sent to the client to inform that a new player is created
 
 ## Position
 
@@ -20,8 +26,8 @@ Messages:
 
 - `UP`: Up key
 - `DOWN`: Down key
-- `[RIGHT]`: Right key
-- `[LEFT]`: Left key
-- `[SHOOT]`: Shoot key
+- `RIGHT`: Right key
+- `LEFT`: Left key
+- `SHOOT`: Shoot key
 
 Keys are binds on the client side
