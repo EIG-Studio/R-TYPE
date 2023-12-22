@@ -30,8 +30,7 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-
-
+find_package(Boost REQUIRED)
 ################# EXECUTABLE #################
 add_executable(${PROJECT_NAME}
     src/main.cpp
@@ -46,8 +45,8 @@ add_executable(${PROJECT_NAME}
 
 
 ################# LIBRARIES #################
-target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network)
+target_include_directories(${PROJECT_NAME} PRIVATE include ${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network Boost::boost)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 
