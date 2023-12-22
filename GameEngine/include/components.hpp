@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "SFML/Graphics/Texture.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -208,6 +209,7 @@ public:
     ~Renderer() = default;
 
     sf::Sprite getRenderer() const;
+    sf::Texture getTexture() const;
 
     void setRenderer(std::string& texturePath);
 

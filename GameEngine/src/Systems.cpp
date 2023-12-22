@@ -172,13 +172,9 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
     if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
+    sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
 
-    // registry.getComponent(entity, Renderer{})
-    //     .getRenderer()
-    //     .setPosition(
-    //         registry.getComponent(entity, Position{}).getPosition().first,
-    //         registry.getComponent(entity, Position{}).getPosition().second);
-    std::cout << "SPRITE POS X: " << registry.getComponent(entity, Position{}).getPosition().first << std::endl;
-    std::cout << "SPRITE POS Y: " << registry.getComponent(entity, Position{}).getPosition().second << std::endl;
-    window.draw(registry.getComponent(entity, Renderer{}).getRenderer());
+    sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
+    sprite.setTexture(text);
+    window.draw(sprite);
 }

@@ -5,6 +5,7 @@
 ** main
 */
 
+#include "SFML/Graphics/Sprite.hpp"
 #include "components.hpp"
 #include "entities.hpp"
 #include "server.hpp"
@@ -26,10 +27,9 @@ int main()
         // registry.addComponent(entity, HealthPoint(100));
         // registry.addComponent(entity, Damage(0));
         // registry.addComponent(entity, Shooter());
-        entity = registry.addComponent(entity, Renderer("../Client/assets/Cars/cars/1.png"));
+        entity = registry.addComponent(entity, Renderer("../Client/assets/Cars/189_neutral.png"));
         entity = registry.addComponent(entity, Type(std::any_cast<EntityType>(Player)));
         // if (registry.hasComponent(entity, Position());
-
         while (window.isOpen()) {
             sf::Event event{};
             while (window.pollEvent(event)) {
