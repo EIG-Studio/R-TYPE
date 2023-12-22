@@ -7,6 +7,7 @@
 
 #include "components.hpp"
 
+#include <iostream>
 Position::Position(std::pair<float, float> originPos)
 {
     this->m_pos.first = originPos.first;

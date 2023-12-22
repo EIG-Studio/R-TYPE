@@ -167,16 +167,17 @@ void iaSystem(Entity entity, Registry& registry)
     // Implementation for AI system
 }
 
+#include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
-    if (!registry.hasComponent(entity, Renderer{}))
+    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
-    if (!registry.hasComponent(entity, Position{}))
-        return;
-    registry.getComponent(entity, Renderer{})
-        .getRenderer()
-        .setPosition(
-            registry.getComponent(entity, Position{}).getPosition().first,
-            registry.getComponent(entity, Position{}).getPosition().second);
-    window.draw(registry.getComponent(entity, Renderer{}).getRenderer());
+    sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
+
+    sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
+    // set position
+    sprite.setPosition(registry.getComponent(entity, Position{}).getPosition().first,
+        registry.getComponent(entity, Position{}).getPosition().second);
+    sprite.setTexture(text);
+    window.draw(sprite);
 }
