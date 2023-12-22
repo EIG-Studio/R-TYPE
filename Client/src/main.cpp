@@ -18,7 +18,7 @@
 
 #include <SFML/System.hpp>
 
-#include <dlfcn.h>
+// #include <dlfcn.h>
 
 int main()
 {
