@@ -24,11 +24,19 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          # - { name: Windows Latest, os: windows-latest }
-          - { name: Linux GCC,      os: ubuntu-latest }
+          - { name: Windows Latest, os: windows-latest }
+          # - { name: Linux GCC,      os: ubuntu-latest }
           # - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
 
     steps:
+      - name: Install Boost on Windows
+        if: runner.os == 'Windows'
+        run: |
+          Invoke-WebRequest -Uri https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.zip -OutFile boost.zip
+          Expand-Archive -Path boost.zip -DestinationPath C:\boost
+          Remove-Item -Path boost.zip
+
+
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy
