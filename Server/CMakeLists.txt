@@ -14,7 +14,15 @@ FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 2.6.x)
 
-FetchContent_MakeAvailable(SFML)
+
+FetchContent_Declare(
+  Boost
+  URL https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.xz
+  URL_MD5 893b5203b862eb9bbd08553e24ff146a
+  DOWNLOAD_EXTRACT_TIMESTAMP ON
+)
+
+FetchContent_MakeAvailable(SFML Boost)
 
 ################# CLANG-FORMAT #################
 find_program(CLANG_FORMAT "clang-format")
