@@ -131,7 +131,7 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
-float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
+float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -147,7 +147,7 @@ float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosX;
 }
 
-float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
+float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -163,7 +163,7 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosY;
 }
 
-void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer, Sprite mSprite)
+void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
 {
     float tempPosX = this->m_playerSprite.getPosition().x;
     float tempPosY = this->m_playerSprite.getPosition().y;
