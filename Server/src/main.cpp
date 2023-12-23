@@ -21,14 +21,15 @@ int main()
         Registry registry = Registry();
         Entity entity;
         entity = registry.createEntity();
-        entity = registry.addComponent(entity, Position(std::make_pair(200, 600)));
+        entity = registry.addComponent(entity, Position(std::make_pair(200, 200)));
         // registry.addComponent(entity, Velocity());
         // registry.addComponent(entity, Speed(0));
         // registry.addComponent(entity, HealthPoint(100));
         // registry.addComponent(entity, Damage(0));
         // registry.addComponent(entity, Shooter());
-        entity = registry.addComponent(entity, Renderer("../Client/assets/Cars/189_neutral.png"));
+        entity = registry.addComponent(entity, Renderer("../Client/assets/Cars/189.png"));
         entity = registry.addComponent(entity, Type(std::any_cast<EntityType>(Player)));
+        window.setFramerateLimit(144);
         // if (registry.hasComponent(entity, Position());
         while (window.isOpen()) {
             sf::Event event{};

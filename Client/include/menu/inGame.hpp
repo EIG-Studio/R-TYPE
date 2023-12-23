@@ -20,9 +20,9 @@ public:
     void  setPlayerPath(Sprite mSprite);
     void  moveParallax();
     void  repeatParallax();
-    float setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
-    float setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
-    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer mCommandsToServer, Sprite mSprite);
+    float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
+    float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
+    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer& mCommandsToServer, Sprite mSprite);
     void  colidePlayer();
     bool  onGame;
 
