@@ -51,9 +51,10 @@ void Server::goUp()
 {
     Registry registry = Registry();
     Entity entity = registry.getEntity(/*id*/);
+    int moveSpeed = 1;
     Position positionComponent = registry.getComponent<Position>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first << " " << positionComponent.second - 1 << "\n";
+    newPlayer << "NEW_POS " << positionComponent.first << " " << positionComponent.second - 1 * moveSpeed << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -63,7 +64,7 @@ void Server::goDown()
     Entity entity = registry.getEntity(/*id*/);
     Position positionComponent = registry.getComponent<Position>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first << " " << positionComponent.second + 1 << "\n";
+    newPlayer << "NEW_POS " << positionComponent.first << " " << positionComponent.second + 1 * moveSpeed << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -73,7 +74,7 @@ void Server::goRight()
     Entity entity = registry.getEntity(/*id*/);
     Position positionComponent = registry.getComponent<Position>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first + 1 << " " << positionComponent.second << "\n";
+    newPlayer << "NEW_POS " << positionComponent.first + 1 * moveSpeed << " " << positionComponent.second << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -83,7 +84,7 @@ void Server::goLeft()
     Entity entity = registry.getEntity(/*id*/);
     Position positionComponent = registry.getComponent<Position>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first - 1 << " " << positionComponent.second << "\n";
+    newPlayer << "NEW_POS " << positionComponent.first - 1 * moveSpeed << " " << positionComponent.second << "\n";
     addMessage(newPlayer.str());
 }
 
