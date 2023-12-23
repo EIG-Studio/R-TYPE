@@ -8,6 +8,7 @@
 #include "ECS.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
+#include "ennemies.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "menu/settingMenu.hpp"
@@ -50,6 +51,7 @@ int main()
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
     Sprite sprite;
+    Ennemies ennemies;
     Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
@@ -113,14 +115,6 @@ int main()
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
                 menu.onMenu = false;
                 choiceMenu.onChoice = true;
-            }
-            if (event.type == sf::Event::KeyReleased) {
-                if (event.key.code == sf::Keyboard::S)
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
-            }
-            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
-                if (event.joystickButton.button == sf::Joystick::Y)
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
                 music.musicMenu.stop();
@@ -198,6 +192,18 @@ int main()
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.movePlayer(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == sf::Keyboard::S) {
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
+                    ennemies.destroyEnnemy(game.getPosPlayerY(), game.getPosEnnemyY());
+                }
+            }
+            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
+                if (event.joystickButton.button == sf::Joystick::Y) {
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
+                    ennemies.destroyEnnemy(game.getPosPlayerY(), game.getPosEnnemyY());
+                }
+            }
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveParallax();
                 game.repeatParallax();

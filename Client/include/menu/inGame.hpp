@@ -18,12 +18,14 @@ public:
     ~Game() override = default;
     void  setPath(Sprite mSprite);
     void  setPlayerPath(Sprite mSprite);
+    float getPosPlayerY();
+    float getPosEnnemyY();
     void  moveParallax();
     void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void  movePlayer(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void movePlayer(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
     void HandleMovement(sf::Keyboard::Key key, sf::Joystick::Axis axis, CommandsToServer& commandsToServer, float movementSpeed,
     float joystickThreshold, float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit);
     void SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed);
@@ -60,4 +62,7 @@ private:
 
     sf::Texture m_playerTexture;
     sf::Sprite  m_playerSprite;
+
+    sf::Texture m_ennemyTexture;
+    sf::Sprite  m_ennemySprite;
 };
