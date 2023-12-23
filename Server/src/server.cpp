@@ -33,7 +33,7 @@ void Server::startSending()
         if (!message.empty()) {
             sendMessage(message);
             this->m_mutex.lock();
-            if (m_messages.back().second >= nb_clients)
+            if (m_messages.back().second >= m_nbClients)
                 m_messages.pop_back();
             this->m_mutex.unlock();
         } else {
