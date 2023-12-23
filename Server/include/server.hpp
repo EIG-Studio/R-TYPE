@@ -35,10 +35,14 @@ private:
     boost::array<char, 128> m_recvBuf{};
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
-    int nb_clients = 1;
+    int m_nbClients = 1;
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     void createPlayer();
+    void goUp();
+    void goDown();
+    void goRight();
+    void goLeft();
 };
