@@ -174,6 +174,7 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
             std::ostringstream oss;
             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
                 << movementSpeed << " 1";
+            // oss << "UP";
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
             //
@@ -191,8 +192,9 @@ void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToSer
         if (this->m_playerSprite.getPosition().x < winX - 103) {
             // Il faut bouger de movementSpeed à chaque fois
             std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 2";
+            // oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+            //     << movementSpeed << " 2";
+            oss << "RIGHT";
             std::string positionString = oss.str();
             commandsToServer.sendToServerAsync(positionString);
             //

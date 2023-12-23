@@ -18,8 +18,7 @@ void Server::createPlayer()
 {
     Registry registry = Registry();
     Entity entity = registry.createEntity();
-
-    ID idComponent = 0;
+    ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Type typeComponent = std::any_cast<EntityType>(Player);
