@@ -51,10 +51,10 @@ void Server::goUp()
 {
     Registry registry = Registry();
     Entity entity = registry.getEntity(/*id*/);
-    int moveSpeed = 1;
     Position positionComponent = registry.getComponent<Position>(entity);
+    Speed speedComponent = registry.getComponent<Speed>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first << " " << positionComponent.second - 1 * moveSpeed << "\n";
+    newPlayer << "NEW_POS " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second - 1 * speedComponent.getSpeed() << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -63,8 +63,9 @@ void Server::goDown()
     Registry registry = Registry();
     Entity entity = registry.getEntity(/*id*/);
     Position positionComponent = registry.getComponent<Position>(entity);
+    Speed speedComponent = registry.getComponent<Speed>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first << " " << positionComponent.second + 1 * moveSpeed << "\n";
+    newPlayer << "NEW_POS " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second + 1 * speedComponent.getSpeed() << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -73,8 +74,9 @@ void Server::goRight()
     Registry registry = Registry();
     Entity entity = registry.getEntity(/*id*/);
     Position positionComponent = registry.getComponent<Position>(entity);
+    Speed speedComponent = registry.getComponent<Speed>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first + 1 * moveSpeed << " " << positionComponent.second << "\n";
+    newPlayer << "NEW_POS " << positionComponent.getPosition().first + 1 * speedComponent.getSpeed() << " " << positionComponent.getPosition().second << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -83,8 +85,9 @@ void Server::goLeft()
     Registry registry = Registry();
     Entity entity = registry.getEntity(/*id*/);
     Position positionComponent = registry.getComponent<Position>(entity);
+    Speed speedComponent = registry.getComponent<Speed>(entity);
     std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.first - 1 * moveSpeed << " " << positionComponent.second << "\n";
+    newPlayer << "NEW_POS " << positionComponent.getPosition().first - 1 * speedComponent.getSpeed() << " " << positionComponent.getPosition().second << "\n";
     addMessage(newPlayer.str());
 }
 
