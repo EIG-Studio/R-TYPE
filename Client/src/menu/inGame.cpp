@@ -44,9 +44,6 @@ void Game::setPath(Sprite mSprite)
     this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
     this->m_playerSprite.setTexture(this->m_playerTexture);
 
-    this->m_ennemyTexture.loadFromFile(mSprite.getEnnemyPath());
-    this->m_ennemySprite.setTexture(this->m_ennemyTexture);
-
     //// Trouver un moyen pour rendre ça plus beau
     m_backSprite.setScale(1152 / m_backSprite.getLocalBounds().width, 648 / m_backSprite.getLocalBounds().height);
     m_backSprite.setPosition(0, 0);
@@ -80,9 +77,6 @@ void Game::setPath(Sprite mSprite)
 
     m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
     m_playerSprite.setPosition(100, 100);
-
-    m_ennemySprite.setScale(104.25 / m_ennemySprite.getLocalBounds().width, 38.5 / m_ennemySprite.getLocalBounds().height);
-    m_ennemySprite.setPosition(300, 300);
 }
 
 void Game::setPlayerPath(Sprite mSprite)
@@ -138,19 +132,11 @@ void Game::repeatParallax()
 }
 
 float Game::getPosPlayerY() {
-    return this->m_playerSprite.getPosition().y;
-}
-
-float Game::getPosEnnemyY() {
-    return this->m_ennemySprite.getPosition().y;
+    return this->m_playerSprite.getPosition().y + (this->m_playerSprite.getGlobalBounds().height / 2);
 }
 
 float Game::getPosPlayerX() {
     return this->m_playerSprite.getPosition().x;
-}
-
-float Game::getPosEnnemyX() {
-    return this->m_ennemySprite.getPosition().x;
 }
 
 float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
@@ -205,7 +191,6 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.texture = &m_frontBuildTexture;
     states.texture = &m_frontBuildTexture2;
     states.texture = &m_playerTexture;
-    states.texture = &m_ennemyTexture;
     target.draw(m_backSprite, states);
     target.draw(m_backSprite2, states);
     target.draw(m_veryBackBuildSprite, states);
@@ -217,5 +202,4 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_frontBuildSprite, states);
     target.draw(m_frontBuildSprite2, states);
     target.draw(m_playerSprite, states);
-    target.draw(m_ennemySprite, states);
 }

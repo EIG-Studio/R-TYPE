@@ -52,6 +52,7 @@ int main()
     CommandsToServer commandsToServer;
     Sprite sprite;
     Ennemies ennemies;
+    ennemies.setPath();
     Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
@@ -195,13 +196,13 @@ int main()
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::S) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
-                    ennemies.destroyEnnemy(game.getPosPlayerY(), game.getPosEnnemyY());
+                    ennemies.destroyEnnemy(game.getPosPlayerY(), ennemies.getPosEnnemyY());
                 }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
-                    ennemies.destroyEnnemy(game.getPosPlayerY(), game.getPosEnnemyY());
+                    ennemies.destroyEnnemy(game.getPosPlayerY(), ennemies.getPosEnnemyY());
                 }
                 if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                     game.moveParallax();
@@ -210,10 +211,11 @@ int main()
                 }
             }
             sf::Vertex line[] =
-                {sf::Vertex(sf::Vector2f(game.getPosEnnemyX(), game.getPosEnnemyY() + 40)),
-                 sf::Vertex(sf::Vector2f(game.getPosEnnemyX(), game.getPosEnnemyY() - 15))};
+                {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
+                 sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
             window.draw(game);
             window.draw(line, 2, sf::Lines);
+            window.draw(ennemies);
         }
         window.display();
     }

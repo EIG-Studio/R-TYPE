@@ -19,9 +19,7 @@ public:
     void  setPath(Sprite mSprite);
     void  setPlayerPath(Sprite mSprite);
     float getPosPlayerY();
-    float getPosEnnemyY();
     float getPosPlayerX();
-    float getPosEnnemyX();
     void  moveParallax();
     void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
@@ -64,7 +62,4 @@ private:
 
     sf::Texture m_playerTexture;
     sf::Sprite  m_playerSprite;
-
-    sf::Texture m_ennemyTexture;
-    sf::Sprite  m_ennemySprite;
 };
