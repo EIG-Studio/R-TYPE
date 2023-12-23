@@ -8,6 +8,7 @@
 #pragma once
 
 #include "SFML/Graphics/Texture.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -68,9 +69,16 @@ public:
 
     std::size_t getID() const;
 
+    // Conversion operator to convert ID to size_t.
+    operator std::size_t() const
+    {
+        return m_id;
+    }
+
 private:
     std::size_t m_id;
 };
+
 
 /********-Speed Component-******/
 class Speed
@@ -195,9 +203,36 @@ public:
 
     void setEntityType(EntityType entityType);
 
+    friend std::ostream& operator<<(std::ostream& os, const Type& type);
+
 private:
     EntityType m_entityType;
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Type& type)
+{
+    switch (type.m_entityType) {
+        case EntityType::Player:
+            os << "Player";
+            break;
+        case EntityType::Enemy:
+            os << "Enemy";
+            break;
+        case EntityType::Player_Projectile:
+            os << "Player_Projectile";
+            break;
+        case EntityType::Enemy_Projectile:
+            os << "Enemy_Projectile";
+            break;
+        case EntityType::Wall:
+            os << "Wall";
+            break;
+        default:
+            os << "Unknown";
+            break;
+    }
+    return os;
+}
 
 /********-Renderer Component-******/
 

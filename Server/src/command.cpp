@@ -11,15 +11,34 @@
 #include "components.hpp"
 #include "entities.hpp"
 
+#include <algorithm>
+#include <string>
+
 void Server::createPlayer()
 {
     Registry registry = Registry();
-    Entity entity;
-    entity = registry.createEntity();
-    entity = registry.addComponent(entity, Position(std::make_pair(200, 600)));
-    entity = registry.addComponent(entity, Renderer("../Client/assets/Cars/189_neutral.png"));
-    entity = registry.addComponent(entity, Type(std::any_cast<EntityType>(Player)));
+    Entity entity = registry.createEntity();
+
+    ID idComponent = 0;
+    Position positionComponent = Position(std::make_pair(0, 0));
+    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
+    Type typeComponent = std::any_cast<EntityType>(Player);
+
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, rendererComponent);
+    entity = registry.addComponent(entity, typeComponent);
+
+    std::ostringstream newPlayer;
+    newPlayer << "NEW " << static_cast<int>(idComponent) << " " << positionComponent.getPosition().first << " "
+              << positionComponent.getPosition().second << " " << typeComponent << "\n";
+    addMessage(newPlayer.str());
+
+    // Also display the values.
+    // std::cout << "NEW " << static_cast<int>(idComponent) << " " << positionComponent.getPosition().first << " "
+    // << positionComponent.getPosition().second << " " << typeComponent << std::endl;
 }
+
 
 void Server::addMessage(const std::string& message)
 {
