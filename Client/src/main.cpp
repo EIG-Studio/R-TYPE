@@ -5,8 +5,6 @@
 ** main
 */
 
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
 #include "ECS.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
@@ -22,9 +20,11 @@
 
 #include <dlfcn.h>
 
-
 int main()
 {
+    // ECS ecs;
+    // ecs.setPath("GameEngine/libsamurai_ecs.so");
+
     float movementSpeed = 5.0f;
     // Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
@@ -104,9 +104,6 @@ int main()
         "Exit",
         font,
         20);
-
-    Registry registry = Registry();
-
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -200,7 +197,7 @@ int main()
 
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            game.movePlayer(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveParallax();
                 game.repeatParallax();
@@ -211,17 +208,3 @@ int main()
         window.display();
     }
 }
-
-// while (window.isOpen()) {
-//     sf::Event event{};
-//     while (window.pollEvent(event)) {
-//         if (event.type == sf::Event::Closed) {
-//             window.close();
-//         }
-//     }
-
-//     window.clear();
-
-//     registry.systemsManager(window);
-//     window.display();
-// }

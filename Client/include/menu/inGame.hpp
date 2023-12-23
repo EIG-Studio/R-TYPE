@@ -22,7 +22,11 @@ public:
     void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
-    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer& mCommandsToServer, Sprite mSprite);
+    void SendMessage(CommandsToServer& commandsToServer);
+    void  movePlayer(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void HandleMovement(sf::Keyboard::Key key, sf::Joystick::Axis axis, CommandsToServer& commandsToServer, float movementSpeed,
+    float joystickThreshold, float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit);
+    void SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed);
     void  colidePlayer();
     bool  onGame;
 
