@@ -20,6 +20,8 @@ public:
     void  setPlayerPath(Sprite mSprite);
     float getPosPlayerY();
     float getPosEnnemyY();
+    float getPosPlayerX();
+    float getPosEnnemyX();
     void  moveParallax();
     void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);

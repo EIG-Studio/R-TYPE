@@ -203,13 +203,17 @@ int main()
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
                     ennemies.destroyEnnemy(game.getPosPlayerY(), game.getPosEnnemyY());
                 }
+                if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
+                    game.moveParallax();
+                    game.repeatParallax();
+                    onGameClock.restart();
+                }
             }
-            if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
-                game.moveParallax();
-                game.repeatParallax();
-                onGameClock.restart();
-            }
+            sf::Vertex line[] =
+                {sf::Vertex(sf::Vector2f(game.getPosEnnemyX(), game.getPosEnnemyY() + 40)),
+                 sf::Vertex(sf::Vector2f(game.getPosEnnemyX(), game.getPosEnnemyY() - 15))};
             window.draw(game);
+            window.draw(line, 2, sf::Lines);
         }
         window.display();
     }

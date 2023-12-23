@@ -145,6 +145,13 @@ float Game::getPosEnnemyY() {
     return this->m_ennemySprite.getPosition().y;
 }
 
+float Game::getPosPlayerX() {
+    return this->m_playerSprite.getPosition().x;
+}
+
+float Game::getPosEnnemyX() {
+    return this->m_ennemySprite.getPosition().x;
+}
 
 float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
 {
