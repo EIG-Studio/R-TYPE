@@ -131,6 +131,14 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
+float Game::getPosPlayerY() {
+    return this->m_playerSprite.getPosition().y + (this->m_playerSprite.getGlobalBounds().height / 2);
+}
+
+float Game::getPosPlayerX() {
+    return this->m_playerSprite.getPosition().x;
+}
+
 float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
@@ -163,91 +171,87 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToSer
     return newPosY;
 }
 
-void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
-{
-    float tempPosX = this->m_playerSprite.getPosition().x;
-    float tempPosY = this->m_playerSprite.getPosition().y;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
-        if (this->m_playerSprite.getPosition().y > 0) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 1";
-            // oss << "UP";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveUp();
-            std::cout << "UP" << std::endl;
-
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
-        if (this->m_playerSprite.getPosition().x < winX - 103) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            // oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-            //     << movementSpeed << " 2";
-            oss << "RIGHT";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveRight();
-            std::cout << "RIGHT" << std::endl;
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
-        if (this->m_playerSprite.getPosition().y < winY - 37.75) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 3";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveDown();
-            std::cout << "DOWN" << std::endl;
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
-        if (this->m_playerSprite.getPosition().x > 0) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 4";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveLeft();
-            std::cout << "LEFT" << std::endl;
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (tempPosX == this->m_playerSprite.getPosition().x && tempPosY == this->m_playerSprite.getPosition().y) {
-        mSprite.setPlayerPath("../Client/assets/Cars/189_neutral.png");
-        this->setPlayerPath(mSprite);
-    }
-}
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
+//         if (this->m_playerSprite.getPosition().y > 0) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//                 << movementSpeed << " 1";
+//             // oss << "UP";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveUp();
+//             std::cout << "UP" << std::endl;
+//
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
+//         if (this->m_playerSprite.getPosition().x < winX - 103) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             // oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//             //     << movementSpeed << " 2";
+//             oss << "RIGHT";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveRight();
+//             std::cout << "RIGHT" << std::endl;
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
+//         if (this->m_playerSprite.getPosition().y < winY - 37.75) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//                 << movementSpeed << " 3";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveDown();
+//             std::cout << "DOWN" << std::endl;
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
+//         if (this->m_playerSprite.getPosition().x > 0) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//                 << movementSpeed << " 4";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveLeft();
+//             std::cout << "LEFT" << std::endl;
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (tempPosX == this->m_playerSprite.getPosition().x && tempPosY == this->m_playerSprite.getPosition().y) {
+//         mSprite.setPlayerPath("../Client/assets/Cars/189_neutral.png");
+//         this->setPlayerPath(mSprite);
+//     }
+// }
 
 void Game::colidePlayer()
 {

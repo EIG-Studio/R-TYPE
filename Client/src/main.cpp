@@ -5,11 +5,10 @@
 ** main
 */
 
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
 #include "ECS.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
+#include "ennemies.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "menu/settingMenu.hpp"
@@ -22,9 +21,11 @@
 
 #include <dlfcn.h>
 
-
 int main()
 {
+    // ECS ecs;
+    // ecs.setPath("GameEngine/libsamurai_ecs.so");
+
     float movementSpeed = 5.0f;
     // Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
@@ -50,6 +51,8 @@ int main()
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
     Sprite sprite;
+    Ennemies ennemies;
+    ennemies.setPath();
     Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
@@ -105,9 +108,6 @@ int main()
         font,
         20);
 
-    Registry registry = Registry();
-
-
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -116,14 +116,6 @@ int main()
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
                 menu.onMenu = false;
                 choiceMenu.onChoice = true;
-            }
-            if (event.type == sf::Event::KeyReleased) {
-                if (event.key.code == sf::Keyboard::S)
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
-            }
-            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
-                if (event.joystickButton.button == sf::Joystick::Y)
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
                 music.musicMenu.stop();
@@ -200,28 +192,31 @@ int main()
 
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
-            if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
-                game.moveParallax();
-                game.repeatParallax();
-                onGameClock.restart();
+            game.movePlayer(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == sf::Keyboard::S) {
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
+                    ennemies.destroyEnnemy(game.getPosPlayerY(), ennemies.getPosEnnemyY());
+                }
             }
+            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
+                if (event.joystickButton.button == sf::Joystick::Y) {
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
+                    ennemies.destroyEnnemy(game.getPosPlayerY(), ennemies.getPosEnnemyY());
+                }
+                if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
+                    game.moveParallax();
+                    game.repeatParallax();
+                    onGameClock.restart();
+                }
+            }
+            sf::Vertex line[] =
+                {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
+                 sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
             window.draw(game);
+            window.draw(line, 2, sf::Lines);
+            window.draw(ennemies);
         }
         window.display();
     }
 }
-
-// while (window.isOpen()) {
-//     sf::Event event{};
-//     while (window.pollEvent(event)) {
-//         if (event.type == sf::Event::Closed) {
-//             window.close();
-//         }
-//     }
-
-//     window.clear();
-
-//     registry.systemsManager(window);
-//     window.display();
-// }

@@ -41,6 +41,8 @@ add_executable(${PROJECT_NAME}
     src/music/music.cpp
     src/menu/inGame.cpp
     src/commandsToServer.cpp
+    src/player/movements.cpp
+    src/ennemies.cpp
 )
 
 
