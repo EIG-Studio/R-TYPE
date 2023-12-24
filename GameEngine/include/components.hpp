@@ -60,34 +60,24 @@ private:
 };
 
 /********-ID Component-******/
-class ID {
+class ID
+{
 public:
-    ID() : m_id(getNextID()) {}
-    ID(std::size_t id) : m_id(id) {}
+    ID() = default;
+    ID(std::size_t id);
     ~ID() = default;
 
-    std::size_t getID() const {
-        return m_id;
-    }
+    std::size_t getID() const;
 
-    operator std::size_t() const {
+    operator std::size_t() const
+    {
         return m_id;
-    }
-
-    static std::size_t getLastAssignedID() {
-        return lastAssignedID;
     }
 
 private:
     std::size_t m_id;
-    static std::size_t lastAssignedID;
-
-    static std::size_t getNextID() {
-        return ++lastAssignedID;
-    }
 };
 
-inline std::size_t ID::lastAssignedID = 0;
 
 /********-Speed Component-******/
 class Speed
