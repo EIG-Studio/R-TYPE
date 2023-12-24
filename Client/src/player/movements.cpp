@@ -14,8 +14,7 @@ const float SPRITE_WIDTH = 103.0f;
 const float SPRITE_HEIGHT = 37.75f;
 
 
-void UpdateSpriteTexture(sf::Sprite& sprite, const std::string& texturePath)
-{
+void UpdateSpriteTexture(sf::Sprite& sprite, const std::string& texturePath) {
     static std::map<std::string, sf::Texture> textureCache;
     auto it = textureCache.find(texturePath);
     if (it == textureCache.end()) {
@@ -32,63 +31,21 @@ void UpdateSpriteTexture(sf::Sprite& sprite, const std::string& texturePath)
     sprite.setTexture(it->second);
 }
 
-void UpdateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, const std::string& texturePath)
-{
+void UpdateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, const std::string& texturePath) {
     sprite.setPosition(newX, newY);
 
     UpdateSpriteTexture(sprite, texturePath);
 }
 
-void Game::movePlayer(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
-{
+void Game::movePlayer(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite) {
     float initialPosX = this->m_playerSprite.getPosition().x;
     float initialPosY = this->m_playerSprite.getPosition().y;
 
     // Handle all movement directions
-    HandleMovement(
-        sf::Keyboard::Up,
-        sf::Joystick::Y,
-        commandsToServer,
-        movementSpeed,
-        -JOYSTICK_THRESHOLD,
-        0,
-        -movementSpeed,
-        "../Client/assets/Cars/189_toUp.png",
-        winY,
-        SPRITE_HEIGHT);
-    HandleMovement(
-        sf::Keyboard::Right,
-        sf::Joystick::X,
-        commandsToServer,
-        movementSpeed,
-        JOYSTICK_THRESHOLD,
-        movementSpeed,
-        0,
-        "../Client/assets/Cars/189_toRight.png",
-        winX,
-        SPRITE_WIDTH);
-    HandleMovement(
-        sf::Keyboard::Down,
-        sf::Joystick::Y,
-        commandsToServer,
-        movementSpeed,
-        JOYSTICK_THRESHOLD,
-        0,
-        movementSpeed,
-        "../Client/assets/Cars/189_toDown.png",
-        winY,
-        SPRITE_HEIGHT);
-    HandleMovement(
-        sf::Keyboard::Left,
-        sf::Joystick::X,
-        commandsToServer,
-        movementSpeed,
-        -JOYSTICK_THRESHOLD,
-        -movementSpeed,
-        0,
-        "../Client/assets/Cars/189_toLeft.png",
-        winX,
-        SPRITE_WIDTH);
+    HandleMovement(sf::Keyboard::Up, sf::Joystick::Y, commandsToServer, movementSpeed, -JOYSTICK_THRESHOLD, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT);
+    HandleMovement(sf::Keyboard::Right, sf::Joystick::X, commandsToServer, movementSpeed, JOYSTICK_THRESHOLD, movementSpeed, 0, "../Client/assets/Cars/189_toRight.png", winX, SPRITE_WIDTH);
+    HandleMovement(sf::Keyboard::Down, sf::Joystick::Y, commandsToServer, movementSpeed, JOYSTICK_THRESHOLD, 0, movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT);
+    HandleMovement(sf::Keyboard::Left, sf::Joystick::X, commandsToServer, movementSpeed, -JOYSTICK_THRESHOLD, -movementSpeed, 0, "../Client/assets/Cars/189_toLeft.png", winX, SPRITE_WIDTH);
 
     // Check for no input
     if (initialPosX == this->m_playerSprite.getPosition().x && initialPosY == this->m_playerSprite.getPosition().y) {
@@ -98,18 +55,8 @@ void Game::movePlayer(float movementSpeed, float winX, float winY, CommandsToSer
 }
 
 
-void Game::HandleMovement(
-    sf::Keyboard::Key key,
-    sf::Joystick::Axis axis,
-    CommandsToServer& commandsToServer,
-    float movementSpeed,
-    float joystickThreshold,
-    float deltaX,
-    float deltaY,
-    const std::string& path,
-    float windowLimit,
-    float spriteLimit)
-{
+void Game::HandleMovement(sf::Keyboard::Key key, sf::Joystick::Axis axis, CommandsToServer& commandsToServer, float movementSpeed,
+                          float joystickThreshold, float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit) {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
     float axisPosition = sf::Joystick::getAxisPosition(0, axis);
     bool joystickMoved = (deltaX != 0 && (axis == sf::Joystick::X && std::abs(axisPosition) > joystickThreshold)) ||
@@ -120,8 +67,8 @@ void Game::HandleMovement(
         float newY = this->m_playerSprite.getPosition().y + (keyPressed ? deltaY : (axisPosition / 100) * movementSpeed);
 
         // Boundary check and ensure there's an actual movement
-        if (((deltaX != 0 && newX >= 0 && newX <= windowLimit - spriteLimit) ||
-             (deltaY != 0 && newY >= 0 && newY <= windowLimit - spriteLimit)) &&
+        if (((deltaX != 0 && newX >= 0 && newX <= windowLimit - spriteLimit) || 
+            (deltaY != 0 && newY >= 0 && newY <= windowLimit - spriteLimit)) &&
             (newX != this->m_playerSprite.getPosition().x || newY != this->m_playerSprite.getPosition().y)) {
             SendPositionUpdate(commandsToServer, newX, newY, movementSpeed);
             UpdateSpritePositionAndPath(this->m_playerSprite, newX, newY, path);
@@ -130,13 +77,10 @@ void Game::HandleMovement(
 }
 
 
-void Game::SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed)
-{
+
+void Game::SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed) {
     std::ostringstream oss;
-    // oss << "POS " << x << " " << y << " " << speed << " 1";
-    // send RIGHT or LEFT
-    oss << "RIGHT";
-    // oss  << "RIGHT";
+    oss << "POS " << x << " " << y << " " << speed << " 1";
     std::string positionString = oss.str();
     commandsToServer.sendToServerAsync(positionString);
 }

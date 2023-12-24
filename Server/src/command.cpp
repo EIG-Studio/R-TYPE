@@ -20,7 +20,7 @@ void Server::createPlayer(Registry& registry)
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
-    Speed speedComponent(10.5);
+    Speed speedComponent(100.5);
     Type typeComponent = std::any_cast<EntityType>(Player);
 
     // entity = registry.addComponent(entity, idComponent);
@@ -49,30 +49,30 @@ void Server::addMessage(const std::string& message)
     this->m_mutex.unlock();
 }
 
-// void Server::goUp()
-// {
-//     Registry registry = Registry();
-//     Entity entity = registry.getEntity(/*id*/);
-//     Position positionComponent = registry.getComponent<Position>(entity);
-//     Speed speedComponent = registry.getComponent<Speed>(entity);
-//     std::ostringstream newPlayer;
-//     newPlayer << "NEW_POS " << positionComponent.getPosition().first << " "
-//               << positionComponent.getPosition().second - 1 * speedComponent.getSpeed() << "\n";
-//     addMessage(newPlayer.str());
-// }
-//
-// void Server::goDown()
-// {
-//     Registry registry = Registry();
-//     Entity entity = registry.getEntity(/*id*/);
-//     Position positionComponent = registry.getComponent<Position>(entity);
-//     Speed speedComponent = registry.getComponent<Speed>(entity);
-//     std::ostringstream newPlayer;
-//     newPlayer << "NEW_POS " << positionComponent.getPosition().first << " "
-//               << positionComponent.getPosition().second + 1 * speedComponent.getSpeed() << "\n";
-//     addMessage(newPlayer.str());
-// }
-//
+void Server::goUp(Registry& registry)
+{
+    Entity entity = registry.getEntity(0);
+    Position positionComponent = registry.getComponent(entity, Position());
+    Speed speedComponent = registry.getComponent(entity, Speed());
+
+    std::ostringstream setPos;
+    setPos << "NEW_POS " << positionComponent.getPosition().first << " "
+           << positionComponent.getPosition().second - 1 * speedComponent.getSpeed() << "\n";
+    addMessage(setPos.str());
+}
+
+void Server::goDown(Registry& registry)
+{
+    Entity entity = registry.getEntity(0);
+    Position positionComponent = registry.getComponent(entity, Position());
+    Speed speedComponent = registry.getComponent(entity, Speed());
+
+    std::ostringstream setPos;
+    setPos << "NEW_POS " << positionComponent.getPosition().first << " "
+           << positionComponent.getPosition().second + 1 * speedComponent.getSpeed() << "\n";
+    addMessage(setPos.str());
+}
+
 void Server::goRight(Registry& registry)
 {
     // ID idComponent;
@@ -82,24 +82,23 @@ void Server::goRight(Registry& registry)
 
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
-    std::ostringstream newPlayer;
-    newPlayer << "NEW_POS " << positionComponent.getPosition().first + 1 * speedComponent.getSpeed() << " "
-              << positionComponent.getPosition().second << "\n";
-    addMessage(newPlayer.str());
+    std::ostringstream setPos;
+    setPos << "NEW_POS " << positionComponent.getPosition().first + 1 * speedComponent.getSpeed() << " "
+           << positionComponent.getPosition().second << "\n";
+    addMessage(setPos.str());
 }
-//
-// void Server::goLeft()
-// {
-//     Registry registry = Registry();
-//     Entity entity = registry.getEntity(/*id*/);
-//     Position positionComponent = registry.getComponent<Position>(entity);
-//     Speed speedComponent = registry.getComponent<Speed>(entity);
-//     std::ostringstream newPlayer;
-//     newPlayer << "NEW_POS " << positionComponent.getPosition().first - 1 * speedComponent.getSpeed() << " "
-//               << positionComponent.getPosition().second << "\n";
-//     addMessage(newPlayer.str());
-// }
 
+void Server::goLeft(Registry& registry)
+{
+    Entity entity = registry.getEntity(0); // idComponent.getID() plus tard
+    Position positionComponent = registry.getComponent(entity, Position());
+    Speed speedComponent = registry.getComponent(entity, Speed());
+
+    std::ostringstream setPos;
+    setPos << "NEW_POS " << positionComponent.getPosition().first - 1 * speedComponent.getSpeed() << " "
+           << positionComponent.getPosition().second << "\n";
+    addMessage(setPos.str());
+}
 
 void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry)
 {
@@ -116,7 +115,11 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
         } else if (command.find("RIGHT") == 0) {
             goRight(registry);
         } else if (command.find("LEFT") == 0) {
-            // goLeft();
+            goLeft(registry);
+        } else if (command.find("UP") == 0) {
+            goUp(registry);
+        } else if (command.find("DOWN") == 0) {
+            goDown(registry);
         } else {
             std::cout << "Unknown command" << std::endl;
             return;

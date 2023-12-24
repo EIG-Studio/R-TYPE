@@ -43,8 +43,8 @@ private:
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     void createPlayer(Registry& registry);
-    void goUp();
-    void goDown();
+    void goUp(Registry& registry);
+    void goDown(Registry& registry);
     void goRight(Registry& registry);
-    void goLeft();
+    void goLeft(Registry& registry);
 };
