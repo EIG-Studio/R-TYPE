@@ -12,6 +12,7 @@
 #include "entities.hpp"
 
 #include <algorithm>
+#include <ostream>
 #include <string>
 
 void Server::createPlayer(Registry& registry)
@@ -121,8 +122,9 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
         } else if (command.find("DOWN") == 0) {
             goDown(registry);
         } else {
-            std::cout << "Unknown command" << std::endl;
-            return;
+            std::ostringstream cmd;
+            cmd << "Unknown command: " << command << std::endl;
+            addMessage(cmd.str());
         }
     }
 }

@@ -70,7 +70,7 @@ void Game::HandleMovement(sf::Keyboard::Key key, sf::Joystick::Axis axis, Comman
         if (((deltaX != 0 && newX >= 0 && newX <= windowLimit - spriteLimit) || 
             (deltaY != 0 && newY >= 0 && newY <= windowLimit - spriteLimit)) &&
             (newX != this->m_playerSprite.getPosition().x || newY != this->m_playerSprite.getPosition().y)) {
-            SendPositionUpdate(commandsToServer, newX, newY, movementSpeed);
+            // SendPositionUpdate(commandsToServer, newX, newY, movementSpeed);
             UpdateSpritePositionAndPath(this->m_playerSprite, newX, newY, path);
         }
     }
