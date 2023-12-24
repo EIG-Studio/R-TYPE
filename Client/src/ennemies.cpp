@@ -9,6 +9,14 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
+const float SPRITE_HEIGHT = 60.0f;
+
+Ennemies::Ennemies()
+{
+    this->m_moveSpeed = 0.2;
+};
 
 void Ennemies::setPath()
 {
@@ -44,4 +52,51 @@ void Ennemies::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.texture = &m_ennemyTexture;
     target.draw(m_ennemySprite, states);
+}
+
+
+void Ennemies::moveEnnemy(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer)
+{
+    this->HandleMovement(commandsToServer, movementSpeed, winX, movementSpeed, winY, SPRITE_HEIGHT);
+}
+
+void updateSpritePosition(sf::Sprite& sprite, float newX, float newY)
+{
+    sprite.setPosition(newX, newY);
+}
+
+void Ennemies::HandleMovement(
+    CommandsToServer& commandsToServer,
+    float movementSpeed,
+    float deltaX,
+    float deltaY,
+    float windowLimit,
+    float spriteLimit)
+{
+
+    if (this->m_ennemySprite.getPosition().y >= windowLimit - spriteLimit) {
+        this->m_moveSpeed = -0.2;
+    } else if (this->m_ennemySprite.getPosition().y == 0) {
+        this->m_moveSpeed = 0.2;
+    }
+
+    float newX = this->m_ennemySprite.getPosition().x + (0 * movementSpeed);
+    float newY = this->m_ennemySprite.getPosition().y + (this->m_moveSpeed * movementSpeed);
+
+    // Boundary check and ensure there's an actual movement
+    if (((deltaX != 0 && newX >= 0 && newX <= windowLimit - spriteLimit) ||
+         (deltaY != 0 && newY >= 0 && newY <= windowLimit - spriteLimit)) &&
+        (newX != this->m_ennemySprite.getPosition().x || newY != this->m_ennemySprite.getPosition().y)) {
+        SendPositionUpdate(commandsToServer, newX, newY, movementSpeed);
+        updateSpritePosition(this->m_ennemySprite, newX, newY);
+    }
+    std::cout << "test" << std::endl;
+}
+
+void Ennemies::SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed)
+{
+    std::ostringstream oss;
+    oss << "POS " << x << " " << y << " " << speed << " 1";
+    std::string positionString = oss.str();
+    commandsToServer.sendToServerAsync(positionString);
 }
