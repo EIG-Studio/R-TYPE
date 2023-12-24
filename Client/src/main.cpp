@@ -193,7 +193,7 @@ int main()
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.movePlayer(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
-            ennemies.moveEnnemy(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer);
+            // ennemies.moveEnnemy(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer);
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::S) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
