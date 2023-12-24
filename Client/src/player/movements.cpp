@@ -80,7 +80,17 @@ void Game::HandleMovement(sf::Keyboard::Key key, sf::Joystick::Axis axis, Comman
 
 void Game::SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed) {
     std::ostringstream oss;
-    oss << "POS " << x << " " << y << " " << speed << " 1";
+    // oss << "POS " << x << " " << y << " " << speed << " 1";
+    // send RIGHT or LEFT
+    if (x > 0)
+        oss << "RIGHT";
+    else if (x < 0)
+        oss << "RIGHT";
+    else if (y > 0)
+        oss << "DOWN";
+    else if (y < 0)
+        oss << "UP";
+    // oss  << "RIGHT";
     std::string positionString = oss.str();
     commandsToServer.sendToServerAsync(positionString);
 }

@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "entities.hpp"
+
 #include <bitset>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -37,12 +39,12 @@ private:
     std::mutex m_mutex;
     int m_nbClients = 1;
 
-    void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
+    void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
-    void createPlayer();
+    void createPlayer(Registry& registry);
     void goUp();
     void goDown();
-    void goRight();
+    void goRight(Registry& registry);
     void goLeft();
 };

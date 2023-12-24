@@ -14,9 +14,8 @@
 #include <algorithm>
 #include <string>
 
-void Server::createPlayer()
+void Server::createPlayer(Registry& registry)
 {
-    Registry registry = Registry();
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
@@ -26,6 +25,7 @@ void Server::createPlayer()
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, rendererComponent);
+    std::cout << "entity: " << entity.mComponents.size() << std::endl;
     entity = registry.addComponent(entity, typeComponent);
 
     std::ostringstream newPlayer;
@@ -70,17 +70,20 @@ void Server::addMessage(const std::string& message)
 //     addMessage(newPlayer.str());
 // }
 //
-// void Server::goRight()
-// {
-//     Registry registry = Registry();
-//     Entity entity = registry.getEntity(/*id*/);
-//     Position positionComponent = registry.getComponent<Position>(entity);
-//     Speed speedComponent = registry.getComponent<Speed>(entity);
-//     std::ostringstream newPlayer;
-//     newPlayer << "NEW_POS " << positionComponent.getPosition().first + 1 * speedComponent.getSpeed() << " "
-//               << positionComponent.getPosition().second << "\n";
-//     addMessage(newPlayer.str());
-// }
+void Server::goRight(Registry& registry)
+{
+    // ID idComponent;
+    Entity entity = registry.getEntity(1); // idComponent.getID() plus tard
+    // std::cout << "id: " << idComponent.getID() << std::endl;
+    std::cout << "entity: " << entity.mComponents.size() << std::endl;
+
+    Position positionComponent = registry.getComponent(entity, Position());
+    Speed speedComponent = registry.getComponent(entity, Speed());
+    std::ostringstream newPlayer;
+    newPlayer << "NEW_POS " << positionComponent.getPosition().first + 1 * speedComponent.getSpeed() << " "
+              << positionComponent.getPosition().second << "\n";
+    addMessage(newPlayer.str());
+}
 //
 // void Server::goLeft()
 // {
@@ -94,32 +97,30 @@ void Server::addMessage(const std::string& message)
 //     addMessage(newPlayer.str());
 // }
 
-void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived)
+
+void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry)
 {
     if (!error && bytesReceived > 0) {
         std::cout << "Received: " << m_recvBuf.data() << std::endl;
         std::string command = std::string(m_recvBuf.data());
+
         if (command.find("SHOOT") == 0) {
             addMessage("CREATED\n");
-        } else if (command.find("POS") == 0) {
-            handlePositionUpdate();
         } else if (command.find("LOGIN") == 0) {
-            createPlayer();
+            createPlayer(registry);
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
-            // } else if (command.find("UP") == 0) {
-            //     goUp();
-            // } else if (command.find("DOWN") == 0) {
-            //     goDown();
-            // } else if (command.find("RIGHT") == 0) {
-            //     goRight();
-            // } else if (command.find("LEFT") == 0) {
-            //     goLeft();
+        } else if (command.find("RIGHT") == 0) {
+            goRight(registry);
+        } else if (command.find("LEFT") == 0) {
+            // goLeft();
         } else {
             std::cout << "Unknown command" << std::endl;
+            return;
         }
     }
 }
+
 
 void Server::handlePositionUpdate()
 {

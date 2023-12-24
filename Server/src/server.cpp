@@ -10,7 +10,8 @@
 void Server::startListening()
 {
     auto receiveCallback = [this](const boost::system::error_code& error, std::size_t bytesReceived) {
-        handleReceivedData(error, bytesReceived);
+        Registry registry;
+        handleReceivedData(error, bytesReceived, registry);
         m_recvBuf.fill(0);
         startListening();
     };
