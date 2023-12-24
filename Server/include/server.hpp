@@ -26,7 +26,7 @@ public:
     {
     }
 
-    void startListening();
+    void startListening(Registry& registry);
     void startSending();
     void sendMessage(const std::string& message);
 

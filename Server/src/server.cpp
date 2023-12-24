@@ -7,13 +7,14 @@
 
 #include "server.hpp"
 
-void Server::startListening()
+#include "entities.hpp"
+
+void Server::startListening(Registry& registry)
 {
-    auto receiveCallback = [this](const boost::system::error_code& error, std::size_t bytesReceived) {
-        Registry registry;
+    auto receiveCallback = [this, &registry](const boost::system::error_code& error, std::size_t bytesReceived) {
         handleReceivedData(error, bytesReceived, registry);
         m_recvBuf.fill(0);
-        startListening();
+        startListening(registry);
     };
     m_socket.async_receive_from(boost::asio::buffer(m_recvBuf), m_remoteEndpoint, receiveCallback);
     m_ioService.run();

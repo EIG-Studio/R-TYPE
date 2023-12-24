@@ -46,12 +46,13 @@ std::string Registry::systemsManager(sf::RenderWindow& window)
 Entity Registry::getEntity(size_t id)
 {
     Entity entity;
-    ID newID;
+    size_t otherID;
 
     for (auto & mEntitie : m_entities) {
-        newID = any_cast<ID>(mEntitie.mComponents[0]);
-        if (newID.getID() == id)
-            entity = mEntitie;
+        otherID = std::any_cast<size_t>(this->getComponent(mEntitie, ID{}).getID());
+        if (otherID == id) {
+            return mEntitie;
+        }
     }
 
     return entity;

@@ -20,17 +20,20 @@ void Server::createPlayer(Registry& registry)
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
+    Speed speedComponent(10.5);
     Type typeComponent = std::any_cast<EntityType>(Player);
 
-    entity = registry.addComponent(entity, idComponent);
+    // entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, rendererComponent);
+    entity = registry.addComponent(entity, speedComponent);
     std::cout << "entity: " << entity.mComponents.size() << std::endl;
     entity = registry.addComponent(entity, typeComponent);
 
     std::ostringstream newPlayer;
-    newPlayer << "NEW " << static_cast<int>(idComponent) << " " << positionComponent.getPosition().first << " "
-              << positionComponent.getPosition().second << " " << typeComponent << "\n";
+    newPlayer << "NEW " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+              << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
+              << typeComponent << "\n";
     addMessage(newPlayer.str());
 
     // Also display the values.
@@ -73,7 +76,7 @@ void Server::addMessage(const std::string& message)
 void Server::goRight(Registry& registry)
 {
     // ID idComponent;
-    Entity entity = registry.getEntity(1); // idComponent.getID() plus tard
+    Entity entity = registry.getEntity(0); // idComponent.getID() plus tard
     // std::cout << "id: " << idComponent.getID() << std::endl;
     std::cout << "entity: " << entity.mComponents.size() << std::endl;
 

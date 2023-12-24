@@ -54,9 +54,9 @@ int main()
         // }
 
         Server server;
+        Registry registry;
 
-
-        std::thread serverThread(&Server::startListening, &server);
+        std::thread serverThread(&Server::startListening, &server, std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
         serverThread.join();
         serverThread2.join();
