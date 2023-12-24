@@ -42,6 +42,7 @@ public:
     ~Registry() = default;
     Entity createEntity();
     void destroyEntity(Entity entity);
+    Entity getEntity(size_t id);
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>

@@ -42,3 +42,17 @@ std::string Registry::systemsManager(sf::RenderWindow& window)
         }
     return "Hello";
 }
+
+Entity Registry::getEntity(size_t id)
+{
+    Entity entity;
+    ID newID;
+
+    for (auto & mEntitie : m_entities) {
+        newID = any_cast<ID>(mEntitie.mComponents[0]);
+        if (newID.getID() == id)
+            entity = mEntitie;
+    }
+
+    return entity;
+}
