@@ -58,7 +58,7 @@ void Server::goUp(Registry& registry, std::string command)
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
 }
 
-void Server::goDown(Registry& registry)
+void Server::goDown(Registry& registry, std::string command)
 {
     Entity entity = registry.getEntity(0);
     Position positionComponent = registry.getComponent(entity, Position());
@@ -69,7 +69,7 @@ void Server::goDown(Registry& registry)
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
 }
 
-void Server::goRight(Registry& registry)
+void Server::goRight(Registry& registry, std::string command)
 {
     Entity entity = registry.getEntity(0);
 
@@ -81,7 +81,7 @@ void Server::goRight(Registry& registry)
         positionComponent.getPosition().second));
 }
 
-void Server::goLeft(Registry& registry)
+void Server::goLeft(Registry& registry, std::string command)
 {
     Entity entity = registry.getEntity(0);
     Position positionComponent = registry.getComponent(entity, Position());

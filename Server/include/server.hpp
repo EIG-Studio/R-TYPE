@@ -44,7 +44,7 @@ private:
     void addMessage(const std::string& message);
     void createPlayer(Registry& registry);
     void goUp(Registry& registry, std::string command);
-    void goDown(Registry& registry);
-    void goRight(Registry& registry);
-    void goLeft(Registry& registry);
+    void goDown(Registry& registry, std::string command);
+    void goRight(Registry& registry, std::string command);
+    void goLeft(Registry& registry, std::string command);
 };
