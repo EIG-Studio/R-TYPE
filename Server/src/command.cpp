@@ -46,7 +46,7 @@ void Server::addMessage(const std::string& message)
     this->m_mutex.unlock();
 }
 
-void Server::goUp(Registry& registry)
+void Server::goUp(Registry& registry, std::string command)
 {
     Entity entity = registry.getEntity(0);
     std::cout << "id UP: " << registry.getComponent(entity, ID()).getID() << std::endl;
@@ -109,7 +109,7 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
         } else if (command.find("LEFT") == 0) {
             goLeft(registry);
         } else if (command.find("UP") == 0) {
-            goUp(registry);
+            goUp(registry, command);
         } else if (command.find("DOWN") == 0) {
             goDown(registry);
         } else {
