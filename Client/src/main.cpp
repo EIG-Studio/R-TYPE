@@ -219,12 +219,14 @@ int main()
             //     sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
 
 
-            Entity player = registry.getPlayer();
+            std::vector<Entity> players = registry.getListPlayers();
             std::vector<Entity> ennemies = registry.getListEnemies();
             window.draw(game);
             //window.draw(line, 2, sf::Lines);
             //window.draw(ennemies);
-            renderSystem(player, registry, window);
+            for (auto& player : players) {
+                renderSystem(player, registry, window);
+            }
             for (auto& ennemy : ennemies) {
                 renderSystem(ennemy, registry, window);
             }

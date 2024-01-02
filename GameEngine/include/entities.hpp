@@ -47,6 +47,7 @@ public:
     Entity getPlayer();
     Entity getFirstEnemy();
     std::vector<Entity> getListEnemies();
+    std::vector<Entity> getListPlayers();
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>

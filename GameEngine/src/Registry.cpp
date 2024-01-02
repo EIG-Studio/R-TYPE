@@ -105,3 +105,16 @@ std::vector<Entity> Registry::getListEnemies() {
     }
     return enemies;
 }
+
+std::vector<Entity> Registry::getListPlayers() {
+    std::vector<Entity> players;
+    for (auto& player : m_entities) {
+        if (this->hasComponent(player, Type{})) {
+            Type& typeComponent = this->getComponent(player, Type{});
+            if (typeComponent.getEntityType() == EntityType::Player) {
+                players.push_back(player);
+            }
+        }
+    }
+    return players;
+}
