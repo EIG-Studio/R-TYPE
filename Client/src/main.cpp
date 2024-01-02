@@ -11,7 +11,6 @@
 #include "ECS.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
-#include "ennemies.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "menu/settingMenu.hpp"
@@ -51,8 +50,6 @@ int main()
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
     Sprite sprite;
-    //Ennemies ennemies;
-    //ennemies.setPath();
     Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
@@ -196,17 +193,14 @@ int main()
         } else if (game.onGame) {
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.movePlayer(registry, movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
-            //ennemies.moveEnnemy(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, registry);
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
-                    //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
-                    //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
                 if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                     game.moveParallax();
@@ -214,16 +208,9 @@ int main()
                     onGameClock.restart();
                 }
             }
-            //sf::Vertex line[] =
-            //    {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
-            //     sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
-
-
             std::vector<Entity> players = registry.getListPlayers();
             std::vector<Entity> ennemies = registry.getListEnemies();
             window.draw(game);
-            //window.draw(line, 2, sf::Lines);
-            //window.draw(ennemies);
             for (auto& player : players) {
                 renderSystem(player, registry, window);
             }
