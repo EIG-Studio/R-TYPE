@@ -22,7 +22,7 @@ void Server::createPlayer(Registry& registry)
     std::cout << "id: " << idComponent.getID() << std::endl;
     Position positionComponent = Position(std::make_pair(0, 0));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
-    Speed speedComponent(100.5);
+    Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Player);
 
     entity = registry.addComponent(entity, idComponent);
@@ -45,7 +45,7 @@ void Server::createEnnemy(Registry& registry)
     std::cout << "id: " << idComponent.getID() << std::endl;
     Position positionComponent = Position(std::make_pair(0, 0));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
-    Speed speedComponent(100.5);
+    Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Enemy);
 
     entity = registry.addComponent(entity, idComponent);
@@ -85,7 +85,8 @@ void Server::goUp(Registry& registry, std::string& command)
     std::cout << "pos: " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
               << std::endl;
     positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1));
+        std::
+            make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
     std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos << std::endl;
@@ -106,7 +107,8 @@ void Server::goDown(Registry& registry, std::string& command)
     Speed speedComponent = registry.getComponent(entity, Speed());
 
     positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1));
+        std::
+            make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
     std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos << std::endl;
@@ -127,8 +129,9 @@ void Server::goRight(Registry& registry, std::string& command)
     Position& positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
 
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first + 1, positionComponent.getPosition().second));
+    positionComponent.setPosition(std::make_pair(
+        positionComponent.getPosition().first + 1 * speedComponent.getSpeed(),
+        positionComponent.getPosition().second));
     std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos << std::endl;
@@ -149,8 +152,9 @@ void Server::goLeft(Registry& registry, std::string& command)
     Speed speedComponent = registry.getComponent(entity, Speed());
 
 
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first - 1, positionComponent.getPosition().second));
+    positionComponent.setPosition(std::make_pair(
+        positionComponent.getPosition().first - 1 * speedComponent.getSpeed(),
+        positionComponent.getPosition().second));
     std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos;
