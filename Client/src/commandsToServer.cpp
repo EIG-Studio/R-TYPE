@@ -92,6 +92,22 @@ void handleReceive(
 
             std::cout << "player id: " << registry.getComponent(player, ID{}) << "\nPlayer pos: " << xPos << " " << yPos
                       << '\n';
+        } else if (asciiString.find("ENNEMY") == 0) {
+            std::cout << "Ennemy created" << std::endl;
+            Entity ennemy;
+            ennemy = registry.createEntity();
+            ennemy = registry.addComponent(ennemy, ID(1));
+            ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(200, 700), randNb(0, 500))));
+            ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
+            ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
+
+            Position ennemy_pos = registry.getComponent(ennemy, Position{});
+            std::pair<float, float> pair_pos = ennemy_pos.getPosition();
+            Renderer ennemy_renderer = registry.getComponent(ennemy, Renderer{});
+            sf::Sprite ennemy_sprite = ennemy_renderer.getRenderer();
+
+            sf::Vector2f sprite_pos = ennemy_sprite.getPosition();
+            std::cout << "Ennemy created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {
