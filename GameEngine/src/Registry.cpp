@@ -73,7 +73,7 @@ Entity Registry::getPlayer() {
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player) {
+            if (typeComponent.getEntityType() == EntityType::Player || typeComponent.getEntityType() == EntityType::Enemy) {
                 return entity;
             }
         }

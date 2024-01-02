@@ -47,7 +47,7 @@ void Server::createEnnemy(Registry& registry)
     Position positionComponent = Position(std::make_pair(0, 0));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(100.5);
-    Type typeComponent = std::any_cast<EntityType>(Player);
+    Type typeComponent = std::any_cast<EntityType>(Enemy);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);

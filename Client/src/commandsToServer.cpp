@@ -96,9 +96,17 @@ void handleReceive(
                       << '\n';
         } else if (asciiString.find("ENNEMY") == 0) {
             std::cout << "Ennemy created" << std::endl;
-            Entity ennemy;
-            ennemy = registry.createEntity();
-            ennemy = registry.addComponent(ennemy, ID(1));
+            std::vector<std::string> parts = split(asciiString, ' ');
+
+            int id = std::stoi(parts[1]);
+            float xPos = std::stof(parts[2]);
+            float yPos = std::stof(parts[3]);
+            std::string playerType = parts[4];
+
+            std::cout << "get id: " << id << "\n";
+
+            Entity ennemy = registry.createEntityWithID(id);
+            //player = registry.addComponent(player, ID(id));
             ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(200, 700), randNb(0, 500))));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
