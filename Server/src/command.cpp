@@ -46,9 +46,15 @@ void Server::addMessage(const std::string& message)
     this->m_mutex.unlock();
 }
 
-void Server::goUp(Registry& registry)
+void Server::goUp(Registry& registry, std::string& command)
 {
-    Entity entity = registry.getEntity(0);
+    std::string id = " ";
+    if (command.find("UP") + 2 < command.size()) {
+        id = command.substr(command.find("UP") + 2);
+        std::cout << "id cmd: " << id << std::endl;
+    }
+    std::cout << "id: " << id << std::endl;
+    Entity entity = registry.getEntity(std::stoi(id));
     std::cout << "id UP: " << registry.getComponent(entity, ID()).getID() << std::endl;
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
@@ -58,8 +64,14 @@ void Server::goUp(Registry& registry)
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
 }
 
-void Server::goDown(Registry& registry)
+void Server::goDown(Registry& registry, std::string& command)
 {
+    std::string id = " ";
+    if (command.find("UP") + 2 < command.size()) {
+        id = command.substr(command.find("UP") + 2);
+        std::cout << "id cmd: " << id << std::endl;
+    }
+    std::cout << "id: " << id << std::endl;
     Entity entity = registry.getEntity(0);
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
@@ -69,8 +81,14 @@ void Server::goDown(Registry& registry)
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
 }
 
-void Server::goRight(Registry& registry)
+void Server::goRight(Registry& registry, std::string& command)
 {
+    std::string id = " ";
+    if (command.find("UP") + 2 < command.size()) {
+        id = command.substr(command.find("UP") + 2);
+        std::cout << "id cmd: " << id << std::endl;
+    }
+    std::cout << "id: " << id << std::endl;
     Entity entity = registry.getEntity(0);
 
     Position positionComponent = registry.getComponent(entity, Position());
@@ -81,8 +99,14 @@ void Server::goRight(Registry& registry)
         positionComponent.getPosition().second));
 }
 
-void Server::goLeft(Registry& registry)
+void Server::goLeft(Registry& registry, std::string& command)
 {
+    std::string id = " ";
+    if (command.find("UP") + 2 < command.size()) {
+        id = command.substr(command.find("UP") + 2);
+        std::cout << "id cmd: " << id << std::endl;
+    }
+    std::cout << "id: " << id << std::endl;
     Entity entity = registry.getEntity(0);
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
@@ -105,13 +129,13 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
         } else if (command.find("RIGHT") == 0) {
-            goRight(registry);
+            goRight(registry, command);
         } else if (command.find("LEFT") == 0) {
-            goLeft(registry);
+            goLeft(registry, command);
         } else if (command.find("UP") == 0) {
-            goUp(registry);
+            goUp(registry, command);
         } else if (command.find("DOWN") == 0) {
-            goDown(registry);
+            goDown(registry, command);
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << command << std::endl;
