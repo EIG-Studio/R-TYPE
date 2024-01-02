@@ -165,12 +165,12 @@ void Server::goLeft(Registry& registry, std::string& command)
 void Server::sendAllEntites(Registry& registry)
 {
     std::ostringstream oss;
-    oss << "ALL_ENTITY\n";
+    oss << "UPDATE" << std::endl;
     for (auto& entity : registry.getListEntities()) {
         oss << registry.getComponent(entity, ID{}).getID() << " "
             << registry.getComponent(entity, Position{}).getPosition().first << " "
             << registry.getComponent(entity, Position{}).getPosition().second << " "
-            << registry.getComponent(entity, Type{}).getEntityType() << "\n";
+            << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
     }
     addMessage(oss.str());
 }

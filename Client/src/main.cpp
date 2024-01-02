@@ -166,8 +166,7 @@ int main()
                 game.onGame = true;
                 choiceMenu.onChoice = false;
                 commandsToServer.sendToServerAsync("LOGIN", registry);
-                commandsToServer.sendToServerAsync("ENNEMY", registry);
-                commandsToServer.sendToServerAsync("ENNEMY", registry);
+                commandsToServer.sendToServerAsync("UPDATE", registry);
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 settingMenu.onSetting = true;
