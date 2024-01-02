@@ -202,9 +202,6 @@ int main()
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
                     //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
-                if (event.key.code == sf::Keyboard::L) {
-                    commandsToServer.sendToServerAsync("LIST_ID", registry);
-                }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {

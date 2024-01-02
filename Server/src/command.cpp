@@ -35,7 +35,6 @@ void Server::createPlayer(Registry& registry)
     newPlayer << "NEW " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << typeComponent << "\n";
-    m_listID.push_back(static_cast<int>(registry.getComponent(entity, idComponent).getID()));
     addMessage(newPlayer.str());
 }
 
@@ -59,12 +58,6 @@ void Server::createEnnemy(Registry& registry)
     newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << typeComponent << "\n";
-    m_listID.push_back(static_cast<int>(registry.getComponent(entity, idComponent).getID()));
-    std::cout << "Contenu de m_listeID : ";
-    for (int i : m_listID) {
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
     addMessage(newPlayer2.str());
 }
 
@@ -146,19 +139,6 @@ void Server::goLeft(Registry& registry, std::string& command)
         positionComponent.getPosition().second));
 }
 
-void Server::sendList()
-{
-    std::ostringstream sendList;
-    sendList << "ListID ";
-
-    for (int value : m_listID) {
-        sendList << value << " ";
-    }
-
-    sendList << "\n";
-    addMessage(sendList.str());
-}
-
 void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry)
 {
     if (!error && bytesReceived > 0) {
@@ -181,8 +161,6 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
             goUp(registry, command);
         } else if (command.find("DOWN") == 0) {
             goDown(registry, command);
-        } else if (command.find("LIST_ID") == 0) {
-            sendList();
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << command << std::endl;
