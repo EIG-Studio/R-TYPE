@@ -87,7 +87,7 @@ void Server::goUp(Registry& registry, std::string& command)
     positionComponent.setPosition(
         std::
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
-    std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos << std::endl;
     addMessage(newPos);
@@ -109,7 +109,7 @@ void Server::goDown(Registry& registry, std::string& command)
     positionComponent.setPosition(
         std::
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
-    std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos << std::endl;
     addMessage(newPos);
@@ -132,7 +132,7 @@ void Server::goRight(Registry& registry, std::string& command)
     positionComponent.setPosition(std::make_pair(
         positionComponent.getPosition().first + 1 * speedComponent.getSpeed(),
         positionComponent.getPosition().second));
-    std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos << std::endl;
     addMessage(newPos);
@@ -155,7 +155,7 @@ void Server::goLeft(Registry& registry, std::string& command)
     positionComponent.setPosition(std::make_pair(
         positionComponent.getPosition().first - 1 * speedComponent.getSpeed(),
         positionComponent.getPosition().second));
-    std::string newPos = " NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     std::cout << "new pos: " << newPos;
     addMessage(newPos);
