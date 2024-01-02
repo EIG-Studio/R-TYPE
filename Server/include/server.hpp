@@ -30,6 +30,7 @@ public:
     void startSending();
     void sendMessage(const std::string& message);
     void sendAllEntites(Registry& registry);
+    void createEnnemy(Registry& registry);
 
 private:
     boost::asio::io_service m_ioService;
@@ -44,7 +45,6 @@ private:
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     void createPlayer(Registry& registry);
-    void createEnnemy(Registry& registry);
     void goUp(Registry& registry, std::string& command);
     void goDown(Registry& registry, std::string& command);
     void goRight(Registry& registry, std::string& command);
