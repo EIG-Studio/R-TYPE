@@ -67,8 +67,8 @@ void Server::goUp(Registry& registry, std::string& command)
 void Server::goDown(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 2);
+    if (command.find("DOWN") + 4 < command.size()) {
+        id = command.substr(command.find("DOWN") + 4);
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
@@ -84,8 +84,8 @@ void Server::goDown(Registry& registry, std::string& command)
 void Server::goRight(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 2);
+    if (command.find("RIGHT") + 5 < command.size()) {
+        id = command.substr(command.find("RIGHT") + 5);
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
@@ -102,8 +102,8 @@ void Server::goRight(Registry& registry, std::string& command)
 void Server::goLeft(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 2);
+    if (command.find("LEFT") + 4 < command.size()) {
+        id = command.substr(command.find("LEFT") + 4);
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
