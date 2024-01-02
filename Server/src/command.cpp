@@ -35,6 +35,7 @@ void Server::createPlayer(Registry& registry)
     newPlayer << "NEW " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << typeComponent << "\n";
+    m_listeID.push_back(static_cast<int>(registry.getComponent(entity, idComponent).getID()));
     addMessage(newPlayer.str());
 }
 
@@ -58,6 +59,12 @@ void Server::createEnnemy(Registry& registry)
     newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << typeComponent << "\n";
+    m_listeID.push_back(static_cast<int>(registry.getComponent(entity, idComponent).getID()));
+    std::cout << "Contenu de m_listeID : ";
+    for (int i : m_listeID) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
     addMessage(newPlayer2.str());
 }
 

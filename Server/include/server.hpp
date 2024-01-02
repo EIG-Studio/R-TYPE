@@ -38,6 +38,7 @@ private:
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
     int m_nbClients = 1;
+    std::vector<int> m_listeID;
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry);
     void handlePositionUpdate();
