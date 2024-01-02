@@ -10,7 +10,9 @@
 #include <bitset>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
+#include <boost/asio/query.hpp>
 #include <iostream>
+#include <random>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -27,6 +29,14 @@ std::string binaryToText(const std::string& binaryString)
         text += character;
     }
     return text;
+}
+
+int randNb(int x, int y)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(x, y);
+    return distrib(gen);
 }
 
 void handleReceive(
@@ -68,7 +78,7 @@ void handleReceive(
             Entity ennemy;
             ennemy = registry.createEntity();
             ennemy = registry.addComponent(ennemy, ID(1));
-            ennemy = registry.addComponent(ennemy, Position(std::make_pair(300, 300)));
+            ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(200, 700), randNb(0, 500))));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
 
