@@ -78,9 +78,11 @@ void handleReceive(
             float yPos = std::stof(parts[3]);
             std::string playerType = parts[4];
 
-            std::cout << "get id: " << id << "\n";
+            std::cout << "get id:" << id << "\n";
 
             Entity player = registry.createEntityWithID(id);
+            //Entity player;
+            //player = registry.createEntity();
             //player = registry.addComponent(player, ID(id));
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
