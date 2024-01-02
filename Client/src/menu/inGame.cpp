@@ -41,8 +41,8 @@ void Game::setPath(Sprite mSprite)
     this->m_frontBuildTexture2.loadFromFile(mSprite.getFrontBuildPath());
     this->m_frontBuildSprite2.setTexture(this->m_frontBuildTexture2);
 
-    this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
-    this->m_playerSprite.setTexture(this->m_playerTexture);
+    //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
+    //this->m_playerSprite.setTexture(this->m_playerTexture);
 
     //// Trouver un moyen pour rendre ça plus beau
     m_backSprite.setScale(1152 / m_backSprite.getLocalBounds().width, 648 / m_backSprite.getLocalBounds().height);
@@ -75,14 +75,14 @@ void Game::setPath(Sprite mSprite)
         .setScale(1152 / m_frontBuildSprite2.getLocalBounds().width, 648 / m_frontBuildSprite2.getLocalBounds().height);
     m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 
-    m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
-    m_playerSprite.setPosition(100, 100);
+    //m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
+    //m_playerSprite.setPosition(100, 100);
 }
 
 void Game::setPlayerPath(Sprite mSprite)
 {
-    this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
-    this->m_playerSprite.setTexture(this->m_playerTexture);
+    //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
+    //this->m_playerSprite.setTexture(this->m_playerTexture);
 }
 
 void Game::moveParallax()
@@ -131,12 +131,20 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
-float Game::getPosPlayerY() {
-    return this->m_playerSprite.getPosition().y + (this->m_playerSprite.getGlobalBounds().height / 2);
+float Game::getPosPlayerY(Registry& registry) {
+    Entity player = registry.getEntity(0);
+    Position player_pos = registry.getComponent(player, Position{});
+    std::pair<float, float> pair_pos = player_pos.getPosition();
+    Renderer player_renderer = registry.getComponent(player, Renderer{});
+    sf::Sprite player_sprite = player_renderer.getRenderer();
+    return pair_pos.second + (player_sprite.getGlobalBounds().height / 2);
 }
 
-float Game::getPosPlayerX() {
-    return this->m_playerSprite.getPosition().x;
+float Game::getPosPlayerX(Registry& registry) {
+    Entity player = registry.getEntity(0);
+    Renderer player_renderer = registry.getComponent(player, Renderer{});
+    sf::Sprite player_sprite = player_renderer.getRenderer();
+    return player_sprite.getPosition().x;
 }
 
 float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
@@ -270,7 +278,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.texture = &m_midBuildTexture2;
     states.texture = &m_frontBuildTexture;
     states.texture = &m_frontBuildTexture2;
-    states.texture = &m_playerTexture;
+    //states.texture = &m_playerTexture;
     target.draw(m_backSprite, states);
     target.draw(m_backSprite2, states);
     target.draw(m_veryBackBuildSprite, states);
@@ -281,5 +289,5 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_midBuildSprite2, states);
     target.draw(m_frontBuildSprite, states);
     target.draw(m_frontBuildSprite2, states);
-    target.draw(m_playerSprite, states);
+    //target.draw(m_playerSprite, states);
 }

@@ -55,9 +55,9 @@ void Ennemies::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 
-void Ennemies::moveEnnemy(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer)
+void Ennemies::moveEnnemy(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Registry& registry)
 {
-    this->HandleMovement(commandsToServer, movementSpeed, winX, movementSpeed, winY, SPRITE_HEIGHT);
+    this->HandleMovement(commandsToServer, registry, movementSpeed, winX, movementSpeed, winY, SPRITE_HEIGHT);
 }
 
 void updateSpritePosition(sf::Sprite& sprite, float newX, float newY)
@@ -67,6 +67,7 @@ void updateSpritePosition(sf::Sprite& sprite, float newX, float newY)
 
 void Ennemies::HandleMovement(
     CommandsToServer& commandsToServer,
+    Registry& registry,
     float movementSpeed,
     float deltaX,
     float deltaY,
@@ -87,16 +88,16 @@ void Ennemies::HandleMovement(
     if (((deltaX != 0 && newX >= 0 && newX <= windowLimit - spriteLimit) ||
          (deltaY != 0 && newY >= 0 && newY <= windowLimit - spriteLimit)) &&
         (newX != this->m_ennemySprite.getPosition().x || newY != this->m_ennemySprite.getPosition().y)) {
-        SendPositionUpdate(commandsToServer, newX, newY, movementSpeed);
+        SendPositionUpdate(commandsToServer, registry, newX, newY, movementSpeed);
         updateSpritePosition(this->m_ennemySprite, newX, newY);
     }
     std::cout << "test" << std::endl;
 }
 
-void Ennemies::SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed)
+void Ennemies::SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, float x, float y, float speed)
 {
     std::ostringstream oss;
     oss << "POS " << x << " " << y << " " << speed << " 1";
     std::string positionString = oss.str();
-    commandsToServer.sendToServerAsync(positionString);
+    commandsToServer.sendToServerAsync(positionString, registry);
 }

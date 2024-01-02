@@ -11,40 +11,36 @@
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
 
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
+
 class Game : public sf::Drawable, public sf::Transformable
 {
 public:
     Game();
     ~Game() override = default;
-    void setPath(Sprite mSprite);
-    void setPlayerPath(Sprite mSprite);
-    float getPosPlayerY();
-    float getPosPlayerX();
-    void moveParallax();
-    void repeatParallax();
+    void  setPath(Sprite mSprite);
+    void  setPlayerPath(Sprite mSprite);
+    float getPosPlayerY(Registry& registry);
+    float getPosPlayerX(Registry& registry);
+    void  moveParallax();
+    void  repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void movePlayer(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
-    void HandleMovement(
-        sf::Keyboard::Key key,
-        sf::Joystick::Axis axis,
-        CommandsToServer& commandsToServer,
-        float movementSpeed,
-        float joystickThreshold,
-        float deltaX,
-        float deltaY,
-        const std::string& path,
-        float windowLimit,
-        float spriteLimit);
-    void SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed);
-    std::string inputTypeToString(sf::Keyboard::Key key);
-    void sendInputUpdate(CommandsToServer& commandsToServer, const std::string& inputType);
-    void colidePlayer();
-    bool onGame;
+    void  movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void HandleMovement(Registry& registry, sf::Keyboard::Key key, CommandsToServer& commandsToServer, float movementSpeed,
+    float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit);
+    void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
+    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType);
+    std::string InputTypeToString(sf::Keyboard::Key key);
+    void  colidePlayer();
+    bool  onGame;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    Entity player;
 
     sf::Texture m_backTexture;
     sf::Sprite m_backSprite;

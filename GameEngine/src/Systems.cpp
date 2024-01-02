@@ -173,9 +173,8 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
     if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
-
     sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
-    // set position
+    sprite.setScale(103 / sprite.getLocalBounds().width, 56.25 / sprite.getLocalBounds().height);
     sprite.setPosition(registry.getComponent(entity, Position{}).getPosition().first,
         registry.getComponent(entity, Position{}).getPosition().second);
     sprite.setTexture(text);

@@ -120,7 +120,6 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
     }
 }
 
-
 void Server::handlePositionUpdate()
 {
     std::string posString = m_recvBuf.data();
@@ -149,7 +148,6 @@ void Server::handlePositionUpdate()
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
     addMessage(newPos.str());
 }
-
 
 void FunctionPointer::executeCommand(const std::string& command)
 {

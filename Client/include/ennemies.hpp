@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
 
@@ -25,13 +27,14 @@ public:
     void destroyEnnemy(float playerPosX, float ennemyPosX);
     void HandleMovement(
         CommandsToServer& commandsToServer,
+        Registry& registry,
         float movementSpeed,
         float deltaX,
         float deltaY,
         float windowLimit,
         float spriteLimit);
-    void SendPositionUpdate(CommandsToServer& commandsToServer, float x, float y, float speed);
-    void moveEnnemy(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer);
+    void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, float x, float y, float speed);
+    void moveEnnemy(float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Registry& registry);
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

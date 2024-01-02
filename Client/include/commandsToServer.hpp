@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
+
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <future>
@@ -26,11 +29,13 @@ public:
 
     std::string getNewPos() const;
 
-    std::future<void> sendToServerAsync(std::string msg);
+    std::future<void> sendToServerAsync(std::string msg, Registry& registry);
+    void asyncReceive(Registry& registry);
 
 private:
     std::string m_newPos;
     boost::asio::io_service ioService;
     boost::asio::ip::udp::socket socket;
     boost::asio::ip::udp::endpoint receiverEndpoint;
+    boost::array<char, 2048> recvBuf;
 };

@@ -239,13 +239,13 @@ class Renderer
 {
 public:
     Renderer() = default;
-    Renderer(std::string texturePath);
+    explicit Renderer(const std::string& texturePath);
     ~Renderer() = default;
 
-    sf::Sprite getRenderer() const;
+    sf::Sprite& getRenderer();
     sf::Texture getTexture() const;
 
-    void setRenderer(std::string& texturePath);
+    void setRenderer(const std::string& texturePath);
 
 private:
     sf::Texture m_texture;
