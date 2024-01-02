@@ -185,6 +185,7 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
             addMessage("CREATED\n");
         } else if (command.find("LOGIN") == 0) {
             createPlayer(registry);
+        } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
         } else if (command.find("ENNEMY") == 0) {
             createEnnemy(registry);
