@@ -44,6 +44,7 @@ public:
     Entity createEntityWithID(int customID);
     void destroyEntity(Entity entity);
     Entity getEntity(size_t id);
+    void setEntity(Entity& entityToCopy, int id);
     Entity getPlayer();
     Entity getFirstEnemy();
     std::vector<Entity> getListEnemies();

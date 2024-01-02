@@ -69,6 +69,10 @@ Entity Registry::getEntity(size_t id)
     return entity;
 }
 
+void Registry::setEntity(Entity& entityToCopy, int id) {
+    m_entities[id] = entityToCopy;
+}
+
 Entity Registry::getPlayer() {
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
