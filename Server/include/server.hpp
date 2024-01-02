@@ -38,13 +38,14 @@ private:
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
     int m_nbClients = 1;
-    std::vector<int> m_listeID;
+    std::vector<int> m_listID;
 
     void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     void createPlayer(Registry& registry);
     void createEnnemy(Registry& registry);
+    void sendList();
     void goUp(Registry& registry, std::string& command);
     void goDown(Registry& registry, std::string& command);
     void goRight(Registry& registry, std::string& command);
