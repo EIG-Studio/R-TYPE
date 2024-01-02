@@ -100,7 +100,7 @@ void Server::goDown(Registry& registry, std::string& command)
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
-    Entity entity = registry.getEntity(0);
+    Entity entity = registry.getEntity(std::stoi(id));
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
 
@@ -120,7 +120,7 @@ void Server::goRight(Registry& registry, std::string& command)
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
-    Entity entity = registry.getEntity(0);
+    Entity entity = registry.getEntity(std::stoi(id));
 
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
@@ -141,7 +141,7 @@ void Server::goLeft(Registry& registry, std::string& command)
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
-    Entity entity = registry.getEntity(0);
+    Entity entity = registry.getEntity(std::stoi(id));
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
 
