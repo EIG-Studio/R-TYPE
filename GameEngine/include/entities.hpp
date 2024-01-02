@@ -15,10 +15,10 @@
 #include <SFML/System.hpp>
 
 #include <any>
+#include <iostream>
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include <iostream>
 
 #include <cassert>
 #include <cstdint>
@@ -49,6 +49,7 @@ public:
     Entity getFirstEnemy();
     std::vector<Entity> getListEnemies();
     std::vector<Entity> getListPlayers();
+    std::vector<Entity> getListEntities();
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>

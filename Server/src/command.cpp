@@ -162,6 +162,19 @@ void Server::goLeft(Registry& registry, std::string& command)
     registry.setEntity(entity, std::stoi(id));
 }
 
+void Server::sendAllEntites(Registry& registry)
+{
+    std::ostringstream oss;
+    oss << "ALL_ENTITY\n";
+    for (auto& entity : registry.getListEntities()) {
+        oss << registry.getComponent(entity, ID{}).getID() << " "
+            << registry.getComponent(entity, Position{}).getPosition().first << " "
+            << registry.getComponent(entity, Position{}).getPosition().second << " "
+            << registry.getComponent(entity, Type{}).getEntityType() << "\n";
+    }
+    addMessage(oss.str());
+}
+
 void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry)
 {
     if (!error && bytesReceived > 0) {
@@ -172,6 +185,7 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
             addMessage("CREATED\n");
         } else if (command.find("LOGIN") == 0) {
             createPlayer(registry);
+            sendAllEntites(registry);
         } else if (command.find("ENNEMY") == 0) {
             createEnnemy(registry);
         } else if (command.find("EXIT") == 0) {

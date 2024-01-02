@@ -29,6 +29,7 @@ public:
     void startListening(Registry& registry);
     void startSending();
     void sendMessage(const std::string& message);
+    void sendAllEntites(Registry& registry);
 
 private:
     boost::asio::io_service m_ioService;
