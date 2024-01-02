@@ -220,16 +220,14 @@ int main()
 
 
             Entity player = registry.getPlayer();
-            Entity ennemy = registry.getFirstEnemy();
-            Entity ennemy2 = registry.getFirstEnemy();
             std::vector<Entity> ennemies = registry.getListEnemies();
-            std::cout << "ennemies size: " << ennemies.size() << std::endl;
             window.draw(game);
             //window.draw(line, 2, sf::Lines);
             //window.draw(ennemies);
             renderSystem(player, registry, window);
-            renderSystem(ennemy, registry, window);
-            renderSystem(ennemy2, registry, window);
+            for (auto& ennemy : ennemies) {
+                renderSystem(ennemy, registry, window);
+            }
         }
         window.display();
     }
