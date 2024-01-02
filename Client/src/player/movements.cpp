@@ -117,7 +117,7 @@ std::string Game::inputTypeToString(sf::Keyboard::Key key)
 void Game::sendInputUpdate(CommandsToServer& commandsToServer, const std::string& inputType)
 {
     std::ostringstream oss;
-    oss << inputType << " 1";
+    oss << inputType << " 0";
     std::string inputString = oss.str();
     commandsToServer.sendToServerAsync(inputString);
 }
