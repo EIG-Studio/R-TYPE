@@ -38,6 +38,29 @@ void Server::createPlayer(Registry& registry)
     addMessage(newPlayer.str());
 }
 
+void Server::createEnnemy(Registry& registry)
+{
+    Entity entity = registry.createEntity();
+    ID idComponent = ID();
+    std::cout << "id: " << idComponent.getID() << std::endl;
+    Position positionComponent = Position(std::make_pair(0, 0));
+    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
+    Speed speedComponent(100.5);
+    Type typeComponent = std::any_cast<EntityType>(Player);
+
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, rendererComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+
+    std::ostringstream newPlayer2;
+    newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
+               << typeComponent << "\n";
+    addMessage(newPlayer2.str());
+}
+
 
 void Server::addMessage(const std::string& message)
 {
@@ -67,8 +90,8 @@ void Server::goUp(Registry& registry, std::string& command)
 void Server::goDown(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 2);
+    if (command.find("DOWN") + 4 < command.size()) {
+        id = command.substr(command.find("DOWN") + 4);
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
@@ -84,8 +107,8 @@ void Server::goDown(Registry& registry, std::string& command)
 void Server::goRight(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 2);
+    if (command.find("RIGHT") + 5 < command.size()) {
+        id = command.substr(command.find("RIGHT") + 5);
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
@@ -102,8 +125,8 @@ void Server::goRight(Registry& registry, std::string& command)
 void Server::goLeft(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 2);
+    if (command.find("LEFT") + 4 < command.size()) {
+        id = command.substr(command.find("LEFT") + 4);
         std::cout << "id cmd: " << id << std::endl;
     }
     std::cout << "id: " << id << std::endl;
@@ -126,6 +149,8 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
             addMessage("CREATED\n");
         } else if (command.find("LOGIN") == 0) {
             createPlayer(registry);
+        } else if (command.find("ENNEMY") == 0) {
+            createEnnemy(registry);
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
         } else if (command.find("RIGHT") == 0) {

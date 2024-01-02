@@ -1,9 +1,18 @@
+/*
+** EPITECH PROJECT, 2023
+** R-TYPE
+** File description:
+** commandsToServer
+*/
+
 #include "commandsToServer.hpp"
 
 #include <bitset>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
+#include <boost/asio/query.hpp>
 #include <iostream>
+#include <random>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -31,6 +40,14 @@ std::string binaryToText(const std::string& binaryString)
         text += character;
     }
     return text;
+}
+
+int randNb(int x, int y)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(x, y);
+    return distrib(gen);
 }
 
 void handleReceive(

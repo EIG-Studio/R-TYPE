@@ -169,6 +169,7 @@ int main()
                 game.onGame = true;
                 choiceMenu.onChoice = false;
                 commandsToServer.sendToServerAsync("LOGIN", registry);
+                commandsToServer.sendToServerAsync("ENNEMY", registry);
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 settingMenu.onSetting = true;
@@ -198,13 +199,13 @@ int main()
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
-                    ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
+                    //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
-                    ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
+                    //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
                 if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                     game.moveParallax();
@@ -216,10 +217,12 @@ int main()
                 {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
                  sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
             Entity player = registry.getPlayer();
+            Entity ennemy = registry.getEntity(1);
             window.draw(game);
-            window.draw(line, 2, sf::Lines);
-            window.draw(ennemies);
+            //window.draw(line, 2, sf::Lines);
+            //window.draw(ennemies);
             renderSystem(player, registry, window);
+            renderSystem(ennemy, registry, window);
         }
         window.display();
     }
