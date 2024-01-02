@@ -92,3 +92,16 @@ Entity Registry::getFirstEnemy() {
     }
     throw std::runtime_error("No Ennemy entity found");
 }
+
+std::vector<Entity> Registry::getListEnemies() {
+    std::vector<Entity> enemies;
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::Enemy) {
+                enemies.push_back(entity);
+            }
+        }
+    }
+    return enemies;
+}
