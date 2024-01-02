@@ -51,13 +51,14 @@ void UpdateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
 
 void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
 {
-    Entity player = registry.getEntity(0);
+    Entity player = registry.getPlayer();
     Position player_pos = registry.getComponent(player, Position{});
     std::pair<float, float> pair_pos = player_pos.getPosition();
     Renderer player_renderer = registry.getComponent(player, Renderer{});
     float initialPosX = pair_pos.first;
     float initialPosY = pair_pos.second;
 
+    ID id_p = registry.getComponent(player, ID{});
     std::vector<MovementConfig> movements = {
         {sf::Keyboard::Up, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
         {sf::Keyboard::Z, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
@@ -111,7 +112,7 @@ float deltaX, float deltaY, const std::string& path, float windowLimit, float sp
 {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
 
-    Entity player = registry.getEntity(0);
+    Entity player = registry.getPlayer();
     Position player_pos = registry.getComponent(player, Position{});
     std::pair<float, float> pair_pos = player_pos.getPosition();
     Renderer player_renderer = registry.getComponent(player, Renderer{});

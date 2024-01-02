@@ -215,7 +215,7 @@ int main()
             sf::Vertex line[] =
                 {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
                  sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
-            Entity player = registry.getEntity(0);
+            Entity player = registry.getPlayer();
             window.draw(game);
             window.draw(line, 2, sf::Lines);
             window.draw(ennemies);

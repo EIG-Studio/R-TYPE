@@ -15,6 +15,17 @@ Entity Registry::createEntity()
     return newEntity;
 }
 
+Entity Registry::createEntityWithID(int customID)
+{
+    Entity newEntity = Entity();
+    ID newID = ID(customID);
+
+    newEntity.mComponents.emplace_back(newID);
+    m_entities.push_back(newEntity);
+    return newEntity;
+}
+
+
 void Registry::destroyEntity(Entity entity)
 {
     ID newID = any_cast<ID>(entity.mComponents[0]);
@@ -56,4 +67,16 @@ Entity Registry::getEntity(size_t id)
     }
 
     return entity;
+}
+
+Entity Registry::getPlayer() {
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::Player) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No Player entity found");
 }
