@@ -65,7 +65,6 @@ void handleReceive(
             sf::Vector2f sprite_pos = player_sprite.getPosition();
             std::cout << "Player created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
         } else if (asciiString.find("ENNEMY") == 0) {
-            std::cout << "HERE HERE HERE" << std::endl;
             Entity ennemy;
             ennemy = registry.createEntity();
             ennemy = registry.addComponent(ennemy, ID(1));

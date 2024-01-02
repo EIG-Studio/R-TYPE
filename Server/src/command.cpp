@@ -36,6 +36,24 @@ void Server::createPlayer(Registry& registry)
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << typeComponent << "\n";
     addMessage(newPlayer.str());
+}
+
+void Server::createEnnemy(Registry& registry)
+{
+    Entity entity = registry.createEntity();
+    ID idComponent = ID();
+    std::cout << "id: " << idComponent.getID() << std::endl;
+    Position positionComponent = Position(std::make_pair(0, 0));
+    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
+    Speed speedComponent(100.5);
+    Type typeComponent = std::any_cast<EntityType>(Player);
+
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, rendererComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+
     std::ostringstream newPlayer2;
     newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
@@ -131,6 +149,8 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
             addMessage("CREATED\n");
         } else if (command.find("LOGIN") == 0) {
             createPlayer(registry);
+        } else if (command.find("ENNEMY") == 0) {
+            createEnnemy(registry);
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
         } else if (command.find("RIGHT") == 0) {
