@@ -185,6 +185,7 @@ private:
 enum EntityType
 {
     Player,
+    Other_Player,
     Enemy,
     Player_Projectile,
     Enemy_Projectile,

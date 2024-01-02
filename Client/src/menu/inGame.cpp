@@ -132,7 +132,7 @@ void Game::repeatParallax()
 }
 
 float Game::getPosPlayerY(Registry& registry) {
-    Entity player = registry.getEntity(0);
+    Entity player = registry.getPlayer();
     Position player_pos = registry.getComponent(player, Position{});
     std::pair<float, float> pair_pos = player_pos.getPosition();
     Renderer player_renderer = registry.getComponent(player, Renderer{});
@@ -141,7 +141,7 @@ float Game::getPosPlayerY(Registry& registry) {
 }
 
 float Game::getPosPlayerX(Registry& registry) {
-    Entity player = registry.getEntity(0);
+    Entity player = registry.getPlayer();
     Renderer player_renderer = registry.getComponent(player, Renderer{});
     sf::Sprite player_sprite = player_renderer.getRenderer();
     return player_sprite.getPosition().x;

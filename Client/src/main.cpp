@@ -51,8 +51,8 @@ int main()
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
     Sprite sprite;
-    //Ennemies ennemies;
-    //ennemies.setPath();
+    Ennemies ennemies;
+    ennemies.setPath();
     Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
@@ -214,12 +214,11 @@ int main()
                     onGameClock.restart();
                 }
             }
-            //sf::Vertex line[] =
-            //    {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
-            //     sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
-            Entity player = registry.getEntity(0);
+            sf::Vertex line[] =
+                {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
+                 sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
+            Entity player = registry.getPlayer();
             Entity ennemy = registry.getEntity(1);
-            //std::cout << registry.getComponent(ennemy, Position{}).getPosition().first << std::endl;
             window.draw(game);
             //window.draw(line, 2, sf::Lines);
             //window.draw(ennemies);

@@ -41,8 +41,10 @@ public:
     Registry() = default;
     ~Registry() = default;
     Entity createEntity();
+    Entity createEntityWithID(int customID);
     void destroyEntity(Entity entity);
     Entity getEntity(size_t id);
+    Entity getPlayer();
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>
