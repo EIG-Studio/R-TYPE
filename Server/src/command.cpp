@@ -85,6 +85,9 @@ void Server::goUp(Registry& registry, std::string& command)
     positionComponent.setPosition(
         std::
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
+    std::string newPos = "NEW_POS " + std::to_string(positionComponent.getPosition().first) + " " +
+                         std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
 }
 
 void Server::goDown(Registry& registry, std::string& command)
@@ -102,6 +105,9 @@ void Server::goDown(Registry& registry, std::string& command)
     positionComponent.setPosition(
         std::
             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
+    std::string newPos = "NEW_POS " + std::to_string(positionComponent.getPosition().first) + " " +
+                         std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
 }
 
 void Server::goRight(Registry& registry, std::string& command)
@@ -120,6 +126,9 @@ void Server::goRight(Registry& registry, std::string& command)
     positionComponent.setPosition(std::make_pair(
         positionComponent.getPosition().first + 1 * speedComponent.getSpeed(),
         positionComponent.getPosition().second));
+    std::string newPos = "NEW_POS " + std::to_string(positionComponent.getPosition().first) + " " +
+                         std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
 }
 
 void Server::goLeft(Registry& registry, std::string& command)
@@ -137,6 +146,9 @@ void Server::goLeft(Registry& registry, std::string& command)
     positionComponent.setPosition(std::make_pair(
         positionComponent.getPosition().first - 1 * speedComponent.getSpeed(),
         positionComponent.getPosition().second));
+    std::string newPos = "NEW_POS " + std::to_string(positionComponent.getPosition().first) + " " +
+                         std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
 }
 
 void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry)

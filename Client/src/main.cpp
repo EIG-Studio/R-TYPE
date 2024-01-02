@@ -170,7 +170,7 @@ int main()
                 choiceMenu.onChoice = false;
                 commandsToServer.sendToServerAsync("LOGIN", registry);
                 commandsToServer.sendToServerAsync("ENNEMY", registry);
-                // commandsToServer.sendToServerAsync("ENNEMY", registry);
+                commandsToServer.sendToServerAsync("ENNEMY", registry);
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 settingMenu.onSetting = true;
@@ -217,13 +217,19 @@ int main()
             //sf::Vertex line[] =
             //    {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
             //     sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
+
+
             Entity player = registry.getPlayer();
             Entity ennemy = registry.getFirstEnemy();
+            Entity ennemy2 = registry.getFirstEnemy();
+            std::vector<Entity> ennemies = registry.getListEnemies();
+            std::cout << "ennemies size: " << ennemies.size() << std::endl;
             window.draw(game);
             //window.draw(line, 2, sf::Lines);
             //window.draw(ennemies);
             renderSystem(player, registry, window);
             renderSystem(ennemy, registry, window);
+            renderSystem(ennemy2, registry, window);
         }
         window.display();
     }
