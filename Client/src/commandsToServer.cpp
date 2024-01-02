@@ -67,7 +67,16 @@ void handleReceive(
         std::cout << asciiString;
 
         if (asciiString.find("NEW_POS") == 0) {
-            mNewPos = asciiString;
+            std::vector<std::string> parts = split(asciiString, ' ');
+
+            int id = std::stoi(parts[1]);
+            float xPos = std::stof(parts[2]);
+            float yPos = std::stof(parts[3]);
+
+            Entity entity = registry.getEntity(id);
+            Position& entity_pos = registry.getComponent(entity, Position{});
+            entity_pos.setPosition(std::make_pair(xPos, yPos));
+            registry.setEntity(entity, id);
         } else if (asciiString.find("UPDATE") == 0) {
             // updateEntity();
         } else if (asciiString.find("NEW") == 0) {
@@ -87,10 +96,6 @@ void handleReceive(
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
-
-            if (registry.hasComponent(player, ID{})) {
-                std::cout << "TEST\n";
-            }
 
             std::cout << "player id: " << registry.getComponent(player, ID{}) << "\nPlayer pos: " << xPos << " " << yPos
                       << '\n';

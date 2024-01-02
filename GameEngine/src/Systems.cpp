@@ -170,6 +170,13 @@ void iaSystem(Entity entity, Registry& registry)
 #include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
+    Type& typeComponent = registry.getComponent(entity, Type{});
+    if (typeComponent.getEntityType() == EntityType::Player) {
+        Position entity_pos = registry.getComponent(entity, Position{});
+        std::pair<float, float> pos = entity_pos.getPosition();
+        std::cout << "player render pos: " << pos.first << " " << pos.second << '\n';
+    }
+
     if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();

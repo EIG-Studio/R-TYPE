@@ -133,7 +133,9 @@ float deltaX, float deltaY, const std::string& path, float windowLimit, float sp
 void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType)
 {
     std::ostringstream oss;
-    oss << inputType << " 0";
+    Entity player = registry.getPlayer();
+    ID player_id = registry.getComponent(player, ID{});
+    oss << inputType << " " << player_id.getID();
     std::string inputString = oss.str();
     commandsToServer.sendToServerAsync(inputString, registry);
 }
