@@ -46,9 +46,15 @@ void Server::addMessage(const std::string& message)
     this->m_mutex.unlock();
 }
 
-void Server::goUp(Registry& registry, std::string command)
+void Server::goUp(Registry& registry, std::string &command)
 {
-    Entity entity = registry.getEntity(0);
+    std::string id = " ";
+    if (command.find("UP") + 2 < command.size()) {
+        id = command.substr(command.find("UP") + 2);
+        std::cout << "id cmd: " << id << std::endl;
+    }
+    std::cout << "id: " << id << std::endl;
+    Entity entity = registry.getEntity(std::stoi(id));
     std::cout << "id UP: " << registry.getComponent(entity, ID()).getID() << std::endl;
     Position positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
