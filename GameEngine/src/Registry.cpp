@@ -73,10 +73,22 @@ Entity Registry::getPlayer() {
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player || typeComponent.getEntityType() == EntityType::Enemy) {
+            if (typeComponent.getEntityType() == EntityType::Player) {
                 return entity;
             }
         }
     }
     throw std::runtime_error("No Player entity found");
+}
+
+Entity Registry::getFirstEnemy() {
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::Enemy) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No Ennemy entity found");
 }
