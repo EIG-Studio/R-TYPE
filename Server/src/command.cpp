@@ -5,11 +5,11 @@
 ** command
 */
 
-#include "command.hpp"
 
 #include "SFML/Graphics/Sprite.hpp"
 #include "components.hpp"
 #include "entities.hpp"
+#include "server.hpp"
 
 #include <algorithm>
 #include <ostream>
@@ -184,7 +184,11 @@ void Server::sendAllEntites(Registry& registry)
     addMessage(oss.str());
 }
 
-void Server::handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry)
+void Server::handleReceivedData(
+    const boost::system::error_code& error,
+    std::size_t bytesReceived,
+    Registry& registry,
+    boost::asio::ip::udp::endpoint remoteEndpoint)
 {
     if (!error && bytesReceived > 0) {
         std::cout << "Received: " << m_recvBuf.data() << std::endl;
@@ -193,6 +197,7 @@ void Server::handleReceivedData(const boost::system::error_code& error, std::siz
         if (command.find("SHOOT") == 0) {
             addMessage("CREATED\n");
         } else if (command.find("LOGIN") == 0) {
+            addClient(remoteEndpoint);
             createPlayer(registry);
         } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
@@ -243,12 +248,4 @@ void Server::handlePositionUpdate()
         newPosX -= moveSpeed;
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
     addMessage(newPos.str());
-}
-
-void FunctionPointer::executeCommand(const std::string& command)
-{
-    if (this->m_commands.count(command) == 0) {
-        throw std::runtime_error("Command not found");
-    }
-    this->m_commands[command]();
 }

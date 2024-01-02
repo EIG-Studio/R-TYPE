@@ -7,17 +7,17 @@
 
 #pragma once
 
+#include "client.hpp"
 #include "entities.hpp"
 
 #include <bitset>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
 #include <deque>
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <thread>
 #include <utility>
+#include <vector>
 
 class Server
 {
@@ -39,9 +39,13 @@ private:
     boost::array<char, 128> m_recvBuf{};
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
-    int m_nbClients = 1;
+    std::vector<Client> m_clients;
 
-    void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived, Registry& registry);
+    void handleReceivedData(
+        const boost::system::error_code& error,
+        std::size_t bytesReceived,
+        Registry& registry,
+        boost::asio::ip::udp::endpoint remoteEndpoint);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     void createPlayer(Registry& registry);
@@ -49,4 +53,5 @@ private:
     void goDown(Registry& registry, std::string& command);
     void goRight(Registry& registry, std::string& command);
     void goLeft(Registry& registry, std::string& command);
+    void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 };
