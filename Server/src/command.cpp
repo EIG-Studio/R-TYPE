@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <ostream>
+#include <random>
 #include <string>
 
 void Server::createPlayer(Registry& registry)
@@ -38,12 +39,20 @@ void Server::createPlayer(Registry& registry)
     addMessage(newPlayer.str());
 }
 
+int randNb(int x, int y)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(x, y);
+    return distrib(gen);
+}
+
 void Server::createEnnemy(Registry& registry)
 {
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     std::cout << "id: " << idComponent.getID() << std::endl;
-    Position positionComponent = Position(std::make_pair(0, 0));
+    Position positionComponent = Position(std::make_pair(randNb(200, 700), randNb(0, 500)));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Enemy);
