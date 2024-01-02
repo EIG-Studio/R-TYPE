@@ -36,6 +36,11 @@ void Server::createPlayer(Registry& registry)
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << typeComponent << "\n";
     addMessage(newPlayer.str());
+    std::ostringstream newPlayer2;
+    newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
+               << typeComponent << "\n";
+    addMessage(newPlayer2.str());
 }
 
 

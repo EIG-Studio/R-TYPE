@@ -51,8 +51,8 @@ int main()
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
     Sprite sprite;
-    Ennemies ennemies;
-    ennemies.setPath();
+    //Ennemies ennemies;
+    //ennemies.setPath();
     Menu menu;
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
@@ -198,13 +198,13 @@ int main()
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
-                    ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
+                    //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {
                     auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
-                    ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
+                    //ennemies.destroyEnnemy(game.getPosPlayerY(registry), ennemies.getPosEnnemyY());
                 }
                 if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                     game.moveParallax();
@@ -212,14 +212,17 @@ int main()
                     onGameClock.restart();
                 }
             }
-            sf::Vertex line[] =
-                {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
-                 sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
+            //sf::Vertex line[] =
+            //    {sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() + 40)),
+            //     sf::Vertex(sf::Vector2f(ennemies.getPosEnnemyX(), ennemies.getPosEnnemyY() - 15))};
             Entity player = registry.getEntity(0);
+            Entity ennemy = registry.getEntity(1);
+            //std::cout << registry.getComponent(ennemy, Position{}).getPosition().first << std::endl;
             window.draw(game);
-            window.draw(line, 2, sf::Lines);
-            window.draw(ennemies);
+            //window.draw(line, 2, sf::Lines);
+            //window.draw(ennemies);
             renderSystem(player, registry, window);
+            renderSystem(ennemy, registry, window);
         }
         window.display();
     }

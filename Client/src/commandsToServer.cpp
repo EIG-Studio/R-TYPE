@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** R-TYPE
+** File description:
+** commandsToServer
+*/
+
 #include "commandsToServer.hpp"
 
 #include <bitset>
@@ -46,7 +53,7 @@ void handleReceive(
             Entity player;
             player = registry.createEntity();
             player = registry.addComponent(player, ID(0));
-            player = registry.addComponent(player, Position(std::make_pair(20, 20)));
+            player = registry.addComponent(player, Position(std::make_pair(100, 100)));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
 
@@ -57,6 +64,22 @@ void handleReceive(
 
             sf::Vector2f sprite_pos = player_sprite.getPosition();
             std::cout << "Player created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
+        } else if (asciiString.find("ENNEMY") == 0) {
+            std::cout << "HERE HERE HERE" << std::endl;
+            Entity ennemy;
+            ennemy = registry.createEntity();
+            ennemy = registry.addComponent(ennemy, ID(1));
+            ennemy = registry.addComponent(ennemy, Position(std::make_pair(300, 300)));
+            ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
+            ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
+
+            Position ennemy_pos = registry.getComponent(ennemy, Position{});
+            std::pair<float, float> pair_pos = ennemy_pos.getPosition();
+            Renderer ennemy_renderer = registry.getComponent(ennemy, Renderer{});
+            sf::Sprite ennemy_sprite = ennemy_renderer.getRenderer();
+
+            sf::Vector2f sprite_pos = ennemy_sprite.getPosition();
+            std::cout << "Ennemy created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {
