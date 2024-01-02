@@ -78,7 +78,36 @@ void handleReceive(
             entity_pos.setPosition(std::make_pair(xPos, yPos));
             registry.setEntity(entity, id);
         } else if (asciiString.find("UPDATE") == 0) {
-            // updateEntity();
+            std::vector<std::string> lines = split(asciiString, '\n');
+
+            for (const std::string& line : lines) {
+                if (line == "UPDATE")
+                    continue;
+
+                std::vector<std::string> parts = split(line, ' ');
+
+                int id = std::stoi(parts[0]);
+                float xPos = std::stof(parts[1]);
+                float yPos = std::stof(parts[2]);
+                int type = std::stoi(parts[3]);
+
+                if (registry.hasEntity(id)) {
+                    Entity entity = registry.getEntity(id);
+                    Position& entity_pos = registry.getComponent(entity, Position{});
+                    entity_pos.setPosition(std::make_pair(xPos, yPos));
+                    registry.setEntity(entity, id);
+                } else {
+                    Entity newEntity = registry.createEntityWithID(id);
+                    newEntity = registry.addComponent(newEntity, Position(std::make_pair(xPos, yPos)));
+                    if (type == Player) {
+                        newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/189.png"));
+                        newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Other_Player)));
+                    } else if (type == Enemy) {
+                        newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/cars/190.png"));
+                        newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Enemy)));
+                    }
+                }
+            }
         } else if (asciiString.find("NEW") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
 

@@ -65,9 +65,21 @@ Entity Registry::getEntity(size_t id)
             return mEntitie;
         }
     }
-
     return entity;
 }
+
+bool Registry::hasEntity(size_t id) {
+    size_t otherID;
+
+    for (auto &entity : m_entities) {
+        otherID = std::any_cast<size_t>(this->getComponent(entity, ID{}).getID());
+        if (otherID == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void Registry::setEntity(Entity& entityToCopy, int id) {
     for (auto& entity : m_entities) {

@@ -47,6 +47,7 @@ public:
     void setEntity(Entity& entityToCopy, int id);
     Entity getPlayer();
     Entity getFirstEnemy();
+    bool hasEntity(size_t id);
     std::vector<Entity> getListEnemies();
     std::vector<Entity> getListPlayers();
     std::vector<Entity> getListEntities();
