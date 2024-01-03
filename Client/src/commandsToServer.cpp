@@ -142,9 +142,8 @@ void handleReceive(
             Renderer ennemyRenderer = registry.getComponent(ennemy, Renderer{});
             sf::Sprite ennemySprite = ennemyRenderer.getRenderer();
 
-            sf::Vector2f sprite_pos = ennemy_sprite.getPosition();
-            std::cout << "Ennemy created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
             sf::Vector2f spritePos = ennemySprite.getPosition();
+            std::cout << "Ennemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (asciiString.find("PLAYER_PROJECTILE") == 0) {
             std::cout << "player projectile created" << std::endl;
             std::vector<std::string> parts = split(asciiString, ' ');
