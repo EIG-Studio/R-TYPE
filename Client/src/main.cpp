@@ -106,7 +106,7 @@ int main()
         20);
 
     Registry registry = Registry();
-
+    commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -165,8 +165,8 @@ int main()
                 sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
                 game.onGame = true;
                 choiceMenu.onChoice = false;
-                commandsToServer.sendToServerAsync("LOGIN", registry);
-                commandsToServer.sendToServerAsync("UPDATE", registry);
+                commandsToServer.sendToServerAsync("LOGIN");
+                commandsToServer.sendToServerAsync("UPDATE");
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 settingMenu.onSetting = true;
@@ -195,23 +195,23 @@ int main()
             std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.hasFocus = window.hasFocus();
-            game.movePlayer(registry, movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            commandsToServer.mutex.lock();
+            game.movePlayer(std::ref(registry), movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            commandsToServer.mutex.unlock();
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
-                    game.shooting(commandsToServer, registry);
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
                 }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {
-                    commandsToServer.sendToServerAsync("SHOOT", registry);
+                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
                 }
-            }
-            if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
-                game.moveEnnemies(commandsToServer, registry, ennemies);
-                game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
-                game.moveParallax();
-                game.repeatParallax();
-                onGameClock.restart();
+                if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
+                    game.moveParallax();
+                    game.repeatParallax();
+                    onGameClock.restart();
+                }
             }
             window.draw(game);
             for (auto& player : players) {
@@ -219,9 +219,6 @@ int main()
             }
             for (auto& ennemy : ennemies) {
                 renderSystem(ennemy, registry, window);
-            }
-            for (auto& playerProjectile : playersProjectiles) {
-                renderSystem(playerProjectile, registry, window);
             }
         }
         window.display();

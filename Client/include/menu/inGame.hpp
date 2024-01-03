@@ -46,6 +46,8 @@ private:
 
     Entity player;
 
+    sf::Clock updateClock;
+
     sf::Texture m_backTexture;
     sf::Sprite m_backSprite;
     sf::Texture m_backTexture2;

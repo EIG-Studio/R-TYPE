@@ -108,7 +108,7 @@ Entity Registry::getPlayer()
             }
         }
     }
-    throw std::runtime_error("No Player entity found");
+    throw std::runtime_error("No Player entity found\n");
 }
 
 Entity Registry::getFirstEnemy()

@@ -54,7 +54,14 @@ void UpdateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
 
 void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
 {
-    Entity player = registry.getPlayer();
+    Entity player;
+    try {
+        player = registry.getPlayer();
+    } catch (std::exception &e) {
+        std::cout << e.what();
+        return;
+    }
+    std::vector<Entity> list = registry.getListEntities();
     Position player_pos = registry.getComponent(player, Position{});
     std::pair<float, float> pair_pos = player_pos.getPosition();
     Renderer player_renderer = registry.getComponent(player, Renderer{});
@@ -72,6 +79,7 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
          {sf::Keyboard::Left, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT},
          {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT}};
 
+    
     for (const auto& config : movements) {
         HandleMovement(
             registry,
@@ -97,7 +105,7 @@ void Game::moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, 
         size_t id = registry.getComponent(ennemy, ID{}).getID();
 
         oss << "HUHUHUHU" << " " << id;
-        commandsToServer.sendToServerAsync(oss.str(), registry);
+        commandsToServer.sendToServerAsync(oss.str());
     }
 }
 
@@ -108,7 +116,7 @@ void Game::movePlayerProjectile(CommandsToServer& commandsToServer, Registry& re
         size_t id = registry.getComponent(bullet, ID{}).getID();
 
         oss << "HEHEHEHE" << " " << id;
-        commandsToServer.sendToServerAsync(oss.str(), registry);
+        commandsToServer.sendToServerAsync(oss.str());
     }
 }
 
@@ -156,9 +164,15 @@ void Game::HandleMovement(
     Renderer player_renderer = registry.getComponent(player, Renderer{});
     sf::Sprite player_sprite = player_renderer.getRenderer();
 
-    if (keyPressed && this->hasFocus) {
+    if (keyPressed) {
         std::string inputType = InputTypeToString(key);
-        SendInputUpdate(commandsToServer, registry, inputType);
+        if (updateClock.getElapsedTime().asSeconds() >= 0.02f) {
+            std::string inputType = InputTypeToString(key);
+            SendInputUpdate(commandsToServer, registry, inputType);
+
+            // Reset the clock after sending the update
+            updateClock.restart();
+        }
         //std::cout << "DEBUG: player pos: " << pair_pos.first << " " << pair_pos.second << '\n';
         if (((deltaX != 0 && pair_pos.first >= 0 && pair_pos.first <= windowLimit - spriteLimit) ||
              (deltaY != 0 && pair_pos.second >= 0 && pair_pos.second <= windowLimit - spriteLimit)) &&
@@ -171,11 +185,17 @@ void Game::HandleMovement(
 void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType)
 {
     std::ostringstream oss;
-    Entity player = registry.getPlayer();
+    Entity player;
+    try {
+        player = registry.getPlayer();
+    } catch (std::exception &e) {
+        std::cout << e.what();
+        return;
+    }
     ID player_id = registry.getComponent(player, ID{});
     oss << inputType << " " << player_id.getID();
     std::string inputString = oss.str();
-    commandsToServer.sendToServerAsync(inputString, registry);
+    commandsToServer.sendToServerAsync(inputString);
 }
 
 void Game::shooting(CommandsToServer& commandsToServer, Registry& registry)
@@ -185,5 +205,5 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry)
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
     shooting << "SHOOT " << pairPos.first << " " << pairPos.second << "\n";
-    commandsToServer.sendToServerAsync(shooting.str(), registry);
+    commandsToServer.sendToServerAsync(shooting.str());
 }

@@ -135,7 +135,7 @@ T& Registry::getComponent(Entity& entity, T component)
             continue;
         }
     }
-    throw std::runtime_error("Component not found");
+    throw std::runtime_error("Entity Component not found");
 }
 
 template <typename T>
