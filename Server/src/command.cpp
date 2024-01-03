@@ -193,11 +193,21 @@ void Server::ennemyMove(Registry& registry, std::string& command)
     }
     Entity entity = registry.getEntity(std::stoi(id));
     Position& positionComponent = registry.getComponent(entity, Position());
-    //Speed speedComponent = registry.getComponent(entity, Speed());
 
+    int direction = randNb(1, 4);
+    if (direction == 1)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * 2));
+    else if (direction == 2)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first + 1 * 2, positionComponent.getPosition().second));
+    else if (direction == 3)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * 2));
+    else if (direction == 4)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * 2, positionComponent.getPosition().second));
 
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first - 1 * 2, positionComponent.getPosition().second));
     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
     addMessage(newPos);
