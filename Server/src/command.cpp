@@ -195,8 +195,8 @@ void Server::ennemyMove(Registry& registry, std::string& command)
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first < 200) {
-        registry.deleteEnnemy(std::stoi(id));
-        addMessage("DELETE ENNEMY " + id);
+        addMessage("HI HI " + id);
+        registry.deleteById(std::stoi(id));
         return;
     }
     positionComponent.setPosition(
@@ -218,7 +218,7 @@ void Server::playerProjectileMove(Registry& registry, std::string& command)
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first > 800) {
-        registry.deletePlayersProjectile(std::stoi(id));
+        registry.deleteById(std::stoi(id));
         addMessage("DESTROY PROJECTILE " + id);
         return;
     }

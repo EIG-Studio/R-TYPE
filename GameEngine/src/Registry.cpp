@@ -188,7 +188,7 @@ std::vector<Entity> Registry::deleteEnnemy(int id)
     for (auto& ennemy : m_entities) {
         if (this->hasComponent(ennemy, Type{})) {
             Type& typeComponent = this->getComponent(ennemy, Type{});
-            if (typeComponent.getEntityType() == EntityType::Enemy) {
+            if (typeComponent.getEntityType() == EntityType::Player) {
                 if (id == this->getComponent(ennemy, ID{}).getID()) {
                     this->destroyEntity(ennemy);
                 }
@@ -197,6 +197,22 @@ std::vector<Entity> Registry::deleteEnnemy(int id)
     }
     return ennemies;
 }
+
+void Registry::deleteById(int id)
+{
+    std::vector<Entity> entities;
+    std::vector<Entity> tmpEntities;
+
+    for (auto& entity : m_entities) {
+        if (id == this->getComponent(entity, ID{}).getID()) {
+            continue;
+        } else {
+            tmpEntities.push_back(entity);
+        }
+    }
+    m_entities = tmpEntities;
+}
+
 
 std::vector<Entity> Registry::getListEntities()
 {
