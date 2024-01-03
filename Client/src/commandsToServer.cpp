@@ -105,7 +105,7 @@ void handleReceive(
                     newEntity = registry.addComponent(newEntity, Position(std::make_pair(xPos, yPos)));
                     if (type == Player) {
                         newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/189.png"));
-                        newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Other_Player)));
+                        newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Player)));
                     } else if (type == Enemy) {
                         newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/cars/190.png"));
                         newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Enemy)));
