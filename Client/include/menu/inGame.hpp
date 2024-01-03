@@ -36,6 +36,7 @@ public:
     std::string InputTypeToString(sf::Keyboard::Key key);
     void  colidePlayer();
     bool  onGame;
+    bool  hasFocus {false};
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
