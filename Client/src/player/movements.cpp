@@ -57,6 +57,9 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
     Entity player;
     try {
         player = registry.getPlayer();
+        if (this->hasFocus == false) {
+            return;
+        }
     } catch (std::exception &e) {
         std::cout << e.what();
         return;
