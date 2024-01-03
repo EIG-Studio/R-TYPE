@@ -1,5 +1,6 @@
-#include "entities.hpp"
 #include "Systems.hpp"
+#include "entities.hpp"
+
 #include <any>
 
 #include <cstddef>
@@ -59,7 +60,7 @@ Entity Registry::getEntity(size_t id)
     Entity entity;
     size_t otherID;
 
-    for (auto & mEntitie : m_entities) {
+    for (auto& mEntitie : m_entities) {
         otherID = std::any_cast<size_t>(this->getComponent(mEntitie, ID{}).getID());
         if (otherID == id) {
             return mEntitie;
@@ -68,10 +69,11 @@ Entity Registry::getEntity(size_t id)
     return entity;
 }
 
-bool Registry::hasEntity(size_t id) {
+bool Registry::hasEntity(size_t id)
+{
     size_t otherID;
 
-    for (auto &entity : m_entities) {
+    for (auto& entity : m_entities) {
         otherID = std::any_cast<size_t>(this->getComponent(entity, ID{}).getID());
         if (otherID == id) {
             return true;
@@ -81,7 +83,8 @@ bool Registry::hasEntity(size_t id) {
 }
 
 
-void Registry::setEntity(Entity& entityToCopy, int id) {
+void Registry::setEntity(Entity& entityToCopy, int id)
+{
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, ID{})) {
             ID& idComponent = this->getComponent(entity, ID{});
@@ -93,7 +96,8 @@ void Registry::setEntity(Entity& entityToCopy, int id) {
     }
 }
 
-Entity Registry::getPlayer() {
+Entity Registry::getPlayer()
+{
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
@@ -102,10 +106,11 @@ Entity Registry::getPlayer() {
             }
         }
     }
-    throw std::runtime_error("No Player entity found");
+    throw std::runtime_error("No Player entity found\n");
 }
 
-Entity Registry::getFirstEnemy() {
+Entity Registry::getFirstEnemy()
+{
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
@@ -117,7 +122,8 @@ Entity Registry::getFirstEnemy() {
     throw std::runtime_error("No Ennemy entity found");
 }
 
-std::vector<Entity> Registry::getListEnemies() {
+std::vector<Entity> Registry::getListEnemies()
+{
     std::vector<Entity> enemies;
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
@@ -130,7 +136,8 @@ std::vector<Entity> Registry::getListEnemies() {
     return enemies;
 }
 
-std::vector<Entity> Registry::getListPlayers() {
+std::vector<Entity> Registry::getListPlayers()
+{
     std::vector<Entity> players;
     for (auto& player : m_entities) {
         if (this->hasComponent(player, Type{})) {
@@ -161,7 +168,7 @@ std::vector<Entity> Registry::getListEntities() {
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
-                enemies.push_back(entity);
+            enemies.push_back(entity);
         }
     }
     return enemies;
