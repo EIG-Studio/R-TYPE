@@ -194,6 +194,7 @@ int main()
             std::vector<Entity> ennemies = registry.getListEnemies();
             std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
             sf::Time renderElapsed = onGameClock.getElapsedTime();
+            game.hasFocus = window.hasFocus();
             game.movePlayer(registry, movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {

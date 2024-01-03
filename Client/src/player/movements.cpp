@@ -132,7 +132,7 @@ void Game::HandleMovement(
     Renderer player_renderer = registry.getComponent(player, Renderer{});
     sf::Sprite player_sprite = player_renderer.getRenderer();
 
-    if (keyPressed) {
+    if (keyPressed && this->hasFocus) {
         std::string inputType = InputTypeToString(key);
         SendInputUpdate(commandsToServer, registry, inputType);
         //std::cout << "DEBUG: player pos: " << pair_pos.first << " " << pair_pos.second << '\n';

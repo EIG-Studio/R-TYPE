@@ -37,6 +37,7 @@ public:
     void  colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry);
     bool  onGame;
+    bool  hasFocus {false};
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
