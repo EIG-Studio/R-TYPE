@@ -45,7 +45,7 @@ private:
         const boost::system::error_code& error,
         std::size_t bytesReceived,
         Registry& registry,
-        boost::asio::ip::udp::endpoint remoteEndpoint);
+        boost::asio::ip::udp::endpoint& remoteEndpoint);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     void createPlayer(Registry& registry);
