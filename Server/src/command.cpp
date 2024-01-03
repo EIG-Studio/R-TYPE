@@ -225,7 +225,7 @@ void Server::playerProjectileMove(Registry& registry, std::string& command)
 
     if (positionComponent.getPosition().first > 800) {
         registry.destroyEntity(entity);
-        std::cout << "DESTROY PROJECTILE" << std::endl;
+        addMessage("DESTROY PROJECTILE " + id);
         return;
     }
 

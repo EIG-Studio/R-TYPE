@@ -174,6 +174,12 @@ void handleReceive(
 
             sf::Vector2f spritePos = playerProjectileSprite.getPosition();
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
+        } else if (asciiString.find("DESTROY PROJECTILE") == 0) {
+            std::vector<std::string> parts = split(asciiString, ' ');
+
+            int id = std::stoi(parts[1]);
+
+            
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {
