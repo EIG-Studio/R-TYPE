@@ -210,6 +210,7 @@ int main()
             }
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveEnnemies(commandsToServer, registry, ennemies);
+                std::vector<Entity> ennemies = registry.getListEnemies();
                 game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
                 std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
                 game.moveParallax();

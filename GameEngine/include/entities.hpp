@@ -53,6 +53,7 @@ public:
     std::vector<Entity> getListEntities();
     std::vector<Entity> getListPlayersProjectile();
     std::vector<Entity> deletePlayersProjectile(int id);
+    std::vector<Entity> deleteEnnemy(int id);
     void destroyEnnemy(std::vector<Entity> ennemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);

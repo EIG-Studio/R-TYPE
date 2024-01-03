@@ -23,6 +23,7 @@ void log(const std::string& message)
 {
     std::cout << "[LOG] " << message << std::endl;
 }
+
 std::vector<std::string> split(const std::string& s, char delim)
 {
     std::vector<std::string> result;
@@ -182,6 +183,13 @@ void handleReceive(
             int id = std::stoi(parts[2]);
 
             registry.deletePlayersProjectile(id);
+        } else if (asciiString.find("DELETE ENNEMY") == 0) {
+            std::vector<std::string> parts = split(asciiString, ' ');
+
+            std::cout << "DELETE ENNEMY" << std::stoi(parts[2]) << "\n";
+            int id = std::stoi(parts[2]);
+
+            registry.deleteEnnemy(id);
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {
