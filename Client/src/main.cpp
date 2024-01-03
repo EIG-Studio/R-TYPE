@@ -208,8 +208,8 @@ int main()
             }
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveEnnemies(commandsToServer, registry, ennemies);
-                //game.moveParallax();
-                //game.repeatParallax();
+                game.moveParallax();
+                game.repeatParallax();
                 onGameClock.restart();
             }
             window.draw(game);

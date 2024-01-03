@@ -295,4 +295,5 @@ void Server::handlePositionUpdate()
         newPosX -= moveSpeed;
     newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
     addMessage(newPos.str());
+    m_recvBuf.fill(0);
 }

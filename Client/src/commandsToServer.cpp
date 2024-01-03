@@ -179,6 +179,7 @@ void handleReceive(
     } else if (error) {
         std::cerr << "Error in handleReceive: " << error.message() << std::endl;
     }
+    recvBuf.fill(0);
 }
 
 void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
@@ -209,6 +210,7 @@ std::future<void> CommandsToServer::sendToServerAsync(std::string msg, Registry&
 
             ioService.run();
             ioService.reset();
+            recvBuf.fill(0);
         } catch (std::exception& e) {
             std::cerr << e.what() << std::endl;
         }
