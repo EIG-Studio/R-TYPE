@@ -74,8 +74,8 @@ void handleReceive(
             float yPos = std::stof(parts[3]);
 
             Entity entity = registry.getEntity(id);
-            Position& entity_pos = registry.getComponent(entity, Position{});
-            entity_pos.setPosition(std::make_pair(xPos, yPos));
+            Position& entityPos = registry.getComponent(entity, Position{});
+            entityPos.setPosition(std::make_pair(xPos, yPos));
             registry.setEntity(entity, id);
         } else if (asciiString.find("UPDATE") == 0) {
             std::vector<std::string> lines = split(asciiString, '\n');
@@ -93,8 +93,8 @@ void handleReceive(
 
                 if (registry.hasEntity(id)) {
                     Entity entity = registry.getEntity(id);
-                    Position& entity_pos = registry.getComponent(entity, Position{});
-                    entity_pos.setPosition(std::make_pair(xPos, yPos));
+                    Position& entityPos = registry.getComponent(entity, Position{});
+                    entityPos.setPosition(std::make_pair(xPos, yPos));
                     registry.setEntity(entity, id);
                 } else {
                     Entity newEntity = registry.createEntityWithID(id);
@@ -119,17 +119,11 @@ void handleReceive(
             std::cout << "get id:" << id << "\n";
 
             Entity player = registry.createEntityWithID(id);
-            //Entity player;
-            //player = registry.createEntity();
-            //player = registry.addComponent(player, ID(id));
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
 
-            std::cout << "player id: " << registry.getComponent(player, ID{}) << "\nPlayer pos: " << xPos << " " << yPos
-                      << '\n';
         } else if (asciiString.find("ENNEMY") == 0) {
-            std::cout << "Ennemy created" << std::endl;
             std::vector<std::string> parts = split(asciiString, ' ');
 
             int id = std::stoi(parts[1]);
@@ -137,21 +131,18 @@ void handleReceive(
             float yPos = std::stof(parts[3]);
             std::string playerType = parts[4];
 
-            std::cout << "get id: " << id << "\n";
 
             Entity ennemy = registry.createEntityWithID(id);
-            //player = registry.addComponent(player, ID(id));
             ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(200, 700), randNb(0, 500))));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
 
-            Position ennemy_pos = registry.getComponent(ennemy, Position{});
-            std::pair<float, float> pair_pos = ennemy_pos.getPosition();
-            Renderer ennemy_renderer = registry.getComponent(ennemy, Renderer{});
-            sf::Sprite ennemy_sprite = ennemy_renderer.getRenderer();
+            Position ennemyPos = registry.getComponent(ennemy, Position{});
+            std::pair<float, float> pairPos = ennemyPos.getPosition();
+            Renderer ennemyRenderer = registry.getComponent(ennemy, Renderer{});
+            sf::Sprite ennemySprite = ennemyRenderer.getRenderer();
 
-            sf::Vector2f sprite_pos = ennemy_sprite.getPosition();
-            std::cout << "Ennemy created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
+            sf::Vector2f spritePos = ennemySprite.getPosition();
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {
@@ -179,14 +170,19 @@ void CommandsToServer::asyncReceive(Registry& registry)
     });
 }
 
+
 std::future<void> CommandsToServer::sendToServerAsync(std::string msg, Registry& registry)
 {
     return std::async(std::launch::async, [this, msg = std::move(msg), &registry]() {
         try {
             boost::array<char, 2048> recvBuf{};
 
-            sendToServer(socket, msg);
-            asyncReceive(registry);
+            std::thread sendThread(&sendToServer, std::ref(socket), msg);
+            sendThread.join();
+
+            std::thread receiveThread(&CommandsToServer::asyncReceive, this, std::ref(registry));
+            receiveThread.join();
+
             ioService.run();
             ioService.reset();
         } catch (std::exception& e) {
@@ -194,6 +190,7 @@ std::future<void> CommandsToServer::sendToServerAsync(std::string msg, Registry&
         }
     });
 }
+
 
 std::string CommandsToServer::getNewPos() const
 {
