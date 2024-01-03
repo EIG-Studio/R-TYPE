@@ -177,9 +177,9 @@ void handleReceive(
         } else if (asciiString.find("DESTROY PROJECTILE") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
 
-            int id = std::stoi(parts[1]);
+            int id = std::stoi(parts[2]);
 
-            
+            registry.deletePlayersProjectile(id);
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {

@@ -166,6 +166,22 @@ std::vector<Entity> Registry::getListPlayersProjectile()
     return playersProjectiles;
 }
 
+std::vector<Entity> Registry::deletePlayersProjectile(int id)
+{
+    std::vector<Entity> playersProjectiles;
+    for (auto& playerProjectile : m_entities) {
+        if (this->hasComponent(playerProjectile, Type{})) {
+            Type& typeComponent = this->getComponent(playerProjectile, Type{});
+            if (typeComponent.getEntityType() == EntityType::Player_Projectile) {
+                if (id == this->getComponent(playerProjectile, ID{}).getID()) {
+                    this->destroyEntity(playerProjectile);
+                }
+            }
+        }
+    }
+    return playersProjectiles;
+}
+
 std::vector<Entity> Registry::getListEntities()
 {
     std::vector<Entity> enemies;
