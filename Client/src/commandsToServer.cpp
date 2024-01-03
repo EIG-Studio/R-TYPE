@@ -140,7 +140,7 @@ void handleReceive(
 
 
             Entity ennemy = registry.createEntityWithID(id);
-            ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(200, 700), randNb(0, 500))));
+            ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(1200, 2000), randNb(0, 500))));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
 
@@ -209,126 +209,6 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
     });
 
     //std::cout << "sendToServer call completed." << std::endl;
-}
-
-
-void CommandsToServer::handleReceiveSecondSocket(
-    Registry& registry,
-    const boost::system::error_code& error,
-    size_t len,
-    boost::array<char, 2048>& recvBuf,
-    std::string& mNewPos)
-{
-    if (error) {
-        std::cerr << "Error in handleReceiveSecondSocket: " << error.message() << std::endl;
-        return;
-    }
-
-    if (len == 0) {
-        std::cout << "No data received, non-blocking return." << std::endl;
-        return;
-    }
-
-    try {
-        std::string asciiString(binaryToText(recvBuf.data()));
-        log("handleReceived message:\n" + asciiString);
-        //std::cout << "handleReceived message: " << asciiString << std::endl;
-
-
-        processMessage(asciiString, registry);
-    } catch (const std::exception& e) {
-        std::cerr << "Exception in processing received data: " << e.what() << std::endl;
-    }
-}
-
-void CommandsToServer::processMessage(const std::string& asciiString, Registry& registry)
-{
-    if (asciiString.find("NEW_POS") == 0) {
-        std::vector<std::string> parts = split(asciiString, ' ');
-
-        int id = std::stoi(parts[1]);
-        float xPos = std::stof(parts[2]);
-        float yPos = std::stof(parts[3]);
-
-        Entity entity = registry.getEntity(id);
-        Position& entityPos = registry.getComponent(entity, Position{});
-        entityPos.setPosition(std::make_pair(xPos, yPos));
-        registry.setEntity(entity, id);
-    } else if (asciiString.find("UPDATE") == 0) {
-        std::vector<std::string> lines = split(asciiString, '\n');
-
-        for (const std::string& line : lines) {
-            if (line == "UPDATE")
-                continue;
-
-            std::vector<std::string> parts = split(line, ' ');
-
-            int id = std::stoi(parts[0]);
-            float xPos = std::stof(parts[1]);
-            float yPos = std::stof(parts[2]);
-            int type = std::stoi(parts[3]);
-
-            if (registry.hasEntity(id)) {
-                Entity entity = registry.getEntity(id);
-                Position& entityPos = registry.getComponent(entity, Position{});
-                entityPos.setPosition(std::make_pair(xPos, yPos));
-                registry.setEntity(entity, id);
-            } else {
-                Entity newEntity = registry.createEntityWithID(id);
-                newEntity = registry.addComponent(newEntity, Position(std::make_pair(xPos, yPos)));
-                if (type == Player) {
-                    newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/189.png"));
-                    newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Other_Player)));
-                } else if (type == Enemy) {
-                    newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/cars/190.png"));
-                    newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Enemy)));
-                }
-            }
-        }
-    } else if (asciiString.find("NEW") == 0) {
-        std::vector<std::string> parts = split(asciiString, ' ');
-
-        int id = std::stoi(parts[1]);
-        float xPos = std::stof(parts[2]);
-        float yPos = std::stof(parts[3]);
-        std::string playerType = parts[4];
-
-        std::cout << "get id:" << id << "\n";
-
-        Entity player = registry.createEntityWithID(id);
-        player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
-        player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
-        player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
-
-    } else if (asciiString.find("ENNEMY") == 0) {
-        std::vector<std::string> parts = split(asciiString, ' ');
-
-        int id = std::stoi(parts[1]);
-        float xPos = std::stof(parts[2]);
-        float yPos = std::stof(parts[3]);
-        std::string playerType = parts[4];
-
-
-        Entity ennemy = registry.createEntityWithID(id);
-        ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(200, 700), randNb(0, 500))));
-        ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
-        ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
-
-        Position ennemyPos = registry.getComponent(ennemy, Position{});
-        std::pair<float, float> pairPos = ennemyPos.getPosition();
-        Renderer ennemyRenderer = registry.getComponent(ennemy, Renderer{});
-        sf::Sprite ennemySprite = ennemyRenderer.getRenderer();
-
-        sf::Vector2f spritePos = ennemySprite.getPosition();
-    } else if (asciiString.find("WIN") == 0) {
-        // win();
-    } else if (asciiString.find("LOOSE") == 0) {
-        // loose();
-    } else if (
-        asciiString.find("RIGHT") == 0 || asciiString.find("LEFT") == 0 || asciiString.find("UP") == 0 ||
-        asciiString.find("DOWN") == 0) {
-        std::cout << "TEST\n";
-    }
 }
 
 void CommandsToServer::asyncReceiveSecondSocket(Registry& registry)

@@ -49,7 +49,7 @@ int randNb(int x, int y)
 void Server::createEnnemy(Registry& registry)
 {
     ID idComponent = ID();
-    Position positionComponent = Position(std::make_pair(randNb(200, 700), randNb(0, 500)));
+    Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Enemy);
@@ -194,19 +194,8 @@ void Server::ennemyMove(Registry& registry, std::string& command)
     Entity entity = registry.getEntity(std::stoi(id));
     Position& positionComponent = registry.getComponent(entity, Position());
 
-    int direction = randNb(1, 4);
-    if (direction == 1)
-        positionComponent.setPosition(
-            std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * 2));
-    else if (direction == 2)
-        positionComponent.setPosition(
-            std::make_pair(positionComponent.getPosition().first + 1 * 2, positionComponent.getPosition().second));
-    else if (direction == 3)
-        positionComponent.setPosition(
-            std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * 2));
-    else if (direction == 4)
-        positionComponent.setPosition(
-            std::make_pair(positionComponent.getPosition().first - 1 * 2, positionComponent.getPosition().second));
+    positionComponent.setPosition(
+        std::make_pair(positionComponent.getPosition().first - 1 * 2, positionComponent.getPosition().second));
 
     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
                          std::to_string(positionComponent.getPosition().second) + "\n";
