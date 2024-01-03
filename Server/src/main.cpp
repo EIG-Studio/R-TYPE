@@ -18,15 +18,14 @@ int main()
     try {
         Server server;
         Registry registry;
-        std::thread ennemyThread(&Server::createEnnemy, &server, std::ref(registry));
-        std::thread ennemyThread2(&Server::createEnnemy, &server, std::ref(registry));
+        server.createEnnemy(registry);
+        server.createEnnemy(registry);
+        server.createEnnemy(registry);
 
         std::thread serverThread(&Server::startListening, &server, std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
         serverThread.join();
         serverThread2.join();
-        ennemyThread.join();
-        ennemyThread2.join();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;

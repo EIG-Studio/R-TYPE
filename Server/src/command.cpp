@@ -54,7 +54,7 @@ void Server::createEnnemy(Registry& registry)
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Enemy);
 
-    m_ennemyMutex.lock();
+    // m_ennemyMutex.lock();
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
@@ -66,7 +66,7 @@ void Server::createEnnemy(Registry& registry)
     newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << typeComponent << "\n";
-    m_ennemyMutex.unlock();
+    // m_ennemyMutex.unlock();
     addMessage(newPlayer2.str());
 }
 
@@ -188,14 +188,16 @@ void Server::goLeft(Registry& registry, std::string& command)
 void Server::sendAllEntites(Registry& registry)
 {
     std::ostringstream oss;
-    oss << "UPDATE" << std::endl;
     for (auto& entity : registry.getListEntities()) {
-        oss << registry.getComponent(entity, ID{}).getID() << " "
-            << registry.getComponent(entity, Position{}).getPosition().first << " "
-            << registry.getComponent(entity, Position{}).getPosition().second << " "
+        oss << "UPDATE" << std::endl;
+        auto positionComponent = registry.getComponent(entity, Position{});
+        auto xPosition = positionComponent.getPosition().first;
+        auto yPosition = positionComponent.getPosition().second;
+
+        oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " "
             << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
+        addMessage(oss.str());
     }
-    addMessage(oss.str());
 }
 
 void Server::handleReceivedData(
