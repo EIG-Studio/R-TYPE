@@ -36,15 +36,17 @@ std::vector<std::string> split(const std::string& s, char delim)
 
 std::string binaryToText(const std::string& binaryString)
 {
-    int decimalValue = 0;
-    char character = 0;
     std::string text;
 
     for (size_t i = 0; i < binaryString.length(); i += 8) {
-        decimalValue = std::bitset<8>(binaryString.substr(i, 8)).to_ulong();
-        character = static_cast<char>(decimalValue);
+        int decimalValue = 0;
+        for (size_t j = 0; j < 8; ++j) {
+            decimalValue = (decimalValue << 1) | (binaryString[i + j] - '0');
+        }
+        char character = static_cast<char>(decimalValue);
         text += character;
     }
+
     return text;
 }
 
