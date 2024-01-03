@@ -21,6 +21,7 @@ int main()
         server.createEnnemy(registry);
         server.createEnnemy(registry);
         server.createEnnemy(registry);
+        server.createEnnemy(registry);
 
         std::thread serverThread(&Server::startListening, &server, std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
