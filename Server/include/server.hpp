@@ -26,11 +26,11 @@ public:
     {
     }
 
-    void startListening(std::mutex& mutex, Registry& registry);
+    void startListening(Registry& registry);
     void startSending();
     void sendMessage(const std::string& message);
     void sendAllEntites(Registry& registry);
-    void createEnnemy(std::mutex& mutex, Registry& registry);
+    void createEnnemy(Registry& registry);
     void createBullet(Registry& registry, std::string& command);
 
 private:
@@ -40,10 +40,10 @@ private:
     boost::array<char, 128> m_recvBuf{};
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
+    std::mutex m_ennemyMutex;
     std::vector<Client> m_clients;
 
     void handleReceivedData(
-        std::mutex& mutex,
         const boost::system::error_code& error,
         std::size_t bytesReceived,
         Registry& registry,

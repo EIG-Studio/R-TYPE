@@ -46,16 +46,16 @@ int randNb(int x, int y)
     return distrib(gen);
 }
 
-void Server::createEnnemy(std::mutex& mutex, Registry& registry)
+void Server::createEnnemy(Registry& registry)
 {
-    mutex.lock();
-    Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(200, 700), randNb(0, 500)));
     Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Enemy);
 
+    m_ennemyMutex.lock();
+    Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, rendererComponent);
@@ -66,8 +66,8 @@ void Server::createEnnemy(std::mutex& mutex, Registry& registry)
     newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << typeComponent << "\n";
+    m_ennemyMutex.unlock();
     addMessage(newPlayer2.str());
-    mutex.unlock();
 }
 
 void Server::createBullet(Registry& registry, std::string& command)
@@ -199,7 +199,6 @@ void Server::sendAllEntites(Registry& registry)
 }
 
 void Server::handleReceivedData(
-    std::mutex& mutex,
     const boost::system::error_code& error,
     std::size_t bytesReceived,
     Registry& registry,
@@ -217,7 +216,7 @@ void Server::handleReceivedData(
         } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
         } else if (command.find("ENNEMY") == 0) {
-            createEnnemy(mutex, registry);
+            createEnnemy(registry);
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
         } else if (command.find("RIGHT") == 0) {

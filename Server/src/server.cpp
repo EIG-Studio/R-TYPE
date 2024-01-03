@@ -9,17 +9,15 @@
 
 #include "entities.hpp"
 
-void Server::startListening(std::mutex& mutex, Registry& registry)
+void Server::startListening(Registry& registry)
 {
-    mutex.lock();
-    auto receiveCallback = [this, &registry, &mutex](const boost::system::error_code& error, std::size_t bytesReceived) {
-        handleReceivedData(mutex, error, bytesReceived, registry, m_remoteEndpoint);
+    auto receiveCallback = [this, &registry](const boost::system::error_code& error, std::size_t bytesReceived) {
+        handleReceivedData(error, bytesReceived, registry, m_remoteEndpoint);
         m_recvBuf.fill(0);
-        startListening(mutex, registry);
+        startListening(registry);
     };
     m_socket.async_receive_from(boost::asio::buffer(m_recvBuf), m_remoteEndpoint, receiveCallback);
     m_ioService.run();
-    mutex.unlock();
 }
 
 void Server::startSending()
