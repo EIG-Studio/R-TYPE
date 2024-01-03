@@ -70,6 +70,35 @@ void Server::createEnnemy(std::mutex& mutex, Registry& registry)
     mutex.unlock();
 }
 
+void Server::createBullet(Registry& registry, std::string& command)
+{
+    std::istringstream iss(command);
+    std::vector<std::string> tokens;
+    std::string token;
+    while (std::getline(iss, token, ' ')) {
+        tokens.push_back(token);
+    }
+
+    Entity entity = registry.createEntity();
+    ID idComponent = ID();
+    Position positionComponent = Position(std::make_pair(std::stof(tokens[1]), std::stof(tokens[2])));
+    Renderer rendererComponent("../Client/assets/Cars/movement parts/thruster/flame.png");
+    Speed speedComponent(7);
+    Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
+
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, rendererComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+
+    std::ostringstream newPlayerProjectile;
+    newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
+                        << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
+                        << " " << typeComponent << "\n";
+    addMessage(newPlayerProjectile.str());
+}
+
 
 void Server::addMessage(const std::string& message)
 {
@@ -181,7 +210,7 @@ void Server::handleReceivedData(
         std::string command = std::string(m_recvBuf.data());
 
         if (command.find("SHOOT") == 0) {
-            addMessage("CREATED\n");
+            createBullet(registry, command);
         } else if (command.find("LOGIN") == 0) {
             addClient(remoteEndpoint);
             createPlayer(registry);

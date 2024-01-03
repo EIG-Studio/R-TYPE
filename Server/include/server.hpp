@@ -31,6 +31,7 @@ public:
     void sendMessage(const std::string& message);
     void sendAllEntites(Registry& registry);
     void createEnnemy(std::mutex& mutex, Registry& registry);
+    void createBullet(Registry& registry, std::string& command);
 
 private:
     boost::asio::io_service m_ioService;

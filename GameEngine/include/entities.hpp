@@ -51,6 +51,8 @@ public:
     std::vector<Entity> getListEnemies();
     std::vector<Entity> getListPlayers();
     std::vector<Entity> getListEntities();
+    std::vector<Entity> getListPlayersProjectile();
+    void destroyEnnemy(std::vector<Entity> ennemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>

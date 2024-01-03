@@ -143,6 +143,19 @@ std::vector<Entity> Registry::getListPlayers() {
     return players;
 }
 
+std::vector<Entity> Registry::getListPlayersProjectile() {
+    std::vector<Entity> playersProjectiles;
+    for (auto& playerProjectile : m_entities) {
+        if (this->hasComponent(playerProjectile, Type{})) {
+            Type& typeComponent = this->getComponent(playerProjectile, Type{});
+            if (typeComponent.getEntityType() == EntityType::Player_Projectile) {
+                playersProjectiles.push_back(playerProjectile);
+            }
+        }
+    }
+    return playersProjectiles;
+}
+
 std::vector<Entity> Registry::getListEntities() {
     std::vector<Entity> enemies;
     for (auto& entity : m_entities) {
@@ -153,3 +166,18 @@ std::vector<Entity> Registry::getListEntities() {
     }
     return enemies;
 }
+
+void Registry::destroyEnnemy(std::vector<Entity> ennemyList)
+{
+    Position ennemyPos = this->getComponent(ennemyList[0], Position{});
+    std::pair<float, float> pairPos = ennemyPos.getPosition();
+    std::cout << "ENNEMY POS X: " << pairPos.first << std::endl;
+    std::cout << "ENNEMY POS Y: " << pairPos.second << std::endl;
+    //if (playerPosY <= ennemyPosY + 40 && playerPosY >= ennemyPosY - 15) {
+    //    std::cout << "BOOM !!!!" << std::endl;
+    //}
+
+    //sf::Vertex line[] = {sf::Vertex(sf::Vector2f(10, ennemyPosY + 20)), sf::Vertex(sf::Vector2f(10, ennemyPosY - 30))};
+}
+
+
