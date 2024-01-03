@@ -208,6 +208,7 @@ int main()
             }
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                 game.moveEnnemies(commandsToServer, registry, ennemies);
+                game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
                 game.moveParallax();
                 game.repeatParallax();
                 onGameClock.restart();

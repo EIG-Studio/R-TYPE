@@ -56,5 +56,6 @@ private:
     void goRight(Registry& registry, std::string& command);
     void goLeft(Registry& registry, std::string& command);
     void ennemyMove(Registry& registry, std::string& command);
+    void playerProjectileMove(Registry& registry, std::string& command);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 };

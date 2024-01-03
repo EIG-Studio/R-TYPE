@@ -101,6 +101,17 @@ void Game::moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, 
     }
 }
 
+void Game::movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets)
+{
+    for (auto bullet : bullets) {
+        std::ostringstream oss;
+        size_t id = registry.getComponent(bullet, ID{}).getID();
+
+        oss << "HEHEHEHE" << " " << id;
+        commandsToServer.sendToServerAsync(oss.str(), registry);
+    }
+}
+
 std::string Game::InputTypeToString(sf::Keyboard::Key key)
 {
     //std::cout << "Key pressed " << key << " (int value: " << static_cast<int>(key) << ")\n";
