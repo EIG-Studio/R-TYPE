@@ -13,16 +13,21 @@
 #include <dlfcn.h>
 #include <thread>
 
+
 int main()
 {
     try {
         Server server;
         Registry registry;
-        std::thread ennemyThread(&Server::createEnnemy, &server, std::ref(registry));
-        std::thread ennemyThread2(&Server::createEnnemy, &server, std::ref(registry));
+        std::mutex ennemyMutex;
+        std::mutex serverMutex;
 
-        std::thread serverThread(&Server::startListening, &server, std::ref(registry));
+        std::thread ennemyThread(&Server::createEnnemy, &server, std::ref(ennemyMutex), std::ref(registry));
+        std::thread ennemyThread2(&Server::createEnnemy, &server, std::ref(ennemyMutex), std::ref(registry));
+
+        std::thread serverThread(&Server::startListening, &server, std::ref(serverMutex), std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
+
         serverThread.join();
         serverThread2.join();
         ennemyThread.join();

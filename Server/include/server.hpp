@@ -26,11 +26,11 @@ public:
     {
     }
 
-    void startListening(Registry& registry);
+    void startListening(std::mutex& mutex, Registry& registry);
     void startSending();
     void sendMessage(const std::string& message);
     void sendAllEntites(Registry& registry);
-    void createEnnemy(Registry& registry);
+    void createEnnemy(std::mutex& mutex, Registry& registry);
 
 private:
     boost::asio::io_service m_ioService;
@@ -42,6 +42,7 @@ private:
     std::vector<Client> m_clients;
 
     void handleReceivedData(
+        std::mutex& mutex,
         const boost::system::error_code& error,
         std::size_t bytesReceived,
         Registry& registry,

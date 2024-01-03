@@ -46,8 +46,9 @@ int randNb(int x, int y)
     return distrib(gen);
 }
 
-void Server::createEnnemy(Registry& registry)
+void Server::createEnnemy(std::mutex& mutex, Registry& registry)
 {
+    mutex.lock();
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(200, 700), randNb(0, 500)));
@@ -66,6 +67,7 @@ void Server::createEnnemy(Registry& registry)
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << typeComponent << "\n";
     addMessage(newPlayer2.str());
+    mutex.unlock();
 }
 
 
@@ -168,6 +170,7 @@ void Server::sendAllEntites(Registry& registry)
 }
 
 void Server::handleReceivedData(
+    std::mutex& mutex,
     const boost::system::error_code& error,
     std::size_t bytesReceived,
     Registry& registry,
@@ -185,7 +188,7 @@ void Server::handleReceivedData(
         } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
         } else if (command.find("ENNEMY") == 0) {
-            createEnnemy(registry);
+            createEnnemy(mutex, registry);
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
         } else if (command.find("RIGHT") == 0) {
