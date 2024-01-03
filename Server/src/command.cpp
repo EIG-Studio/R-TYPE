@@ -215,8 +215,8 @@ void Server::sendAllEntites(Registry& registry)
 
         oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " "
             << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
+        addMessage(oss.str());
     }
-    addMessage(oss.str());
 }
 
 void Server::handleReceivedData(

@@ -64,7 +64,7 @@ void handleReceive(
 
     if (!error && len > 0) {
         std::string asciiString(binaryToText(recvBuf.data()));
-        std::cout << asciiString;
+        std::cout << asciiString << std::endl;
 
         if (asciiString.find("NEW_POS") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
