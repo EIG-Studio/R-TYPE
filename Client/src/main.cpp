@@ -190,16 +190,19 @@ int main()
             window.draw(settingMenu);
 
         } else if (game.onGame) {
+            std::vector<Entity> players = registry.getListPlayers();
+            std::vector<Entity> ennemies = registry.getListEnemies();
+            std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.movePlayer(registry, movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
+                    game.shooting(commandsToServer, registry);
                 }
             }
             if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
                 if (event.joystickButton.button == sf::Joystick::Y) {
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT", registry);
+                    commandsToServer.sendToServerAsync("SHOOT", registry);
                 }
                 if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
                     game.moveParallax();
@@ -207,14 +210,15 @@ int main()
                     onGameClock.restart();
                 }
             }
-            std::vector<Entity> players = registry.getListPlayers();
-            std::vector<Entity> ennemies = registry.getListEnemies();
             window.draw(game);
             for (auto& player : players) {
                 renderSystem(player, registry, window);
             }
             for (auto& ennemy : ennemies) {
                 renderSystem(ennemy, registry, window);
+            }
+            for (auto& playerProjectile : playersProjectiles) {
+                renderSystem(playerProjectile, registry, window);
             }
         }
         window.display();

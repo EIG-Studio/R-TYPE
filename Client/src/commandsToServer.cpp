@@ -152,6 +152,29 @@ void handleReceive(
 
             sf::Vector2f sprite_pos = ennemy_sprite.getPosition();
             std::cout << "Ennemy created pos: " << pair_pos.first << " " << pair_pos.second << '\n';
+        } else if (asciiString.find("PLAYER_PROJECTILE") == 0) {
+            std::cout << "player projectile created" << std::endl;
+            std::vector<std::string> parts = split(asciiString, ' ');
+
+            int id = std::stoi(parts[1]);
+            float xPos = std::stof(parts[2]);
+            float yPos = std::stof(parts[3]);
+            std::string playerType = parts[4];
+
+            std::cout << "get id: " << id << "\n";
+
+            Entity playerProjectile = registry.createEntityWithID(id);
+            playerProjectile = registry.addComponent(playerProjectile, Position(std::make_pair(xPos, yPos)));
+            playerProjectile = registry.addComponent(playerProjectile, Renderer("../Client/assets/Cars/movement parts/thruster/flame.png"));
+            playerProjectile = registry.addComponent(playerProjectile, Type(std::any_cast<EntityType>(Player_Projectile)));
+
+            Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
+            std::pair<float, float> pairPos = playerProjectilePos.getPosition();
+            Renderer playerProjectileRenderer = registry.getComponent(playerProjectile, Renderer{});
+            sf::Sprite playerProjectileSprite = playerProjectileRenderer.getRenderer();
+
+            sf::Vector2f spritePos = playerProjectileSprite.getPosition();
+            std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (asciiString.find("WIN") == 0) {
             // win();
         } else if (asciiString.find("LOOSE") == 0) {

@@ -35,6 +35,7 @@ public:
     void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType);
     std::string InputTypeToString(sf::Keyboard::Key key);
     void  colidePlayer();
+    void shooting(CommandsToServer& commandsToServer, Registry& registry);
     bool  onGame;
 
 private:

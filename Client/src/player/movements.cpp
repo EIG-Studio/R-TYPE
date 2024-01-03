@@ -5,10 +5,10 @@
 ** movements
 */
 
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
-#include "../../GameEngine/include/entities.hpp"
-#include "../../GameEngine/include/components.hpp"
 
 #include <sstream>
 
@@ -16,7 +16,8 @@ const float JOYSTICK_THRESHOLD = 20.0f;
 const float SPRITE_WIDTH = 103.0f;
 const float SPRITE_HEIGHT = 37.75f;
 
-struct MovementConfig {
+struct MovementConfig
+{
     sf::Keyboard::Key key;
     float deltaX;
     float deltaY;
@@ -59,21 +60,27 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
     float initialPosY = pair_pos.second;
 
     ID id_p = registry.getComponent(player, ID{});
-    std::vector<MovementConfig> movements = {
-        {sf::Keyboard::Up, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::Z, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::Right, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::D, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::Down, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::S, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::Left, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT},
-        {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT}
-    };
+    std::vector<MovementConfig> movements =
+        {{sf::Keyboard::Up, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::Z, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::Right, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::D, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::Down, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::S, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::Left, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT},
+         {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT}};
 
     for (const auto& config : movements) {
         HandleMovement(
-            registry, config.key, commandsToServer, movementSpeed, config.deltaX, config.deltaY, config.spritePath,
-            config.windowLimit, config.spriteLimit);
+            registry,
+            config.key,
+            commandsToServer,
+            movementSpeed,
+            config.deltaX,
+            config.deltaY,
+            config.spritePath,
+            config.windowLimit,
+            config.spriteLimit);
     }
 
     if (initialPosX == pair_pos.first && initialPosY == pair_pos.second) {
@@ -84,8 +91,7 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
 std::string Game::InputTypeToString(sf::Keyboard::Key key)
 {
     //std::cout << "Key pressed " << key << " (int value: " << static_cast<int>(key) << ")\n";
-    switch (key)
-    {
+    switch (key) {
         case sf::Keyboard::Left:
         case sf::Keyboard::Q:
             return "LEFT";
@@ -107,8 +113,16 @@ std::string Game::InputTypeToString(sf::Keyboard::Key key)
     }
 }
 
-void Game::HandleMovement(Registry& registry, sf::Keyboard::Key key, CommandsToServer& commandsToServer, float movementSpeed,
-float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit)
+void Game::HandleMovement(
+    Registry& registry,
+    sf::Keyboard::Key key,
+    CommandsToServer& commandsToServer,
+    float movementSpeed,
+    float deltaX,
+    float deltaY,
+    const std::string& path,
+    float windowLimit,
+    float spriteLimit)
 {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
 
@@ -122,8 +136,8 @@ float deltaX, float deltaY, const std::string& path, float windowLimit, float sp
         std::string inputType = InputTypeToString(key);
         SendInputUpdate(commandsToServer, registry, inputType);
         //std::cout << "DEBUG: player pos: " << pair_pos.first << " " << pair_pos.second << '\n';
-        if (((deltaX != 0 && pair_pos.first >= 0 && pair_pos.first <= windowLimit - spriteLimit) || 
-            (deltaY != 0 && pair_pos.second >= 0 && pair_pos.second <= windowLimit - spriteLimit)) &&
+        if (((deltaX != 0 && pair_pos.first >= 0 && pair_pos.first <= windowLimit - spriteLimit) ||
+             (deltaY != 0 && pair_pos.second >= 0 && pair_pos.second <= windowLimit - spriteLimit)) &&
             (pair_pos.first != player_sprite.getPosition().x || pair_pos.second != player_sprite.getPosition().y)) {
             UpdateSpritePositionAndPath(player_sprite, pair_pos.first, pair_pos.second, path);
         }
@@ -138,4 +152,14 @@ void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
     oss << inputType << " " << player_id.getID();
     std::string inputString = oss.str();
     commandsToServer.sendToServerAsync(inputString, registry);
+}
+
+void Game::shooting(CommandsToServer& commandsToServer, Registry& registry)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    std::ostringstream shooting;
+    shooting << "SHOOT " << pairPos.first << " " << pairPos.second << "\n";
+    commandsToServer.sendToServerAsync(shooting.str(), registry);
 }
