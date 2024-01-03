@@ -216,12 +216,18 @@ void Server::ennemyMove(Registry& registry, std::string& command)
 
 void Server::playerProjectileMove(Registry& registry, std::string& command)
 {
-    std::string id = " ";
+    std::string id = std::string("");
     if (command.find("HEHEHEHE") + 8 < command.size()) {
         id = command.substr(command.find("HEHEHEHE") + 9);
     }
     Entity entity = registry.getEntity(std::stoi(id));
     Position& positionComponent = registry.getComponent(entity, Position());
+
+    if (positionComponent.getPosition().first > 800) {
+        registry.destroyEntity(entity);
+        std::cout << "DESTROY PROJECTILE" << std::endl;
+        return;
+    }
 
     positionComponent.setPosition(
         std::make_pair(positionComponent.getPosition().first + 1 * 7, positionComponent.getPosition().second));

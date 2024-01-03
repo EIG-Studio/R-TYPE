@@ -1,5 +1,6 @@
-#include "entities.hpp"
 #include "Systems.hpp"
+#include "entities.hpp"
+
 #include <any>
 
 #include <cstddef>
@@ -30,12 +31,14 @@ void Registry::destroyEntity(Entity entity)
 {
     ID newID = any_cast<ID>(entity.mComponents[0]);
     size_t id = newID.getID();
+    size_t entityID;
 
     assert(!m_entities.empty());
 
     for (size_t i = 0; i < m_entities.size(); i++) {
-        newID = any_cast<ID>(m_entities[i].mComponents[0]);
-        if (newID.getID() == id)
+        entityID = any_cast<ID>(m_entities[i].mComponents[0]).getID();
+        std::cout << "Destroying entity with ID: " << entityID << std::endl;
+        if (entityID == id)
             m_entities.erase(m_entities.begin() + i);
     }
 }
@@ -59,7 +62,7 @@ Entity Registry::getEntity(size_t id)
     Entity entity;
     size_t otherID;
 
-    for (auto & mEntitie : m_entities) {
+    for (auto& mEntitie : m_entities) {
         otherID = std::any_cast<size_t>(this->getComponent(mEntitie, ID{}).getID());
         if (otherID == id) {
             return mEntitie;
@@ -68,10 +71,11 @@ Entity Registry::getEntity(size_t id)
     return entity;
 }
 
-bool Registry::hasEntity(size_t id) {
+bool Registry::hasEntity(size_t id)
+{
     size_t otherID;
 
-    for (auto &entity : m_entities) {
+    for (auto& entity : m_entities) {
         otherID = std::any_cast<size_t>(this->getComponent(entity, ID{}).getID());
         if (otherID == id) {
             return true;
@@ -81,7 +85,8 @@ bool Registry::hasEntity(size_t id) {
 }
 
 
-void Registry::setEntity(Entity& entityToCopy, int id) {
+void Registry::setEntity(Entity& entityToCopy, int id)
+{
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, ID{})) {
             ID& idComponent = this->getComponent(entity, ID{});
@@ -93,7 +98,8 @@ void Registry::setEntity(Entity& entityToCopy, int id) {
     }
 }
 
-Entity Registry::getPlayer() {
+Entity Registry::getPlayer()
+{
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
@@ -105,7 +111,8 @@ Entity Registry::getPlayer() {
     throw std::runtime_error("No Player entity found");
 }
 
-Entity Registry::getFirstEnemy() {
+Entity Registry::getFirstEnemy()
+{
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
@@ -117,7 +124,8 @@ Entity Registry::getFirstEnemy() {
     throw std::runtime_error("No Ennemy entity found");
 }
 
-std::vector<Entity> Registry::getListEnemies() {
+std::vector<Entity> Registry::getListEnemies()
+{
     std::vector<Entity> enemies;
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
@@ -130,7 +138,8 @@ std::vector<Entity> Registry::getListEnemies() {
     return enemies;
 }
 
-std::vector<Entity> Registry::getListPlayers() {
+std::vector<Entity> Registry::getListPlayers()
+{
     std::vector<Entity> players;
     for (auto& player : m_entities) {
         if (this->hasComponent(player, Type{})) {
@@ -143,7 +152,8 @@ std::vector<Entity> Registry::getListPlayers() {
     return players;
 }
 
-std::vector<Entity> Registry::getListPlayersProjectile() {
+std::vector<Entity> Registry::getListPlayersProjectile()
+{
     std::vector<Entity> playersProjectiles;
     for (auto& playerProjectile : m_entities) {
         if (this->hasComponent(playerProjectile, Type{})) {
@@ -156,12 +166,13 @@ std::vector<Entity> Registry::getListPlayersProjectile() {
     return playersProjectiles;
 }
 
-std::vector<Entity> Registry::getListEntities() {
+std::vector<Entity> Registry::getListEntities()
+{
     std::vector<Entity> enemies;
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
-                enemies.push_back(entity);
+            enemies.push_back(entity);
         }
     }
     return enemies;
@@ -179,5 +190,3 @@ void Registry::destroyEnnemy(std::vector<Entity> ennemyList)
 
     //sf::Vertex line[] = {sf::Vertex(sf::Vector2f(10, ennemyPosY + 20)), sf::Vertex(sf::Vector2f(10, ennemyPosY - 30))};
 }
-
-
