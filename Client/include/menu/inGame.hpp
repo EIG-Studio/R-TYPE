@@ -28,7 +28,8 @@ public:
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void  movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
     void HandleMovement(Registry& registry, sf::Keyboard::Key key, CommandsToServer& commandsToServer, float movementSpeed,
     float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit);
     void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);

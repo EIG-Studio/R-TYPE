@@ -185,6 +185,25 @@ void Server::goLeft(Registry& registry, std::string& command)
     registry.setEntity(entity, std::stoi(id));
 }
 
+void Server::ennemyMove(Registry& registry, std::string& command)
+{
+    std::string id = " ";
+    if (command.find("HUHUHUHU") + 8 < command.size()) {
+        id = command.substr(command.find("HUHUHUHU") + 9);
+    }
+    Entity entity = registry.getEntity(std::stoi(id));
+    Position& positionComponent = registry.getComponent(entity, Position());
+    //Speed speedComponent = registry.getComponent(entity, Speed());
+
+
+    positionComponent.setPosition(
+        std::make_pair(positionComponent.getPosition().first - 1 * 2, positionComponent.getPosition().second));
+    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+                         std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
+    registry.setEntity(entity, std::stoi(id));
+}
+
 void Server::sendAllEntites(Registry& registry)
 {
     std::ostringstream oss;
@@ -229,6 +248,8 @@ void Server::handleReceivedData(
             goUp(registry, command);
         } else if (command.find("DOWN") == 0) {
             goDown(registry, command);
+        } else if (command.find("HUHUHUHU") == 0) {
+            ennemyMove(registry, command);
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << command << std::endl;

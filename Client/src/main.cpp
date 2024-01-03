@@ -205,11 +205,12 @@ int main()
                 if (event.joystickButton.button == sf::Joystick::Y) {
                     commandsToServer.sendToServerAsync("SHOOT", registry);
                 }
-                if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
-                    game.moveParallax();
-                    game.repeatParallax();
-                    onGameClock.restart();
-                }
+            }
+            if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
+                game.moveEnnemies(commandsToServer, registry, ennemies);
+                //game.moveParallax();
+                //game.repeatParallax();
+                onGameClock.restart();
             }
             window.draw(game);
             for (auto& player : players) {
