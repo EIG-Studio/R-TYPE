@@ -37,10 +37,10 @@ void Registry::destroyEntity(Entity entity)
 
     for (size_t i = 0; i < m_entities.size(); i++) {
         entityID = any_cast<ID>(m_entities[i].mComponents[0]).getID();
-        std::cout << "Destroying entity with ID: " << entityID << std::endl;
         if (entityID == id)
             m_entities.erase(m_entities.begin() + i);
     }
+    std::cout << "Destroying entity with ID: " << entityID << std::endl;
 }
 #include <iostream>
 
