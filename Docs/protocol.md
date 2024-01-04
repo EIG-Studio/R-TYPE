@@ -6,6 +6,8 @@
 
 - [Entites](#entites)
     - [Player](#player)
+    - [Ennemy](#ennemy)
+    - [Player Projectile](#Player Projectile)
 - [Position](#position)
 - [Input](#input)
 - [Update](#update)
@@ -15,10 +17,21 @@
 
 ### Player
 
-Message: `NEW [X] [Y] [TYPE]`
+Message: `NEW [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new player is created
 
+### Ennemy
+
+Message: `ENNEMY [ID] [X] [Y] [TYPE]`
+
+This message is sent to the client when a new ennemy is created
+
+### Player Projectile
+
+Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
+
+This message is sent to the client when a new projectile is created
 
 ## Position
 
