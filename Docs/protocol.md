@@ -19,15 +19,24 @@
 
 ### Player
 
-Message: `NEW [ID] [X] [Y] [TYPE]`
+Message: `NEW_PLAYER [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new player is created
 
 ### Ennemy
 
-Message: `ENNEMY [ID] [X] [Y] [TYPE]`
+Message: `NEW_ENNEMY [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new ennemy is created
+
+Message: `MOVE_ENNEMY [ID]`
+
+This message is sent to the client when a ennemy is moved
+
+Message: `DELETE_ENNEMY [ID]`
+
+This message is sent to the client when a ennemy is move
+
 
 ### Player Projectile
 
@@ -35,7 +44,11 @@ Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new projectile is created  
 
-Message: `DESTROY PROJECTILE [ID]`
+Messeage `MOVE_PROJECTILE [ID]`
+
+This message is sent to the client when a projectile is moved  
+
+Message: `DELETE_PROJECTILE [ID]`
 
 This message is sent to the client when a projectile is deleted
 

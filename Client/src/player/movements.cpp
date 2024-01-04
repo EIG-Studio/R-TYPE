@@ -107,7 +107,7 @@ void Game::moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, 
         std::ostringstream oss;
         size_t id = registry.getComponent(ennemy, ID{}).getID();
 
-        oss << "HUHUHUHU" << " " << id;
+        oss << "MOVE_ENNEMIES" << " " << id;
         commandsToServer.sendToServerAsync(oss.str());
     }
 }
@@ -118,7 +118,7 @@ void Game::movePlayerProjectile(CommandsToServer& commandsToServer, Registry& re
         std::ostringstream oss;
         size_t id = registry.getComponent(bullet, ID{}).getID();
 
-        oss << "HEHEHEHE" << " " << id;
+        oss << "MOVE_PROJECTILE" << " " << id;
         commandsToServer.sendToServerAsync(oss.str());
     }
 }

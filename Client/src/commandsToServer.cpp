@@ -117,7 +117,7 @@ void handleReceive(
                     }
                 }
             }
-        } else if (asciiString.find("NEW") == 0) {
+        } else if (asciiString.find("NEW_PLAYER") == 0) {
             std::vector<Entity> list = registry.getListEntities();
             std::cout << "SIZE " << list.size() << "\n";
             std::vector<std::string> parts = split(asciiString, ' ');
@@ -135,7 +135,7 @@ void handleReceive(
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
             registry.setEntity(player, id);
             list = registry.getListEntities();
-        } else if (asciiString.find("ENNEMY") == 0) {
+        } else if (asciiString.find("NEW_ENNEMY") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
 
             int id = std::stoi(parts[1]);
@@ -179,16 +179,16 @@ void handleReceive(
 
             sf::Vector2f spritePos = playerProjectileSprite.getPosition();
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
-        } else if (asciiString.find("DESTROY PROJECTILE") == 0) {
+        } else if (asciiString.find("DELETE_PROJECTILE") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
 
-            int id = std::stoi(parts[2]);
+            int id = std::stoi(parts[1]);
 
             registry.deleteById(id);
-        } else if (asciiString.find("HI HI") == 0) {
+        } else if (asciiString.find("DELETE_ENNEMY") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
 
-            int id = std::stoi(parts[2]);
+            int id = std::stoi(parts[1]);
 
             registry.deleteById(id);
         } else if (asciiString.find("WIN") == 0) {
