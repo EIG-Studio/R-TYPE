@@ -78,3 +78,13 @@ UPDATE
 ```
 
 This message send all entites currently created on the server
+
+## Error
+
+Message: `Unknown command: [CMD]`
+
+This message is send when the command is not konw in the server side
+
+Message: `Error in handleReceive`
+
+This message is send when an error is ocuring in the client side.
