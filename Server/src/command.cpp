@@ -195,7 +195,7 @@ void Server::ennemyMove(Registry& registry, std::string& command)
     float ennemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
     Position& positionComponent = registry.getComponent(entity, Position());
 
-    if (positionComponent.getPosition().first < 200) {
+    if (positionComponent.getPosition().first < -100) {
         addMessage("HI HI " + id);
         registry.deleteById(std::stoi(id));
         this->createEnnemy(registry);
