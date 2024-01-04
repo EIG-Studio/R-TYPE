@@ -30,8 +30,7 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-
-
+find_package(Boost REQUIRED)
 ################# EXECUTABLE #################
 add_executable(${PROJECT_NAME}
     src/main.cpp
@@ -51,6 +50,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include
 target_link_libraries(${PROJECT_NAME} PUBLIC pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network samurai_ecs)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
+if (NOT WIN32)
+    target_link_libraries(${PROJECT_NAME} PUBLIC pthread dl)
+endif()
 
 
 ################# INSTALL #################
