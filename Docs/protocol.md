@@ -8,8 +8,10 @@
     - [Player](#player)
     - [Ennemy](#ennemy)
     - [Player Projectile](#Player-Projectile)
-- [Position](#position)
-- [Input](#input)
+- [Server](#Server)
+    - [Login](#Login)
+    - [Position](#position)
+    - [Input](#input)
 - [Update](#update)
     - [Update entites](#update-entites)
 
@@ -31,19 +33,27 @@ This message is sent to the client when a new ennemy is created
 
 Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
 
-This message is sent to the client when a new projectile is created
+This message is sent to the client when a new projectile is created  
 
 Message: `DESTROY PROJECTILE [ID]`
 
 This message is sent to the client when a projectile is deleted
 
-## Position
+## Server
+
+### Login
+
+Message: `LOGIN`
+
+This message sent by the client when conecting to the server to create a player in the game
+
+### Position
 
 Message: `NEW_POS [X] [Y]`
 
 This message send the player position to the client
 
-## Input
+### Input
 
 Messages:
 
