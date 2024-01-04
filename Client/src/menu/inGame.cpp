@@ -41,8 +41,8 @@ void Game::setPath(Sprite mSprite)
     this->m_frontBuildTexture2.loadFromFile(mSprite.getFrontBuildPath());
     this->m_frontBuildSprite2.setTexture(this->m_frontBuildTexture2);
 
-    this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
-    this->m_playerSprite.setTexture(this->m_playerTexture);
+    //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
+    //this->m_playerSprite.setTexture(this->m_playerTexture);
 
     //// Trouver un moyen pour rendre ça plus beau
     m_backSprite.setScale(1152 / m_backSprite.getLocalBounds().width, 648 / m_backSprite.getLocalBounds().height);
@@ -75,14 +75,14 @@ void Game::setPath(Sprite mSprite)
         .setScale(1152 / m_frontBuildSprite2.getLocalBounds().width, 648 / m_frontBuildSprite2.getLocalBounds().height);
     m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 
-    m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
-    m_playerSprite.setPosition(100, 100);
+    //m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
+    //m_playerSprite.setPosition(100, 100);
 }
 
 void Game::setPlayerPath(Sprite mSprite)
 {
-    this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
-    this->m_playerSprite.setTexture(this->m_playerTexture);
+    //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
+    //this->m_playerSprite.setTexture(this->m_playerTexture);
 }
 
 void Game::moveParallax()
@@ -131,7 +131,23 @@ void Game::repeatParallax()
         m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 }
 
-float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
+float Game::getPosPlayerY(Registry& registry) {
+    Entity player = registry.getPlayer();
+    Position player_pos = registry.getComponent(player, Position{});
+    std::pair<float, float> pair_pos = player_pos.getPosition();
+    Renderer player_renderer = registry.getComponent(player, Renderer{});
+    sf::Sprite player_sprite = player_renderer.getRenderer();
+    return pair_pos.second + (player_sprite.getGlobalBounds().height / 2);
+}
+
+float Game::getPosPlayerX(Registry& registry) {
+    Entity player = registry.getPlayer();
+    Renderer player_renderer = registry.getComponent(player, Renderer{});
+    sf::Sprite player_sprite = player_renderer.getRenderer();
+    return player_sprite.getPosition().x;
+}
+
+float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -147,7 +163,7 @@ float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosX;
 }
 
-float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer)
+float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -163,89 +179,87 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServ
     return newPosY;
 }
 
-void Game::moveSprite(float movementSpeed, float winX, float winY, CommandsToServer commandsToServer, Sprite mSprite)
-{
-    float tempPosX = this->m_playerSprite.getPosition().x;
-    float tempPosY = this->m_playerSprite.getPosition().y;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
-        if (this->m_playerSprite.getPosition().y > 0) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 1";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveUp();
-            std::cout << "UP" << std::endl;
-
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
-        if (this->m_playerSprite.getPosition().x < winX - 103) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 2";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveRight();
-            std::cout << "RIGHT" << std::endl;
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
-        if (this->m_playerSprite.getPosition().y < winY - 37.75) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 3";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveDown();
-            std::cout << "DOWN" << std::endl;
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
-        if (this->m_playerSprite.getPosition().x > 0) {
-            // Il faut bouger de movementSpeed à chaque fois
-            std::ostringstream oss;
-            oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-                << movementSpeed << " 4";
-            std::string positionString = oss.str();
-            commandsToServer.sendToServerAsync(positionString);
-            //
-            // ecs.callMoveLeft();
-            std::cout << "LEFT" << std::endl;
-            this->m_playerSprite
-                .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-            //
-            mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");
-            this->setPlayerPath(mSprite);
-        }
-    }
-    if (tempPosX == this->m_playerSprite.getPosition().x && tempPosY == this->m_playerSprite.getPosition().y) {
-        mSprite.setPlayerPath("../Client/assets/Cars/189_neutral.png");
-        this->setPlayerPath(mSprite);
-    }
-}
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
+//         if (this->m_playerSprite.getPosition().y > 0) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//                 << movementSpeed << " 1";
+//             // oss << "UP";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveUp();
+//             std::cout << "UP" << std::endl;
+//
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
+//         if (this->m_playerSprite.getPosition().x < winX - 103) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             // oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//             //     << movementSpeed << " 2";
+//             oss << "RIGHT";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveRight();
+//             std::cout << "RIGHT" << std::endl;
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
+//         if (this->m_playerSprite.getPosition().y < winY - 37.75) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//                 << movementSpeed << " 3";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveDown();
+//             std::cout << "DOWN" << std::endl;
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
+//         if (this->m_playerSprite.getPosition().x > 0) {
+//             // Il faut bouger de movementSpeed à chaque fois
+//             std::ostringstream oss;
+//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
+//                 << movementSpeed << " 4";
+//             std::string positionString = oss.str();
+//             commandsToServer.sendToServerAsync(positionString);
+//             //
+//             // ecs.callMoveLeft();
+//             std::cout << "LEFT" << std::endl;
+//             this->m_playerSprite
+//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
+//             //
+//             mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");
+//             this->setPlayerPath(mSprite);
+//         }
+//     }
+//     if (tempPosX == this->m_playerSprite.getPosition().x && tempPosY == this->m_playerSprite.getPosition().y) {
+//         mSprite.setPlayerPath("../Client/assets/Cars/189_neutral.png");
+//         this->setPlayerPath(mSprite);
+//     }
+// }
 
 void Game::colidePlayer()
 {
@@ -264,7 +278,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.texture = &m_midBuildTexture2;
     states.texture = &m_frontBuildTexture;
     states.texture = &m_frontBuildTexture2;
-    states.texture = &m_playerTexture;
+    //states.texture = &m_playerTexture;
     target.draw(m_backSprite, states);
     target.draw(m_backSprite2, states);
     target.draw(m_veryBackBuildSprite, states);
@@ -275,5 +289,5 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_midBuildSprite2, states);
     target.draw(m_frontBuildSprite, states);
     target.draw(m_frontBuildSprite2, states);
-    target.draw(m_playerSprite, states);
+    //target.draw(m_playerSprite, states);
 }

@@ -5,6 +5,9 @@
 ** main
 */
 
+#include "../../GameEngine/include/Systems.hpp"
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
 #include "ECS.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
@@ -22,10 +25,6 @@
 
 int main()
 {
-    // ECS ecs;
-    // ecs.setPath("GameEngine/libsamurai_ecs.so");
-
-
     float movementSpeed = 5.0f;
     // Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
@@ -106,6 +105,8 @@ int main()
         font,
         20);
 
+    Registry registry = Registry();
+    commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -114,14 +115,6 @@ int main()
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
                 menu.onMenu = false;
                 choiceMenu.onChoice = true;
-            }
-            if (event.type == sf::Event::KeyReleased) {
-                if (event.key.code == sf::Keyboard::S)
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
-            }
-            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
-                if (event.joystickButton.button == sf::Joystick::Y)
-                    auto sendFuture = commandsToServer.sendToServerAsync("SHOOT");
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
                 music.musicMenu.stop();
@@ -172,6 +165,8 @@ int main()
                 sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
                 game.onGame = true;
                 choiceMenu.onChoice = false;
+                commandsToServer.sendToServerAsync("LOGIN");
+                commandsToServer.sendToServerAsync("UPDATE");
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 settingMenu.onSetting = true;
@@ -193,15 +188,45 @@ int main()
             }
             retourButton.draw();
             window.draw(settingMenu);
+
         } else if (game.onGame) {
+            std::vector<Entity> players = registry.getListPlayers();
+            std::vector<Entity> ennemies = registry.getListEnemies();
+            std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.moveSprite(movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            game.hasFocus = window.hasFocus();
+            commandsToServer.mutex.lock();
+            game.movePlayer(std::ref(registry), movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            commandsToServer.mutex.unlock();
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == sf::Keyboard::F) {
+                    game.shooting(commandsToServer, registry);
+                }
+            }
+            if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
+                if (event.joystickButton.button == sf::Joystick::Y) {
+                    game.shooting(commandsToServer, registry);
+                }
+            }
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
+                game.moveEnnemies(commandsToServer, registry, ennemies);
+                std::vector<Entity> ennemies = registry.getListEnemies();
+                game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
+                std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
                 game.moveParallax();
                 game.repeatParallax();
                 onGameClock.restart();
             }
             window.draw(game);
+            for (auto& player : players) {
+                renderSystem(player, registry, window);
+            }
+            for (auto& ennemy : ennemies) {
+                renderSystem(ennemy, registry, window);
+            }
+            for (auto& playerProjectile : playersProjectiles) {
+                renderSystem(playerProjectile, registry, window);
+            }
         }
         window.display();
     }

@@ -11,6 +11,9 @@
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
 
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
+
 class Game : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -18,42 +21,58 @@ public:
     ~Game() override = default;
     void  setPath(Sprite mSprite);
     void  setPlayerPath(Sprite mSprite);
+    float getPosPlayerY(Registry& registry);
+    float getPosPlayerX(Registry& registry);
     void  moveParallax();
     void  repeatParallax();
-    float setNewPositionX(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
-    float setNewPositionY(sf::Sprite mSprite, CommandsToServer mCommandsToServer);
-    void  moveSprite(float movementSpeed, float winX, float winY, CommandsToServer mCommandsToServer, Sprite mSprite);
+    float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
+    float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
+    void SendMessage(CommandsToServer& commandsToServer);
+    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
+    void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
+    void HandleMovement(Registry& registry, sf::Keyboard::Key key, CommandsToServer& commandsToServer, float movementSpeed,
+    float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit);
+    void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
+    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType);
+    std::string InputTypeToString(sf::Keyboard::Key key);
     void  colidePlayer();
+    void shooting(CommandsToServer& commandsToServer, Registry& registry);
     bool  onGame;
+    bool  hasFocus {false};
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    Entity player;
+
+    sf::Clock updateClock;
+
     sf::Texture m_backTexture;
-    sf::Sprite  m_backSprite;
+    sf::Sprite m_backSprite;
     sf::Texture m_backTexture2;
-    sf::Sprite  m_backSprite2;
+    sf::Sprite m_backSprite2;
 
     sf::Texture m_veryBackBuildTexture;
-    sf::Sprite  m_veryBackBuildSprite;
+    sf::Sprite m_veryBackBuildSprite;
     sf::Texture m_veryBackBuildTexture2;
-    sf::Sprite  m_veryBackBuildSprite2;
+    sf::Sprite m_veryBackBuildSprite2;
 
     sf::Texture m_backBuildTexture;
-    sf::Sprite  m_backBuildSprite;
+    sf::Sprite m_backBuildSprite;
     sf::Texture m_backBuildTexture2;
-    sf::Sprite  m_backBuildSprite2;
+    sf::Sprite m_backBuildSprite2;
 
     sf::Texture m_midBuildTexture;
-    sf::Sprite  m_midBuildSprite;
+    sf::Sprite m_midBuildSprite;
     sf::Texture m_midBuildTexture2;
-    sf::Sprite  m_midBuildSprite2;
+    sf::Sprite m_midBuildSprite2;
 
     sf::Texture m_frontBuildTexture;
-    sf::Sprite  m_frontBuildSprite;
+    sf::Sprite m_frontBuildSprite;
     sf::Texture m_frontBuildTexture2;
-    sf::Sprite  m_frontBuildSprite2;
+    sf::Sprite m_frontBuildSprite2;
 
     sf::Texture m_playerTexture;
-    sf::Sprite  m_playerSprite;
+    sf::Sprite m_playerSprite;
 };

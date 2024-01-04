@@ -7,15 +7,17 @@
 
 #pragma once
 
+#include "client.hpp"
+#include "entities.hpp"
+
 #include <bitset>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
 #include <deque>
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <thread>
 #include <utility>
+#include <vector>
 
 class Server
 {
@@ -24,9 +26,12 @@ public:
     {
     }
 
-    void startListening();
+    void startListening(Registry& registry);
     void startSending();
     void sendMessage(const std::string& message);
+    void sendAllEntites(Registry& registry);
+    void createEnnemy(Registry& registry);
+    void createBullet(Registry& registry, std::string& command);
 
 private:
     boost::asio::io_service m_ioService;
@@ -35,10 +40,22 @@ private:
     boost::array<char, 128> m_recvBuf{};
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
-    int nb_clients = 1;
+    std::mutex m_ennemyMutex;
+    std::vector<Client> m_clients;
 
-    void handleReceivedData(const boost::system::error_code& error, std::size_t bytesReceived);
+    void handleReceivedData(
+        const boost::system::error_code& error,
+        std::size_t bytesReceived,
+        Registry& registry,
+        boost::asio::ip::udp::endpoint& remoteEndpoint);
     void handlePositionUpdate();
     void addMessage(const std::string& message);
-    void createPlayer();
+    void createPlayer(Registry& registry);
+    void goUp(Registry& registry, std::string& command);
+    void goDown(Registry& registry, std::string& command);
+    void goRight(Registry& registry, std::string& command);
+    void goLeft(Registry& registry, std::string& command);
+    void ennemyMove(Registry& registry, std::string& command);
+    void playerProjectileMove(Registry& registry, std::string& command);
+    void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 };

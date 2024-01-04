@@ -8,6 +8,7 @@
 #pragma once
 
 #include "SFML/Graphics/Texture.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -68,9 +69,15 @@ public:
 
     std::size_t getID() const;
 
+    operator std::size_t() const
+    {
+        return m_id;
+    }
+
 private:
     std::size_t m_id;
 };
+
 
 /********-Speed Component-******/
 class Speed
@@ -178,6 +185,7 @@ private:
 enum EntityType
 {
     Player,
+    Other_Player,
     Enemy,
     Player_Projectile,
     Enemy_Projectile,
@@ -195,9 +203,36 @@ public:
 
     void setEntityType(EntityType entityType);
 
+    friend std::ostream& operator<<(std::ostream& os, const Type& type);
+
 private:
     EntityType m_entityType;
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Type& type)
+{
+    switch (type.m_entityType) {
+        case EntityType::Player:
+            os << "Player";
+            break;
+        case EntityType::Enemy:
+            os << "Enemy";
+            break;
+        case EntityType::Player_Projectile:
+            os << "Player_Projectile";
+            break;
+        case EntityType::Enemy_Projectile:
+            os << "Enemy_Projectile";
+            break;
+        case EntityType::Wall:
+            os << "Wall";
+            break;
+        default:
+            os << "Unknown";
+            break;
+    }
+    return os;
+}
 
 /********-Renderer Component-******/
 
@@ -205,13 +240,13 @@ class Renderer
 {
 public:
     Renderer() = default;
-    Renderer(std::string texturePath);
+    explicit Renderer(const std::string& texturePath);
     ~Renderer() = default;
 
-    sf::Sprite getRenderer() const;
+    sf::Sprite& getRenderer();
     sf::Texture getTexture() const;
 
-    void setRenderer(std::string& texturePath);
+    void setRenderer(const std::string& texturePath);
 
 private:
     sf::Texture m_texture;

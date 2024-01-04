@@ -22,6 +22,7 @@ Sprite::Sprite()
     this->m_pathMidBuild      = "../Client/assets/Background/city_1/4.png";
     this->m_pathFrontBuild    = "../Client/assets/Background/city_1/5.png";
     this->m_pathPlayer        = "../Client/assets/Cars/189_neutral.png";
+    this->m_pathEnnemy        = "../Client/assets/Cars/cars/190.png";
     this->easterEgg           = false;
 }
 
@@ -49,6 +50,11 @@ void Sprite::setBackPath(std::string mString)
 void Sprite::setPlayerPath(std::string mString)
 {
     this->m_pathPlayer = std::move(mString);
+}
+
+void Sprite::setEnnemyPath(std::string mString)
+{
+    this->m_pathEnnemy = std::move(mString);
 }
 
 //     getter     //
@@ -106,4 +112,9 @@ std::string Sprite::getFrontBuildPath()
 std::string Sprite::getPlayerPath()
 {
     return this->m_pathPlayer;
+}
+
+std::string Sprite::getEnnemyPath()
+{
+    return this->m_pathEnnemy;
 }

@@ -13,13 +13,17 @@
 // #include <dlfcn.h>
 #include <thread>
 
-
 int main()
 {
     try {
         Server server;
+        Registry registry;
+        server.createEnnemy(registry);
+        server.createEnnemy(registry);
+        server.createEnnemy(registry);
+        server.createEnnemy(registry);
 
-        std::thread serverThread(&Server::startListening, &server);
+        std::thread serverThread(&Server::startListening, &server, std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
 
         serverThread.join();

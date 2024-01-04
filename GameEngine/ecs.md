@@ -24,10 +24,11 @@
 - DeathSystem -<Basic>- (Gére la mort des entitées) [V]
 - DamagedSystem -<Basic>- (Gére les dégats infliger) [V]
 - MovementSystem -<Basic>- (Permet de gérer les mouvements des entitées) [V]
-- IASystem -<Basic>- (Pour l'enemie, qu'il puisse tiré ou bougé) [V]
+- IASystem -<Basic>- (Pour l'enemie, qu'il puisse tiré ou bougé) []
 - RendererSystem -<Basic>- (Display on client side) [V]
 - CollisionSystem -<Basic>- (Gére les collisions entre deux entités en fontion de leur type) [V]
 - NoMoveSystem -<Basic>- (Bloque l'overlap entre 2 entitées) [V]
+- InputSystem -<Advanced>- (Gére les changement pour le jeu) []
 
 ### Entity
 

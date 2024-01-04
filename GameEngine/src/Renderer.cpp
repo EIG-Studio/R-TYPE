@@ -4,35 +4,36 @@
 #include <iostream>
 #include <memory>
 
-Renderer::Renderer(std::string texturePath)
+Renderer::Renderer(const std::string& texturePath)
 {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Error: texture not found at " << texturePath << std::endl;
         exit(84);
     }
-
-    this->m_sprite.setTexture(this->m_texture);
+    m_sprite.setTexture(m_texture);
 }
 
-sf::Sprite Renderer::getRenderer() const
+// Return a reference to the sprite
+sf::Sprite& Renderer::getRenderer()
 {
-    return this->m_sprite;
-
+    return m_sprite;
 }
 
 sf::Texture Renderer::getTexture() const
 {
-    return this->m_texture;
-
+    return m_texture;
 }
 
-void Renderer::setRenderer(std::string &texturePath)
+void Renderer::setRenderer(const std::string& texturePath)
 {
-    sf::Texture texture;
-    if (!texture.loadFromFile(texturePath)) {
+    if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Error: texture not found" << std::endl;
         exit(84);
     }
-    this->m_texture = texture;
-    this->m_sprite.setTexture(this->m_texture);
+    m_texture = sf::Texture(); // Resetting texture
+    if (!m_texture.loadFromFile(texturePath)) {
+        std::cerr << "Error: texture not found at " << texturePath << std::endl;
+        exit(84);
+    }
+    m_sprite.setTexture(m_texture);
 }

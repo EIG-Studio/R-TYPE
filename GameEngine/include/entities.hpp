@@ -15,10 +15,10 @@
 #include <SFML/System.hpp>
 
 #include <any>
+#include <iostream>
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include <iostream>
 
 #include <cassert>
 #include <cstdint>
@@ -41,7 +41,21 @@ public:
     Registry() = default;
     ~Registry() = default;
     Entity createEntity();
+    Entity createEntityWithID(int customID);
     void destroyEntity(Entity entity);
+    Entity getEntity(size_t id);
+    void setEntity(Entity& entityToCopy, int id);
+    Entity getPlayer();
+    Entity getFirstEnemy();
+    bool hasEntity(size_t id);
+    std::vector<Entity> getListEnemies();
+    std::vector<Entity> getListPlayers();
+    std::vector<Entity> getListEntities();
+    std::vector<Entity> getListPlayersProjectile();
+    std::vector<Entity> deletePlayersProjectile(int id);
+    std::vector<Entity> deleteEnnemy(int id);
+    void deleteById(int id);
+    void destroyEnnemy(std::vector<Entity> ennemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>
@@ -124,7 +138,7 @@ T& Registry::getComponent(Entity& entity, T component)
             continue;
         }
     }
-    throw std::runtime_error("Component not found");
+    throw std::runtime_error("Entity Component not found");
 }
 
 template <typename T>

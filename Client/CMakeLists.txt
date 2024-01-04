@@ -40,13 +40,14 @@ add_executable(${PROJECT_NAME}
     src/music/music.cpp
     src/menu/inGame.cpp
     src/commandsToServer.cpp
+    src/player/movements.cpp
 )
 
 
 
 ################# LIBRARIES #################
-target_include_directories(${PROJECT_NAME} PRIVATE include ${Boost_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network Boost::boost)
+target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC pthread dl sfml-window sfml-graphics sfml-system sfml-audio sfml-network samurai_ecs)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 if (NOT WIN32)
