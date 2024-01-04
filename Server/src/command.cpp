@@ -32,7 +32,7 @@ void Server::createPlayer(Registry& registry)
     entity = registry.addComponent(entity, typeComponent);
 
     std::ostringstream newPlayer;
-    newPlayer << "NEW " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+    newPlayer << "NEW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << typeComponent << "\n";
     addMessage(newPlayer.str());
@@ -63,7 +63,7 @@ void Server::createEnnemy(Registry& registry)
     entity = registry.addComponent(entity, typeComponent);
 
     std::ostringstream newPlayer2;
-    newPlayer2 << "ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+    newPlayer2 << "NEW_ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << typeComponent << "\n";
     // m_ennemyMutex.unlock();
@@ -188,15 +188,15 @@ void Server::goLeft(Registry& registry, std::string& command)
 void Server::ennemyMove(Registry& registry, std::string& command)
 {
     std::string id = " ";
-    if (command.find("HUHUHUHU") + 8 < command.size()) {
-        id = command.substr(command.find("HUHUHUHU") + 9);
+    if (command.find("MOVE_ENNEMIES") + 13 < command.size()) {
+        id = command.substr(command.find("MOVE_ENNEMIES") + 14);
     }
     Entity entity = registry.getEntity(std::stoi(id));
     float ennemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first < -100) {
-        addMessage("HI HI " + id);
+        addMessage("DELETE_ENNEMY " + id);
         registry.deleteById(std::stoi(id));
         this->createEnnemy(registry);
         return;
@@ -213,15 +213,15 @@ void Server::ennemyMove(Registry& registry, std::string& command)
 void Server::playerProjectileMove(Registry& registry, std::string& command)
 {
     std::string id = std::string("");
-    if (command.find("HEHEHEHE") + 8 < command.size()) {
-        id = command.substr(command.find("HEHEHEHE") + 9);
+    if (command.find("MOVE_PROJECTILE") + 15 < command.size()) {
+        id = command.substr(command.find("MOVE_PROJECTILE") + 16);
     }
     Entity entity = registry.getEntity(std::stoi(id));
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first > 800) {
         registry.deleteById(std::stoi(id));
-        addMessage("DESTROY PROJECTILE " + id);
+        addMessage("DELETE_PROJECTILE " + id);
         return;
     }
 
@@ -266,7 +266,7 @@ void Server::handleReceivedData(
             createPlayer(registry);
         } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
-        } else if (command.find("ENNEMY") == 0) {
+        } else if (command.find("NEW_ENNEMY") == 0) {
             createEnnemy(registry);
         } else if (command.find("EXIT") == 0) {
             // deletePlayer();
@@ -278,9 +278,9 @@ void Server::handleReceivedData(
             goUp(registry, command);
         } else if (command.find("DOWN") == 0) {
             goDown(registry, command);
-        } else if (command.find("HUHUHUHU") == 0) {
+        } else if (command.find("MOVE_ENNEMIES") == 0) {
             ennemyMove(registry, command);
-        } else if (command.find("HEHEHEHE") == 0) {
+        } else if (command.find("MOVE_PROJECTILE") == 0) {
             playerProjectileMove(registry, command);
         } else {
             std::ostringstream cmd;
