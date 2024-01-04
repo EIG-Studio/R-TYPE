@@ -145,7 +145,7 @@ void handleReceive(
 
 
             Entity ennemy = registry.createEntityWithID(id);
-            ennemy = registry.addComponent(ennemy, Position(std::make_pair(randNb(1200, 2000), randNb(0, 500))));
+            ennemy = registry.addComponent(ennemy, Position(std::make_pair(xPos, yPos)));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
 
