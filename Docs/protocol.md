@@ -33,6 +33,10 @@ Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new projectile is created
 
+Message: `DESTROY PROJECTILE [ID]`
+
+This message is sent to the client when a projectile is deleted
+
 ## Position
 
 Message: `NEW_POS [X] [Y]`
