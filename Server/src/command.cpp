@@ -197,6 +197,7 @@ void Server::ennemyMove(Registry& registry, std::string& command)
     if (positionComponent.getPosition().first < 200) {
         addMessage("HI HI " + id);
         registry.deleteById(std::stoi(id));
+        this->createEnnemy(registry);
         return;
     }
     positionComponent.setPosition(
