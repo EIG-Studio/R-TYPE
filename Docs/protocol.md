@@ -7,7 +7,7 @@
 - [Entites](#entites)
     - [Player](#player)
     - [Ennemy](#ennemy)
-    - [Player Projectile](#Player Projectile)
+    - [Player Projectile](#Player-Projectile)
 - [Position](#position)
 - [Input](#input)
 - [Update](#update)
