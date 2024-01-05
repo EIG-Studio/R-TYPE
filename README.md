@@ -4,6 +4,8 @@
 <img src="Docs/assets/R-type_logo.webp" alt="R-TYPE" width="50%">
 </p>
 
+![Build check](https://github.com/R-TYPE-Polo/R-TYPE/actions/workflows/build_check.yml/badge.svg)
+
 ## 👾 About
 
 The goal of this project is to implement a multithreaded server and a graphical client for a well-known legacy video game called R-Type, using our own game engine design.
@@ -77,14 +79,14 @@ You can find more information about the project [here](https://github.com/R-TYPE
             </div>
         </td>
       <td align="center" style="min-width: 150px; border: 2px solid; padding: 20px">
-            <a href="https://github.com/Leandre17">
+            <a href="https://github.com/mathieumdc">
                 <img src="https://media.licdn.com/dms/image/D4E35AQFtrJezeDJFgg/profile-framedphoto-shrink_800_800/0/1704357638351?e=1705068000&v=beta&t=wErMc3uCtufiYNVbx7Slp3DHA2tCnCI4iHT4Rs7UQms" width="150px;" alt="Mathieu de Coninck profile picture"/>
                 <br />
                 <b>Mathieu de Coninck</b>
             </a>
             <br />
             <div>
-                <a href="https://github.com/EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle/commits?author=Leandre17" title="Code">👨‍💻</a>
+                <a href="https://github.com/EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle/commits?author=mathieumdc" title="Code">👨‍💻</a>
                 <a href="mailto:mathieu.de-coninck@epitech.eu">✉️</a>
             </div>
         </td>
