@@ -26,7 +26,7 @@ jobs:
         platform:
           - { name: Windows Latest, os: windows-latest }
           - { name: Linux GCC,      os: ubuntu-latest }
-          - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
+          - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang-16 -DCMAKE_CXX_COMPILER=clang++-16 }
 
     steps:
       - name: Install Chocolatey
@@ -38,10 +38,9 @@ jobs:
         if: runner.os == 'Windows'
         run: choco install boost-msvc-14.3
 
-
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy
+        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy clang-16
 
       - name: Install clang-format 16
         if: runner.os == 'Linux'
@@ -66,4 +65,3 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --install build --config Release
-
