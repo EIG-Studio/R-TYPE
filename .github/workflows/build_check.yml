@@ -32,10 +32,13 @@ jobs:
       - name: Install Boost on Windows
         if: runner.os == 'Windows'
         run: |
-          Invoke-WebRequest -Uri 'https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.zip' -OutFile 'boost.zip'
-          Expand-Archive -Path 'boost.zip' -DestinationPath 'C:\Boost'
+          $boostUrl = 'https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.zip'
+          $boostPath = 'C:\Boost\boost_1_84_0'
+          Invoke-WebRequest -Uri $boostUrl -OutFile 'boost.zip'
+          Expand-Archive -Path 'boost.zip' -DestinationPath 'C:\Boost' -Force
           Remove-Item 'boost.zip' -Force
-          [System.Environment]::SetEnvironmentVariable('BOOST_ROOT', 'C:\Boost\boost_1_84_0', [System.EnvironmentVariableTarget]::Process)
+          [System.Environment]::SetEnvironmentVariable('BOOST_ROOT', $boostPath, [System.EnvironmentVariableTarget]::Process)
+          Write-Host "Installed Boost version: $((Get-Content $boostPath\boost\version.hpp | Select-String 'BOOST_LIB_VERSION').Matches.Groups[1].Value)"
 
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
