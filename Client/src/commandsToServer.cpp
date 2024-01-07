@@ -186,6 +186,7 @@ void handleReceive(
 
             registry.deleteById(id);
         } else if (asciiString.find("DELETE_ENNEMY") == 0) {
+            std::cout << "Here " << asciiString << std::endl;
             std::vector<std::string> parts = split(asciiString, ' ');
 
             int id = std::stoi(parts[1]);

@@ -32,6 +32,7 @@ public:
     void sendAllEntites(Registry& registry);
     void createEnnemy(Registry& registry);
     void createBullet(Registry& registry, std::string& command);
+    void GameLoop(Registry& registry);
 
 private:
     boost::asio::io_service m_ioService;
@@ -40,7 +41,7 @@ private:
     boost::array<char, 128> m_recvBuf{};
     std::deque<std::pair<std::string, int>> m_messages;
     std::mutex m_mutex;
-    std::mutex m_ennemyMutex;
+    std::mutex m_registeryMutex;
     std::vector<Client> m_clients;
 
     void handleReceivedData(
@@ -55,7 +56,7 @@ private:
     void goDown(Registry& registry, std::string& command);
     void goRight(Registry& registry, std::string& command);
     void goLeft(Registry& registry, std::string& command);
-    void ennemyMove(Registry& registry, std::string& command);
+    void ennemyMove(Registry& registry, Entity& entity, std::size_t id);
     void playerProjectileMove(Registry& registry, std::string& command);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 };

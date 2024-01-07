@@ -103,13 +103,13 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
 
 void Game::moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies)
 {
-    for (auto ennemy : ennemies) {
-        std::ostringstream oss;
-        size_t id = registry.getComponent(ennemy, ID{}).getID();
+    // for (auto ennemy : ennemies) {
+    //     std::ostringstream oss;
+    //     size_t id = registry.getComponent(ennemy, ID{}).getID();
 
-        oss << "MOVE_ENNEMIES" << " " << id;
-        commandsToServer.sendToServerAsync(oss.str());
-    }
+    //     oss << "MOVE_ENNEMIES" << " " << id;
+    //     commandsToServer.sendToServerAsync(oss.str());
+    // }
 }
 
 void Game::movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets)
