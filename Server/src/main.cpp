@@ -10,7 +10,6 @@
 #include "entities.hpp"
 #include "server.hpp"
 
-// #include <dlfcn.h>
 #include <thread>
 
 int main()
@@ -35,6 +34,5 @@ int main()
         std::cerr << e.what() << std::endl;
         return 1;
     }
-
     return 0;
 }
