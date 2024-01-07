@@ -21,13 +21,11 @@ void Server::createPlayer(Registry& registry)
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
-    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Player);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
-    entity = registry.addComponent(entity, rendererComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
@@ -50,7 +48,6 @@ void Server::createEnnemy(Registry& registry)
 {
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
-    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(randNb(5, 10));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
 
@@ -58,7 +55,6 @@ void Server::createEnnemy(Registry& registry)
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
-    entity = registry.addComponent(entity, rendererComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
@@ -82,13 +78,11 @@ void Server::createBullet(Registry& registry, std::string& command)
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(std::stof(tokens[1]), std::stof(tokens[2])));
-    // Renderer rendererComponent("../Client/assets/Cars/movement parts/thruster/flame.png");
     Speed speedComponent(7);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
-    // entity = registry.addComponent(entity, rendererComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
