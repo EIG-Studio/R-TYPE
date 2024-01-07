@@ -12,7 +12,9 @@
 void Server::startListening(Registry& registry)
 {
     auto receiveCallback = [this, &registry](const boost::system::error_code& error, std::size_t bytesReceived) {
+        m_registeryMutex.lock();
         handleReceivedData(error, bytesReceived, registry, m_remoteEndpoint);
+        m_registeryMutex.unlock();
         m_recvBuf.fill(0);
         startListening(registry);
     };

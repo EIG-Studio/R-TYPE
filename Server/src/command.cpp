@@ -21,13 +21,11 @@ void Server::createPlayer(Registry& registry)
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
-    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Player);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
-    entity = registry.addComponent(entity, rendererComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
@@ -50,7 +48,6 @@ void Server::createEnnemy(Registry& registry)
 {
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
-    Renderer rendererComponent("../Client/assets/Cars/189_neutral.png");
     Speed speedComponent(randNb(5, 10));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
 
@@ -58,7 +55,6 @@ void Server::createEnnemy(Registry& registry)
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
-    entity = registry.addComponent(entity, rendererComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
@@ -82,13 +78,11 @@ void Server::createBullet(Registry& registry, std::string& command)
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(std::stof(tokens[1]), std::stof(tokens[2])));
-    Renderer rendererComponent("../Client/assets/Cars/movement parts/thruster/flame.png");
     Speed speedComponent(7);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
-    entity = registry.addComponent(entity, rendererComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
@@ -185,54 +179,54 @@ void Server::goLeft(Registry& registry, std::string& command)
     registry.setEntity(entity, std::stoi(id));
 }
 
-void Server::ennemyMove(Registry& registry, std::string& command)
-{
-    std::string id = " ";
-    if (command.find("MOVE_ENNEMIES") + 13 < command.size()) {
-        id = command.substr(command.find("MOVE_ENNEMIES") + 14);
-    }
-    Entity entity = registry.getEntity(std::stoi(id));
-    float ennemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
-    Position& positionComponent = registry.getComponent(entity, Position());
+// void Server::ennemyMove(Registry& registry, std::string& command)
+// {
+//     std::string id = " ";
+//     if (command.find("MOVE_ENNEMIES") + 13 < command.size()) {
+//         id = command.substr(command.find("MOVE_ENNEMIES") + 14);
+//     }
+//     Entity entity = registry.getEntity(std::stoi(id));
+//     float ennemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
+//     Position& positionComponent = registry.getComponent(entity, Position());
 
-    if (positionComponent.getPosition().first < -100) {
-        addMessage("DELETE_ENNEMY " + id);
-        registry.deleteById(std::stoi(id));
-        this->createEnnemy(registry);
-        return;
-    }
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first - 1 * ennemySpeed, positionComponent.getPosition().second));
+//     if (positionComponent.getPosition().first < -100) {
+//         addMessage("DELETE_ENNEMY " + id);
+//         registry.deleteById(std::stoi(id));
+//         this->createEnnemy(registry);
+//         return;
+//     }
+//     positionComponent.setPosition(
+//         std::make_pair(positionComponent.getPosition().first - 1 * ennemySpeed, positionComponent.getPosition().second));
 
-    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
-                         std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, std::stoi(id));
-}
+//     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+//                          std::to_string(positionComponent.getPosition().second) + "\n";
+//     addMessage(newPos);
+//     registry.setEntity(entity, std::stoi(id));
+// }
 
-void Server::playerProjectileMove(Registry& registry, std::string& command)
-{
-    std::string id = std::string("");
-    if (command.find("MOVE_PROJECTILE") + 15 < command.size()) {
-        id = command.substr(command.find("MOVE_PROJECTILE") + 16);
-    }
-    Entity entity = registry.getEntity(std::stoi(id));
-    Position& positionComponent = registry.getComponent(entity, Position());
+// void Server::playerProjectileMove(Registry& registry, std::string& command)
+// {
+//     std::string id = std::string("");
+//     if (command.find("MOVE_PROJECTILE") + 15 < command.size()) {
+//         id = command.substr(command.find("MOVE_PROJECTILE") + 16);
+//     }
+//     Entity entity = registry.getEntity(std::stoi(id));
+//     Position& positionComponent = registry.getComponent(entity, Position());
 
-    if (positionComponent.getPosition().first > 800) {
-        registry.deleteById(std::stoi(id));
-        addMessage("DELETE_PROJECTILE " + id);
-        return;
-    }
+//     if (positionComponent.getPosition().first > 800) {
+//         registry.deleteById(std::stoi(id));
+//         addMessage("DELETE_PROJECTILE " + id);
+//         return;
+//     }
 
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first + 1 * 7, positionComponent.getPosition().second));
+//     positionComponent.setPosition(
+//         std::make_pair(positionComponent.getPosition().first + 1 * 7, positionComponent.getPosition().second));
 
-    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
-                         std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, std::stoi(id));
-}
+//     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+//                          std::to_string(positionComponent.getPosition().second) + "\n";
+//     addMessage(newPos);
+//     registry.setEntity(entity, std::stoi(id));
+// }
 
 void Server::sendAllEntites(Registry& registry)
 {
@@ -278,10 +272,6 @@ void Server::handleReceivedData(
             goUp(registry, command);
         } else if (command.find("DOWN") == 0) {
             goDown(registry, command);
-        } else if (command.find("MOVE_ENNEMIES") == 0) {
-            ennemyMove(registry, command);
-        } else if (command.find("MOVE_PROJECTILE") == 0) {
-            playerProjectileMove(registry, command);
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << command << std::endl;
