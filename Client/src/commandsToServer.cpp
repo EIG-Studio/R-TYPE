@@ -75,7 +75,7 @@ void handleReceive(
 
     if (!error && len > 0) {
         std::string asciiString(binaryToText(recvBuf.data()));
-        std::cout << asciiString << std::endl;
+        std::cout << asciiString;
 
         if (asciiString.find("NEW_POS") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
@@ -186,7 +186,6 @@ void handleReceive(
 
             registry.deleteById(id);
         } else if (asciiString.find("DELETE_ENNEMY") == 0) {
-            std::cout << "Here " << asciiString << std::endl;
             std::vector<std::string> parts = split(asciiString, ' ');
 
             int id = std::stoi(parts[1]);

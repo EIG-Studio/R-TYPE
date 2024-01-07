@@ -114,13 +114,13 @@ void Game::moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, 
 
 void Game::movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets)
 {
-    for (auto bullet : bullets) {
-        std::ostringstream oss;
-        size_t id = registry.getComponent(bullet, ID{}).getID();
+    // for (auto bullet : bullets) {
+    //     std::ostringstream oss;
+    //     size_t id = registry.getComponent(bullet, ID{}).getID();
 
-        oss << "MOVE_PROJECTILE" << " " << id;
-        commandsToServer.sendToServerAsync(oss.str());
-    }
+    //     oss << "MOVE_PROJECTILE" << " " << id;
+    //     commandsToServer.sendToServerAsync(oss.str());
+    // }
 }
 
 std::string Game::InputTypeToString(sf::Keyboard::Key key)
@@ -207,6 +207,6 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry)
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
-    shooting << "SHOOT " << pairPos.first << " " << pairPos.second << "\n";
+    shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
     commandsToServer.sendToServerAsync(shooting.str());
 }
