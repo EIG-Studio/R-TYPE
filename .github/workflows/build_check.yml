@@ -38,7 +38,6 @@ jobs:
           Expand-Archive -Path 'boost.zip' -DestinationPath 'C:\Boost' -Force
           Remove-Item 'boost.zip' -Force
           [System.Environment]::SetEnvironmentVariable('BOOST_ROOT', $boostPath, [System.EnvironmentVariableTarget]::Process)
-          Write-Host "Installed Boost version: $((Get-Content $boostPath\boost\version.hpp | Select-String 'BOOST_LIB_VERSION').Matches.Groups[1].Value)"
 
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
