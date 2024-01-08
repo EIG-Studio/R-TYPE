@@ -16,6 +16,7 @@
 #include "menu/settingMenu.hpp"
 #include "music/music.hpp"
 #include "sprite/sprite.hpp"
+#include "window.hpp"
 
 #include <SFML/Window/Keyboard.hpp>
 
@@ -23,26 +24,9 @@
 
 int main()
 {
-    float movementSpeed = 5.0f;
-    float millisecondsPerSecond = 1000;
-    float maxFPS = 144;
-    float millisecondsPerFrame = millisecondsPerSecond / maxFPS;
 
-    auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
-    window.setMouseCursorVisible(false);
-    window.setFramerateLimit(144);
-    window.setVerticalSyncEnabled(true);
-
-    sf::Image icon;
-    if (!icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png")) {
-        return -1;
-    }
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-
-    sf::Font font;
-    if (!font.loadFromFile("../Client/assets/Fonts/retro.ttf")) {
-        return -1;
-    }
+    WindowManager windowManager;
+    windowManager.initWindow();
 
     sf::Clock clock;
     sf::Clock onGameClock;
@@ -62,62 +46,62 @@ int main()
     // count fps
     int frameCount = 0;
     sf::Text fpsText;
-    fpsText.setFont(font);
+    fpsText.setFont(windowManager.getFont());
     fpsText.setCharacterSize(15);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
 
     Button playButton(
-        window,
+        windowManager.getWindow(),
         sf::Vector2f(200, 50),
-        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 - 60),
+        sf::Vector2f(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2 - 60),
         sf::Color::Black,
         sf::Color::White,
         2.0f,
         "Play",
-        font,
+        windowManager.getFont(),
         20);
 
     Button settingsButton(
-        window,
+        windowManager.getWindow(),
         sf::Vector2f(200, 50),
-        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+        sf::Vector2f(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2),
         sf::Color::Black,
         sf::Color::White,
         2.0f,
         "Settings",
-        font,
+        windowManager.getFont(),
         20);
 
     Button retourButton(
-        window,
+        windowManager.getWindow(),
         sf::Vector2f(200, 50),
-        sf::Vector2f(window.getSize().x / 2 + 150, window.getSize().y / 2 + 200),
+        sf::Vector2f(windowManager.getWindow().getSize().x / 2 + 150, windowManager.getWindow().getSize().y / 2 + 200),
         sf::Color::Black,
         sf::Color::White,
         2.0f,
         "Retour",
-        font,
+        windowManager.getFont(),
         20);
 
     Button exitButton(
-        window,
+        windowManager.getWindow(),
         sf::Vector2f(200, 50),
-        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
+        sf::Vector2f(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2 + 60),
         sf::Color::Black,
         sf::Color::White,
         2.0f,
         "Exit",
-        font,
+        windowManager.getFont(),
         20);
 
     Registry registry = Registry();
     commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
-    while (window.isOpen()) {
+    while (windowManager.getWindow().isOpen()) {
         sf::Event event{};
-        while (window.pollEvent(event)) {
+        while (windowManager.getWindow().pollEvent(event)) {
             if (event.type == sf::Event::Closed)
-                window.close();
+                windowManager.getWindow().close();
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
                 menu.onMenu = false;
                 choiceMenu.onChoice = true;
@@ -154,7 +138,7 @@ int main()
             }
         }
         // count fps
-        window.clear();
+        windowManager.getWindow().clear();
         frameCount++;
         sf::Time elapsed = clock.getElapsedTime();
         if (elapsed.asMilliseconds() >= 1000) {
@@ -172,9 +156,9 @@ int main()
             }
             sf::Time elapsed = clock.getElapsedTime();
             clock = menu.blinkingText(clock, elapsed);
-            window.draw(menu);
+            windowManager.getWindow().draw(menu);
         } else if (choiceMenu.onChoice) {
-            choiceMenu.setCursorPosition(window);
+            choiceMenu.setCursorPosition(windowManager.getWindow());
             playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
@@ -195,25 +179,25 @@ int main()
             playButton.draw();
             settingsButton.draw();
             exitButton.draw();
-            window.draw(choiceMenu);
+            windowManager.getWindow().draw(choiceMenu);
         } else if (settingMenu.onSetting) {
             retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
-            settingMenu.setCursorPosition(window);
+            settingMenu.setCursorPosition(windowManager.getWindow());
             if (retourButton.checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
                 settingMenu.onSetting = false;
                 choiceMenu.onChoice = true;
             }
             retourButton.draw();
-            window.draw(settingMenu);
+            windowManager.getWindow().draw(settingMenu);
 
         } else if (game.onGame) {
             std::vector<Entity> players = registry.getListPlayers();
             std::vector<Entity> ennemies = registry.getListEnemies();
             std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
             sf::Time renderElapsed = onGameClock.getElapsedTime();
-            game.hasFocus = window.hasFocus();
+            game.hasFocus = windowManager.getWindow().hasFocus();
             commandsToServer.mutex.lock();
-            game.movePlayer(std::ref(registry), movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            game.movePlayer(std::ref(registry), windowManager.getMovementSpeed(), windowManager.getWindow().getSize().x, windowManager.getWindow().getSize().y, commandsToServer, sprite);
             commandsToServer.mutex.unlock();
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
@@ -225,7 +209,7 @@ int main()
                     game.shooting(commandsToServer, registry);
                 }
             }
-            if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
+            if (renderElapsed.asMilliseconds() > windowManager.getMillisecondsPerFrame()) {
                 game.moveEnnemies(commandsToServer, registry, ennemies);
                 std::vector<Entity> ennemies = registry.getListEnemies();
                 game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
@@ -234,19 +218,19 @@ int main()
                 game.repeatParallax();
                 onGameClock.restart();
             }
-            window.draw(game);
+            windowManager.getWindow().draw(game);
             for (auto& player : players) {
-                renderSystem(player, registry, window);
+                renderSystem(player, registry, windowManager.getWindow());
             }
             for (auto& ennemy : ennemies) {
-                renderSystem(ennemy, registry, window);
+                renderSystem(ennemy, registry, windowManager.getWindow());
             }
             for (auto& playerProjectile : playersProjectiles) {
-                renderSystem(playerProjectile, registry, window);
+                renderSystem(playerProjectile, registry, windowManager.getWindow());
             }
         }
         // count fps
-        window.draw(fpsText);
-        window.display();
+        windowManager.getWindow().draw(fpsText);
+        windowManager.getWindow().display();
     }
 }
