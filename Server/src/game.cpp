@@ -52,22 +52,23 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
 
 void Server::GameLoop(Registry& registry)
 {
+
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         m_registeryMutex.lock();
         std::vector<Entity> ennemies = registry.getListEnemies();
         std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
         m_registeryMutex.unlock();
-        for (auto& ennemy : ennemies) {
-            m_registeryMutex.lock();
-            ennemyMove(registry, ennemy, registry.getComponent(ennemy, ID{}).getID());
-            m_registeryMutex.unlock();
-        }
-        for (auto& playerProjectile : playersProjectiles) {
-            m_registeryMutex.lock();
-            playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
-            m_registeryMutex.unlock();
-        }
+        // for (auto& ennemy : ennemies) {
+        //     m_registeryMutex.lock();
+        //     ennemyMove(registry, ennemy, registry.getComponent(ennemy, ID{}).getID());
+        //     m_registeryMutex.unlock();
+        // }
+        // for (auto& playerProjectile : playersProjectiles) {
+        //     m_registeryMutex.lock();
+        //     playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
+        //     m_registeryMutex.unlock();
+        // }
 
         // for (auto& client : m_clients) {
         //     if (client.getTimeout() > 100) {
