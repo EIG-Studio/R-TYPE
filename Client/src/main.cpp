@@ -12,6 +12,7 @@
 #include "components.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
+#include "menu/inLoopMenus.hpp"
 #include "menu/menus.hpp"
 #include "music/sounds.hpp"
 #include "sprite/sprite.hpp"
@@ -25,7 +26,7 @@ int main()
 {
     WindowManager windowManager;
     windowManager.initWindow();
-
+    InLoopMenus introMenu;
 
     sf::Clock clock;
     sf::Clock onGameClock;
@@ -149,14 +150,7 @@ int main()
             clock.restart();
         }
         if (menu.onMenu) {
-            // 1
-            if (music.playMenuMusic) {
-                music.musicMenu.play();
-                music.playMenuMusic = false;
-            }
-            sf::Time elapsed = clock.getElapsedTime();
-            clock = menu.blinkingText(clock, elapsed);
-            windowManager.getWindow().draw(menu);
+            introMenu.introMenuInLoop(menu, windowManager, music, clock);
         } else if (choiceMenu.onChoice) {
             // 2
             choiceMenu.setCursorPosition(windowManager.getWindow());
