@@ -18,7 +18,6 @@ void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Musi
     windowManager.getWindow().draw(menu);
 }
 
-<<<<<<< HEAD
 void InLoopMenus::choiceMenuInLoop(
     WindowManager& windowManager,
     ChoiceMenu &choiceMenu,
@@ -52,7 +51,7 @@ void InLoopMenus::choiceMenuInLoop(
     exitButton.draw();
     windowManager.getWindow().draw(choiceMenu);
 }
-=======
+
 void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
 {
     retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
@@ -64,4 +63,3 @@ void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& wi
     retourButton.draw();
     windowManager.getWindow().draw(settingMenu);
 }
->>>>>>> refs/remotes/origin/Client
