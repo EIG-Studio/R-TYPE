@@ -20,7 +20,6 @@ class InLoopMenus
 
 public:
     void introMenuInLoop(Menu& menu, WindowManager& windowManager, Music& music, sf::Clock& clock);
-    void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
     void choiceMenuInLoop(
         WindowManager& windowManager,
         ChoiceMenu& choiceMenu,
@@ -30,6 +29,7 @@ public:
         Game& game,
         CommandsToServer& commandsToServer,
         SettingMenu& settingMenu);
+    void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
 
 private:
 };
