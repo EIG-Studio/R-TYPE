@@ -37,6 +37,7 @@ add_executable(${PROJECT_NAME}
     src/window.cpp
     src/menu/inLoopMenus.cpp
     src/menu/inLoopGame.cpp
+    src/button.cpp
     src/menu/menus.cpp
     src/sprite/sprite.cpp
     src/music/sounds.cpp

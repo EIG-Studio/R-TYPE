@@ -5,6 +5,8 @@
 ** button
 */
 
+#include "window.hpp"
+
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
@@ -12,6 +14,7 @@
 class Button
 {
 public:
+    Button();
     Button(
         sf::RenderWindow& window,
         const sf::Vector2f& size,
@@ -71,10 +74,17 @@ public:
         m_window.draw(m_text);
     }
 
+    void initButton(WindowManager& windowManager);
+    Button getPlayButton() const;
+    Button getSettingsButton() const;
+    Button getExitButton() const;
+    Button getRetourButton() const;
+    
+
 private:
     sf::RectangleShape m_button;
     sf::RenderWindow& m_window;
     sf::Text m_text;
     bool m_isClicked{false};
-    bool m_isHover;
+    bool m_isHover{};
 };
