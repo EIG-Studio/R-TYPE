@@ -61,6 +61,14 @@ int main()
     Music music;
     music.setPath(sprite);
 
+    // count fps
+    int frameCount = 0;
+    sf::Text fpsText;
+    fpsText.setFont(font);
+    fpsText.setCharacterSize(15);
+    fpsText.setFillColor(sf::Color::White);
+    fpsText.setPosition(10.0f, 10.0f);
+
     Button playButton(
         window,
         sf::Vector2f(200, 50),
@@ -147,7 +155,18 @@ int main()
                 }
             }
         }
+        // count fps
         window.clear();
+        frameCount++;
+        sf::Time elapsed = clock.getElapsedTime();
+        if (elapsed.asMilliseconds() >= 1000) {
+            float fps = static_cast<float>(frameCount) / elapsed.asSeconds();
+            fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
+
+            // Reset the frame count and clock
+            frameCount = 0;
+            clock.restart();
+        }
         if (menu.onMenu) {
             if (music.playMenuMusic) {
                 music.musicMenu.play();
@@ -228,6 +247,8 @@ int main()
                 renderSystem(playerProjectile, registry, window);
             }
         }
+        // count fps
+        window.draw(fpsText);
         window.display();
     }
 }
