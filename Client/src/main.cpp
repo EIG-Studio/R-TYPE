@@ -149,6 +149,7 @@ int main()
             clock.restart();
         }
         if (menu.onMenu) {
+            // 1
             if (music.playMenuMusic) {
                 music.musicMenu.play();
                 music.playMenuMusic = false;
@@ -157,6 +158,7 @@ int main()
             clock = menu.blinkingText(clock, elapsed);
             windowManager.getWindow().draw(menu);
         } else if (choiceMenu.onChoice) {
+            // 2
             choiceMenu.setCursorPosition(windowManager.getWindow());
             playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
             settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
@@ -180,6 +182,7 @@ int main()
             exitButton.draw();
             windowManager.getWindow().draw(choiceMenu);
         } else if (settingMenu.onSetting) {
+            // 3
             retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
             settingMenu.setCursorPosition(windowManager.getWindow());
             if (retourButton.checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
@@ -188,8 +191,8 @@ int main()
             }
             retourButton.draw();
             windowManager.getWindow().draw(settingMenu);
-
         } else if (game.onGame) {
+            // 4
             std::vector<Entity> players = registry.getListPlayers();
             std::vector<Entity> ennemies = registry.getListEnemies();
             std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
