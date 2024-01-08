@@ -7,7 +7,15 @@
 
 #include "menu/inLoopGame.hpp"
 
-void InLoopGame::gameInLoop()
+
+void InLoopGame::gameInLoop(
+    sf::Event& event,
+    WindowManager& windowManager,
+    Game& game,
+    CommandsToServer& commandsToServer,
+    Sprite& sprite,
+    sf::Clock& onGameClock,
+    Registry& registry)
 {
     std::vector<Entity> players = registry.getListPlayers();
     std::vector<Entity> ennemies = registry.getListEnemies();
