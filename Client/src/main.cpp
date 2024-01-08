@@ -5,12 +5,12 @@
 ** main
 */
 
-#include "../../GameEngine/include/Systems.hpp"
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
 #include "ECS.hpp"
+#include "Systems.hpp"
 #include "button.hpp"
 #include "commandsToServer.hpp"
+#include "components.hpp"
+#include "entities.hpp"
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "menu/settingMenu.hpp"
