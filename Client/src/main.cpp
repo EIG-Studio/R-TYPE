@@ -21,26 +21,24 @@
 
 #include <SFML/System.hpp>
 
-// #include <dlfcn.h>
-
 int main()
 {
     float movementSpeed = 5.0f;
-    // Calculating the milliseconds per frame for 144 FPS
     float millisecondsPerSecond = 1000;
-    float fps = 144;
-
-    float millisecondsPerFrame = millisecondsPerSecond / fps;
+    float maxFPS = 144;
+    float millisecondsPerFrame = millisecondsPerSecond / maxFPS;
 
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setMouseCursorVisible(false);
     window.setFramerateLimit(144);
     window.setVerticalSyncEnabled(true);
+
     sf::Image icon;
     if (!icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png")) {
         return -1;
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
     sf::Font font;
     if (!font.loadFromFile("../Client/assets/Fonts/retro.ttf")) {
         return -1;
