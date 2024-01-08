@@ -34,7 +34,7 @@ void Server::createPlayer(Registry& registry)
     std::ostringstream newPlayer;
     newPlayer << "NEW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
-              << typeComponent << "\n";
+              << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
     addMessage(newPlayer.str());
 }
 
@@ -65,7 +65,7 @@ void Server::createEnnemy(Registry& registry)
     std::ostringstream newPlayer2;
     newPlayer2 << "NEW_ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
-               << typeComponent << "\n";
+               << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
     // m_ennemyMutex.unlock();
     addMessage(newPlayer2.str());
 }
