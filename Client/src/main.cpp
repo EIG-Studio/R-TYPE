@@ -12,8 +12,7 @@
 #include "components.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
-#include "menu/introMenu/introMenu.hpp"
-#include "menu/settingMenu.hpp"
+#include "menu/menus.hpp"
 #include "music/sounds.hpp"
 #include "sprite/sprite.hpp"
 
@@ -30,7 +29,7 @@ int main()
 
     auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
     window.setMouseCursorVisible(false);
-    window.setFramerateLimit(144);
+    window.setFramerateLimit(maxFPS);
     window.setVerticalSyncEnabled(true);
 
     sf::Image icon;
