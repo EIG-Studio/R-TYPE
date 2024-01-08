@@ -12,8 +12,7 @@
 #include "components.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
-#include "menu/introMenu/introMenu.hpp"
-#include "menu/settingMenu.hpp"
+#include "menu/menus.hpp"
 #include "music/sounds.hpp"
 #include "sprite/sprite.hpp"
 #include "window.hpp"
@@ -25,8 +24,21 @@
 int main()
 {
 
-    WindowManager windowManager;
-    windowManager.initWindow();
+    auto window = sf::RenderWindow{{800, 600}, "SAMURAI"};
+    window.setMouseCursorVisible(false);
+    window.setFramerateLimit(maxFPS);
+    window.setVerticalSyncEnabled(true);
+
+    sf::Image icon;
+    if (!icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png")) {
+        return -1;
+    }
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+    sf::Font font;
+    if (!font.loadFromFile("../Client/assets/Fonts/retro.ttf")) {
+        return -1;
+    }
 
     sf::Clock clock;
     sf::Clock onGameClock;
