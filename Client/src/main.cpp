@@ -151,7 +151,6 @@ int main()
         if (menu.onMenu) {
             introMenu.introMenuInLoop(menu, windowManager, music, clock);
         } else if (choiceMenu.onChoice) {
-            // 2
             introMenu.choiceMenuInLoop(windowManager, choiceMenu, playButton, settingsButton, exitButton, game, commandsToServer, settingMenu);
         } else if (settingMenu.onSetting) {
             introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, retourButton);
