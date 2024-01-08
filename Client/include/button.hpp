@@ -79,7 +79,7 @@ public:
     Button getSettingsButton() const;
     Button getExitButton() const;
     Button getRetourButton() const;
-    
+
 
 private:
     sf::RectangleShape m_button;

@@ -53,23 +53,3 @@ void Button::initButton(WindowManager& windowManager)
         windowManager.getFont(),
         20);
 }
-
-Button Button::getPlayButton() const
-{
-    return this->m_playButton;
-}
-
-Button Button::getSettingsButton() const
-{
-    return this->m_settingsButton;
-}
-
-Button Button::getExitButton() const
-{
-    return this->m_exitButton;
-}
-
-Button Button::getRetourButton() const
-{
-    return this->m_retourButton;
-}
