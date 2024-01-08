@@ -21,11 +21,13 @@ void Server::createPlayer(Registry& registry)
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(0, 0));
+    Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Player);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
@@ -48,6 +50,7 @@ void Server::createEnnemy(Registry& registry)
 {
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
+    Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(randNb(5, 10));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
 
@@ -55,6 +58,7 @@ void Server::createEnnemy(Registry& registry)
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 

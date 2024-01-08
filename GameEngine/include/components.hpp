@@ -116,15 +116,13 @@ class Size
 {
 public:
     Size() = default;
-    Size(float size);
+    Size(std::pair<float, float> originSize);
     ~Size() = default;
-
-    float getSize() const;
-
-    void setSize(int newSize);
+    std::pair<float, float> getSize() const;
+    void setSize(std::pair<float, float> newSize);
 
 private:
-    float m_size;
+    std::pair<float, float> m_size;
 };
 
 /********-HitBox Component-******/

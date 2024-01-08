@@ -133,6 +133,7 @@ void handleReceive(
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
+            player = registry.addComponent(player, Size(std::make_pair(1, 1)));
             registry.setEntity(player, id);
             list = registry.getListEntities();
         } else if (asciiString.find("NEW_ENNEMY") == 0) {
@@ -148,6 +149,7 @@ void handleReceive(
             ennemy = registry.addComponent(ennemy, Position(std::make_pair(xPos, yPos)));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
+            ennemy = registry.addComponent(ennemy, Size(std::make_pair(1, 1)));
 
             Position ennemyPos = registry.getComponent(ennemy, Position{});
             std::pair<float, float> pairPos = ennemyPos.getPosition();
