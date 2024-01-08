@@ -20,13 +20,13 @@ void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Musi
 
 void InLoopMenus::choiceMenuInLoop(
     WindowManager& windowManager,
-    ChoiceMenu &choiceMenu,
-    Button &playButton,
-    Button &settingsButton,
-    Button &exitButton,
-    Game &game,
-    CommandsToServer &commandsToServer,
-    SettingMenu &settingMenu)
+    ChoiceMenu& choiceMenu,
+    Button& playButton,
+    Button& settingsButton,
+    Button& exitButton,
+    Game& game,
+    CommandsToServer& commandsToServer,
+    SettingMenu& settingMenu)
 {
     choiceMenu.setCursorPosition(windowManager.getWindow());
     playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
