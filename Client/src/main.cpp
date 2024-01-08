@@ -14,7 +14,7 @@
 #include "menu/inGame.hpp"
 #include "menu/introMenu/introMenu.hpp"
 #include "menu/settingMenu.hpp"
-#include "music/music.hpp"
+#include "music/sounds.hpp"
 #include "sprite/sprite.hpp"
 #include "window.hpp"
 
