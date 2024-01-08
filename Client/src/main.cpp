@@ -197,7 +197,13 @@ int main()
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.hasFocus = windowManager.getWindow().hasFocus();
             commandsToServer.mutex.lock();
-            game.movePlayer(std::ref(registry), windowManager.getMovementSpeed(), windowManager.getWindow().getSize().x, windowManager.getWindow().getSize().y, commandsToServer, sprite);
+            game.movePlayer(
+                std::ref(registry),
+                windowManager.getMovementSpeed(),
+                windowManager.getWindow().getSize().x,
+                windowManager.getWindow().getSize().y,
+                commandsToServer,
+                sprite);
             commandsToServer.mutex.unlock();
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {

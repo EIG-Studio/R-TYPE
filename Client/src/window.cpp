@@ -30,17 +30,17 @@ int WindowManager::initWindow()
     return 0;
 }
 
-sf::Font &WindowManager::getFont()
+sf::Font& WindowManager::getFont()
 {
     return this->m_font;
 }
 
-sf::Image &WindowManager::getIcon()
+sf::Image& WindowManager::getIcon()
 {
     return this->m_icon;
 }
 
-sf::RenderWindow &WindowManager::getWindow()
+sf::RenderWindow& WindowManager::getWindow()
 {
     return *this->m_window;
 }
