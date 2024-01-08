@@ -154,15 +154,7 @@ int main()
             // 2
             introMenu.choiceMenuInLoop(windowManager, choiceMenu, playButton, settingsButton, exitButton, game, commandsToServer, settingMenu);
         } else if (settingMenu.onSetting) {
-            // 3
-            retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
-            settingMenu.setCursorPosition(windowManager.getWindow());
-            if (retourButton.checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
-                settingMenu.onSetting = false;
-                choiceMenu.onChoice = true;
-            }
-            retourButton.draw();
-            windowManager.getWindow().draw(settingMenu);
+            introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, retourButton);
         } else if (game.onGame) {
             // 4
             std::vector<Entity> players = registry.getListPlayers();
