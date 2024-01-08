@@ -7,7 +7,6 @@
 
 #include "ECS.hpp"
 #include "Systems.hpp"
-#include "button.hpp"
 #include "commandsToServer.hpp"
 #include "components.hpp"
 #include "entities.hpp"
@@ -153,28 +152,7 @@ int main()
             introMenu.introMenuInLoop(menu, windowManager, music, clock);
         } else if (choiceMenu.onChoice) {
             // 2
-            choiceMenu.setCursorPosition(windowManager.getWindow());
-            playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-            settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-            exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-            if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
-                sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                game.onGame = true;
-                choiceMenu.onChoice = false;
-                commandsToServer.sendToServerAsync("LOGIN");
-                commandsToServer.sendToServerAsync("UPDATE");
-            }
-            if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
-                settingMenu.onSetting = true;
-                choiceMenu.onChoice = false;
-            }
-            if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
-                exit(0);
-            }
-            playButton.draw();
-            settingsButton.draw();
-            exitButton.draw();
-            windowManager.getWindow().draw(choiceMenu);
+            introMenu.choiceMenuInLoop(windowManager, choiceMenu, playButton, settingsButton, exitButton, game, commandsToServer, settingMenu);
         } else if (settingMenu.onSetting) {
             // 3
             retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
