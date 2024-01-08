@@ -16,7 +16,7 @@
 #include <random>
 #include <string>
 
-void Server::createPlayer(Registry& registry)
+std::size_t Server::createPlayer(Registry& registry)
 {
     Entity entity = registry.createEntity();
     ID idComponent = ID();
@@ -34,6 +34,7 @@ void Server::createPlayer(Registry& registry)
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << typeComponent << "\n";
     addMessage(newPlayer.str());
+    return registry.getComponent(entity, idComponent).getID();
 }
 
 int randNb(int x, int y)
@@ -256,8 +257,8 @@ void Server::handleReceivedData(
         if (command.find("SHOOT") == 0) {
             createBullet(registry, command);
         } else if (command.find("LOGIN") == 0) {
-            addClient(remoteEndpoint);
-            createPlayer(registry);
+            std::size_t id = createPlayer(registry);
+            addClient(remoteEndpoint, id);
         } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
         } else if (command.find("NEW_ENNEMY") == 0) {

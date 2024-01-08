@@ -129,7 +129,6 @@ void Registry::removeComponent(Entity entity, T component)
 template <typename T>
 T& Registry::getComponent(Entity& entity, T component)
 {
-    component;
     for (auto& mComponent : entity.mComponents) {
         try {
             std::any_cast<T>(mComponent);
@@ -144,7 +143,6 @@ T& Registry::getComponent(Entity& entity, T component)
 template <typename T>
 bool Registry::hasComponent(Entity& entity, T component)
 {
-    component;
     for (const auto& otherComponent : entity.mComponents) {
         try {
             std::any_cast<T>(otherComponent);
