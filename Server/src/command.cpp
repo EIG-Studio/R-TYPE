@@ -82,18 +82,21 @@ void Server::createBullet(Registry& registry, std::string& command)
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(std::stof(tokens[1]), std::stof(tokens[2])));
+    Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(7);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
 
     std::ostringstream newPlayerProjectile;
     newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
                         << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
-                        << " " << typeComponent << "\n";
+                        << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " "
+                        << typeComponent << "\n";
     addMessage(newPlayerProjectile.str());
 }
 
@@ -241,8 +244,12 @@ void Server::sendAllEntites(Registry& registry)
         auto xPosition = positionComponent.getPosition().first;
         auto yPosition = positionComponent.getPosition().second;
 
-        oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " "
-            << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
+        auto sizeComponent = registry.getComponent(entity, Size{});
+        auto xSize = sizeComponent.getSize().first;
+        auto ySize = sizeComponent.getSize().second;
+
+        oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " " << xSize
+            << " " << ySize << " " << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
         addMessage(oss.str());
     }
 }

@@ -99,7 +99,9 @@ void handleReceive(
                 int id = std::stoi(parts[0]);
                 float xPos = std::stof(parts[1]);
                 float yPos = std::stof(parts[2]);
-                int type = std::stoi(parts[3]);
+                float xSize = std::stof(parts[3]);
+                float ySize = std::stof(parts[4]);
+                int type = std::stoi(parts[5]);
                 if (registry.hasEntity(id)) {
                     Entity entity = registry.getEntity(id);
                     Position& entityPos = registry.getComponent(entity, Position{});
@@ -108,6 +110,7 @@ void handleReceive(
                 } else {
                     Entity newEntity = registry.createEntityWithID(id);
                     newEntity = registry.addComponent(newEntity, Position(std::make_pair(xPos, yPos)));
+                    newEntity = registry.addComponent(newEntity, Size(std::make_pair(xSize, ySize)));
                     if (type == Player) {
                         newEntity = registry.addComponent(newEntity, Renderer("../Client/assets/Cars/189.png"));
                         newEntity = registry.addComponent(newEntity, Type(std::any_cast<EntityType>(Player)));
@@ -172,7 +175,9 @@ void handleReceive(
             int id = std::stoi(parts[1]);
             float xPos = std::stof(parts[2]);
             float yPos = std::stof(parts[3]);
-            std::string playerType = parts[4];
+            float xSize = std::stof(parts[4]);
+            float ySize = std::stof(parts[5]);
+            std::string playerType = parts[6];
 
             std::cout << "get id: " << id << "\n";
 
@@ -180,14 +185,18 @@ void handleReceive(
             playerProjectile = registry.addComponent(playerProjectile, Position(std::make_pair(xPos, yPos)));
             playerProjectile = registry.addComponent(playerProjectile, Renderer("../Client/assets/Cars/movement parts/thruster/flame.png"));
             playerProjectile = registry.addComponent(playerProjectile, Type(std::any_cast<EntityType>(Player_Projectile)));
+            playerProjectile = registry.addComponent(playerProjectile, Size(std::make_pair(xSize, ySize)));
 
             Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
             std::pair<float, float> pairPos = playerProjectilePos.getPosition();
             Renderer playerProjectileRenderer = registry.getComponent(playerProjectile, Renderer{});
             sf::Sprite playerProjectileSprite = playerProjectileRenderer.getRenderer();
+            Size playerProjectileSize = registry.getComponent(playerProjectile, Size{});
+            std::pair<float, float> pairSize = playerProjectileSize.getSize();
 
             sf::Vector2f spritePos = playerProjectileSprite.getPosition();
-            std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
+            std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << " "
+                      << pairSize.first << " " << pairSize.second << '\n';
         } else if (asciiString.find("DELETE_PROJECTILE") == 0) {
             std::vector<std::string> parts = split(asciiString, ' ');
 
