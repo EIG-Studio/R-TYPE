@@ -269,6 +269,7 @@ void Server::handleReceivedData(
         } else if (command.find("LOGIN") == 0) {
             addClient(remoteEndpoint);
             createPlayer(registry);
+            createEnnemy(registry);
         } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
         } else if (command.find("NEW_ENNEMY") == 0) {
