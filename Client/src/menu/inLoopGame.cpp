@@ -22,6 +22,12 @@ void InLoopGame::gameInLoop(
     game.setCursorPosition(windowManager.getWindow());
     resumeButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
     toMenuButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
+    if (resumeButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+        game.onPause = false;
+    }
+    if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+        game.onGame = false;
+    }
     std::vector<Entity> players = registry.getListPlayers();
     std::vector<Entity> ennemies = registry.getListEnemies();
     std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
