@@ -34,10 +34,13 @@ find_package(Boost REQUIRED)
 ################# EXECUTABLE #################
 add_executable(${PROJECT_NAME}
     src/main.cpp
-    src/menu/introMenu/introMenu.cpp
-    src/menu/settingMenu.cpp
+    src/window.cpp
+    src/menu/inLoopMenus.cpp
+    src/menu/inLoopGame.cpp
+    src/button.cpp
+    src/menu/menus.cpp
     src/sprite/sprite.cpp
-    src/music/music.cpp
+    src/music/sounds.cpp
     src/menu/inGame.cpp
     src/commandsToServer.cpp
     src/player/movements.cpp
