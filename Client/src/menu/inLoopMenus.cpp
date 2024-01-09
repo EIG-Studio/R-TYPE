@@ -46,9 +46,9 @@ void InLoopMenus::choiceMenuInLoop(
     if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
         exit(0);
     }
-    playButton.draw();
-    settingsButton.draw();
-    exitButton.draw();
+    playButton.draw(windowManager.getWindow());
+    settingsButton.draw(windowManager.getWindow());
+    exitButton.draw(windowManager.getWindow());
     windowManager.getWindow().draw(choiceMenu);
 }
 
@@ -60,6 +60,6 @@ void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& wi
         settingMenu.onSetting = false;
         choiceMenu.onChoice = true;
     }
-    retourButton.draw();
+    retourButton.draw(windowManager.getWindow());
     windowManager.getWindow().draw(settingMenu);
 }

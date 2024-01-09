@@ -52,49 +52,7 @@ int main()
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
 
-    Button playButton(
-        windowManager.getWindow(),
-        sf::Vector2f(200, 50),
-        sf::Vector2f(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2 - 60),
-        sf::Color::Black,
-        sf::Color::White,
-        2.0f,
-        "Play",
-        windowManager.getFont(),
-        20);
-
-    Button settingsButton(
-        windowManager.getWindow(),
-        sf::Vector2f(200, 50),
-        sf::Vector2f(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2),
-        sf::Color::Black,
-        sf::Color::White,
-        2.0f,
-        "Settings",
-        windowManager.getFont(),
-        20);
-
-    Button retourButton(
-        windowManager.getWindow(),
-        sf::Vector2f(200, 50),
-        sf::Vector2f(windowManager.getWindow().getSize().x / 2 + 150, windowManager.getWindow().getSize().y / 2 + 200),
-        sf::Color::Black,
-        sf::Color::White,
-        2.0f,
-        "Retour",
-        windowManager.getFont(),
-        20);
-
-    Button exitButton(
-        windowManager.getWindow(),
-        sf::Vector2f(200, 50),
-        sf::Vector2f(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2 + 60),
-        sf::Color::Black,
-        sf::Color::White,
-        2.0f,
-        "Exit",
-        windowManager.getFont(),
-        20);
+    ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
     Registry registry = Registry();
     commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
@@ -153,9 +111,17 @@ int main()
         if (menu.onMenu) {
             introMenu.introMenuInLoop(menu, windowManager, music, clock);
         } else if (choiceMenu.onChoice) {
-            introMenu.choiceMenuInLoop(windowManager, choiceMenu, playButton, settingsButton, exitButton, game, commandsToServer, settingMenu);
+            introMenu.choiceMenuInLoop(
+                windowManager,
+                choiceMenu,
+                buttonManager.getPlayButton(),
+                buttonManager.getSettingsButton(),
+                buttonManager.getExitButton(),
+                game,
+                commandsToServer,
+                settingMenu);
         } else if (settingMenu.onSetting) {
-            introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, retourButton);
+            introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
         } else if (game.onGame) {
             inLoopGame.gameInLoop(event, windowManager, game, commandsToServer, sprite, onGameClock, registry);
         }
