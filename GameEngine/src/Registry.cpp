@@ -44,14 +44,23 @@ void Registry::destroyEntity(Entity entity)
 }
 #include <iostream>
 
+std::string Registry::systemsManager()
+{
+    if (!m_entities.empty())
+        for (const Entity& entity : m_entities) {
+            // shootingSystem(entity, *this);
+            // deathSystem(entity, *this);
+            movementSystem(entity, *this);
+            // collisionSystem(entity, m_entities, *this);
+        }
+    return "Hello";
+}
+
 std::string Registry::systemsManager(sf::RenderWindow& window)
 {
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
-            shootingSystem(entity, *this);
-            deathSystem(entity, *this);
-            movementSystem(entity, *this);
-            collisionSystem(entity, m_entities, *this);
+            // movementSystem(entity, *this);
             renderSystem(entity, *this, window);
         }
     return "Hello";

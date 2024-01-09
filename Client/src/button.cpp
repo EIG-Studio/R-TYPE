@@ -47,7 +47,7 @@ bool Button::checkClick(float cursorX, float cursorY)
 
     if (clicked && !m_isClicked) {
 #ifdef _WIN32
-        Sleep(500000);
+        Sleep(500);
 #else
         usleep(500000);
 #endif

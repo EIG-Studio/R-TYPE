@@ -170,20 +170,15 @@ void iaSystem(Entity entity, Registry& registry)
 #include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
-    try {
-        if (!registry.hasComponent(entity, Type{}))
-            return;
-    } catch (std::exception &e) {
-        std::cout << e.what();
+    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) || !registry.hasComponent(entity, Type{}))
         return;
-    }
+
     Type& typeComponent = registry.getComponent(entity, Type{});
     if (typeComponent.getEntityType() == EntityType::Player) {
         Position entity_pos = registry.getComponent(entity, Position{});
         std::pair<float, float> pos = entity_pos.getPosition();
     }
-    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
-        return;
+
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
     sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
     //sprite.setScale(103 / sprite.getLocalBounds().width, 56.25 / sprite.getLocalBounds().height);
