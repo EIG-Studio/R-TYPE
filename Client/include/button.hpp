@@ -5,91 +5,6 @@
 ** button
 */
 
-//#include "window.hpp"
-//
-//#include <SFML/Graphics.hpp>
-//
-//#include <iostream>
-//
-//class Button
-//{
-//public:
-//    Button();
-//    Button(
-//        sf::RenderWindow& window,
-//        const sf::Vector2f& size,
-//        const sf::Vector2f& position,
-//        const sf::Color& fillColor,
-//        const sf::Color& outlineColor,
-//        float outlineThickness,
-//        const std::string& textString,
-//        const sf::Font& font,
-//        unsigned int characterSize) :
-//    m_window(window),
-//    m_text(textString, font, characterSize)
-//    {
-//        m_button.setSize(size);
-//        m_button.setPosition(position);
-//        m_button.setFillColor(fillColor);
-//
-//        m_button.setOutlineColor(outlineColor);
-//        m_button.setOutlineThickness(outlineThickness);
-//
-//        sf::FloatRect textBounds = m_text.getLocalBounds();
-//        m_text.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
-//        m_text.setPosition(position.x + size.x / 2.0f, position.y + size.y / 2.0f);
-//    }
-//
-//    bool checkClick(float cursorX, float cursorY)
-//    {
-//        bool clicked = m_button.getGlobalBounds().contains(cursorX, cursorY) &&
-//                       (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0));
-//
-//
-//        if (clicked && !m_isClicked) {
-//            m_isClicked = true;
-//            return true;
-//        } else if (!clicked) {
-//            m_isClicked = false;
-//        }
-//
-//        return false;
-//    }
-//
-//    bool checkHover(float cursorX, float cursorY)
-//    {
-//        bool hover = m_button.getGlobalBounds().contains(cursorX, cursorY);
-//
-//        if (hover) {
-//            m_button.setOutlineColor(sf::Color::Red);
-//        } else if (!hover) {
-//            m_button.setOutlineColor(sf::Color::White);
-//        }
-//        return false;
-//    }
-//
-//    void draw()
-//    {
-//        m_window.draw(m_button);
-//        m_window.draw(m_text);
-//    }
-//
-//    void initButton(WindowManager& windowManager);
-//    Button getPlayButton() const;
-//    Button getSettingsButton() const;
-//    Button getExitButton() const;
-//    Button getRetourButton() const;
-//
-//
-//private:
-//    sf::RectangleShape m_button;
-//    sf::RenderWindow& m_window;
-//    sf::Text m_text;
-//    bool m_isClicked{false};
-//    bool m_isHover{};
-//};
-
-
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -106,59 +21,11 @@ public:
         float outlineThickness,
         const std::string& text,
         const sf::Font& font,
-        unsigned characterSize) :
-    m_shape(size),
-    m_font(font)
-    {
-        m_shape.setPosition(position);
-        m_shape.setFillColor(fillColor);
-        m_shape.setOutlineColor(outlineColor);
-        m_shape.setOutlineThickness(outlineThickness);
+        unsigned characterSize);
 
-        m_label.setFont(font);
-        m_label.setString(text);
-        m_label.setCharacterSize(characterSize);
-        m_label.setFillColor(outlineColor);
-        m_label.setPosition(
-            position.x + (size.x - m_label.getLocalBounds().width) / 2,
-            position.y + (size.y - m_label.getLocalBounds().height) / 2);
-    }
-
-    bool checkClick(float cursorX, float cursorY)
-    {
-        bool clicked = m_shape.getGlobalBounds().contains(cursorX, cursorY) &&
-                       (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0));
-
-
-        if (clicked && !m_isClicked) {
-            m_isClicked = true;
-            return true;
-        } else if (!clicked) {
-            m_isClicked = false;
-        }
-
-        return false;
-    }
-
-    bool checkHover(float cursorX, float cursorY)
-    {
-        bool hover = m_shape.getGlobalBounds().contains(cursorX, cursorY);
-
-        if (hover) {
-            m_shape.setOutlineColor(sf::Color::Red);
-        } else if (!hover) {
-            m_shape.setOutlineColor(sf::Color::White);
-        }
-        return false;
-    }
-
-    void draw(sf::RenderWindow& window) const
-    {
-        window.draw(m_shape);
-        window.draw(m_label);
-    }
-
-    // Ajoutez d'autres méthodes ou membres au besoin
+    bool checkClick(float cursorX, float cursorY);
+    bool checkHover(float cursorX, float cursorY);
+    void draw(sf::RenderWindow& window) const;
 
 private:
     sf::RectangleShape m_shape;
@@ -210,7 +77,6 @@ public:
         m_font,
         20)
     {
-        // ... Autres initialisations si nécessaire
     }
 
     Button& getPlayButton()
@@ -229,8 +95,6 @@ public:
     {
         return m_exitButton;
     }
-
-    // Ajoutez d'autres méthodes ou membres au besoin
 
 private:
     void createButtons()

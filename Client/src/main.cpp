@@ -6,9 +6,7 @@
 */
 
 #include "ECS.hpp"
-#include "Systems.hpp"
 #include "commandsToServer.hpp"
-#include "components.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
 #include "menu/inLoopGame.hpp"
@@ -21,6 +19,20 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #include <SFML/System.hpp>
+
+void updateFpsText(WindowManager& windowManager, sf::Text& fpsText, sf::Clock& clock, int& frameCount)
+{
+    windowManager.getWindow().clear();
+    frameCount++;
+    sf::Time elapsed = clock.getElapsedTime();
+    if (elapsed.asMilliseconds() >= 1000) {
+        float fps = static_cast<float>(frameCount) / elapsed.asSeconds();
+        fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
+
+        frameCount = 0;
+        clock.restart();
+    }
+}
 
 int main()
 {
@@ -44,7 +56,6 @@ int main()
     Music music;
     music.setPath(sprite);
 
-    // count fps
     int frameCount = 0;
     sf::Text fpsText;
     fpsText.setFont(windowManager.getFont());
@@ -96,18 +107,7 @@ int main()
                 }
             }
         }
-        // count fps
-        windowManager.getWindow().clear();
-        frameCount++;
-        sf::Time elapsed = clock.getElapsedTime();
-        if (elapsed.asMilliseconds() >= 1000) {
-            float fps = static_cast<float>(frameCount) / elapsed.asSeconds();
-            fpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
-
-            // Reset the frame count and clock
-            frameCount = 0;
-            clock.restart();
-        }
+        updateFpsText(windowManager, fpsText, clock, frameCount);
         if (menu.onMenu) {
             introMenu.introMenuInLoop(menu, windowManager, music, clock);
         } else if (choiceMenu.onChoice) {
