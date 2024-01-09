@@ -141,8 +141,7 @@ void Game::HandleMovement(
 
     if (keyPressed) {
         std::string inputType = InputTypeToString(key);
-        if (updateClock.getElapsedTime().asSeconds() >= 0.01f) {
-            std::string inputType = InputTypeToString(key);
+        if (updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
             SendInputUpdate(commandsToServer, registry, inputType);
             updateClock.restart();
         }
