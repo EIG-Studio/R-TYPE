@@ -9,13 +9,9 @@
 
 int WindowManager::initWindow()
 {
-    this->m_millisecondsPerSecond = 1000;
-    this->m_maxFPS = 144;
-    this->m_millisecondsPerFrame = m_millisecondsPerSecond / m_maxFPS;
-
     this->m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "SAMURAI");
     m_window->setMouseCursorVisible(false);
-    m_window->setFramerateLimit(this->m_maxFPS);
+    m_window->setFramerateLimit(144);
     m_window->setVerticalSyncEnabled(true);
 
     if (!this->m_icon.loadFromFile("../Client/assets/MainMenu/samuraiLogo.png")) {
@@ -49,12 +45,12 @@ float WindowManager::getMovementSpeed() const
     return this->m_movementSpeed;
 }
 
-float WindowManager::getMillisecondsPerSecond() const
-{
-    return this->m_millisecondsPerSecond;
-}
+// float WindowManager::getMillisecondsPerSecond() const
+// {
+// return this->m_millisecondsPerSecond;
+// }
 
-float WindowManager::getMillisecondsPerFrame() const
-{
-    return this->m_millisecondsPerFrame;
-}
+// float WindowManager::getMillisecondsPerFrame() const
+// {
+// return this->m_millisecondsPerFrame;
+// }
