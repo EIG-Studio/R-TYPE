@@ -300,5 +300,8 @@ void Game::isPaused()
     if (!this->onPause) {
         this->onPause = true;
         return;
+    } else if (this->onPause) {
+        this->onPause = false;
+        return;
     }
 }

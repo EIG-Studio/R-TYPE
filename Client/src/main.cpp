@@ -60,12 +60,6 @@ void handleWindowEvents(
             music.musicMenu.play();
             sprite.easterEgg = true;
         }
-        if (game.onGame) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7)) {
-                std::cout << "YES" << std::endl;
-                game.isPaused();
-            }
-        }
     }
 }
 

@@ -42,6 +42,11 @@ void InLoopGame::gameInLoop(
             game.shooting(commandsToServer, registry);
         }
     }
+    if (event.type == sf::Event::KeyReleased) {
+        if (event.key.code == sf::Keyboard::Escape) {
+            game.isPaused();
+        }
+    }
     if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
         if (event.joystickButton.button == sf::Joystick::Y) {
             game.shooting(commandsToServer, registry);
