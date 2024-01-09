@@ -292,7 +292,6 @@ void LobbyMenu::setPath(Sprite mSprite)
     this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
     this->m_cursorSprite.setTexture(this->m_cursorTexture);
 
-    //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite
         .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);

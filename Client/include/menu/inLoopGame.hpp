@@ -30,4 +30,6 @@ public:
         ChoiceMenu& choiceMenu);
 
 private:
+    void refreshRegistry(Registry &registry, CommandsToServer &commandsToServer);
+    sf::Clock m_clock;
 };

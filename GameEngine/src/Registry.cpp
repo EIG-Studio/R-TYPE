@@ -241,9 +241,4 @@ void Registry::destroyEnnemy(std::vector<Entity> ennemyList)
     std::pair<float, float> pairPos = ennemyPos.getPosition();
     std::cout << "ENNEMY POS X: " << pairPos.first << std::endl;
     std::cout << "ENNEMY POS Y: " << pairPos.second << std::endl;
-    //if (playerPosY <= ennemyPosY + 40 && playerPosY >= ennemyPosY - 15) {
-    //    std::cout << "BOOM !!!!" << std::endl;
-    //}
-
-    //sf::Vertex line[] = {sf::Vertex(sf::Vector2f(10, ennemyPosY + 20)), sf::Vertex(sf::Vector2f(10, ennemyPosY - 30))};
 }
