@@ -27,6 +27,7 @@ void InLoopGame::gameInLoop(
         game.onPause = false;
     }
     if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+        usleep(500000);
         game.onGame = false;
         choiceMenu.onChoice = true;
     }
