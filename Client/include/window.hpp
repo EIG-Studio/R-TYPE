@@ -28,7 +28,6 @@ public:
     sf::RenderWindow& getWindow();
     float getMovementSpeed() const;
     float getMillisecondsPerSecond() const;
-    // float getMaxFPS() const;
     float getMillisecondsPerFrame() const;
 
 

@@ -5,7 +5,6 @@
 ** main
 */
 
-#include "ECS.hpp"
 #include "commandsToServer.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"

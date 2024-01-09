@@ -13,8 +13,6 @@
 
 #include <SFML/Window/Event.hpp>
 
-#include <iostream>
-
 class Music
 {
 public:
@@ -23,7 +21,6 @@ public:
     sf::Music musicSecret;
     bool      playMenuMusic;
     void      setPath(Sprite mSprite);
-    // void HandleMusicKey(sf::Event &event);
 
 protected:
 

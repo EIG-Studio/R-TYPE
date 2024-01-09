@@ -24,7 +24,6 @@ void damagedSystem(Entity entity, Entity otherEntity, Registry& registry);
 void movementSystem(Entity entity, Registry& registry);
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry);
 void iaSystem(Entity entity, Registry& registry);
-// void renderSystem(Entity entity, Registry& registry);
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window);
 
 enum COMMAND {
@@ -51,9 +50,8 @@ enum COMMAND {
 COMMAND getCommand(const std::string& commandStr);
 EntityType getType(const std::string& typeStr);
 
-struct transferData
+struct TransferData
 {
     enum COMMAND command;
-    //std::vector<int> args;
     std::array<int, 5> args;
 };

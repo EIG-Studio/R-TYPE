@@ -70,11 +70,6 @@ public:
     template <typename T>
     bool hasComponent(Entity& entity, T component);
 
-    // void setWindow(sf::RenderWindow window)
-    // {
-    //     m_window = std::move(window);
-    // }
-
 private:
     std::vector<Entity> m_entities;
     sf::RenderWindow m_window;

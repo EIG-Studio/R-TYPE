@@ -69,14 +69,5 @@ void Server::GameLoop(Registry& registry)
             playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
             m_registeryMutex.unlock();
         }
-
-        // for (auto& client : m_clients) {
-        //     if (client.getTimeout() > 100) {
-        //         std::cout << "Client " << client.getId() << " timed out" << std::endl;
-        //         m_clients.erase(std::remove(m_clients.begin(), m_clients.end(), client), m_clients.end());
-        //         break;
-        //     }
-        //     client.setTimeout(client.getTimeout() + 1);
-        // }
     }
 }

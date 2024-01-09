@@ -26,19 +26,19 @@ public:
     CommandsToServer& operator=(const CommandsToServer&) = delete;
 
     CommandsToServer() :
-    socket(ioService),
-    secondSocket(ioService),
-    receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171),
-    work(std::make_unique<boost::asio::io_service::work>(ioService))
+    m_socket(m_ioService),
+    m_secondSocket(m_ioService),
+    m_receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171),
+    m_work(std::make_unique<boost::asio::io_service::work>(m_ioService))
     {
         std::cout << "CommandsToServer constructor called." << std::endl;
 
-        socket.open(boost::asio::ip::udp::v4());
-        secondSocket.open(boost::asio::ip::udp::v4());
+        m_socket.open(boost::asio::ip::udp::v4());
+        m_secondSocket.open(boost::asio::ip::udp::v4());
 
-        ioServiceThread = std::thread([this]() {
+        m_ioServiceThread = std::thread([this]() {
             std::cout << "ioService thread starting." << std::endl;
-            ioService.run();
+            m_ioService.run();
             std::cout << "ioService thread ending." << std::endl;
         });
 
@@ -47,9 +47,9 @@ public:
 
     ~CommandsToServer()
     {
-        work.reset(); // Allow io_service to exit
-        if (ioServiceThread.joinable()) {
-            ioServiceThread.join();
+        m_work.reset();
+        if (m_ioServiceThread.joinable()) {
+            m_ioServiceThread.join();
         }
     }
 
@@ -58,27 +58,19 @@ public:
     std::future<void> sendToServerAsync(std::string msg);
     void asyncReceive(Registry& registry);
     void asyncReceiveSecondSocket(Registry& registry);
-    // void handlReceiveSecondSocket(
-    //     Registry& registry,
-    //     const boost::system::error_code& error,
-    //     size_t len,
-    //     boost::array<char, 128> recvBuf,
-    //     std::string& mNewPos);
-    // void processMessage(const std::string& asciiString, Registry& registry);
-
     std::mutex mutex;
 
 private:
     std::string m_newPos;
-    boost::asio::io_service ioService;
-    std::thread ioServiceThread;
-    std::unique_ptr<boost::asio::io_service::work> work;
+    boost::asio::io_service m_ioService;
+    std::thread m_ioServiceThread;
+    std::unique_ptr<boost::asio::io_service::work> m_work;
 
-    boost::asio::ip::udp::socket socket;
-    boost::asio::ip::udp::endpoint receiverEndpoint;
+    boost::asio::ip::udp::socket m_socket;
+    boost::asio::ip::udp::endpoint m_receiverEndpoint;
 
-    boost::asio::ip::udp::socket secondSocket;
-    boost::asio::ip::udp::endpoint senderEndpoint;
+    boost::asio::ip::udp::socket m_secondSocket;
+    boost::asio::ip::udp::endpoint m_senderEndpoint;
 
-    unsigned char m_buffer[sizeof(transferData)];
+    unsigned char m_buffer[sizeof(TransferData)]{};
 };

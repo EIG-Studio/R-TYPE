@@ -29,7 +29,7 @@ public:
 
     void startListening(Registry& registry);
     void startSending();
-    void sendMessage(transferData data);
+    void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
     void createEnnemy(Registry& registry);
     void createBullet(Registry& registry, int posx, int posy);
@@ -40,11 +40,11 @@ private:
     boost::asio::ip::udp::socket m_socket;
     boost::asio::ip::udp::endpoint m_remoteEndpoint;
     boost::array<char, 128> m_recvBuf{};
-    std::deque<transferData> m_messages;
+    std::deque<TransferData> m_messages;
     std::mutex m_mutex;
     std::mutex m_registeryMutex;
     std::vector<Client> m_clients;
-    unsigned char m_buffer[sizeof(transferData)];
+    unsigned char m_buffer[sizeof(TransferData)];
 
     void handleReceivedData(
         const boost::system::error_code& error,
