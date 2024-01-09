@@ -21,6 +21,13 @@
 
 #include <SFML/System.hpp>
 
+// #include <dlfcn.h>
+
+static void myLog(const std::string& message)
+{
+    std::cout << "[LOG] " << message << std::endl;
+}
+
 int main()
 {
     float movementSpeed = 5.0f;
@@ -183,7 +190,7 @@ int main()
                 game.onGame = true;
                 choiceMenu.onChoice = false;
                 commandsToServer.sendToServerAsync("LOGIN");
-                commandsToServer.sendToServerAsync("UPDATE");
+                //commandsToServer.sendToServerAsync("UPDATE");
             }
             if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
                 settingMenu.onSetting = true;
@@ -207,14 +214,17 @@ int main()
             window.draw(settingMenu);
 
         } else if (game.onGame) {
-            std::vector<Entity> players = registry.getListPlayers();
-            std::vector<Entity> ennemies = registry.getListEnemies();
-            std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
             sf::Time renderElapsed = onGameClock.getElapsedTime();
             game.hasFocus = window.hasFocus();
             commandsToServer.mutex.lock();
-            game.movePlayer(std::ref(registry), movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
-            commandsToServer.mutex.unlock();
+            std::vector<Entity> players = registry.getListPlayers();
+            std::vector<Entity> ennemies = registry.getListEnemies();
+            std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
+            try {
+                game.movePlayer(std::ref(registry), movementSpeed, window.getSize().x, window.getSize().y, commandsToServer, sprite);
+            } catch (const std::exception& e) {
+                std::cerr << e.what() << '\n';
+            }
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::F) {
                     game.shooting(commandsToServer, registry);
@@ -225,25 +235,33 @@ int main()
                     game.shooting(commandsToServer, registry);
                 }
             }
+            commandsToServer.mutex.unlock();
             if (renderElapsed.asMilliseconds() > millisecondsPerFrame) {
-                game.moveEnnemies(commandsToServer, registry, ennemies);
-                std::vector<Entity> ennemies = registry.getListEnemies();
-                game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
-                std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
+                // game.moveEnnemies(commandsToServer, registry, ennemies);
+                // std::vector<Entity> ennemies = registry.getListEnemies();
+                // game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
+                // std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
                 game.moveParallax();
                 game.repeatParallax();
                 onGameClock.restart();
             }
             window.draw(game);
-            for (auto& player : players) {
-                renderSystem(player, registry, window);
+            commandsToServer.mutex.lock();
+            try {
+                for (auto& player : players) {
+                    renderSystem(player, registry, window);
+                }
+                for (auto& ennemy : ennemies) {
+                    renderSystem(ennemy, registry, window);
+                }
+                for (auto& playerProjectile : playersProjectiles) {
+                    renderSystem(playerProjectile, registry, window);
+                }
+                /* code */
+            } catch (const std::exception& e) {
+                std::cerr << e.what() << '\n';
             }
-            for (auto& ennemy : ennemies) {
-                renderSystem(ennemy, registry, window);
-            }
-            for (auto& playerProjectile : playersProjectiles) {
-                renderSystem(playerProjectile, registry, window);
-            }
+            commandsToServer.mutex.unlock();
         }
         // count fps
         window.draw(fpsText);

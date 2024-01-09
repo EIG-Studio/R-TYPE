@@ -4,8 +4,6 @@
 ** File description:
 ** command
 */
-
-
 #include "SFML/Graphics/Sprite.hpp"
 #include "components.hpp"
 #include "entities.hpp"
@@ -70,18 +68,12 @@ void Server::createEnnemy(Registry& registry)
     addMessage(newPlayer2.str());
 }
 
-void Server::createBullet(Registry& registry, std::string& command)
+void Server::createBullet(Registry& registry, int posx, int posy)
 {
-    std::istringstream iss(command);
-    std::vector<std::string> tokens;
-    std::string token;
-    while (std::getline(iss, token, ' ')) {
-        tokens.push_back(token);
-    }
 
     Entity entity = registry.createEntity();
     ID idComponent = ID();
-    Position positionComponent = Position(std::make_pair(std::stof(tokens[1]), std::stof(tokens[2])));
+    Position positionComponent = Position(std::make_pair(posx, posy));
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(7);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
@@ -100,90 +92,135 @@ void Server::createBullet(Registry& registry, std::string& command)
     addMessage(newPlayerProjectile.str());
 }
 
-
 void Server::addMessage(const std::string& message)
 {
     this->m_mutex.lock();
-    m_messages.emplace_front(std::make_pair(message, 0));
+    transferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
+    std::istringstream iss(message);
+    int i = 0;
+    std::cout << "[LOG] sending: " << message << std::endl;
+    std::string word;
+    iss >> word;
+    data.command = getCommand(word);
+    //std::cout << word << std::endl;
+    while (iss >> word) {
+        //std::cout << word << std::endl;
+        try {
+            data.args[i] = std::stoi(word);
+        } catch (std::exception) {
+            data.args[i] = getType(word);
+        }
+        i++;
+    }
+    m_messages.emplace_front(data);
     this->m_mutex.unlock();
 }
 
-void Server::goUp(Registry& registry, std::string& command)
+// void Server::goUp(Registry& registry, std::string& command)
+// {
+//     std::string id = " ";
+//     if (command.find("UP") + 2 < command.size()) {
+//         id = command.substr(command.find("UP") + 3);
+//     }
+//     Entity entity = registry.getEntity(std::stoi(id));
+//     Position& positionComponent = registry.getComponent(entity, Position());
+//     Speed speedComponent = registry.getComponent(entity, Speed());
+
+//     positionComponent.setPosition(
+//         std::
+//             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
+//     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+//                          std::to_string(positionComponent.getPosition().second) + "\n";
+//     addMessage(newPos);
+//     registry.setEntity(entity, std::stoi(id));
+// }
+
+// void Server::goDown(Registry& registry, std::string& command)
+// {
+//     std::string id = " ";
+//     if (command.find("DOWN") + 4 < command.size()) {
+//         id = command.substr(command.find("DOWN") + 5);
+//     }
+//     Entity entity = registry.getEntity(std::stoi(id));
+//     Position& positionComponent = registry.getComponent(entity, Position());
+//     Speed speedComponent = registry.getComponent(entity, Speed());
+
+//     positionComponent.setPosition(
+//         std::
+//             make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
+//     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+//                          std::to_string(positionComponent.getPosition().second) + "\n";
+//     addMessage(newPos);
+//     registry.setEntity(entity, std::stoi(id));
+// }
+
+// void Server::goRight(Registry& registry, std::string& command)
+// {
+//     std::string id = " ";
+//     if (command.find("RIGHT") + 5 < command.size()) {
+//         id = command.substr(command.find("RIGHT") + 6);
+//     }
+//     Entity entity = registry.getEntity(std::stoi(id));
+
+//     Position& positionComponent = registry.getComponent(entity, Position());
+//     Speed speedComponent = registry.getComponent(entity, Speed());
+
+//     positionComponent.setPosition(std::make_pair(
+//         positionComponent.getPosition().first + 1 * speedComponent.getSpeed(),
+//         positionComponent.getPosition().second));
+//     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+//                          std::to_string(positionComponent.getPosition().second) + "\n";
+//     addMessage(newPos);
+//     registry.setEntity(entity, std::stoi(id));
+// }
+
+// void Server::goLeft(Registry& registry, std::string& command)
+// {
+//     std::string id = " ";
+//     if (command.find("LEFT") + 4 < command.size()) {
+//         id = command.substr(command.find("LEFT") + 5);
+//     }
+//     Entity entity = registry.getEntity(std::stoi(id));
+//     Position& positionComponent = registry.getComponent(entity, Position());
+//     Speed speedComponent = registry.getComponent(entity, Speed());
+
+
+//     positionComponent.setPosition(std::make_pair(
+//         positionComponent.getPosition().first - 1 * speedComponent.getSpeed(),
+//         positionComponent.getPosition().second));
+//     std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
+//                          std::to_string(positionComponent.getPosition().second) + "\n";
+//     addMessage(newPos);
+//     registry.setEntity(entity, std::stoi(id));
+// }
+
+void Server::playerMove(Registry& registry, COMMAND direction, std::size_t id)
 {
-    std::string id = " ";
-    if (command.find("UP") + 2 < command.size()) {
-        id = command.substr(command.find("UP") + 3);
-    }
-    Entity entity = registry.getEntity(std::stoi(id));
+    Entity entity = registry.getEntity(id);
     Position& positionComponent = registry.getComponent(entity, Position());
     Speed speedComponent = registry.getComponent(entity, Speed());
 
-    positionComponent.setPosition(
-        std::
-            make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
-    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
-                         std::to_string(positionComponent.getPosition().second) + "\n";
+    if (direction == DOWN)
+        positionComponent.setPosition(std::make_pair(
+            positionComponent.getPosition().first,
+            positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
+    else if (direction == RIGHT)
+        positionComponent.setPosition(std::make_pair(
+            positionComponent.getPosition().first + 1 * speedComponent.getSpeed(),
+            positionComponent.getPosition().second));
+    else if (direction == UP)
+        positionComponent.setPosition(std::make_pair(
+            positionComponent.getPosition().first,
+            positionComponent.getPosition().second - 1 * speedComponent.getSpeed()));
+    else if (direction == LEFT)
+        positionComponent.setPosition(std::make_pair(
+            positionComponent.getPosition().first - 1 * speedComponent.getSpeed(),
+            positionComponent.getPosition().second));
+
+    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
+                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
     addMessage(newPos);
-    registry.setEntity(entity, std::stoi(id));
-}
-
-void Server::goDown(Registry& registry, std::string& command)
-{
-    std::string id = " ";
-    if (command.find("DOWN") + 4 < command.size()) {
-        id = command.substr(command.find("DOWN") + 5);
-    }
-    Entity entity = registry.getEntity(std::stoi(id));
-    Position& positionComponent = registry.getComponent(entity, Position());
-    Speed speedComponent = registry.getComponent(entity, Speed());
-
-    positionComponent.setPosition(
-        std::
-            make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second + 1 * speedComponent.getSpeed()));
-    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
-                         std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, std::stoi(id));
-}
-
-void Server::goRight(Registry& registry, std::string& command)
-{
-    std::string id = " ";
-    if (command.find("RIGHT") + 5 < command.size()) {
-        id = command.substr(command.find("RIGHT") + 6);
-    }
-    Entity entity = registry.getEntity(std::stoi(id));
-
-    Position& positionComponent = registry.getComponent(entity, Position());
-    Speed speedComponent = registry.getComponent(entity, Speed());
-
-    positionComponent.setPosition(std::make_pair(
-        positionComponent.getPosition().first + 1 * speedComponent.getSpeed(),
-        positionComponent.getPosition().second));
-    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
-                         std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, std::stoi(id));
-}
-
-void Server::goLeft(Registry& registry, std::string& command)
-{
-    std::string id = " ";
-    if (command.find("LEFT") + 4 < command.size()) {
-        id = command.substr(command.find("LEFT") + 5);
-    }
-    Entity entity = registry.getEntity(std::stoi(id));
-    Position& positionComponent = registry.getComponent(entity, Position());
-    Speed speedComponent = registry.getComponent(entity, Speed());
-
-
-    positionComponent.setPosition(std::make_pair(
-        positionComponent.getPosition().first - 1 * speedComponent.getSpeed(),
-        positionComponent.getPosition().second));
-    std::string newPos = "NEW_POS " + id + " " + std::to_string(positionComponent.getPosition().first) + " " +
-                         std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, std::stoi(id));
+    registry.setEntity(entity, id);
 }
 
 // void Server::ennemyMove(Registry& registry, std::string& command)
@@ -237,9 +274,19 @@ void Server::goLeft(Registry& registry, std::string& command)
 
 void Server::sendAllEntites(Registry& registry)
 {
-    std::ostringstream oss;
     for (auto& entity : registry.getListEntities()) {
-        oss << "UPDATE" << std::endl;
+        std::ostringstream oss;
+        EntityType type = registry.getComponent(entity, Type{}).getEntityType();
+        if (type == Player)
+            oss << "NEW_PLAYER ";
+        else if (type == Enemy)
+            oss << "NEW_ENNEMY ";
+        else if (type == Player_Projectile)
+            oss << "PLAYER_PROJECTILE ";
+        else if (type == Enemy_Projectile)
+            oss << "ENEMY_PROJECTILE ";
+        else
+            oss << "UNKNOWN ";
         auto positionComponent = registry.getComponent(entity, Position{});
         auto xPosition = positionComponent.getPosition().first;
         auto yPosition = positionComponent.getPosition().second;
@@ -261,32 +308,26 @@ void Server::handleReceivedData(
     boost::asio::ip::udp::endpoint& remoteEndpoint)
 {
     if (!error && bytesReceived > 0) {
-        std::cout << "Received: " << m_recvBuf.data() << std::endl;
-        std::string command = std::string(m_recvBuf.data());
+        transferData receivedData;
+        std::memcpy(&receivedData, m_buffer, sizeof(receivedData));
 
-        if (command.find("SHOOT") == 0) {
-            createBullet(registry, command);
-        } else if (command.find("LOGIN") == 0) {
+        if (receivedData.command == SHOOT) {
+            createBullet(registry, receivedData.args[0], receivedData.args[1]);
+        } else if (receivedData.command == LOGIN) {
             addClient(remoteEndpoint);
             createPlayer(registry);
-            createEnnemy(registry);
-        } else if (command.find("UPDATE") == 0) {
             sendAllEntites(registry);
-        } else if (command.find("NEW_ENNEMY") == 0) {
+        } else if (receivedData.command == UPDATE) {
+            sendAllEntites(registry);
+        } else if (receivedData.command == NEW_ENNEMY) {
             createEnnemy(registry);
-        } else if (command.find("EXIT") == 0) {
-            // deletePlayer();
-        } else if (command.find("RIGHT") == 0) {
-            goRight(registry, command);
-        } else if (command.find("LEFT") == 0) {
-            goLeft(registry, command);
-        } else if (command.find("UP") == 0) {
-            goUp(registry, command);
-        } else if (command.find("DOWN") == 0) {
-            goDown(registry, command);
+        } else if (
+            receivedData.command == DOWN || receivedData.command == UP || receivedData.command == LEFT ||
+            receivedData.command == RIGHT) {
+            playerMove(registry, receivedData.command, receivedData.args[0]);
         } else {
             std::ostringstream cmd;
-            cmd << "Unknown command: " << command << std::endl;
+            cmd << "Unknown command: " << receivedData.command << std::endl;
             addMessage(cmd.str());
         }
     }

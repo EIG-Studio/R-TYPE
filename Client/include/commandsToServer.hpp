@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
+#include "Systems.hpp"
+#include "components.hpp"
+#include "entities.hpp"
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -57,13 +58,13 @@ public:
     std::future<void> sendToServerAsync(std::string msg);
     void asyncReceive(Registry& registry);
     void asyncReceiveSecondSocket(Registry& registry);
-    void handleReceiveSecondSocket(
-        Registry& registry,
-        const boost::system::error_code& error,
-        size_t len,
-        boost::array<char, 2048>& recvBuf,
-        std::string& mNewPos);
-    void processMessage(const std::string& asciiString, Registry& registry);
+    // void handlReceiveSecondSocket(
+    //     Registry& registry,
+    //     const boost::system::error_code& error,
+    //     size_t len,
+    //     boost::array<char, 128> recvBuf,
+    //     std::string& mNewPos);
+    // void processMessage(const std::string& asciiString, Registry& registry);
 
     std::mutex mutex;
 
@@ -75,9 +76,9 @@ private:
 
     boost::asio::ip::udp::socket socket;
     boost::asio::ip::udp::endpoint receiverEndpoint;
-    boost::array<char, 2048> recvBuf;
 
     boost::asio::ip::udp::socket secondSocket;
     boost::asio::ip::udp::endpoint senderEndpoint;
-    boost::array<char, 2048> recvBufSecond;
+
+    unsigned char m_buffer[sizeof(transferData)];
 };
