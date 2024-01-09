@@ -19,6 +19,8 @@
 
 #include <SFML/System.hpp>
 
+#include <cstdlib>
+
 void handleWindowEvents(
     sf::Event& event,
     WindowManager& windowManager,
@@ -30,8 +32,10 @@ void handleWindowEvents(
     Music& music)
 {
     while (windowManager.getWindow().pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed) {
             windowManager.getWindow().close();
+            exit(0);
+        }
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
             menu.onMenu = false;
             choiceMenu.onChoice = true;
