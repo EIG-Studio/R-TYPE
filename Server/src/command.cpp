@@ -170,6 +170,13 @@ void Server::sendAllEntites(Registry& registry)
     }
 }
 
+void Server::refreshClientRegistry(Registry& registry, int id)
+{
+    if (!registry.hasEntity(id)) {
+        addMessage("DELETE " + std::to_string(id) + "\n");
+    }
+}
+
 void Server::handleReceivedData(
     const boost::system::error_code& error,
     std::size_t bytesReceived,
@@ -193,6 +200,8 @@ void Server::handleReceivedData(
             receivedData.command == DOWN || receivedData.command == UP || receivedData.command == LEFT ||
             receivedData.command == RIGHT) {
             playerMove(registry, receivedData.command, receivedData.args[0]);
+        } else if (receivedData.command == REFRESH) {
+            refreshClientRegistry(registry, receivedData.args[0]);
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << receivedData.command << std::endl;

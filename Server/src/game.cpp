@@ -52,7 +52,6 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
 
 void Server::GameLoop(Registry& registry)
 {
-
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         m_registeryMutex.lock();

@@ -65,11 +65,9 @@ void handleReceive(
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
 
-            std::cout << "id= " << id << "| xPos= " << xPos << "| yPos= " << yPos << '\n';
             try {
                 Entity entity = registry.getEntity(id);
                 if (registry.hasComponent(entity, Position{})) {
-                    std::cout << "entity has position" << std::endl;
                     Position& entityPos = registry.getComponent(entity, Position{});
                     entityPos.setPosition(std::make_pair(xPos, yPos));
                     registry.setEntity(entity, id);
@@ -146,16 +144,8 @@ void handleReceive(
 
             sf::Vector2f spritePos = playerProjectileSprite.getPosition();
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
-        } else if (receivedData.command == DELETE_PROJECTILE) {
-
-            int id = receivedData.args[0];
-
-            registry.deleteById(id);
-        } else if (receivedData.command == DELETE_ENNEMY) {
-
-            int id = receivedData.args[0];
-
-            registry.deleteById(id);
+        } else if (receivedData.command == DELETE_PROJECTILE || receivedData.command == DELETE || receivedData.command == DELETE_ENNEMY) {
+            registry.deleteById(receivedData.args[0]);
         }
     } else if (error) {
         std::cerr << "Error in handleReceive: " << error.message() << std::endl;
@@ -186,7 +176,7 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
         if (ec) {
             std::cerr << "Send error: " << ec.message() << std::endl;
         } else {
-            std::cout << "Sent " << bytes_transferred << " bytes to server." << std::endl;
+            // std::cout << "Sent " << bytes_transferred << " bytes to server." << std::endl;
         }
     });
 }
