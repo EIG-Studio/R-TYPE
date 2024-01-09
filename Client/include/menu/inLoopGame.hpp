@@ -10,8 +10,8 @@
 #include "Systems.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
-#include "window.hpp"
 #include "menu/inLoopMenus.hpp"
+#include "window.hpp"
 
 class InLoopGame
 {
@@ -25,8 +25,8 @@ public:
         Sprite& sprite,
         sf::Clock& onGameClock,
         Registry& registry,
-        Button& settingsButton,
-        Button& exitButton,
+        Button& resumeButton,
+        Button& toMenuButton,
         ChoiceMenu& choiceMenu);
 
 private:
