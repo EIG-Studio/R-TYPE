@@ -32,10 +32,10 @@ public:
 
 
 private:
-    float m_movementSpeed;
-    float m_millisecondsPerSecond;
-    float m_maxFPS;
-    float m_millisecondsPerFrame;
+    float m_movementSpeed{};
+    float m_millisecondsPerSecond{};
+    float m_maxFPS{};
+    float m_millisecondsPerFrame{};
     std::unique_ptr<sf::RenderWindow> m_window;
     ;
     sf::Font m_font;

@@ -9,7 +9,6 @@
 
 int WindowManager::initWindow()
 {
-    this->m_movementSpeed = 5.0f;
     this->m_millisecondsPerSecond = 1000;
     this->m_maxFPS = 144;
     this->m_millisecondsPerFrame = m_millisecondsPerSecond / m_maxFPS;
