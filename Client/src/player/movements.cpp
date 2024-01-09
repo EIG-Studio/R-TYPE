@@ -57,7 +57,7 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
         if (!this->hasFocus) {
             return;
         }
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         std::cout << e.what();
         return;
     }
@@ -159,7 +159,7 @@ void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
     Entity player;
     try {
         player = registry.getPlayer();
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         std::cout << e.what();
         return;
     }
