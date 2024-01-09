@@ -63,10 +63,11 @@ void Server::GameLoop(Registry& registry)
             ennemyMove(registry, ennemy, registry.getComponent(ennemy, ID{}).getID());
             m_registeryMutex.unlock();
         }
-        for (auto& playerProjectile : playersProjectiles) {
+        /* for (auto& playerProjectile : playersProjectiles) {
             m_registeryMutex.lock();
             playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
             m_registeryMutex.unlock();
-        }
+        } */
+        registry.systemsManager();
     }
 }
