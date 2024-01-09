@@ -14,19 +14,18 @@ class Client
 {
 public:
     Client() = default;
-    Client(boost::asio::ip::udp::endpoint remoteEndpoint) : m_remoteEndpoint{remoteEndpoint} {};
+    Client(boost::asio::ip::udp::endpoint remoteEndpoint, std::size_t id) :
+    m_remoteEndpoint{remoteEndpoint},
+    m_id{id} {};
     ~Client() = default;
-    bool operator==(const boost::asio::ip::udp::endpoint& endpoint) const
-    {
-        return m_remoteEndpoint == endpoint;
-    }
+    bool operator==(const boost::asio::ip::udp::endpoint& endpoint) const;
     void sendMessage(const std::string message);
     std::string receiveMessage();
-    boost::asio::ip::udp::endpoint getEndpoint() const
-    {
-        return m_remoteEndpoint;
-    }
+    boost::asio::ip::udp::endpoint getEndpoint() const;
+    void setId(std::size_t id);
+    std::size_t getId() const;
 
 private:
     boost::asio::ip::udp::endpoint m_remoteEndpoint;
+    std::size_t m_id;
 };
