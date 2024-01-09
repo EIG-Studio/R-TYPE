@@ -15,7 +15,7 @@ void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_
 
     if (positionComponent.getPosition().first > 800) {
         registry.deleteById(id);
-        addMessage("DELETE_PROJECTILE " + std::to_string(id) + "\n");
+        addMessage("DELETE " + std::to_string(id) + "\n");
         return;
     }
 
@@ -34,7 +34,7 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first < -100) {
-        addMessage("DELETE_ENNEMY " + std::to_string(id) + "\n");
+        addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
         this->createEnnemy(registry);
         return;
