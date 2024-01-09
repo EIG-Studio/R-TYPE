@@ -7,10 +7,6 @@
 
 #include "menu/inLoopGame.hpp"
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
 void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
@@ -30,11 +26,6 @@ void InLoopGame::gameInLoop(
         game.onPause = false;
     }
     if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
-#ifdef _WIN32
-        Sleep(500000);
-#else
-        usleep(500000);
-#endif
         game.onGame = false;
         choiceMenu.onChoice = true;
     }
