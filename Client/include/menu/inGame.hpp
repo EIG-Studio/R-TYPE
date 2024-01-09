@@ -46,6 +46,9 @@ public:
     void colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry);
     void isPaused();
+    void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
     bool onGame;
     bool onPause;
     bool hasFocus{false};
@@ -84,4 +87,9 @@ private:
 
     sf::Texture m_playerTexture;
     sf::Sprite m_playerSprite;
+
+    sf::Texture m_cursorTexture;
+    sf::Sprite m_cursorSprite;
+    int m_tempMouseX;
+    int m_tempMouseY;
 };

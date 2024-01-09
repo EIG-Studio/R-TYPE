@@ -42,6 +42,9 @@ void Game::setPath(Sprite mSprite)
     this->m_frontBuildTexture2.loadFromFile(mSprite.getFrontBuildPath());
     this->m_frontBuildSprite2.setTexture(this->m_frontBuildTexture2);
 
+    this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
+    this->m_cursorSprite.setTexture(this->m_cursorTexture);
+
     //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
     //this->m_playerSprite.setTexture(this->m_playerTexture);
 
@@ -78,6 +81,9 @@ void Game::setPath(Sprite mSprite)
 
     //m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
     //m_playerSprite.setPosition(100, 100);
+
+    m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
+    m_cursorSprite.setPosition(0, 0);
 }
 
 void Game::setPlayerPath(Sprite mSprite)
@@ -268,6 +274,56 @@ void Game::colidePlayer()
 {
 }
 
+void Game::isPaused()
+{
+    if (!this->onPause) {
+        this->onPause = true;
+        return;
+    } else if (this->onPause) {
+        this->onPause = false;
+        return;
+    }
+}
+
+void Game::setCursorPosition(sf::RenderWindow& window)
+{
+    if (sf::Mouse::getPosition(window).x != this->m_tempMouseX && sf::Mouse::getPosition(window).y != this->m_tempMouseY) {
+        this->m_cursorSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+        this->m_tempMouseX = sf::Mouse::getPosition(window).x;
+        this->m_tempMouseY = sf::Mouse::getPosition(window).y;
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
+        if (this->m_cursorSprite.getPosition().y > 0) {
+            this->m_cursorSprite.move(0, -5);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
+        if (this->m_cursorSprite.getPosition().x < 800 - 32) {
+            this->m_cursorSprite.move(5, 0);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
+        if (this->m_cursorSprite.getPosition().y < 600 - 32) {
+            this->m_cursorSprite.move(0, 5);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
+        if (this->m_cursorSprite.getPosition().x > 0) {
+            this->m_cursorSprite.move(-5, 0);
+        }
+    }
+}
+
+float Game::getCursorPosX()
+{
+    return this->m_cursorSprite.getPosition().x;
+}
+
+float Game::getCursorPosY()
+{
+    return this->m_cursorSprite.getPosition().y;
+}
+
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
@@ -292,16 +348,9 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_midBuildSprite2, states);
     target.draw(m_frontBuildSprite, states);
     target.draw(m_frontBuildSprite2, states);
-    //target.draw(m_playerSprite, states);
-}
-
-void Game::isPaused()
-{
-    if (!this->onPause) {
-        this->onPause = true;
-        return;
-    } else if (this->onPause) {
-        this->onPause = false;
-        return;
+    if (this->onPause) {
+        states.texture = &m_cursorTexture;
+        target.draw(m_cursorSprite, states);
     }
+    //target.draw(m_playerSprite, states);
 }
