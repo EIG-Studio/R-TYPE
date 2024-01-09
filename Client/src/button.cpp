@@ -8,7 +8,6 @@
 #include "button.hpp"
 
 Button::Button(
-    sf::RenderWindow& /*window*/,
     const sf::Vector2f& size,
     const sf::Vector2f& position,
     const sf::Color& fillColor,
