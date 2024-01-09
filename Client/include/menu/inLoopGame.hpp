@@ -24,8 +24,8 @@ public:
         Sprite& sprite,
         sf::Clock& onGameClock,
         Registry& registry,
-        Button& settingsButton,
-        Button& exitButton);
+        Button& resumeButton,
+        Button& toMenuButton);
 
 private:
 };

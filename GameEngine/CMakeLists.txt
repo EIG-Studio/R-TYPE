@@ -52,6 +52,7 @@ add_library(${PROJECT_NAME} STATIC
     src/Position.cpp
     src/Type.cpp
     src/Velocity.cpp
+    src/Network.cpp
 )
 
 

@@ -18,6 +18,11 @@ const float JOYSTICK_THRESHOLD = 20.0f;
 const float SPRITE_WIDTH = 103.0f;
 const float SPRITE_HEIGHT = 37.75f;
 
+static void myLog(const std::string& message)
+{
+    std::cout << "[LOG] " << message << std::endl;
+}
+
 struct MovementConfig
 {
     sf::Keyboard::Key key;
@@ -82,7 +87,6 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
          {sf::Keyboard::Left, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT},
          {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT}};
 
-    
     for (const auto& config : movements) {
         HandleMovement(
             registry,
@@ -95,7 +99,6 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
             config.windowLimit,
             config.spriteLimit);
     }
-
     if (initialPosX == pair_pos.first && initialPosY == pair_pos.second) {
         player_renderer.setRenderer("../Client/assets/Cars/189_neutral.png");
     }
@@ -169,7 +172,7 @@ void Game::HandleMovement(
 
     if (keyPressed) {
         std::string inputType = InputTypeToString(key);
-        if (updateClock.getElapsedTime().asSeconds() >= 0.02f) {
+        if (updateClock.getElapsedTime().asSeconds() >= 0.01f) {
             std::string inputType = InputTypeToString(key);
             SendInputUpdate(commandsToServer, registry, inputType);
 
