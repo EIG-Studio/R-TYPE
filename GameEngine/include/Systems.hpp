@@ -16,6 +16,8 @@
 #pragma once
 #include "entities.hpp"
 
+#include <array>
+
 void shootingSystem(Entity entity, Registry& registry);
 void deathSystem(Entity entity, Registry& registry);
 void damagedSystem(Entity entity, Entity otherEntity, Registry& registry);
@@ -25,3 +27,33 @@ void iaSystem(Entity entity, Registry& registry);
 // void renderSystem(Entity entity, Registry& registry);
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window);
 
+enum COMMAND {
+    NEW,
+    LOGIN,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    NEW_PLAYER,
+    NEW_ENNEMY,
+    MOVE_ENNEMY,
+    DELETE_ENNEMY,
+    PLAYER_PROJECTILE,
+    MOVE_PROJECTILE,
+    DELETE_PROJECTILE,
+    NEW_POS,
+    UPDATE,
+    SHOOT,
+    UNKNOWN, 
+    EMPTY
+};
+
+COMMAND getCommand(const std::string& commandStr);
+EntityType getType(const std::string& typeStr);
+
+struct transferData
+{
+    enum COMMAND command;
+    //std::vector<int> args;
+    std::array<int, 5> args;
+};

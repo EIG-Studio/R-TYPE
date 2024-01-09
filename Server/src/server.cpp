@@ -15,27 +15,24 @@ void Server::startListening(Registry& registry)
         m_registeryMutex.lock();
         handleReceivedData(error, bytesReceived, registry, m_remoteEndpoint);
         m_registeryMutex.unlock();
-        m_recvBuf.fill(0);
         startListening(registry);
     };
-    m_socket.async_receive_from(boost::asio::buffer(m_recvBuf), m_remoteEndpoint, receiveCallback);
+    m_socket.async_receive_from(boost::asio::buffer(m_buffer), m_remoteEndpoint, receiveCallback);
     m_ioService.run();
 }
 
 void Server::startSending()
 {
-    std::string message;
-
+    transferData data;
     while (true) {
-        message = "";
+        data = {.command = EMPTY};
         this->m_mutex.lock();
         if (!m_messages.empty()) {
-            message = m_messages.back().first;
-            m_messages.back().second++;
+            data = m_messages.back();
         }
         this->m_mutex.unlock();
-        if (!message.empty()) {
-            sendMessage(message);
+        if (!(data.command == EMPTY)) {
+            sendMessage(data);
             this->m_mutex.lock();
             m_messages.pop_back();
             this->m_mutex.unlock();
@@ -45,15 +42,13 @@ void Server::startSending()
     }
 }
 
-void Server::sendMessage(const std::string& message)
+void Server::sendMessage(transferData data)
 {
-    std::string binaryMessage;
+    unsigned char buffer[sizeof(transferData)];
+    std::memcpy(buffer, &data, sizeof(transferData));
 
-    for (char c : message) {
-        binaryMessage += std::bitset<8>(c).to_string();
-    }
     for (const auto& client : m_clients) {
-        m_socket.async_send_to(boost::asio::buffer(binaryMessage), client.getEndpoint(), [](const boost::system::error_code&, std::size_t) {
+        m_socket.async_send_to(boost::asio::buffer(buffer), client.getEndpoint(), [](const boost::system::error_code&, std::size_t) {
         });
     }
 }

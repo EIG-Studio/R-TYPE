@@ -145,6 +145,12 @@ void menuChoice(
     }
 }
 
+
+void myLog(const std::string& message)
+{
+    std::cout << "[LOG] " << message << std::endl;
+}
+
 int main()
 {
     WindowManager windowManager;
