@@ -44,13 +44,3 @@ float WindowManager::getMovementSpeed() const
 {
     return this->m_movementSpeed;
 }
-
-// float WindowManager::getMillisecondsPerSecond() const
-// {
-// return this->m_millisecondsPerSecond;
-// }
-
-// float WindowManager::getMillisecondsPerFrame() const
-// {
-// return this->m_millisecondsPerFrame;
-// }
