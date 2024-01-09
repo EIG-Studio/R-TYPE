@@ -44,7 +44,7 @@ Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new projectile is created  
 
-Messeage `MOVE_PROJECTILE [ID]`
+Message `MOVE_PROJECTILE [ID]`
 
 This message is sent to the client when a projectile is moved  
 
