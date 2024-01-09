@@ -104,7 +104,6 @@ void InLoopMenus::lobbyMenuInLoop(
         lobbyMenu.onLobby = false;
         game.onGame = true;
         commandsToServer.sendToServerAsync("LOGIN");
-        commandsToServer.sendToServerAsync("UPDATE");
     }
     if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;

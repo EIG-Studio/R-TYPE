@@ -94,9 +94,7 @@ void handleReceive(
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
             player = registry.addComponent(player, Size(std::make_pair(xSize, ySize)));
             registry.setEntity(player, id);
-            list = registry.getListEntities();
         } else if (receivedData.command == NEW_ENNEMY) {
-
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
@@ -111,23 +109,15 @@ void handleReceive(
 
             Position ennemyPos = registry.getComponent(ennemy, Position{});
             std::pair<int, int> pairPos = ennemyPos.getPosition();
-            Renderer ennemyRenderer = registry.getComponent(ennemy, Renderer{});
-            sf::Sprite ennemySprite = ennemyRenderer.getRenderer();
-            Size ennemySize = registry.getComponent(ennemy, Size{});
-            std::pair<float, float> pairSize = ennemySize.getSize();
 
-            sf::Vector2f spritePos = ennemySprite.getPosition();
             std::cout << "Ennemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (receivedData.command == PLAYER_PROJECTILE) {
             std::cout << "player projectile created" << std::endl;
-
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
             int xSize = receivedData.args[3];
             int ySize = receivedData.args[4];
-
-            std::cout << "get id: " << id << "\n";
 
             Entity playerProjectile = registry.createEntityWithID(id);
             playerProjectile = registry.addComponent(playerProjectile, Position(std::make_pair(xPos, yPos)));
@@ -137,14 +127,8 @@ void handleReceive(
 
             Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
             std::pair<int, int> pairPos = playerProjectilePos.getPosition();
-            Renderer playerProjectileRenderer = registry.getComponent(playerProjectile, Renderer{});
-            sf::Sprite playerProjectileSprite = playerProjectileRenderer.getRenderer();
-            Size playerProjectileSize = registry.getComponent(playerProjectile, Size{});
-            std::pair<int, int> pairSize = playerProjectileSize.getSize();
-
-            sf::Vector2f spritePos = playerProjectileSprite.getPosition();
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
-        } else if (receivedData.command == DELETE_PROJECTILE || receivedData.command == DELETE || receivedData.command == DELETE_ENNEMY) {
+        } else if (receivedData.command == DELETE) {
             registry.deleteById(receivedData.args[0]);
         }
     } else if (error) {

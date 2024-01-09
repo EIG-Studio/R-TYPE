@@ -42,7 +42,6 @@ add_library(${PROJECT_NAME} STATIC
     src/HealthPoint.cpp
     src/HitBox.cpp
     src/ID.cpp
-    src/main.cpp
     src/Shooter.cpp
     src/Size.cpp
     src/Speed.cpp

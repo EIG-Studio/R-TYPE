@@ -33,7 +33,7 @@ Message: `MOVE_ENNEMY [ID]`
 
 This message is sent to the client when a ennemy is moved
 
-Message: `DELETE_ENNEMY [ID]`
+Message: `DELETE [ID]`
 
 This message is sent to the client when a ennemy is move
 

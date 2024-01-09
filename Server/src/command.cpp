@@ -100,7 +100,7 @@ void Server::addMessage(const std::string& message)
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
-    std::cout << "[LOG] sending: " << message << std::endl;
+    std::cout << "sending: " << message;
     std::string word;
     iss >> word;
     data.command = getCommand(word);
@@ -196,6 +196,7 @@ void Server::handleReceivedData(
         } else if (receivedData.command == LOGIN) {
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
+            sendAllEntites(registry);
         } else if (receivedData.command == UPDATE) {
             sendAllEntites(registry);
         } else if (receivedData.command == NEW_ENNEMY) {
