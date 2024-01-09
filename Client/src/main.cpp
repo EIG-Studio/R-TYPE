@@ -20,6 +20,55 @@
 
 #include <SFML/System.hpp>
 
+void handleWindowEvents(
+    sf::Event& event,
+    WindowManager& windowManager,
+    Menu& menu,
+    ChoiceMenu& choiceMenu,
+    Game& game,
+    Sprite& sprite,
+    Music& music)
+{
+    while (windowManager.getWindow().pollEvent(event)) {
+        if (event.type == sf::Event::Closed)
+            windowManager.getWindow().close();
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
+            menu.onMenu = false;
+            choiceMenu.onChoice = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
+            music.musicMenu.stop();
+            sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
+            sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
+            sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
+            menu.setPath(sprite);
+            choiceMenu.setPath(sprite);
+            music.setPath(sprite);
+            game.setPath(sprite);
+            music.musicMenu.play();
+            sprite.easterEgg = true;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg) {
+            music.musicMenu.stop();
+            sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
+            sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
+            sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
+            menu.setPath(sprite);
+            choiceMenu.setPath(sprite);
+            music.setPath(sprite);
+            game.setPath(sprite);
+            music.musicMenu.play();
+            sprite.easterEgg = true;
+        }
+        if (game.onGame) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7)) {
+                game.onGame = false;
+                choiceMenu.onChoice = true;
+            }
+        }
+    }
+}
+
 void updateFpsText(WindowManager& windowManager, sf::Text& fpsText, sf::Clock& clock, int& frameCount)
 {
     windowManager.getWindow().clear();
@@ -69,44 +118,7 @@ int main()
     commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
     while (windowManager.getWindow().isOpen()) {
         sf::Event event{};
-        while (windowManager.getWindow().pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                windowManager.getWindow().close();
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
-                menu.onMenu = false;
-                choiceMenu.onChoice = true;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
-                music.musicMenu.stop();
-                sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
-                sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
-                sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
-                menu.setPath(sprite);
-                choiceMenu.setPath(sprite);
-                music.setPath(sprite);
-                game.setPath(sprite);
-                music.musicMenu.play();
-                sprite.easterEgg = true;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg) {
-                music.musicMenu.stop();
-                sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
-                sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
-                sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
-                menu.setPath(sprite);
-                choiceMenu.setPath(sprite);
-                music.setPath(sprite);
-                game.setPath(sprite);
-                music.musicMenu.play();
-                sprite.easterEgg = true;
-            }
-            if (game.onGame) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7)) {
-                    game.onGame = false;
-                    choiceMenu.onChoice = true;
-                }
-            }
-        }
+        handleWindowEvents(event, windowManager, menu, choiceMenu, game, sprite, music);
         updateFpsText(windowManager, fpsText, clock, frameCount);
         if (menu.onMenu) {
             introMenu.introMenuInLoop(menu, windowManager, music, clock);
