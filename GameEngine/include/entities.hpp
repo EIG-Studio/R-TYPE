@@ -6,6 +6,8 @@
 */
 
 #pragma once
+#define getComponent(e, f) getComponentT( e, f, __FILE__, __func__, __LINE__ )
+
 #include "components.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -61,7 +63,8 @@ public:
     template <typename T>
     void removeComponent(Entity entity, T component);
     template <typename T>
-    T& getComponent(Entity& entity, T component);
+    T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line);
+
     std::string systemsManager(sf::RenderWindow& window);
 
     template <typename T>
@@ -127,7 +130,7 @@ void Registry::removeComponent(Entity entity, T component)
 
 #include <iostream>
 template <typename T>
-T& Registry::getComponent(Entity& entity, T component)
+T& Registry::getComponentT(Entity& entity, T component, const char* file, const char* fn, int line)
 {
     for (auto& mComponent : entity.mComponents) {
         try {
@@ -137,7 +140,7 @@ T& Registry::getComponent(Entity& entity, T component)
             continue;
         }
     }
-    throw std::runtime_error("Entity Component not found");
+    throw std::runtime_error("Component not found function called at " + std::string(file) + " " + std::string(fn) + " " + std::to_string(line));
 }
 
 template <typename T>

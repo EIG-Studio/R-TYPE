@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "Systems.hpp"
 #include "client.hpp"
 #include "entities.hpp"
 
@@ -28,10 +29,10 @@ public:
 
     void startListening(Registry& registry);
     void startSending();
-    void sendMessage(const std::string& message);
+    void sendMessage(transferData data);
     void sendAllEntites(Registry& registry);
     void createEnnemy(Registry& registry);
-    void createBullet(Registry& registry, std::string& command);
+    void createBullet(Registry& registry, int posx, int posy);
     void GameLoop(Registry& registry);
 
 private:
@@ -39,10 +40,11 @@ private:
     boost::asio::ip::udp::socket m_socket;
     boost::asio::ip::udp::endpoint m_remoteEndpoint;
     boost::array<char, 128> m_recvBuf{};
-    std::deque<std::pair<std::string, int>> m_messages;
+    std::deque<transferData> m_messages;
     std::mutex m_mutex;
     std::mutex m_registeryMutex;
     std::vector<Client> m_clients;
+    unsigned char m_buffer[sizeof(transferData)];
 
     void handleReceivedData(
         const boost::system::error_code& error,
@@ -52,6 +54,7 @@ private:
     void handlePositionUpdate();
     void addMessage(const std::string& message);
     std::size_t createPlayer(Registry& registry);
+    void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void goUp(Registry& registry, std::string& command);
     void goDown(Registry& registry, std::string& command);
     void goRight(Registry& registry, std::string& command);

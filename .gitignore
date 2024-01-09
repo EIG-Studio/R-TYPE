@@ -36,6 +36,10 @@ r-type_server
 # VScode
 .vscode
 
+# Clion
+.idea
+cmake-build-default
+
 # CMake
 CMakeFiles
 CMakeCache.txt

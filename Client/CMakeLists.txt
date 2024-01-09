@@ -34,10 +34,13 @@ find_package(Boost REQUIRED)
 ################# EXECUTABLE #################
 add_executable(${PROJECT_NAME}
     src/main.cpp
-    src/menu/introMenu/introMenu.cpp
-    src/menu/settingMenu.cpp
+    src/window.cpp
+    src/menu/inLoopMenus.cpp
+    src/menu/inLoopGame.cpp
+    src/button.cpp
+    src/menu/menus.cpp
     src/sprite/sprite.cpp
-    src/music/music.cpp
+    src/music/sounds.cpp
     src/menu/inGame.cpp
     src/commandsToServer.cpp
     src/player/movements.cpp
@@ -54,6 +57,14 @@ if (NOT WIN32)
     target_link_libraries(${PROJECT_NAME} PUBLIC pthread dl)
 endif()
 
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32)
+    add_custom_command(
+            TARGET ${PROJECT_NAME}
+            COMMENT "Copy OpenAL DLL"
+            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:${PROJECT_NAME}>
+            VERBATIM)
+endif()
 
 ################# INSTALL #################
 install(TARGETS ${PROJECT_NAME})

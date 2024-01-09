@@ -7,17 +7,19 @@
 
 #include "components.hpp"
 
-Size::Size(float size)
+Size::Size(std::pair<float, float> originSize)
 {
-    this->m_size = size;
+    this->m_size.first = originSize.first;
+    this->m_size.second = originSize.second;
 }
 
-float Size::getSize() const
+std::pair<float, float> Size::getSize() const
 {
     return this->m_size;
 }
 
-void Size::setSize(int newSize)
+void Size::setSize(std::pair<float, float> newSize)
 {
-    this->m_size = newSize;
+    this->m_size.first = newSize.first;
+    this->m_size.second = newSize.second;
 }
