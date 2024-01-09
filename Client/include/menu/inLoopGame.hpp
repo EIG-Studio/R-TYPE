@@ -25,9 +25,7 @@ public:
         sf::Clock& onGameClock,
         Registry& registry,
         Button& settingsButton,
-        Button& exitButton,
-        float cursorPosX,
-        float cursorPosY);
+        Button& exitButton);
 
 private:
 };

@@ -17,12 +17,11 @@ void InLoopGame::gameInLoop(
     sf::Clock& onGameClock,
     Registry& registry,
     Button& resumeButton,
-    Button& toMenuButton,
-    float cursorPosX,
-    float cursorPosY)
+    Button& toMenuButton)
 {
-    resumeButton.checkHover(cursorPosX, cursorPosY);
-    toMenuButton.checkHover(cursorPosX, cursorPosY);
+    game.setCursorPosition(windowManager.getWindow());
+    resumeButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
+    toMenuButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
     std::vector<Entity> players = registry.getListPlayers();
     std::vector<Entity> ennemies = registry.getListEnemies();
     std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
