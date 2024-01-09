@@ -7,39 +7,48 @@
 
 #pragma once
 
+#include "../../GameEngine/include/components.hpp"
+#include "../../GameEngine/include/entities.hpp"
 #include "ECS.hpp"
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
-
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
 public:
     Game();
     ~Game() override = default;
-    void  setPath(Sprite mSprite);
-    void  setPlayerPath(Sprite mSprite);
+    void setPath(Sprite mSprite);
+    void setPlayerPath(Sprite mSprite);
     float getPosPlayerY(Registry& registry);
     float getPosPlayerX(Registry& registry);
-    void  moveParallax();
-    void  repeatParallax();
+    void moveParallax();
+    void repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
     void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
     void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
-    void HandleMovement(Registry& registry, sf::Keyboard::Key key, CommandsToServer& commandsToServer, float movementSpeed,
-    float deltaX, float deltaY, const std::string& path, float windowLimit, float spriteLimit);
+    void HandleMovement(
+        Registry& registry,
+        sf::Keyboard::Key key,
+        CommandsToServer& commandsToServer,
+        float movementSpeed,
+        float deltaX,
+        float deltaY,
+        const std::string& path,
+        float windowLimit,
+        float spriteLimit);
     void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
     void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType);
     std::string InputTypeToString(sf::Keyboard::Key key);
-    void  colidePlayer();
+    void colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry);
-    bool  onGame;
-    bool  hasFocus {false};
+    void isPaused();
+    bool onGame;
+    bool onPause;
+    bool hasFocus{false};
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

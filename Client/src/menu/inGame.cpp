@@ -12,6 +12,7 @@
 Game::Game()
 {
     this->onGame = false;
+    this->onPause = false;
 }
 
 void Game::setPath(Sprite mSprite)
@@ -292,4 +293,12 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_frontBuildSprite, states);
     target.draw(m_frontBuildSprite2, states);
     //target.draw(m_playerSprite, states);
+}
+
+void Game::isPaused()
+{
+    if (!this->onPause) {
+        this->onPause = true;
+        return;
+    }
 }

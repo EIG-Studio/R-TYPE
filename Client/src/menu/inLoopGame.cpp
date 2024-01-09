@@ -66,6 +66,8 @@ void InLoopGame::gameInLoop(
     for (auto& playerProjectile : playersProjectiles) {
         renderSystem(playerProjectile, registry, windowManager.getWindow());
     }
-    resumeButton.draw(windowManager.getWindow());
-    toMenuButton.draw(windowManager.getWindow());
+    if (game.onPause) {
+        resumeButton.draw(windowManager.getWindow());
+        toMenuButton.draw(windowManager.getWindow());
+    }
 }

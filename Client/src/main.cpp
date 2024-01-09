@@ -62,8 +62,8 @@ void handleWindowEvents(
         }
         if (game.onGame) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Joystick::isButtonPressed(0, 7)) {
-                game.onGame = false;
-                choiceMenu.onChoice = true;
+                std::cout << "YES" << std::endl;
+                game.isPaused();
             }
         }
     }
