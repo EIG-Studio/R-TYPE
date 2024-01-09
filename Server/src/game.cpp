@@ -63,11 +63,17 @@ void Server::GameLoop(Registry& registry)
             ennemyMove(registry, ennemy, registry.getComponent(ennemy, ID{}).getID());
             m_registeryMutex.unlock();
         }
-        /* for (auto& playerProjectile : playersProjectiles) {
+        for (auto& playerProjectile : playersProjectiles) {
             m_registeryMutex.lock();
-            playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
+            std::ostringstream oss;
+            oss << "NEW_POS " << registry.getComponent(playerProjectile, ID{}).getID() << " "
+                << registry.getComponent(playerProjectile, Position{}).getPosition().first << " "
+                << registry.getComponent(playerProjectile, Position{}).getPosition().second << "\n";
+            std::cout << "LEs Projectil: " << oss.str();
+            addMessage(oss.str());
+            // playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
             m_registeryMutex.unlock();
-        } */
+        }
         registry.systemsManager();
     }
 }
