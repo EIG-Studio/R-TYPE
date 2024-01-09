@@ -6,9 +6,7 @@
 */
 
 #include "ECS.hpp"
-#include "Systems.hpp"
 #include "commandsToServer.hpp"
-#include "components.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
 #include "menu/inLoopGame.hpp"
