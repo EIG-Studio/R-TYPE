@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "button.hpp"
 #include "commandsToServer.hpp"
 #include "menu/inGame.hpp"
 #include "menu/menus.hpp"
