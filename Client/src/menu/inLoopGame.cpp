@@ -7,6 +7,9 @@
 
 #include "menu/inLoopGame.hpp"
 
+#ifdef _WIN32
+    #include <windows.h>
+#endif
 
 void InLoopGame::gameInLoop(
     sf::Event& event,
