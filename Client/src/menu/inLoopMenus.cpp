@@ -24,7 +24,7 @@ void InLoopMenus::choiceMenuInLoop(
     Button& playButton,
     Button& settingsButton,
     Button& exitButton,
-    Game& game,
+    HostOrJoinMenu& hostOrJoinMenu,
     CommandsToServer& commandsToServer,
     SettingMenu& settingMenu)
 {
@@ -34,7 +34,7 @@ void InLoopMenus::choiceMenuInLoop(
     exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
     if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-        game.onGame = true;
+        hostOrJoinMenu.onHostOrJoin = true;
         choiceMenu.onChoice = false;
         commandsToServer.sendToServerAsync("LOGIN");
         commandsToServer.sendToServerAsync("UPDATE");
@@ -64,22 +64,32 @@ void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& wi
     windowManager.getWindow().draw(settingMenu);
 }
 
-void InLoopMenus::hostOrJoinMenuInLoop(HostOrJoinMenu& hostOrJoinMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
+void InLoopMenus::hostOrJoinMenuInLoop(
+    HostOrJoinMenu& hostOrJoinMenu,
+    WindowManager& windowManager,
+    ChoiceMenu& choiceMenu,
+    Button& retourButton,
+    Button& hostButton,
+    Button& joinButton)
 {
-    retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
     hostOrJoinMenu.setCursorPosition(windowManager.getWindow());
+    retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    hostButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    joinButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
     if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
     }
+    hostButton.draw(windowManager.getWindow());
+    joinButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
     windowManager.getWindow().draw(hostOrJoinMenu);
 }
 
 void InLoopMenus::lobbyMenuInLoop(LobbyMenu& lobbyMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
 {
-    retourButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     lobbyMenu.setCursorPosition(windowManager.getWindow());
+    retourButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
         choiceMenu.onChoice = true;

@@ -25,6 +25,7 @@ void handleWindowEvents(
     WindowManager& windowManager,
     Menu& menu,
     ChoiceMenu& choiceMenu,
+    HostOrJoinMenu& hostOrJoinMenu,
     Game& game,
     Sprite& sprite,
     Music& music)
@@ -43,6 +44,7 @@ void handleWindowEvents(
             sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
             menu.setPath(sprite);
             choiceMenu.setPath(sprite);
+            hostOrJoinMenu.setPath(sprite);
             music.setPath(sprite);
             game.setPath(sprite);
             music.musicMenu.play();
@@ -55,6 +57,7 @@ void handleWindowEvents(
             sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
             menu.setPath(sprite);
             choiceMenu.setPath(sprite);
+            hostOrJoinMenu.setPath(sprite);
             music.setPath(sprite);
             game.setPath(sprite);
             music.musicMenu.play();
@@ -84,6 +87,7 @@ void menuChoice(
     Music& music,
     sf::Clock& clock,
     ChoiceMenu& choiceMenu,
+    HostOrJoinMenu& hostOrJoinMenu,
     ButtonManager& buttonManager,
     Game& game,
     CommandsToServer& commandsToServer,
@@ -103,9 +107,17 @@ void menuChoice(
             buttonManager.getPlayButton(),
             buttonManager.getSettingsButton(),
             buttonManager.getExitButton(),
-            game,
+            hostOrJoinMenu,
             commandsToServer,
             settingMenu);
+    } else if (hostOrJoinMenu.onHostOrJoin) {
+        introMenu.hostOrJoinMenuInLoop(
+            hostOrJoinMenu,
+            windowManager,
+            choiceMenu,
+            buttonManager.getRetourButton(),
+            buttonManager.getHostButton(),
+            buttonManager.getJoinButton());
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
     } else if (game.onGame) {
@@ -138,6 +150,8 @@ int main()
     menu.setPath(sprite);
     ChoiceMenu choiceMenu;
     choiceMenu.setPath(sprite);
+    HostOrJoinMenu hostOrJoinMenu;
+    hostOrJoinMenu.setPath(sprite);
     SettingMenu settingMenu;
     settingMenu.setPath(sprite);
     Game game;
@@ -158,7 +172,7 @@ int main()
     commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
     while (windowManager.getWindow().isOpen()) {
         sf::Event event{};
-        handleWindowEvents(event, windowManager, menu, choiceMenu, game, sprite, music);
+        handleWindowEvents(event, windowManager, menu, choiceMenu, hostOrJoinMenu, game, sprite, music);
         updateFpsText(windowManager, fpsText, clock, frameCount);
         menuChoice(
             menu,
@@ -167,6 +181,7 @@ int main()
             music,
             clock,
             choiceMenu,
+            hostOrJoinMenu,
             buttonManager,
             game,
             commandsToServer,

@@ -93,6 +93,24 @@ public:
         2.0f,
         "To Menu",
         m_font,
+        20),
+    m_hostButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 100),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Host",
+        m_font,
+        20),
+    m_joinButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Join",
+        m_font,
         20)
     {
     }
@@ -120,6 +138,14 @@ public:
     Button& getToMenuButton()
     {
         return m_toMenuButton;
+    }
+    Button& getHostButton()
+    {
+        return m_hostButton;
+    }
+    Button& getJoinButton()
+    {
+        return m_joinButton;
     }
 
 private:
@@ -184,6 +210,24 @@ private:
             "Settings",
             m_font,
             20);
+        m_hostButton = Button(
+            sf::Vector2f(200, 50),
+            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
+            sf::Color::Black,
+            sf::Color::White,
+            2.0f,
+            "Host",
+            m_font,
+            20);
+        m_joinButton = Button(
+            sf::Vector2f(200, 50),
+            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 100),
+            sf::Color::Black,
+            sf::Color::White,
+            2.0f,
+            "Join",
+            m_font,
+            20);
     }
 
     sf::RenderWindow& m_window;
@@ -194,4 +238,6 @@ private:
     Button m_exitButton;
     Button m_resumeButton;
     Button m_toMenuButton;
+    Button m_hostButton;
+    Button m_joinButton;
 };
