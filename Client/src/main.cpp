@@ -115,7 +115,18 @@ void menuChoice(
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
     } else if (game.onGame) {
-        inLoopGame.gameInLoop(event, windowManager, game, commandsToServer, sprite, onGameClock, registry);
+        inLoopGame.gameInLoop(
+            event,
+            windowManager,
+            game,
+            commandsToServer,
+            sprite,
+            onGameClock,
+            registry,
+            buttonManager.getResumeButton(),
+            buttonManager.getToMenuButton(),
+            choiceMenu.getCursorPosX(),
+            choiceMenu.getCursorPosY());
     }
 }
 

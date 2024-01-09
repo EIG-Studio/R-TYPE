@@ -75,6 +75,24 @@ public:
         2.0f,
         "Exit",
         m_font,
+        20),
+    m_resumeButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 - 60),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "Resume",
+        m_font,
+        20),
+    m_toMenuButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "To Menu",
+        m_font,
         20)
     {
     }
@@ -94,6 +112,14 @@ public:
     Button& getExitButton()
     {
         return m_exitButton;
+    }
+    Button& getResumeButton()
+    {
+        return m_resumeButton;
+    }
+    Button& getToMenuButton()
+    {
+        return m_toMenuButton;
     }
 
 private:
@@ -138,6 +164,26 @@ private:
             "Exit",
             m_font,
             20);
+
+        m_resumeButton = Button(
+            sf::Vector2f(200, 50),
+            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 60),
+            sf::Color::Black,
+            sf::Color::White,
+            2.0f,
+            "Play",
+            m_font,
+            20);
+
+        m_toMenuButton = Button(
+            sf::Vector2f(200, 50),
+            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
+            sf::Color::Black,
+            sf::Color::White,
+            2.0f,
+            "Settings",
+            m_font,
+            20);
     }
 
     sf::RenderWindow& m_window;
@@ -146,4 +192,6 @@ private:
     Button m_settingsButton;
     Button m_retourButton;
     Button m_exitButton;
+    Button m_resumeButton;
+    Button m_toMenuButton;
 };

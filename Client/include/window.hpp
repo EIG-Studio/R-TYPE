@@ -9,6 +9,7 @@
 #pragma once
 
 #include "SFML/Graphics/Image.hpp"
+#include "button.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>

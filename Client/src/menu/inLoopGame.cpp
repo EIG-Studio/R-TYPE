@@ -15,8 +15,14 @@ void InLoopGame::gameInLoop(
     CommandsToServer& commandsToServer,
     Sprite& sprite,
     sf::Clock& onGameClock,
-    Registry& registry)
+    Registry& registry,
+    Button& resumeButton,
+    Button& toMenuButton,
+    float cursorPosX,
+    float cursorPosY)
 {
+    resumeButton.checkHover(cursorPosX, cursorPosY);
+    toMenuButton.checkHover(cursorPosX, cursorPosY);
     std::vector<Entity> players = registry.getListPlayers();
     std::vector<Entity> ennemies = registry.getListEnemies();
     std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
@@ -60,4 +66,6 @@ void InLoopGame::gameInLoop(
     for (auto& playerProjectile : playersProjectiles) {
         renderSystem(playerProjectile, registry, windowManager.getWindow());
     }
+    resumeButton.draw(windowManager.getWindow());
+    toMenuButton.draw(windowManager.getWindow());
 }

@@ -6,6 +6,7 @@
 */
 
 #pragma once
+
 #include "Systems.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
@@ -22,7 +23,11 @@ public:
         CommandsToServer& commandsToServer,
         Sprite& sprite,
         sf::Clock& onGameClock,
-        Registry& registry);
+        Registry& registry,
+        Button& settingsButton,
+        Button& exitButton,
+        float cursorPosX,
+        float cursorPosY);
 
 private:
 };
