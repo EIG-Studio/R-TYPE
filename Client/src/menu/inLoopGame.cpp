@@ -17,7 +17,8 @@ void InLoopGame::gameInLoop(
     sf::Clock& onGameClock,
     Registry& registry,
     Button& resumeButton,
-    Button& toMenuButton)
+    Button& toMenuButton,
+    ChoiceMenu& choiceMenu)
 {
     game.setCursorPosition(windowManager.getWindow());
     resumeButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
@@ -27,6 +28,7 @@ void InLoopGame::gameInLoop(
     }
     if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
         game.onGame = false;
+        choiceMenu.onChoice = true;
     }
     std::vector<Entity> players = registry.getListPlayers();
     std::vector<Entity> ennemies = registry.getListEnemies();

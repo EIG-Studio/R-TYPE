@@ -11,6 +11,7 @@
 #include "entities.hpp"
 #include "menu/inGame.hpp"
 #include "window.hpp"
+#include "menu/inLoopMenus.hpp"
 
 class InLoopGame
 {
@@ -25,7 +26,8 @@ public:
         sf::Clock& onGameClock,
         Registry& registry,
         Button& settingsButton,
-        Button& exitButton);
+        Button& exitButton,
+        ChoiceMenu& choiceMenu);
 
 private:
 };

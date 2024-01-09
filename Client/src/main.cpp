@@ -118,7 +118,8 @@ void menuChoice(
             onGameClock,
             registry,
             buttonManager.getResumeButton(),
-            buttonManager.getToMenuButton());
+            buttonManager.getToMenuButton(),
+            choiceMenu);
     }
 }
 

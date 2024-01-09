@@ -67,3 +67,44 @@ private:
     int         m_tempMouseY;
 };
 
+class HostOrJoinMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    HostOrJoinMenu();
+    ~HostOrJoinMenu() override = default;
+    void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
+    bool onSetting;
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite  m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite  m_cursorSprite;
+    int         m_tempMouseX;
+    int         m_tempMouseY;
+};
+
+class LobbybMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    LobbybMenu();
+    ~LobbybMenu() override = default;
+    void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
+    bool onSetting;
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite  m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite  m_cursorSprite;
+    int         m_tempMouseX;
+    int         m_tempMouseY;
+};
