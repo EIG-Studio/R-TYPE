@@ -83,6 +83,42 @@ void updateFpsText(WindowManager& windowManager, sf::Text& fpsText, sf::Clock& c
     }
 }
 
+void menuChoice(
+    Menu& menu,
+    InLoopMenus& introMenu,
+    WindowManager& windowManager,
+    Music& music,
+    sf::Clock& clock,
+    ChoiceMenu& choiceMenu,
+    ButtonManager& buttonManager,
+    Game& game,
+    CommandsToServer& commandsToServer,
+    SettingMenu& settingMenu,
+    InLoopGame& inLoopGame,
+    sf::Event& event,
+    Sprite& sprite,
+    sf::Clock& onGameClock,
+    Registry& registry)
+{
+    if (menu.onMenu) {
+        introMenu.introMenuInLoop(menu, windowManager, music, clock);
+    } else if (choiceMenu.onChoice) {
+        introMenu.choiceMenuInLoop(
+            windowManager,
+            choiceMenu,
+            buttonManager.getPlayButton(),
+            buttonManager.getSettingsButton(),
+            buttonManager.getExitButton(),
+            game,
+            commandsToServer,
+            settingMenu);
+    } else if (settingMenu.onSetting) {
+        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
+    } else if (game.onGame) {
+        inLoopGame.gameInLoop(event, windowManager, game, commandsToServer, sprite, onGameClock, registry);
+    }
+}
+
 int main()
 {
     WindowManager windowManager;
@@ -120,23 +156,22 @@ int main()
         sf::Event event{};
         handleWindowEvents(event, windowManager, menu, choiceMenu, game, sprite, music);
         updateFpsText(windowManager, fpsText, clock, frameCount);
-        if (menu.onMenu) {
-            introMenu.introMenuInLoop(menu, windowManager, music, clock);
-        } else if (choiceMenu.onChoice) {
-            introMenu.choiceMenuInLoop(
-                windowManager,
-                choiceMenu,
-                buttonManager.getPlayButton(),
-                buttonManager.getSettingsButton(),
-                buttonManager.getExitButton(),
-                game,
-                commandsToServer,
-                settingMenu);
-        } else if (settingMenu.onSetting) {
-            introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
-        } else if (game.onGame) {
-            inLoopGame.gameInLoop(event, windowManager, game, commandsToServer, sprite, onGameClock, registry);
-        }
+        menuChoice(
+            menu,
+            introMenu,
+            windowManager,
+            music,
+            clock,
+            choiceMenu,
+            buttonManager,
+            game,
+            commandsToServer,
+            settingMenu,
+            inLoopGame,
+            event,
+            sprite,
+            onGameClock,
+            registry);
         windowManager.getWindow().draw(fpsText);
         windowManager.getWindow().display();
     }
