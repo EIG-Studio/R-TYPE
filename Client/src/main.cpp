@@ -88,6 +88,7 @@ void menuChoice(
     sf::Clock& clock,
     ChoiceMenu& choiceMenu,
     HostOrJoinMenu& hostOrJoinMenu,
+    LobbyMenu& lobbyMenu,
     ButtonManager& buttonManager,
     Game& game,
     CommandsToServer& commandsToServer,
@@ -108,16 +109,25 @@ void menuChoice(
             buttonManager.getSettingsButton(),
             buttonManager.getExitButton(),
             hostOrJoinMenu,
-            commandsToServer,
             settingMenu);
     } else if (hostOrJoinMenu.onHostOrJoin) {
         introMenu.hostOrJoinMenuInLoop(
             hostOrJoinMenu,
             windowManager,
             choiceMenu,
+            lobbyMenu,
             buttonManager.getRetourButton(),
             buttonManager.getHostButton(),
             buttonManager.getJoinButton());
+    } else if (lobbyMenu.onLobby) {
+        introMenu.lobbyMenuInLoop(
+            lobbyMenu,
+            windowManager,
+            hostOrJoinMenu,
+            game,
+            commandsToServer,
+            buttonManager.getRetourButton(),
+            buttonManager.getStartButton());
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
     } else if (game.onGame) {
@@ -152,6 +162,8 @@ int main()
     choiceMenu.setPath(sprite);
     HostOrJoinMenu hostOrJoinMenu;
     hostOrJoinMenu.setPath(sprite);
+    LobbyMenu lobbyMenu;
+    lobbyMenu.setPath(sprite);
     SettingMenu settingMenu;
     settingMenu.setPath(sprite);
     Game game;
@@ -182,6 +194,7 @@ int main()
             clock,
             choiceMenu,
             hostOrJoinMenu,
+            lobbyMenu,
             buttonManager,
             game,
             commandsToServer,

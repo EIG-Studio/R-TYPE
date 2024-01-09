@@ -25,7 +25,6 @@ void InLoopMenus::choiceMenuInLoop(
     Button& settingsButton,
     Button& exitButton,
     HostOrJoinMenu& hostOrJoinMenu,
-    CommandsToServer& commandsToServer,
     SettingMenu& settingMenu)
 {
     choiceMenu.setCursorPosition(windowManager.getWindow());
@@ -36,8 +35,6 @@ void InLoopMenus::choiceMenuInLoop(
         sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         hostOrJoinMenu.onHostOrJoin = true;
         choiceMenu.onChoice = false;
-        commandsToServer.sendToServerAsync("LOGIN");
-        commandsToServer.sendToServerAsync("UPDATE");
     }
     if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
         settingMenu.onSetting = true;
@@ -68,6 +65,7 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     HostOrJoinMenu& hostOrJoinMenu,
     WindowManager& windowManager,
     ChoiceMenu& choiceMenu,
+    LobbyMenu& lobbyMenu,
     Button& retourButton,
     Button& hostButton,
     Button& joinButton)
@@ -76,6 +74,10 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
     hostButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
     joinButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    if (hostButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+        hostOrJoinMenu.onHostOrJoin = false;
+        lobbyMenu.onLobby = true;
+    }
     if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
@@ -86,14 +88,29 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     windowManager.getWindow().draw(hostOrJoinMenu);
 }
 
-void InLoopMenus::lobbyMenuInLoop(LobbyMenu& lobbyMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
+void InLoopMenus::lobbyMenuInLoop(
+    LobbyMenu& lobbyMenu,
+    WindowManager& windowManager,
+    HostOrJoinMenu& hostOrJoinMenu,
+    Game& game,
+    CommandsToServer& commandsToServer,
+    Button& retourButton,
+    Button& startButton)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
+    startButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     retourButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    if (startButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
+        lobbyMenu.onLobby = false;
+        game.onGame = true;
+        commandsToServer.sendToServerAsync("LOGIN");
+        commandsToServer.sendToServerAsync("UPDATE");
+    }
     if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
-        choiceMenu.onChoice = true;
+        hostOrJoinMenu.onHostOrJoin = true;
     }
+    startButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
     windowManager.getWindow().draw(lobbyMenu);
 }

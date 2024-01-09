@@ -26,17 +26,24 @@ public:
         Button& settingsButton,
         Button& exitButton,
         HostOrJoinMenu& hostOrJoinMenu,
-        CommandsToServer& commandsToServer,
         SettingMenu& settingMenu);
     void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
     void hostOrJoinMenuInLoop(
         HostOrJoinMenu& hostOrJoinMenu,
         WindowManager& windowManager,
         ChoiceMenu& choiceMenu,
+        LobbyMenu& lobbyMenu,
         Button& retourButton,
         Button& hostButton,
         Button& joinButton);
-    void lobbyMenuInLoop(LobbyMenu& lobbyMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
+    void lobbyMenuInLoop(
+        LobbyMenu& lobbyMenu,
+        WindowManager& windowManager,
+        HostOrJoinMenu& hostOrJoinMenu,
+        Game& game,
+        CommandsToServer& commandsToServer,
+        Button& retourButton,
+        Button& startButton);
 
 private:
 };
