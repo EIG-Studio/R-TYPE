@@ -9,6 +9,7 @@
 
 int WindowManager::initWindow()
 {
+    this->m_movementSpeed = 5.0f;
     this->m_millisecondsPerSecond = 1000;
     this->m_maxFPS = 144;
     this->m_millisecondsPerFrame = m_millisecondsPerSecond / m_maxFPS;
@@ -42,6 +43,11 @@ sf::Image& WindowManager::getIcon()
 sf::RenderWindow& WindowManager::getWindow()
 {
     return *this->m_window;
+}
+
+float WindowManager::getMovementSpeed() const
+{
+    return this->m_movementSpeed;
 }
 
 float WindowManager::getMillisecondsPerSecond() const

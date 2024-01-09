@@ -7,16 +7,6 @@
 
 #include "menu/inLoopGame.hpp"
 
-void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsToServer)
-{
-    if (m_clock.getElapsedTime().asMilliseconds() < 500)
-        return;
-    m_clock.restart();
-    for (auto& entity : registry.getListEntities()) {
-        commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()));
-    }
-}
-
 void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
@@ -42,7 +32,6 @@ void InLoopGame::gameInLoop(
     sf::Time renderElapsed = onGameClock.getElapsedTime();
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
-    refreshRegistry(registry, commandsToServer);
     std::vector<Entity> players = registry.getListPlayers();
     std::vector<Entity> ennemies = registry.getListEnemies();
     std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
@@ -73,9 +62,11 @@ void InLoopGame::gameInLoop(
         }
     }
     commandsToServer.mutex.unlock();
-    game.moveParallax();
-    game.repeatParallax();
-    onGameClock.restart();
+    if (renderElapsed.asMilliseconds() > windowManager.getMillisecondsPerFrame()) {
+        game.moveParallax();
+        game.repeatParallax();
+        onGameClock.restart();
+    }
     windowManager.getWindow().draw(game);
     commandsToServer.mutex.lock();
     try {
