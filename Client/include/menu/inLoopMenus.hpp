@@ -29,6 +29,8 @@ public:
         CommandsToServer& commandsToServer,
         SettingMenu& settingMenu);
     void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
+    void hostOrJoinMenuInLoop(HostOrJoinMenu& hostOrJoinMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
+    void lobbyMenuInLoop(LobbyMenu& lobbyMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
 
 private:
 };

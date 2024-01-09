@@ -76,7 +76,7 @@ public:
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
-    bool onSetting;
+    bool onHostOrJoin;
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -88,16 +88,16 @@ private:
     int         m_tempMouseY;
 };
 
-class LobbybMenu : public sf::Drawable, public sf::Transformable
+class LobbyMenu : public sf::Drawable, public sf::Transformable
 {
 public:
-    LobbybMenu();
-    ~LobbybMenu() override = default;
+    LobbyMenu();
+    ~LobbyMenu() override = default;
     void setPath(Sprite mSprite);
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
-    bool onSetting;
+    bool onLobby;
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

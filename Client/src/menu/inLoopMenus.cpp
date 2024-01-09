@@ -63,3 +63,27 @@ void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& wi
     retourButton.draw(windowManager.getWindow());
     windowManager.getWindow().draw(settingMenu);
 }
+
+void InLoopMenus::hostOrJoinMenuInLoop(HostOrJoinMenu& hostOrJoinMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
+{
+    retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    hostOrJoinMenu.setCursorPosition(windowManager.getWindow());
+    if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+        hostOrJoinMenu.onHostOrJoin = false;
+        choiceMenu.onChoice = true;
+    }
+    retourButton.draw(windowManager.getWindow());
+    windowManager.getWindow().draw(hostOrJoinMenu);
+}
+
+void InLoopMenus::lobbyMenuInLoop(LobbyMenu& lobbyMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
+{
+    retourButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    lobbyMenu.setCursorPosition(windowManager.getWindow());
+    if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
+        lobbyMenu.onLobby = false;
+        choiceMenu.onChoice = true;
+    }
+    retourButton.draw(windowManager.getWindow());
+    windowManager.getWindow().draw(lobbyMenu);
+}
