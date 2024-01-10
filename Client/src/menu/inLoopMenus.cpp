@@ -112,5 +112,6 @@ void InLoopMenus::lobbyMenuInLoop(
     }
     startButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
+    windowManager.getWindow().draw(lobbyMenu.getIpAdress());
     windowManager.getWindow().draw(lobbyMenu);
 }

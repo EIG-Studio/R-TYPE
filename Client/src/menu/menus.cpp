@@ -1,5 +1,7 @@
 #include "menu/menus.hpp"
 
+#include <utility>
+
 #include "button.hpp"
 
 //----------Basic Menu----------//
@@ -337,6 +339,16 @@ float LobbyMenu::getCursorPosX()
 float LobbyMenu::getCursorPosY()
 {
     return this->m_cursorSprite.getPosition().y;
+}
+
+void LobbyMenu::setIpAdress(sf::Text mIpAdress)
+{
+    this->m_ipAddressText = std::move(mIpAdress);
+}
+
+sf::Text LobbyMenu::getIpAdress()
+{
+    return this->m_ipAddressText;
 }
 
 void LobbyMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
