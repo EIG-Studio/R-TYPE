@@ -27,6 +27,7 @@ void iaSystem(Entity entity, Registry& registry);
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window);
 
 enum COMMAND {
+    EMPTY,
     NEW,
     LOGIN,
     UP,
@@ -35,16 +36,13 @@ enum COMMAND {
     RIGHT,
     NEW_PLAYER,
     NEW_ENNEMY,
-    MOVE_ENNEMY,
     DELETE,
     PLAYER_PROJECTILE,
-    MOVE_PROJECTILE,
     REFRESH,
     NEW_POS,
     UPDATE,
     SHOOT,
     UNKNOWN, 
-    EMPTY
 };
 
 COMMAND getCommand(const std::string& commandStr);
