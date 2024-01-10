@@ -61,6 +61,7 @@ private:
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void ennemyMove(Registry& registry, Entity& entity, std::size_t id);
     void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
+    void projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> ennemies);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
