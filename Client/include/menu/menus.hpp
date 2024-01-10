@@ -1,6 +1,14 @@
+/*
+** EPITECH PROJECT, 2024
+** R-TYPE
+** File description:
+** menus
+*/
+
 #pragma once
 
 #include "sprite/sprite.hpp"
+#include "ipAdress.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
 {
@@ -79,7 +87,7 @@ public:
     float getCursorPosY();
     void setInputText(sf::Text text);
     sf::Text getInputText();
-    void inputText(sf::Event& event);
+    void inputText(sf::Event& event, IpAdress& ipAdress);
     std::string getUserInput();
     bool onHostOrJoin;
 

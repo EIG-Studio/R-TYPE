@@ -11,6 +11,7 @@
 #include "../../GameEngine/include/entities.hpp"
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
+#include "ipAdress.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
@@ -26,7 +27,7 @@ public:
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
+    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress);
     void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void HandleMovement(
@@ -38,12 +39,13 @@ public:
         float deltaY,
         const std::string& path,
         float windowLimit,
-        float spriteLimit);
+        float spriteLimit,
+        IpAdress& ipAdress);
     void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
-    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType);
+    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress);
     std::string InputTypeToString(sf::Keyboard::Key key);
     void colidePlayer();
-    void shooting(CommandsToServer& commandsToServer, Registry& registry);
+    void shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void isPaused();
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();

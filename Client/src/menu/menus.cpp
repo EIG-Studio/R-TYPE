@@ -261,7 +261,7 @@ void HostOrJoinMenu::setCursorPosition(sf::RenderWindow& window)
 }
 
 #include <iostream>
-void HostOrJoinMenu::inputText(sf::Event& event)
+void HostOrJoinMenu::inputText(sf::Event& event, IpAdress& ipAdress)
 {
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode >= 48 && event.text.unicode <= 57 || event.text.unicode == 46 || event.text.unicode == 8) {
@@ -273,6 +273,7 @@ void HostOrJoinMenu::inputText(sf::Event& event)
                     this->m_userInput.pop_back();
                     this->m_inputText.setString(this->m_userInput);
                 }
+                ipAdress.setUserInput(this->m_userInput);
             }
         }
     }

@@ -121,7 +121,8 @@ void menuChoice(
     sf::Event& event,
     Sprite& sprite,
     sf::Clock& onGameClock,
-    Registry& registry)
+    Registry& registry,
+    IpAdress& ipAdress)
 {
     if (menu.onMenu) {
         introMenu.introMenuInLoop(menu, windowManager, music, clock);
@@ -140,10 +141,13 @@ void menuChoice(
             windowManager,
             choiceMenu,
             lobbyMenu,
+            game,
+            commandsToServer,
             buttonManager.getRetourButton(),
             buttonManager.getHostButton(),
             buttonManager.getJoinButton(),
-            event);
+            event,
+            ipAdress);
     } else if (lobbyMenu.onLobby) {
         introMenu.lobbyMenuInLoop(
             lobbyMenu,
@@ -152,7 +156,8 @@ void menuChoice(
             game,
             commandsToServer,
             buttonManager.getRetourButton(),
-            buttonManager.getStartButton());
+            buttonManager.getStartButton(),
+            ipAdress);
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
     } else if (game.onGame) {
@@ -167,7 +172,8 @@ void menuChoice(
             registry,
             buttonManager.getResumeButton(),
             buttonManager.getToMenuButton(),
-            choiceMenu);
+            choiceMenu,
+            ipAdress);
     }
 }
 
@@ -187,6 +193,7 @@ int main()
     sf::Clock clock;
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
+    IpAdress ipAdress;
     Sprite sprite;
     Menu menu;
     menu.setPath(sprite);
@@ -252,7 +259,8 @@ int main()
             event,
             sprite,
             onGameClock,
-            registry);
+            registry,
+            ipAdress);
         windowManager.getWindow().draw(fpsText);
         windowManager.getWindow().display();
     }

@@ -142,7 +142,7 @@ void handleReceive(
     }
 }
 
-void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
+void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, IpAdress& ipAdress)
 {
     std::cout << "Sending: " << msg << std::endl;
     TransferData data{};
@@ -161,7 +161,7 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
     }
     unsigned char buffer[sizeof(TransferData)];
     std::memcpy(buffer, &data, sizeof(TransferData));
-    boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
+    boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string(ipAdress.getUserInput()), 7171);
     socket.async_send_to(boost::asio::buffer(buffer), receiverEndpoint, [](const boost::system::error_code& ec, std::size_t bytes_transferred) {
         if (ec) {
             std::cerr << "Send error: " << ec.message() << std::endl;
@@ -182,13 +182,13 @@ void CommandsToServer::asyncReceiveSecondSocket(Registry& registry)
     });
 }
 
-std::future<void> CommandsToServer::sendToServerAsync(std::string msg)
+std::future<void> CommandsToServer::sendToServerAsync(std::string msg, IpAdress& ipAdress)
 {
     std::shared_ptr<std::promise<void>> promise = std::make_shared<std::promise<void>>();
 
-    m_ioService.post([this, msg, promise]() {
+    m_ioService.post([this, msg, promise, &ipAdress]() {
         try {
-            sendToServer(m_socket, msg);
+            sendToServer(m_socket, msg, ipAdress);
             promise->set_value();
         } catch (const std::exception& e) {
             promise->set_exception(std::current_exception());
