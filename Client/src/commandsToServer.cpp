@@ -49,7 +49,8 @@ void handleReceive(
     const boost::system::error_code& error,
     size_t len,
     unsigned char buffer[sizeof(TransferData)],
-    std::string& /*mNewPos*/)
+    std::string& /*mNewPos*/,
+    Music& music)
 {
     if (!error && len == 0) {
         std::cout << "No data received, non-blocking return." << std::endl;
@@ -136,9 +137,11 @@ void handleReceive(
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (receivedData.command == DELETE) {
             registry.deleteById(receivedData.args[0]);
+        } else if (receivedData.command == PLAY_BOOM_ENNEMIES) {
+            music.boomEnnemies.play();
+        } else if (error) {
+            std::cerr << "Error in handleReceive: " << error.message() << std::endl;
         }
-    } else if (error) {
-        std::cerr << "Error in handleReceive: " << error.message() << std::endl;
     }
 }
 
@@ -175,14 +178,14 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     });
 }
 
-void CommandsToServer::asyncReceiveSecondSocket(Registry& registry)
+void CommandsToServer::asyncReceiveSecondSocket(Registry& registry, Music& music)
 {
-    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry](auto&& pH1, auto&& pH2) {
+    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music](auto&& pH1, auto&& pH2) {
         this->mutex.lock();
-        handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos);
+        handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music);
         this->mutex.unlock();
         memset(m_buffer, 0, sizeof(TransferData));
-        asyncReceiveSecondSocket(std::ref(registry));
+        asyncReceiveSecondSocket(std::ref(registry), music);
     });
 }
 

@@ -39,6 +39,7 @@ public:
 
     std::string getMainSongPath();
     std::string getShootSoundPath();
+    std::string getBoomEnnemiesPath();
 
 private:
     std::string m_pathLogo;
@@ -56,4 +57,5 @@ private:
 
     std::string m_pathMainSong;
     std::string m_pathShootSound;
+    std::string m_pathBoomEnnemies;
 };

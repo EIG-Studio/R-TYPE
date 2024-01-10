@@ -11,6 +11,7 @@
 #include "components.hpp"
 #include "entities.hpp"
 #include "ipAdress.hpp"
+#include "music/sounds.hpp"
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -58,7 +59,7 @@ public:
 
     std::future<void> sendToServerAsync(std::string msg, IpAdress& ipAdress);
     void asyncReceive(Registry& registry);
-    void asyncReceiveSecondSocket(Registry& registry);
+    void asyncReceiveSecondSocket(Registry& registry, Music& music);
     std::mutex mutex;
 
 private:
