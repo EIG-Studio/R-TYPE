@@ -15,7 +15,7 @@ void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_
 
     if (positionComponent.getPosition().first > 800) {
         registry.deleteById(id);
-        addMessage("DELETE_PROJECTILE " + std::to_string(id) + "\n");
+        addMessage("DELETE " + std::to_string(id) + "\n");
         return;
     }
 
@@ -34,7 +34,7 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first < -100) {
-        addMessage("DELETE_ENNEMY " + std::to_string(id) + "\n");
+        addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
         this->createEnnemy(registry);
         return;
@@ -52,7 +52,6 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
 
 void Server::GameLoop(Registry& registry)
 {
-
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         m_registeryMutex.lock();
@@ -69,14 +68,5 @@ void Server::GameLoop(Registry& registry)
             playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
             m_registeryMutex.unlock();
         }
-
-        // for (auto& client : m_clients) {
-        //     if (client.getTimeout() > 100) {
-        //         std::cout << "Client " << client.getId() << " timed out" << std::endl;
-        //         m_clients.erase(std::remove(m_clients.begin(), m_clients.end(), client), m_clients.end());
-        //         break;
-        //     }
-        //     client.setTimeout(client.getTimeout() + 1);
-        // }
     }
 }

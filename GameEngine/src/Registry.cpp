@@ -44,14 +44,23 @@ void Registry::destroyEntity(Entity entity)
 }
 #include <iostream>
 
+std::string Registry::systemsManager()
+{
+    if (!m_entities.empty())
+        for (const Entity& entity : m_entities) {
+            // shootingSystem(entity, *this);
+            // deathSystem(entity, *this);
+            movementSystem(entity, *this);
+            // collisionSystem(entity, m_entities, *this);
+        }
+    return "Hello";
+}
+
 std::string Registry::systemsManager(sf::RenderWindow& window)
 {
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
-            shootingSystem(entity, *this);
-            deathSystem(entity, *this);
-            movementSystem(entity, *this);
-            collisionSystem(entity, m_entities, *this);
+            // movementSystem(entity, *this);
             renderSystem(entity, *this, window);
         }
     return "Hello";
@@ -232,9 +241,4 @@ void Registry::destroyEnnemy(std::vector<Entity> ennemyList)
     std::pair<float, float> pairPos = ennemyPos.getPosition();
     std::cout << "ENNEMY POS X: " << pairPos.first << std::endl;
     std::cout << "ENNEMY POS Y: " << pairPos.second << std::endl;
-    //if (playerPosY <= ennemyPosY + 40 && playerPosY >= ennemyPosY - 15) {
-    //    std::cout << "BOOM !!!!" << std::endl;
-    //}
-
-    //sf::Vertex line[] = {sf::Vertex(sf::Vector2f(10, ennemyPosY + 20)), sf::Vertex(sf::Vector2f(10, ennemyPosY - 30))};
 }

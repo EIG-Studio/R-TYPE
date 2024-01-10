@@ -32,9 +32,6 @@ void InLoopGame::gameInLoop(
     sf::Time renderElapsed = onGameClock.getElapsedTime();
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
-    std::vector<Entity> players = registry.getListPlayers();
-    std::vector<Entity> ennemies = registry.getListEnemies();
-    std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
     try {
         game.movePlayer(
             std::ref(registry),
@@ -63,10 +60,6 @@ void InLoopGame::gameInLoop(
     }
     commandsToServer.mutex.unlock();
     if (renderElapsed.asMilliseconds() > windowManager.getMillisecondsPerFrame()) {
-        // game.moveEnnemies(commandsToServer, registry, ennemies);
-        // std::vector<Entity> ennemies = registry.getListEnemies();
-        // game.movePlayerProjectile(commandsToServer, registry, playersProjectiles);
-        // std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
         game.moveParallax();
         game.repeatParallax();
         onGameClock.restart();
@@ -74,15 +67,7 @@ void InLoopGame::gameInLoop(
     windowManager.getWindow().draw(game);
     commandsToServer.mutex.lock();
     try {
-        for (auto& player : players) {
-            renderSystem(player, registry, windowManager.getWindow());
-        }
-        for (auto& ennemy : ennemies) {
-            renderSystem(ennemy, registry, windowManager.getWindow());
-        }
-        for (auto& playerProjectile : playersProjectiles) {
-            renderSystem(playerProjectile, registry, windowManager.getWindow());
-        }
+        registry.systemsManager(windowManager.getWindow());
         if (game.onPause) {
             resumeButton.draw(windowManager.getWindow());
             toMenuButton.draw(windowManager.getWindow());

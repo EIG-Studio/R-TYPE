@@ -1,18 +1,79 @@
 <h1 align="center">R-TYPE</h1>
 
+<div align="center">
+    <a href="https://img.shields.io/badge/MADE%20WITH-SFML-brightgreen" alt="SFML">
+            <img src="https://img.shields.io/badge/MADE%20WITH-SFML-brightgreen" /></a>
+    <a href="https://img.shields.io/badge/MADE%20WITH-C%2B%2B-ff69b4" alt="C++">
+            <img src="https://img.shields.io/badge/MADE%20WITH-C%2B%2B-ff69b4" /></a>
+    <a href="https://img.shields.io/badge/MADE%20WITH-CONAN-blueviolet" alt="Conan">
+            <img src="https://img.shields.io/badge/MADE%20WITH-CONAN-blueviolet" /></a>
+    <a href="https://img.shields.io/badge/MADE%20WITH-CMAKE-red" alt="Cmake">
+            <img src="https://img.shields.io/badge/MADE%20WITH-CMAKE-red" /></a>
+</div>
+
 <p align="center">
 <img src="Docs/assets/R-type_logo.webp" alt="R-TYPE" width="50%">
 </p>
 
 ![Build check](https://github.com/R-TYPE-Polo/R-TYPE/actions/workflows/build_check.yml/badge.svg)
 
+## Introduction
+
+R-Type is a classic horizontally scrolling shoot 'em up arcade game that gained iconic status since its debut in the late 1980s. Developed and published by Irem, this space-themed shooter is renowned for its challenging gameplay, innovative mechanics, and impressive graphics for its time.
+
+Players control the R-9a Arrowhead spacecraft, armed with a unique force pod that can be attached to the front or rear of the ship, providing both offensive and defensive capabilities.
+
+R-Type's difficulty level and intense action set it apart, contributing to its enduring popularity and influencing the shoot 'em up genre. The game has seen numerous adaptations and releases across various platforms, securing its place as a beloved classic in the history of video games.
+
 ## 👾 About
 
 The goal of this project is to implement a multithreaded server and a graphical client for a well-known legacy video game called R-Type, using our own game engine design.
 
+## Install 🔧
+
+**Linux:**
+
+```sh
+./run.sh
+```
+
+**Windows:**
+
+```sh
+in progress
+```
+
+## Usage Example
+
+**Products to be delivered**
+`samurai_server` `samurai_client`
+
+**In Terminal**
+
+```sh
+./samurai_server
+```
+
+**In another terminal**
+
+```sh
+./samurai_client
+```
+
+## Constraints
+
+* **implemented a networked game, where one-to-four players will be able to fight together**
+* **Crosse-platform (CMake Linux & CMake Windows)**
+* **use a binary Protocol who send structure of data**
+* **Create a ECS GameEngine**
+
 ## 📖 Documentation
 
 You can find more information about the project [here](https://github.com/R-TYPE-Polo/R-TYPE/wiki).
+
+## Contributing
+
+This repository thrives on your contributions! ❤️ To get involved, see the [CONTRIBUTING.md](CONTRIBUTING.md). 🙏
 
 ## 🧑‍💻 Student on the project
 

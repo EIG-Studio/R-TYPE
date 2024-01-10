@@ -23,7 +23,7 @@ void Server::startListening(Registry& registry)
 
 void Server::startSending()
 {
-    transferData data;
+    TransferData data;
     while (true) {
         data = {.command = EMPTY};
         this->m_mutex.lock();
@@ -42,10 +42,10 @@ void Server::startSending()
     }
 }
 
-void Server::sendMessage(transferData data)
+void Server::sendMessage(TransferData data)
 {
-    unsigned char buffer[sizeof(transferData)];
-    std::memcpy(buffer, &data, sizeof(transferData));
+    unsigned char buffer[sizeof(TransferData)];
+    std::memcpy(buffer, &data, sizeof(TransferData));
 
     for (const auto& client : m_clients) {
         m_socket.async_send_to(boost::asio::buffer(buffer), client.getEndpoint(), [](const boost::system::error_code&, std::size_t) {

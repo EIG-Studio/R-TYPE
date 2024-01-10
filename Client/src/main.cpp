@@ -5,7 +5,6 @@
 ** main
 */
 
-#include "ECS.hpp"
 #include "commandsToServer.hpp"
 #include "entities.hpp"
 #include "menu/inGame.hpp"
@@ -21,6 +20,8 @@
 #include <SFML/System.hpp>
 
 #include <boost/asio.hpp>
+
+#include <cstdlib>
 
 std::string getLocalIpAddress()
 {
@@ -40,6 +41,7 @@ std::string getLocalIpAddress()
     return "Failed to retrieve IP address";
 }
 
+
 void handleWindowEvents(
     sf::Event& event,
     WindowManager& windowManager,
@@ -51,8 +53,10 @@ void handleWindowEvents(
     Music& music)
 {
     while (windowManager.getWindow().pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed) {
             windowManager.getWindow().close();
+            exit(0);
+        }
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Joystick::isButtonPressed(0, 7)) && menu.onMenu) {
             menu.onMenu = false;
             choiceMenu.onChoice = true;

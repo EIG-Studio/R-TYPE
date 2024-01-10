@@ -65,15 +65,11 @@ public:
     template <typename T>
     T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line);
 
+    std::string systemsManager();
     std::string systemsManager(sf::RenderWindow& window);
 
     template <typename T>
     bool hasComponent(Entity& entity, T component);
-
-    // void setWindow(sf::RenderWindow window)
-    // {
-    //     m_window = std::move(window);
-    // }
 
 private:
     std::vector<Entity> m_entities;
@@ -133,7 +129,7 @@ template <typename T>
 T& Registry::getComponentT(Entity& entity, T component, const char* file, const char* fn, int line)
 {
     for (auto& mComponent : entity.mComponents) {
-        try {
+        try {   
             std::any_cast<T>(mComponent);
             return std::any_cast<T&>(mComponent);
         } catch (const std::bad_any_cast&) {

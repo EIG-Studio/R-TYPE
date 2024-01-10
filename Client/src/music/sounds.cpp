@@ -6,6 +6,7 @@
 */
 
 #include "music/sounds.hpp"
+#include <iostream>
 
 Music::Music()
 {

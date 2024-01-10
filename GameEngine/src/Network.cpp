@@ -7,7 +7,8 @@
 #include "Systems.hpp"
 
 static std::map<std::string, COMMAND> commandMap = {
-    {"NEW", NEW},
+    {"EMPTY", EMPTY},
+    {"DELETE", DELETE},
     {"LOGIN", LOGIN},
     {"UP", UP},
     {"DOWN", DOWN},
@@ -16,13 +17,12 @@ static std::map<std::string, COMMAND> commandMap = {
     {"NEW_PLAYER", NEW_PLAYER},
     {"NEW_ENNEMY", NEW_ENNEMY},
     {"MOVE_ENNEMY", MOVE_ENNEMY},
-    {"DELETE_ENNEMY", DELETE_ENNEMY},
     {"PLAYER_PROJECTILE", PLAYER_PROJECTILE},
     {"MOVE_PROJECTILE", MOVE_PROJECTILE},
-    {"DELETE_PROJECTILE", DELETE_PROJECTILE},
     {"NEW_POS", NEW_POS},
     {"UPDATE", UPDATE},
     {"SHOOT", SHOOT},
+    {"REFRESH", REFRESH},
     {"UNKNOWN", UNKNOWN}
 };
 

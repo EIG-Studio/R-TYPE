@@ -9,7 +9,6 @@
 
 #include "../../GameEngine/include/components.hpp"
 #include "../../GameEngine/include/entities.hpp"
-#include "ECS.hpp"
 #include "commandsToServer.hpp"
 #include "sprite/sprite.hpp"
 
