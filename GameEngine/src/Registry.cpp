@@ -38,7 +38,7 @@ void Registry::destroyEntity(Entity entity)
         size_t entityID = any_cast<ID>((*it).mComponents[0]).getID();
         if (entityID == id) {
             std::cout << "Destroying entity with ID: " << entityID << std::endl;
-            m_entities.erase(it);
+            m_toDelete.push_back(id);
             return;
         }
     }
@@ -56,6 +56,10 @@ std::string Registry::systemsManager()
             movementSystem(entity, *this);
             collisionSystem(entity, m_entities, *this);
         }
+    for (auto& id : m_toDelete) {
+        this->deleteById(id);
+    }
+    m_toDelete.clear();
     return "Hello";
 }
 
