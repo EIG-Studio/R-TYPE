@@ -35,16 +35,15 @@ enum COMMAND {
     RIGHT,
     NEW_PLAYER,
     NEW_ENNEMY,
-    MOVE_ENNEMY,
     DELETE,
     PLAYER_PROJECTILE,
-    MOVE_PROJECTILE,
     REFRESH,
     NEW_POS,
     UPDATE,
     SHOOT,
-    UNKNOWN, 
-    EMPTY
+    UNKNOWN,
+    EMPTY,
+    ALIVE,
 };
 
 COMMAND getCommand(const std::string& commandStr);

@@ -9,10 +9,10 @@
 
 #include "Systems.hpp"
 #include "entities.hpp"
+#include "ipAdress.hpp"
 #include "menu/inGame.hpp"
 #include "menu/inLoopMenus.hpp"
 #include "window.hpp"
-#include "ipAdress.hpp"
 
 class InLoopGame
 {
@@ -33,6 +33,8 @@ public:
         IpAdress& ipAdress);
 
 private:
-    void refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress);
+    void refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress);
+    void PingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress);
     sf::Clock m_clock;
+    sf::Clock m_clock2;
 };

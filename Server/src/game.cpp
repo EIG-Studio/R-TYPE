@@ -49,7 +49,6 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
     registry.setEntity(entity, id);
 }
 
-
 void Server::GameLoop(Registry& registry)
 {
     while (true) {

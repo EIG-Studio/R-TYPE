@@ -26,16 +26,16 @@ void Server::startSending()
     TransferData data;
     while (true) {
         data = {.command = EMPTY};
-        this->m_mutex.lock();
+        this->m_MessageMutex.lock();
         if (!m_messages.empty()) {
             data = m_messages.back();
         }
-        this->m_mutex.unlock();
+        this->m_MessageMutex.unlock();
         if (!(data.command == EMPTY)) {
             sendMessage(data);
-            this->m_mutex.lock();
+            this->m_MessageMutex.lock();
             m_messages.pop_back();
-            this->m_mutex.unlock();
+            this->m_MessageMutex.unlock();
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(010));
         }
@@ -59,5 +59,23 @@ void Server::addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std
         Client client(clientEndpoint, id);
         m_clients.push_back(client);
         std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
+    }
+}
+
+void Server::PlayerLoop(Registry& registry)
+{
+    while (1) {
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+        for (auto& client : m_clients) {
+            if (!client.isAlive()) {
+                addMessage("DELETE " + std::to_string(client.getId()) + "\n");
+                m_registeryMutex.lock();
+                registry.deleteById(client.getId());
+                m_registeryMutex.unlock();
+            }
+            m_ClientMutex.lock();
+            client.setAlive(false);
+            m_ClientMutex.unlock();
+        }
     }
 }

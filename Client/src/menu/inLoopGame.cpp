@@ -17,6 +17,13 @@ void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsT
     }
 }
 
+void InLoopGame::PingServer(CommandsToServer &commandsToServer, IpAdress& ipAdress) {
+    if (m_clock2.getElapsedTime().asMilliseconds() < 1000)
+        return;
+    m_clock2.restart();
+    commandsToServer.sendToServerAsync("ALIVE", ipAdress);
+}
+
 void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
@@ -45,6 +52,7 @@ void InLoopGame::gameInLoop(
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
     refreshRegistry(registry, commandsToServer, ipAdress);
+    PingServer(commandsToServer, ipAdress);
     try {
         game.movePlayer(
             std::ref(registry),
