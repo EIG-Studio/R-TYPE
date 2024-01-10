@@ -35,7 +35,8 @@ public:
         LobbyMenu& lobbyMenu,
         Button& retourButton,
         Button& hostButton,
-        Button& joinButton);
+        Button& joinButton,
+        sf::Event& event);
     void lobbyMenuInLoop(
         LobbyMenu& lobbyMenu,
         WindowManager& windowManager,
