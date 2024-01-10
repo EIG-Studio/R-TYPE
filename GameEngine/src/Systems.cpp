@@ -19,6 +19,10 @@
 
 void shootingSystem(Entity entity, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
+    if (!registry.hasEntity(registry.getComponent(entity, ID{}).getID()))
+        return;
     if (!registry.hasComponent(entity, Shooter{}) || !registry.hasComponent(entity, Position{}))
         return;
 
@@ -30,6 +34,8 @@ void shootingSystem(Entity entity, Registry& registry)
 
 void deathSystem(Entity entity, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
     if (!registry.hasComponent(entity, HealthPoint{}))
         return;
 
@@ -41,26 +47,40 @@ void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 {
     if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
         return;
-
+    std::cout << "damage done from ID : " << registry.getComponent(entity, ID{}).getID() << std::endl;
     auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
     healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
+    registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
 }
 
 void movementSystem(Entity entity, Registry& registry)
 {
-    if (!registry.hasComponent(entity, Speed{}) || !registry.hasComponent(entity, Velocity{}) ||
-        !registry.hasComponent(entity, Position{}))
+    if (entity.mComponents.empty())
         return;
 
-    auto& position = registry.getComponent(entity, Position{});
-    auto& velocity = registry.getComponent(entity, Velocity{});
-    auto& speed = registry.getComponent(entity, Speed{});
+    if (registry.hasComponent(entity, Speed{}) && registry.hasComponent(entity, Velocity{}) &&
+        registry.hasComponent(entity, Position{})) {
 
-    position.setPosition(
-        {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
-         position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
+        auto& position = registry.getComponent(entity, Position{});
+        auto& velocity = registry.getComponent(entity, Velocity{});
+        auto& speed = registry.getComponent(entity, Speed{});
 
-    registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
+        position.setPosition(
+            {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
+             position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
+        registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
+    }
+
+    if (registry.hasComponent(entity, HitBox{}) && registry.hasComponent(entity, Position{})) {
+
+        auto& position = registry.getComponent(entity, Position{});
+        auto& hitbox = registry.getComponent(entity, HitBox{});
+
+        hitbox.setHitBoxPosition(std::make_pair(position.getPosition().first, position.getPosition().second), hitbox.getSize());
+        registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
+    }
+
+
 }
 
 void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
@@ -74,13 +94,12 @@ void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
     positionEntity.setPosition({positionEntity.getPosition().first + 1, positionEntity.getPosition().second + 1});
     positionOtherEntity.setPosition(
         {positionOtherEntity.getPosition().first - 1, positionOtherEntity.getPosition().second - 1});
+    registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
+    registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
 }
 
 void collisionPlayer(const Entity& entity, Entity otherEntity, Registry& registry)
 {
-    if (registry.hasComponent(otherEntity, Type{}))
-        return;
-
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
         return;
 
@@ -95,9 +114,6 @@ void collisionPlayer(const Entity& entity, Entity otherEntity, Registry& registr
 
 void collisionEnemy(const Entity& entity, Entity otherEntity, Registry& registry)
 {
-    if (registry.hasComponent(otherEntity, Type{}))
-        return;
-
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy)
         return;
@@ -112,16 +128,15 @@ void collisionEnemy(const Entity& entity, Entity otherEntity, Registry& registry
 
 void collisionProjectile(const Entity& entity, Entity otherEntity, Registry& registry)
 {
-    if (registry.hasComponent(otherEntity, Type{}))
-        return;
-
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player)
         return;
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
-        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile)
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile) {
         damagedSystem(entity, otherEntity, registry);
+        registry.destroyEntity(entity);
+    }
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall)
         registry.destroyEntity(entity);
@@ -133,8 +148,34 @@ bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<flo
     return x > origin.first && x < origin.first + end.first && y > origin.second && y < origin.second + end.second;
 }
 
+bool checkCollisionForFourCorners(Entity entity, Entity otherEntity, Registry& registry)
+{
+    if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
+        return false;
+
+    float x = registry.getComponent(otherEntity, HitBox{}).getOriPos().first;
+    float y = registry.getComponent(otherEntity, HitBox{}).getOriPos().second;
+    std::pair<float, float> otherEnd = registry.getComponent(otherEntity, HitBox{}).getSize();
+    std::pair<float, float> origin = registry.getComponent(entity, HitBox{}).getOriPos();
+    std::pair<float, float> end = registry.getComponent(entity, HitBox{}).getSize();
+
+    bool topLeft = checkHitBox(x, y, origin, end);
+    bool topRight = checkHitBox(x + otherEnd.first, y, origin, end);
+    bool bottomLeft = checkHitBox(x, y + otherEnd.second, origin, end);
+    bool bottomRight = checkHitBox(x + otherEnd.first, y + otherEnd.second, origin, end);
+
+    if (topLeft || topRight || bottomLeft || bottomRight) {
+        return true;
+    }
+
+    return false;
+}
+
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
+
     std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
         {EntityType::Player, collisionPlayer},
         {EntityType::Enemy, collisionEnemy},
@@ -148,11 +189,12 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
 
     entityType = registry.getComponent(entity, Type{}).getEntityType();
     for (auto& otherEntity : entities) {
-        if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
+        if (!registry.hasComponent(otherEntity, HitBox{}) || !registry.hasComponent(otherEntity, Type{}))
             continue;
         if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID())
             continue;
-
+        if (!checkCollisionForFourCorners(entity, otherEntity, registry))
+            continue;
         auto it = map.find(entityType);
         if (it != map.end()) {
             it->second(entity, otherEntity, registry);
@@ -170,6 +212,9 @@ void iaSystem(Entity entity, Registry& registry)
 #include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
+    if (entity.mComponents.empty())
+        return;
+
     if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) || !registry.hasComponent(entity, Type{}))
         return;
 

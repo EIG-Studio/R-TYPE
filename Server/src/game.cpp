@@ -68,7 +68,7 @@ void Server::GameLoop(Registry& registry)
             oss << "NEW_POS " << registry.getComponent(playerProjectile, ID{}).getID() << " "
                 << registry.getComponent(playerProjectile, Position{}).getPosition().first << " "
                 << registry.getComponent(playerProjectile, Position{}).getPosition().second << "\n";
-            std::cout << "LEs Projectil: " << oss.str();
+            // std::cout << "LEs Projectil: " << oss.str();
             addMessage(oss.str());
             // playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
             m_registeryMutex.unlock();

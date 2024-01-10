@@ -51,6 +51,10 @@ void Server::createEnnemy(Registry& registry)
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(randNb(5, 10));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
+    HealthPoint healthpointComponent = HealthPoint(20);
+    HitBox hitboxComponent = HitBox(
+        std::make_pair(positionComponent.getPosition().first, positionComponent.getPosition().second),
+        std::make_pair(417, 154));
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
@@ -58,6 +62,8 @@ void Server::createEnnemy(Registry& registry)
     entity = registry.addComponent(entity, sizeComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
+    entity = registry.addComponent(entity, healthpointComponent);
+    entity = registry.addComponent(entity, hitboxComponent);
 
     std::ostringstream newPlayer2;
     newPlayer2 << "NEW_ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
@@ -68,7 +74,6 @@ void Server::createEnnemy(Registry& registry)
 
 void Server::createBullet(Registry& registry, int posx, int posy)
 {
-
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(posx, posy));
@@ -76,6 +81,8 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     Speed speedComponent(7);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
     Velocity velocityComponent = Velocity();
+    Damage damageComponent = Damage(10);
+    HitBox hitboxComponent = HitBox(std::make_pair(posx, posy), std::make_pair(274, 85));
 
     velocityComponent.setVelocity(1, 0);
 
@@ -85,6 +92,8 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
     entity = registry.addComponent(entity, velocityComponent);
+    entity = registry.addComponent(entity, damageComponent);
+    entity = registry.addComponent(entity, hitboxComponent);
 
     std::ostringstream newPlayerProjectile;
     newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
@@ -100,7 +109,7 @@ void Server::addMessage(const std::string& message)
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
-    std::cout << "sending: " << message;
+    // std::cout << "sending: " << message;
     std::string word;
     iss >> word;
     data.command = getCommand(word);
