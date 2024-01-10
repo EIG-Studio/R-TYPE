@@ -21,10 +21,12 @@ int main()
         std::thread serverThread(&Server::startListening, &server, std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
         std::thread serverThread3(&Server::GameLoop, &server, std::ref(registry));
+        std::thread serverThread4(&Server::PlayerLoop, &server, std::ref(registry));
 
         serverThread.join();
         serverThread2.join();
         serverThread3.join();
+        serverThread4.join();
 
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
