@@ -12,6 +12,7 @@
 #include "menu/inGame.hpp"
 #include "menu/inLoopMenus.hpp"
 #include "window.hpp"
+#include "ipAdress.hpp"
 
 class InLoopGame
 {
@@ -21,15 +22,17 @@ public:
         sf::Event& event,
         WindowManager& windowManager,
         Game& game,
+        Music& music,
         CommandsToServer& commandsToServer,
         Sprite& sprite,
         sf::Clock& onGameClock,
         Registry& registry,
         Button& resumeButton,
         Button& toMenuButton,
-        ChoiceMenu& choiceMenu);
+        ChoiceMenu& choiceMenu,
+        IpAdress& ipAdress);
 
 private:
-    void refreshRegistry(Registry &registry, CommandsToServer &commandsToServer);
+    void refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress);
     sf::Clock m_clock;
 };

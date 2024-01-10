@@ -15,7 +15,6 @@ Sprite::Sprite()
     this->m_pathTitle         = "../Client/assets/MainMenu/samuraiTitle.png";
     this->m_pathFont          = "../Client/assets/Fonts/retro.ttf";
     this->m_pathCursor        = "../Client/assets/Cursor/cursor_64.png";
-    this->m_pathMainSong      = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
     this->m_pathBack          = "../Client/assets/Background/city_1/1.png";
     this->m_pathVeryBackBuild = "../Client/assets/Background/city_1/2.png";
     this->m_pathBackBuild     = "../Client/assets/Background/city_1/3.png";
@@ -23,6 +22,8 @@ Sprite::Sprite()
     this->m_pathFrontBuild    = "../Client/assets/Background/city_1/5.png";
     this->m_pathPlayer        = "../Client/assets/Cars/189_neutral.png";
     this->m_pathEnnemy        = "../Client/assets/Cars/cars/190.png";
+    this->m_pathMainSong      = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
+    this->m_pathShootSound    = "../Client/assets/Songs/shoot.wav";
     this->easterEgg           = false;
 }
 
@@ -78,12 +79,6 @@ std::string Sprite::getCursorPath()
     return this->m_pathCursor;
 }
 
-
-std::string Sprite::getMainSongPath()
-{
-    return this->m_pathMainSong;
-}
-
 std::string Sprite::getBackPath()
 {
     return this->m_pathBack;
@@ -117,4 +112,14 @@ std::string Sprite::getPlayerPath()
 std::string Sprite::getEnnemyPath()
 {
     return this->m_pathEnnemy;
+}
+
+std::string Sprite::getMainSongPath()
+{
+    return this->m_pathMainSong;
+}
+
+std::string Sprite::getShootSoundPath()
+{
+    return this->m_pathShootSound;
 }

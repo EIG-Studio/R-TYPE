@@ -81,8 +81,6 @@ void handleReceive(
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
-            int xSize = receivedData.args[3];
-            int ySize = receivedData.args[4];
 
             log("id= " + std::to_string(id) + "| xPos= " + std::to_string(xPos) + "| yPos= " + std::to_string(yPos));
 
@@ -92,20 +90,26 @@ void handleReceive(
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
-            player = registry.addComponent(player, Size(std::make_pair(xSize, ySize)));
+            player = registry.addComponent(
+                player,
+                Size(std::make_pair(
+                    103 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().width,
+                    56.25 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().height)));
             registry.setEntity(player, id);
         } else if (receivedData.command == NEW_ENNEMY) {
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
-            int xSize = receivedData.args[3];
-            int ySize = receivedData.args[4];
 
             Entity ennemy = registry.createEntityWithID(id);
             ennemy = registry.addComponent(ennemy, Position(std::make_pair(xPos, yPos)));
             ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
             ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
-            ennemy = registry.addComponent(ennemy, Size(std::make_pair(xSize, ySize)));
+            ennemy = registry.addComponent(
+                ennemy,
+                Size(std::make_pair(
+                    103 / registry.getComponent(ennemy, Renderer{}).getRenderer().getLocalBounds().width,
+                    56.25 / registry.getComponent(ennemy, Renderer{}).getRenderer().getLocalBounds().height)));
 
             Position ennemyPos = registry.getComponent(ennemy, Position{});
             std::pair<int, int> pairPos = ennemyPos.getPosition();
@@ -116,14 +120,16 @@ void handleReceive(
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
-            int xSize = receivedData.args[3];
-            int ySize = receivedData.args[4];
 
             Entity playerProjectile = registry.createEntityWithID(id);
             playerProjectile = registry.addComponent(playerProjectile, Position(std::make_pair(xPos, yPos)));
             playerProjectile = registry.addComponent(playerProjectile, Renderer("../Client/assets/Cars/movement parts/thruster/flame.png"));
             playerProjectile = registry.addComponent(playerProjectile, Type(std::any_cast<EntityType>(Player_Projectile)));
-            playerProjectile = registry.addComponent(playerProjectile, Size(std::make_pair(xSize, ySize)));
+            playerProjectile = registry.addComponent(
+                playerProjectile,
+                Size(std::make_pair(
+                    68.5 / registry.getComponent(playerProjectile, Renderer{}).getRenderer().getLocalBounds().width,
+                    21.25 / registry.getComponent(playerProjectile, Renderer{}).getRenderer().getLocalBounds().height)));
 
             Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
             std::pair<int, int> pairPos = playerProjectilePos.getPosition();
@@ -136,9 +142,10 @@ void handleReceive(
     }
 }
 
-void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
+void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, IpAdress& ipAdress)
 {
-    std::cout << "Sending: " << msg << std::endl;
+    std::cout << "\033[1;31m"
+              << "[CLIENT]: \033[0m" << msg << std::endl;
     TransferData data{};
     std::istringstream iss(msg);
     std::string word;
@@ -155,7 +162,7 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg)
     }
     unsigned char buffer[sizeof(TransferData)];
     std::memcpy(buffer, &data, sizeof(TransferData));
-    boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171);
+    boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string(ipAdress.getUserInput()), 7171);
     socket.async_send_to(boost::asio::buffer(buffer), receiverEndpoint, [](const boost::system::error_code& ec, std::size_t bytes_transferred) {
         if (ec) {
             std::cerr << "Send error: " << ec.message() << std::endl;
@@ -176,13 +183,13 @@ void CommandsToServer::asyncReceiveSecondSocket(Registry& registry)
     });
 }
 
-std::future<void> CommandsToServer::sendToServerAsync(std::string msg)
+std::future<void> CommandsToServer::sendToServerAsync(std::string msg, IpAdress& ipAdress)
 {
     std::shared_ptr<std::promise<void>> promise = std::make_shared<std::promise<void>>();
 
-    m_ioService.post([this, msg, promise]() {
+    m_ioService.post([this, msg, promise, &ipAdress]() {
         try {
-            sendToServer(m_socket, msg);
+            sendToServer(m_socket, msg, ipAdress);
             promise->set_value();
         } catch (const std::exception& e) {
             promise->set_exception(std::current_exception());

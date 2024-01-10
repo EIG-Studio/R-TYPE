@@ -19,7 +19,28 @@
 
 #include <SFML/System.hpp>
 
+#include <boost/asio.hpp>
+
 #include <cstdlib>
+
+std::string getLocalIpAddress()
+{
+    boost::asio::io_service ioService;
+    boost::asio::ip::udp::resolver resolver(ioService);
+
+    boost::asio::ip::udp::resolver::query query(boost::asio::ip::host_name(), "");
+    boost::asio::ip::udp::resolver::iterator iter = resolver.resolve(query);
+
+    while (iter != boost::asio::ip::udp::resolver::iterator()) {
+        boost::asio::ip::udp::endpoint endpoint = *iter++;
+        if (endpoint.address().is_v4()) {
+            return endpoint.address().to_string();
+        }
+    }
+
+    return "Failed to retrieve IP address";
+}
+
 
 void handleWindowEvents(
     sf::Event& event,
@@ -100,7 +121,8 @@ void menuChoice(
     sf::Event& event,
     Sprite& sprite,
     sf::Clock& onGameClock,
-    Registry& registry)
+    Registry& registry,
+    IpAdress& ipAdress)
 {
     if (menu.onMenu) {
         introMenu.introMenuInLoop(menu, windowManager, music, clock);
@@ -119,9 +141,13 @@ void menuChoice(
             windowManager,
             choiceMenu,
             lobbyMenu,
+            game,
+            commandsToServer,
             buttonManager.getRetourButton(),
             buttonManager.getHostButton(),
-            buttonManager.getJoinButton());
+            buttonManager.getJoinButton(),
+            event,
+            ipAdress);
     } else if (lobbyMenu.onLobby) {
         introMenu.lobbyMenuInLoop(
             lobbyMenu,
@@ -130,7 +156,8 @@ void menuChoice(
             game,
             commandsToServer,
             buttonManager.getRetourButton(),
-            buttonManager.getStartButton());
+            buttonManager.getStartButton(),
+            ipAdress);
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
     } else if (game.onGame) {
@@ -138,13 +165,15 @@ void menuChoice(
             event,
             windowManager,
             game,
+            music,
             commandsToServer,
             sprite,
             onGameClock,
             registry,
             buttonManager.getResumeButton(),
             buttonManager.getToMenuButton(),
-            choiceMenu);
+            choiceMenu,
+            ipAdress);
     }
 }
 
@@ -164,6 +193,7 @@ int main()
     sf::Clock clock;
     sf::Clock onGameClock;
     CommandsToServer commandsToServer;
+    IpAdress ipAdress;
     Sprite sprite;
     Menu menu;
     menu.setPath(sprite);
@@ -186,6 +216,23 @@ int main()
     fpsText.setCharacterSize(15);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
+
+    sf::Text ipAddressText;
+    ipAddressText.setFont(windowManager.getFont());
+    ipAddressText.setCharacterSize(24);
+    ipAddressText.setFillColor(sf::Color::White);
+    ipAddressText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+
+    std::string ipAddress = getLocalIpAddress();
+    ipAddressText.setString(ipAddress);
+    lobbyMenu.setIpAdress(ipAddressText);
+
+    sf::Text text;
+    text.setFont(windowManager.getFont());
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2);
+    hostOrJoinMenu.setInputText(text);
 
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
@@ -212,7 +259,8 @@ int main()
             event,
             sprite,
             onGameClock,
-            registry);
+            registry,
+            ipAdress);
         windowManager.getWindow().draw(fpsText);
         windowManager.getWindow().display();
     }

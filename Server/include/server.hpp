@@ -44,6 +44,7 @@ private:
     std::mutex m_mutex;
     std::mutex m_registeryMutex;
     std::vector<Client> m_clients;
+    bool gameStarted = false;
     unsigned char m_buffer[sizeof(TransferData)];
 
     void handleReceivedData(
@@ -55,10 +56,6 @@ private:
     void addMessage(const std::string& message);
     std::size_t createPlayer(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
-    void goUp(Registry& registry, std::string& command);
-    void goDown(Registry& registry, std::string& command);
-    void goRight(Registry& registry, std::string& command);
-    void goLeft(Registry& registry, std::string& command);
     void ennemyMove(Registry& registry, Entity& entity, std::size_t id);
     void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);

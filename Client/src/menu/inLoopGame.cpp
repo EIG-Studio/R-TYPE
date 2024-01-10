@@ -7,17 +7,29 @@
 
 #include "menu/inLoopGame.hpp"
 
+void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress)
+{
+    if (m_clock.getElapsedTime().asMilliseconds() < 500)
+        return;
+    m_clock.restart();
+    for (auto &entity : registry.getListEntities()) {
+        commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
+    }
+}
+
 void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
     Game& game,
+    Music& music,
     CommandsToServer& commandsToServer,
     Sprite& sprite,
     sf::Clock& onGameClock,
     Registry& registry,
     Button& resumeButton,
     Button& toMenuButton,
-    ChoiceMenu& choiceMenu)
+    ChoiceMenu& choiceMenu,
+    IpAdress& ipAdress)
 {
     game.setCursorPosition(windowManager.getWindow());
     resumeButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
@@ -32,6 +44,7 @@ void InLoopGame::gameInLoop(
     sf::Time renderElapsed = onGameClock.getElapsedTime();
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
+    refreshRegistry(registry, commandsToServer, ipAdress);
     try {
         game.movePlayer(
             std::ref(registry),
@@ -39,13 +52,15 @@ void InLoopGame::gameInLoop(
             windowManager.getWindow().getSize().x,
             windowManager.getWindow().getSize().y,
             commandsToServer,
-            sprite);
+            sprite,
+            ipAdress);
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
     }
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::F) {
-            game.shooting(commandsToServer, registry);
+            game.shooting(commandsToServer, registry, ipAdress);
+            music.shootSound.play();
         }
     }
     if (event.type == sf::Event::KeyReleased) {
@@ -55,7 +70,7 @@ void InLoopGame::gameInLoop(
     }
     if (event.type == sf::Event::JoystickButtonReleased && game.onGame) {
         if (event.joystickButton.button == sf::Joystick::Y) {
-            game.shooting(commandsToServer, registry);
+            game.shooting(commandsToServer, registry, ipAdress);
         }
     }
     commandsToServer.mutex.unlock();

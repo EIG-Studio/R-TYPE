@@ -7,6 +7,9 @@
 
 #include "menu/inLoopMenus.hpp"
 
+#include "SFML/Window/Event.hpp"
+#include "menu/menus.hpp"
+
 void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Music& music, sf::Clock& clock)
 {
     if (music.playMenuMusic) {
@@ -66,9 +69,13 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     WindowManager& windowManager,
     ChoiceMenu& choiceMenu,
     LobbyMenu& lobbyMenu,
+    Game& game,
+    CommandsToServer& commandsToServer,
     Button& retourButton,
     Button& hostButton,
-    Button& joinButton)
+    Button& joinButton,
+    sf::Event& event,
+    IpAdress& ipAdress)
 {
     hostOrJoinMenu.setCursorPosition(windowManager.getWindow());
     retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
@@ -78,10 +85,17 @@ void InLoopMenus::hostOrJoinMenuInLoop(
         hostOrJoinMenu.onHostOrJoin = false;
         lobbyMenu.onLobby = true;
     }
+    if (joinButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+        hostOrJoinMenu.onHostOrJoin = false;
+        game.onGame = true;
+        commandsToServer.sendToServerAsync("LOGIN", ipAdress);
+    }
     if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
     }
+    hostOrJoinMenu.inputText(event, ipAdress);
+    windowManager.getWindow().draw(hostOrJoinMenu.getInputText());
     hostButton.draw(windowManager.getWindow());
     joinButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
@@ -95,7 +109,8 @@ void InLoopMenus::lobbyMenuInLoop(
     Game& game,
     CommandsToServer& commandsToServer,
     Button& retourButton,
-    Button& startButton)
+    Button& startButton,
+    IpAdress& ipAdress)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
     startButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
@@ -103,7 +118,7 @@ void InLoopMenus::lobbyMenuInLoop(
     if (startButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
         game.onGame = true;
-        commandsToServer.sendToServerAsync("LOGIN");
+        commandsToServer.sendToServerAsync("LOGIN", ipAdress);
     }
     if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
@@ -111,5 +126,6 @@ void InLoopMenus::lobbyMenuInLoop(
     }
     startButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
+    windowManager.getWindow().draw(lobbyMenu.getIpAdress());
     windowManager.getWindow().draw(lobbyMenu);
 }
