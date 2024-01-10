@@ -159,6 +159,7 @@ void menuChoice(
             event,
             windowManager,
             game,
+            music,
             commandsToServer,
             sprite,
             onGameClock,

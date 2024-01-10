@@ -11,6 +11,7 @@ void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
     Game& game,
+    Music& music,
     CommandsToServer& commandsToServer,
     Sprite& sprite,
     sf::Clock& onGameClock,
@@ -46,6 +47,7 @@ void InLoopGame::gameInLoop(
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry);
+            music.shootSound.play();
         }
     }
     if (event.type == sf::Event::KeyReleased) {
