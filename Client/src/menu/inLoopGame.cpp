@@ -9,7 +9,7 @@
 
 void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsToServer)
 {
-    if (m_clock.getElapsedTime().asMilliseconds() < 500)
+    if (m_clock.getElapsedTime().asMilliseconds() < 1000)
         return;
     m_clock.restart();
     for (auto &entity : registry.getListEntities()) {

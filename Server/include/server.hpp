@@ -64,4 +64,5 @@ private:
     void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
+    bool startGame(Registry& registry);
 };

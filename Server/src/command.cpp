@@ -177,6 +177,16 @@ void Server::refreshClientRegistry(Registry& registry, int id)
     }
 }
 
+bool Server::startGame(Registry& registry)
+{
+    std::cout << "Game started" << std::endl;
+    createEnnemy(registry);
+    createEnnemy(registry);
+    createEnnemy(registry);
+    createEnnemy(registry);
+    return true;
+}
+
 void Server::handleReceivedData(
     const boost::system::error_code& error,
     std::size_t bytesReceived,
@@ -190,14 +200,8 @@ void Server::handleReceivedData(
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
-            if (!gameStarted) {
-                gameStarted = true;
-                std::cout << "Game started" << std::endl;
-                createEnnemy(registry);
-                createEnnemy(registry);
-                createEnnemy(registry);
-                createEnnemy(registry);
-            }
+            if (!gameStarted)
+                gameStarted = startGame(registry);
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);
