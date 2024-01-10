@@ -44,6 +44,7 @@ private:
     std::mutex m_mutex;
     std::mutex m_registeryMutex;
     std::vector<Client> m_clients;
+    bool gameStarted = false;
     unsigned char m_buffer[sizeof(TransferData)];
 
     void handleReceivedData(

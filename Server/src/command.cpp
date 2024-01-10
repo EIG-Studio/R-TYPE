@@ -190,6 +190,14 @@ void Server::handleReceivedData(
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
+            if (!gameStarted) {
+                gameStarted = true;
+                std::cout << "Game started" << std::endl;
+                createEnnemy(registry);
+                createEnnemy(registry);
+                createEnnemy(registry);
+                createEnnemy(registry);
+            }
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);
