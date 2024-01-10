@@ -11,7 +11,7 @@
 - [Using the Game Engine](#Using-the-Game-Engine)
     - [Public Methods of the Registry](#Public-Methods-of-the-Registry)
     - [Private Methods of the Registry](#Private-Methods-of-the-x²Registry)
-- [GameEngine Technical Documentation](techGameEgine.md)
+- [GameEngine Technical Documentation](techGameEngine.md)
 
 ## Introduction
 
