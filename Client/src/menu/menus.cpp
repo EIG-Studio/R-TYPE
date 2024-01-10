@@ -265,7 +265,7 @@ void HostOrJoinMenu::inputText(sf::Event& event, IpAdress& ipAdress)
 {
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode >= 48 && event.text.unicode <= 57 || event.text.unicode == 46 || event.text.unicode == 8) {
-            if (this->m_userInput.length() < 15) {
+            if (this->m_userInput.length() < 15 || event.text.unicode == 8) {
                 if (event.text.unicode < 128 && event.text.unicode != 8 && this->m_userInput.length() < 15) {
                     this->m_userInput += static_cast<char>(event.text.unicode);
                     this->m_inputText.setString(this->m_userInput);
