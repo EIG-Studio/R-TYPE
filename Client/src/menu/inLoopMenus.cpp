@@ -7,6 +7,9 @@
 
 #include "menu/inLoopMenus.hpp"
 
+#include "SFML/Window/Event.hpp"
+#include "menu/menus.hpp"
+
 void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Music& music, sf::Clock& clock)
 {
     if (music.playMenuMusic) {
@@ -68,7 +71,8 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     LobbyMenu& lobbyMenu,
     Button& retourButton,
     Button& hostButton,
-    Button& joinButton)
+    Button& joinButton,
+    sf::Event& event)
 {
     hostOrJoinMenu.setCursorPosition(windowManager.getWindow());
     retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
@@ -82,6 +86,8 @@ void InLoopMenus::hostOrJoinMenuInLoop(
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
     }
+    hostOrJoinMenu.inputText(event);
+    windowManager.getWindow().draw(hostOrJoinMenu.getInputText());
     hostButton.draw(windowManager.getWindow());
     joinButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
@@ -111,5 +117,6 @@ void InLoopMenus::lobbyMenuInLoop(
     }
     startButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());
+    windowManager.getWindow().draw(lobbyMenu.getIpAdress());
     windowManager.getWindow().draw(lobbyMenu);
 }

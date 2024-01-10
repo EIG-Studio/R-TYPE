@@ -105,7 +105,7 @@ public:
         20),
     m_joinButton(
         sf::Vector2f(200, 50),
-        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
+        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 + 200),
         sf::Color::Black,
         sf::Color::White,
         2.0f,

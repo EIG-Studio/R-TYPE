@@ -19,7 +19,28 @@
 
 #include <SFML/System.hpp>
 
+#include <boost/asio.hpp>
+
 #include <cstdlib>
+
+std::string getLocalIpAddress()
+{
+    boost::asio::io_service ioService;
+    boost::asio::ip::udp::resolver resolver(ioService);
+
+    boost::asio::ip::udp::resolver::query query(boost::asio::ip::host_name(), "");
+    boost::asio::ip::udp::resolver::iterator iter = resolver.resolve(query);
+
+    while (iter != boost::asio::ip::udp::resolver::iterator()) {
+        boost::asio::ip::udp::endpoint endpoint = *iter++;
+        if (endpoint.address().is_v4()) {
+            return endpoint.address().to_string();
+        }
+    }
+
+    return "Failed to retrieve IP address";
+}
+
 
 void handleWindowEvents(
     sf::Event& event,
@@ -121,7 +142,8 @@ void menuChoice(
             lobbyMenu,
             buttonManager.getRetourButton(),
             buttonManager.getHostButton(),
-            buttonManager.getJoinButton());
+            buttonManager.getJoinButton(),
+            event);
     } else if (lobbyMenu.onLobby) {
         introMenu.lobbyMenuInLoop(
             lobbyMenu,
@@ -138,6 +160,7 @@ void menuChoice(
             event,
             windowManager,
             game,
+            music,
             commandsToServer,
             sprite,
             onGameClock,
@@ -186,6 +209,23 @@ int main()
     fpsText.setCharacterSize(15);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
+
+    sf::Text ipAddressText;
+    ipAddressText.setFont(windowManager.getFont());
+    ipAddressText.setCharacterSize(24);
+    ipAddressText.setFillColor(sf::Color::White);
+    ipAddressText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+
+    std::string ipAddress = getLocalIpAddress();
+    ipAddressText.setString(ipAddress);
+    lobbyMenu.setIpAdress(ipAddressText);
+
+    sf::Text text;
+    text.setFont(windowManager.getFont());
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2);
+    hostOrJoinMenu.setInputText(text);
 
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 

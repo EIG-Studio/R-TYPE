@@ -7,10 +7,21 @@
 
 #include "menu/inLoopGame.hpp"
 
+void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsToServer)
+{
+    if (m_clock.getElapsedTime().asMilliseconds() < 500)
+        return;
+    m_clock.restart();
+    for (auto &entity : registry.getListEntities()) {
+        commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()));
+    }
+}
+
 void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
     Game& game,
+    Music& music,
     CommandsToServer& commandsToServer,
     Sprite& sprite,
     sf::Clock& onGameClock,
@@ -32,6 +43,7 @@ void InLoopGame::gameInLoop(
     sf::Time renderElapsed = onGameClock.getElapsedTime();
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
+    refreshRegistry(registry, commandsToServer);
     try {
         game.movePlayer(
             std::ref(registry),
@@ -46,6 +58,7 @@ void InLoopGame::gameInLoop(
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry);
+            music.shootSound.play();
         }
     }
     if (event.type == sf::Event::KeyReleased) {

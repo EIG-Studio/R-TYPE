@@ -2,6 +2,8 @@
 
 #include "button.hpp"
 
+#include <utility>
+
 //----------Basic Menu----------//
 Menu::Menu()
 {
@@ -258,6 +260,40 @@ void HostOrJoinMenu::setCursorPosition(sf::RenderWindow& window)
     }
 }
 
+#include <iostream>
+void HostOrJoinMenu::inputText(sf::Event& event)
+{
+    if (event.type == sf::Event::TextEntered) {
+        if (event.text.unicode >= 48 && event.text.unicode <= 57 || event.text.unicode == 46 || event.text.unicode == 8) {
+            if (this->m_userInput.length() < 15) {
+                if (event.text.unicode < 128 && event.text.unicode != 8 && this->m_userInput.length() < 15) {
+                    this->m_userInput += static_cast<char>(event.text.unicode);
+                    this->m_inputText.setString(this->m_userInput);
+                } else if (event.text.unicode == 8 && !this->m_userInput.empty()) {
+                    this->m_userInput.pop_back();
+                    this->m_inputText.setString(this->m_userInput);
+                }
+            }
+        }
+    }
+}
+
+
+void HostOrJoinMenu::setInputText(sf::Text text)
+{
+    this->m_inputText = std::move(text);
+}
+
+sf::Text HostOrJoinMenu::getInputText()
+{
+    return this->m_inputText;
+}
+
+std::string HostOrJoinMenu::getUserInput()
+{
+    return this->m_userInput;
+}
+
 float HostOrJoinMenu::getCursorPosX()
 {
     return this->m_cursorSprite.getPosition().x;
@@ -336,6 +372,16 @@ float LobbyMenu::getCursorPosX()
 float LobbyMenu::getCursorPosY()
 {
     return this->m_cursorSprite.getPosition().y;
+}
+
+void LobbyMenu::setIpAdress(sf::Text mIpAdress)
+{
+    this->m_ipAddressText = std::move(mIpAdress);
+}
+
+sf::Text LobbyMenu::getIpAdress()
+{
+    return this->m_ipAddressText;
 }
 
 void LobbyMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const

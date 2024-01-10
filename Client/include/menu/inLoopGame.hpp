@@ -21,6 +21,7 @@ public:
         sf::Event& event,
         WindowManager& windowManager,
         Game& game,
+        Music& music,
         CommandsToServer& commandsToServer,
         Sprite& sprite,
         sf::Clock& onGameClock,
