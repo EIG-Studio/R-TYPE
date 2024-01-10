@@ -162,6 +162,9 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     }
     unsigned char buffer[sizeof(TransferData)];
     std::memcpy(buffer, &data, sizeof(TransferData));
+    if (ipAdress.getUserInput().empty()) {
+        ipAdress.setUserInput("127.0.0.1");
+    }
     boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string(ipAdress.getUserInput()), 7171);
     socket.async_send_to(boost::asio::buffer(buffer), receiverEndpoint, [](const boost::system::error_code& ec, std::size_t bytes_transferred) {
         if (ec) {

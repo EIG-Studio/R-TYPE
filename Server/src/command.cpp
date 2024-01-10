@@ -92,7 +92,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
 
 void Server::addMessage(const std::string& message)
 {
-    this->m_mutex.lock();
+    this->m_MessageMutex.lock();
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
@@ -110,7 +110,7 @@ void Server::addMessage(const std::string& message)
         i++;
     }
     m_messages.emplace_front(data);
-    this->m_mutex.unlock();
+    this->m_MessageMutex.unlock();
 }
 
 void Server::playerMove(Registry& registry, COMMAND direction, std::size_t id)
@@ -178,6 +178,16 @@ void Server::refreshClientRegistry(Registry& registry, int id)
     }
 }
 
+bool Server::startGame(Registry& registry)
+{
+    std::cout << "Game started" << std::endl;
+    createEnnemy(registry);
+    createEnnemy(registry);
+    createEnnemy(registry);
+    createEnnemy(registry);
+    return true;
+}
+
 void Server::handleReceivedData(
     const boost::system::error_code& error,
     std::size_t bytesReceived,
@@ -191,14 +201,8 @@ void Server::handleReceivedData(
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
-            if (!gameStarted) {
-                gameStarted = true;
-                std::cout << "Game started" << std::endl;
-                createEnnemy(registry);
-                createEnnemy(registry);
-                createEnnemy(registry);
-                createEnnemy(registry);
-            }
+            if (!gameStarted)
+                gameStarted = startGame(registry);
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);
@@ -212,40 +216,18 @@ void Server::handleReceivedData(
             playerMove(registry, receivedData.command, receivedData.args[0]);
         } else if (receivedData.command == REFRESH) {
             refreshClientRegistry(registry, receivedData.args[0]);
+        } else if (receivedData.command == ALIVE) {
+            m_ClientMutex.lock();
+            for (Client& client : m_clients) {
+                if (client == m_remoteEndpoint) {
+                    client.setAlive(true);
+                }
+            }
+            m_ClientMutex.unlock();
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << receivedData.command << std::endl;
             addMessage(cmd.str());
         }
     }
-}
-
-void Server::handlePositionUpdate()
-{
-    std::string posString = m_recvBuf.data();
-    std::istringstream iss(posString);
-    std::vector<std::string> tokens;
-    std::ostringstream newPos;
-    std::string token;
-
-    while (std::getline(iss, token, ' ')) {
-        tokens.push_back(token);
-    }
-
-    int newPosX = std::stoi(tokens[1]);
-    int newPosY = std::stoi(tokens[2]);
-    int moveSpeed = std::stoi(tokens[3]);
-    int direction = std::stoi(tokens[4]);
-
-    if (direction == 1)
-        newPosY -= moveSpeed;
-    else if (direction == 2)
-        newPosX += moveSpeed;
-    else if (direction == 3)
-        newPosY += moveSpeed;
-    else if (direction == 4)
-        newPosX -= moveSpeed;
-    newPos << "NEW_POS " << newPosX << " " << newPosY << "\n";
-    addMessage(newPos.str());
-    m_recvBuf.fill(0);
 }
