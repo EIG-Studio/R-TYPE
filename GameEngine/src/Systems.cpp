@@ -60,7 +60,7 @@ void movementSystem(Entity entity, Registry& registry)
         {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
          position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
 
-    velocity.setVelocity(0, 0);
+    registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
 }
 
 void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
