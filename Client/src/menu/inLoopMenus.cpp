@@ -93,6 +93,7 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
+        hostOrJoinMenu.setInputTextFromString("");
     }
     hostOrJoinMenu.inputText(event, ipAdress);
     windowManager.getWindow().draw(hostOrJoinMenu.getInputText());
@@ -123,6 +124,8 @@ void InLoopMenus::lobbyMenuInLoop(
     if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
         hostOrJoinMenu.onHostOrJoin = true;
+        
+            
     }
     startButton.draw(windowManager.getWindow());
     retourButton.draw(windowManager.getWindow());

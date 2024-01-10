@@ -285,6 +285,11 @@ void HostOrJoinMenu::setInputText(sf::Text text)
     this->m_inputText = std::move(text);
 }
 
+void HostOrJoinMenu::setInputTextFromString(std::string text)
+{
+    this->m_inputText.setString(text);
+}
+
 sf::Text HostOrJoinMenu::getInputText()
 {
     return this->m_inputText;
@@ -293,6 +298,12 @@ sf::Text HostOrJoinMenu::getInputText()
 std::string HostOrJoinMenu::getUserInput()
 {
     return this->m_userInput;
+}
+
+void HostOrJoinMenu::setUserInput(std::string userInput)
+{
+    // set string
+    this->m_userInput = std::move(userInput);
 }
 
 float HostOrJoinMenu::getCursorPosX()
