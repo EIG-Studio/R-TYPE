@@ -110,7 +110,7 @@ void Server::addMessage(const std::string& message)
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
-    std::cout << "sending: " << message;
+    // std::cout << "sending: " << message;
     std::string word;
     iss >> word;
     data.command = getCommand(word);
@@ -204,6 +204,14 @@ void Server::handleReceivedData(
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
+            if (!gameStarted) {
+                gameStarted = true;
+                std::cout << "Game started" << std::endl;
+                createEnnemy(registry);
+                createEnnemy(registry);
+                createEnnemy(registry);
+                createEnnemy(registry);
+            }
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);

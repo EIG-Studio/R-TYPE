@@ -39,8 +39,9 @@ void deathSystem(Entity entity, Registry& registry)
     if (!registry.hasComponent(entity, HealthPoint{}))
         return;
 
-    if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0)
+    if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
         registry.destroyEntity(entity);
+    }
 }
 
 void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
@@ -142,33 +143,35 @@ void collisionProjectile(const Entity& entity, Entity otherEntity, Registry& reg
         registry.destroyEntity(entity);
 }
 
-
 bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<float, float> end)
 {
-    return x > origin.first && x < origin.first + end.first && y > origin.second && y < origin.second + end.second;
+    return x >= origin.first && x <= end.first &&
+           y >= origin.second && y <= end.second;
 }
 
 bool checkCollisionForFourCorners(Entity entity, Entity otherEntity, Registry& registry)
 {
-    if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
+    if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(otherEntity, HitBox{}))
         return false;
 
-    float x = registry.getComponent(otherEntity, HitBox{}).getOriPos().first;
-    float y = registry.getComponent(otherEntity, HitBox{}).getOriPos().second;
-    std::pair<float, float> otherEnd = registry.getComponent(otherEntity, HitBox{}).getSize();
-    std::pair<float, float> origin = registry.getComponent(entity, HitBox{}).getOriPos();
-    std::pair<float, float> end = registry.getComponent(entity, HitBox{}).getSize();
+    std::pair<float, float> originEntity = registry.getComponent(entity, HitBox{}).getOriPos();
+    std::pair<float, float> sizeEntity = registry.getComponent(entity, HitBox{}).getSize();
+    std::pair<float, float> endEntity = std::make_pair(originEntity.first + sizeEntity.first, originEntity.second + sizeEntity.second);
+    std::pair<float, float> originOther = registry.getComponent(otherEntity, HitBox{}).getOriPos();
+    std::pair<float, float> sizeOther = registry.getComponent(otherEntity, HitBox{}).getSize();
 
-    bool topLeft = checkHitBox(x, y, origin, end);
-    bool topRight = checkHitBox(x + otherEnd.first, y, origin, end);
-    bool bottomLeft = checkHitBox(x, y + otherEnd.second, origin, end);
-    bool bottomRight = checkHitBox(x + otherEnd.first, y + otherEnd.second, origin, end);
+    float xOther = originOther.first;
+    float yOther = originOther.second;
+    float xOtherEnd = xOther + sizeOther.first;
+    float yOtherEnd = yOther + sizeOther.second;
 
-    if (topLeft || topRight || bottomLeft || bottomRight) {
-        return true;
-    }
+    // Check for collision
+    bool topLeft = checkHitBox(xOther, yOther, originEntity, endEntity);
+    bool topRight = checkHitBox(xOtherEnd, yOther, originEntity, endEntity);
+    bool bottomLeft = checkHitBox(xOther, yOtherEnd, originEntity, endEntity);
+    bool bottomRight = checkHitBox(xOtherEnd, yOtherEnd, originEntity, endEntity);
 
-    return false;
+    return topLeft || topRight || bottomLeft || bottomRight;
 }
 
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
