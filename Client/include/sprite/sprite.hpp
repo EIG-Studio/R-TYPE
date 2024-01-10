@@ -28,7 +28,6 @@ public:
     std::string getLogoPath();
     std::string getTitlePath();
     std::string getFontPath();
-    std::string getMainSongPath();
     std::string getBackPath();
     std::string getVeryBackBuildPath();
     std::string getBackBuildPath();
@@ -38,12 +37,14 @@ public:
     std::string getEnnemyPath();
     std::string getCursorPath();
 
+    std::string getMainSongPath();
+    std::string getShootSoundPath();
+
 private:
     std::string m_pathLogo;
     std::string m_pathTitle;
     std::string m_pathFont;
     std::string m_pathCursor;
-    std::string m_pathMainSong;
     std::string m_pathBack;
     std::string m_pathVeryBackBuild;
     std::string m_pathBackBuild;
@@ -52,4 +53,7 @@ private:
 
     std::string m_pathPlayer;
     std::string m_pathEnnemy;
+
+    std::string m_pathMainSong;
+    std::string m_pathShootSound;
 };

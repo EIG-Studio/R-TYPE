@@ -19,6 +19,7 @@ public:
     Music();
     sf::Music musicMenu;
     sf::Music musicSecret;
+    sf::Music shootSound;
     bool      playMenuMusic;
     void      setPath(Sprite mSprite);
 
