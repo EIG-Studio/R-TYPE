@@ -7,6 +7,7 @@
 
 #include "components.hpp"
 #include "entities.hpp"
+#include "ipAdress.hpp"
 #include "menu/inGame.hpp"
 
 #include <sstream>
@@ -49,7 +50,7 @@ void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
     updateSpriteTexture(sprite, texturePath);
 }
 
-void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
+void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress)
 {
     Entity player;
     try {
@@ -89,7 +90,8 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
             config.deltaY,
             config.spritePath,
             config.windowLimit,
-            config.spriteLimit);
+            config.spriteLimit,
+            ipAdress);
     }
     if (initialPosX == pairPos.first && initialPosY == pairPos.second) {
         playerRenderer.setRenderer("../Client/assets/Cars/189_neutral.png");
@@ -129,7 +131,8 @@ void Game::HandleMovement(
     float deltaY,
     const std::string& path,
     float windowLimit,
-    float spriteLimit)
+    float spriteLimit,
+    IpAdress& ipAdress)
 {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
 
@@ -142,7 +145,7 @@ void Game::HandleMovement(
     if (keyPressed) {
         std::string inputType = InputTypeToString(key);
         if (updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
-            SendInputUpdate(commandsToServer, registry, inputType);
+            SendInputUpdate(commandsToServer, registry, inputType, ipAdress);
             updateClock.restart();
         }
         if (((deltaX != 0 && pairPos.first >= 0 && pairPos.first <= windowLimit - spriteLimit) ||
@@ -153,7 +156,7 @@ void Game::HandleMovement(
     }
 }
 
-void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType)
+void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress)
 {
     std::ostringstream oss;
     Entity player;
@@ -166,15 +169,15 @@ void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
     ID player_id = registry.getComponent(player, ID{});
     oss << inputType << " " << player_id.getID();
     std::string inputString = oss.str();
-    commandsToServer.sendToServerAsync(inputString);
+    commandsToServer.sendToServerAsync(inputString, ipAdress);
 }
 
-void Game::shooting(CommandsToServer& commandsToServer, Registry& registry)
+void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getPlayer();
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
     shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
-    commandsToServer.sendToServerAsync(shooting.str());
+    commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }

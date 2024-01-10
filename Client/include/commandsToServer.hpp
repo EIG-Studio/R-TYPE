@@ -10,6 +10,7 @@
 #include "Systems.hpp"
 #include "components.hpp"
 #include "entities.hpp"
+#include "ipAdress.hpp"
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -55,7 +56,7 @@ public:
 
     std::string getNewPos() const;
 
-    std::future<void> sendToServerAsync(std::string msg);
+    std::future<void> sendToServerAsync(std::string msg, IpAdress& ipAdress);
     void asyncReceive(Registry& registry);
     void asyncReceiveSecondSocket(Registry& registry);
     std::mutex mutex;

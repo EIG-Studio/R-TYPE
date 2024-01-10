@@ -1,6 +1,14 @@
+/*
+** EPITECH PROJECT, 2024
+** R-TYPE
+** File description:
+** menus
+*/
+
 #pragma once
 
 #include "sprite/sprite.hpp"
+#include "ipAdress.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
 {
@@ -77,6 +85,10 @@ public:
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
+    void setInputText(sf::Text text);
+    sf::Text getInputText();
+    void inputText(sf::Event& event, IpAdress& ipAdress);
+    std::string getUserInput();
     bool onHostOrJoin;
 
 private:
@@ -86,6 +98,8 @@ private:
     sf::Sprite m_logoSamuraiSprite;
     sf::Texture m_cursorTexture;
     sf::Sprite m_cursorSprite;
+    sf::Text m_inputText;
+    std::string m_userInput;
     int m_tempMouseX;
     int m_tempMouseY;
 };
