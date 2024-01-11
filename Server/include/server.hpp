@@ -38,6 +38,7 @@ public:
     void createBullet(Registry& registry, int posx, int posy);
     void GameLoop(Registry& registry);
     void PlayerLoop(Registry& registry);
+    bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:
     boost::asio::io_service m_ioService;
