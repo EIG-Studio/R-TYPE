@@ -29,12 +29,10 @@ public:
 
     CommandsToServer() :
     m_socket(m_ioService),
-    m_secondSocket(m_ioService),
     m_receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171),
     m_work(std::make_unique<boost::asio::io_service::work>(m_ioService))
     {
         m_socket.open(boost::asio::ip::udp::v4());
-        m_secondSocket.open(boost::asio::ip::udp::v4());
         m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
     }
 
@@ -49,8 +47,7 @@ public:
     std::string getNewPos() const;
 
     std::future<void> sendToServerAsync(std::string msg, IpAdress& ipAdress);
-    void asyncReceive(Registry& registry);
-    void asyncReceiveSecondSocket(Registry& registry, Music& music);
+    void asyncReceive(Registry& registry, Music& music);
     std::mutex mutex;
 
 private:
@@ -61,9 +58,6 @@ private:
 
     boost::asio::ip::udp::socket m_socket;
     boost::asio::ip::udp::endpoint m_receiverEndpoint;
-
-    boost::asio::ip::udp::socket m_secondSocket;
-    boost::asio::ip::udp::endpoint m_senderEndpoint;
 
     unsigned char m_buffer[sizeof(TransferData)]{};
 };
