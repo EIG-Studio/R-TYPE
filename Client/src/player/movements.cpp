@@ -50,7 +50,14 @@ void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
     updateSpriteTexture(sprite, texturePath);
 }
 
-void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress)
+void Game::movePlayer(
+    Registry& registry,
+    float movementSpeed,
+    float winX,
+    float winY,
+    CommandsToServer& commandsToServer,
+    Sprite mSprite,
+    IpAdress& ipAdress)
 {
     Entity player;
     try {
@@ -180,4 +187,15 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     std::ostringstream shooting;
     shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
+}
+
+void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
+{
+    Entity player = registry.getPlayer();
+    ID playerId = registry.getComponent(player, ID{});
+    int id = playerId.getID();
+    std::ostringstream damage;
+
+    damage << "DAMAGE_TO_PLAYER " << 1 << " " << id;
+    commandsToServer.sendToServerAsync(damage.str(), ipAdress);
 }

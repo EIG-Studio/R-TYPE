@@ -257,3 +257,23 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(m_cursorSprite, states);
     }
 }
+
+void Game::displayHealth(Registry& registry, Music& music)
+{
+    Entity player;
+    try {
+        player = registry.getPlayer();
+    } catch (std::exception& e) {
+        std::cout << e.what();
+        return;
+    }
+    int healthPoint = registry.getComponent(player, HealthPoint{}).getHealthPoint();
+
+    std::cout << healthPoint << std::endl;
+    if (healthPoint <= 0) {
+        registry.deleteById(registry.getComponent(player, ID{}).getID());
+        music.musicMenu.stop();
+        music.killPlayer.play();
+        this->onGame = false;
+    }
+}

@@ -62,7 +62,7 @@ void handleWindowEvents(
             menu.onMenu = false;
             choiceMenu.onChoice = true;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (menu.onMenu || choiceMenu.onChoice) && !sprite.easterEgg) {
             music.musicMenu.stop();
             sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
             sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
@@ -72,25 +72,6 @@ void handleWindowEvents(
             sprite.setBackBuildPath("../Client/assets/Background/city_1/3.png");
             sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
             sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
-            menu.setPath(sprite);
-            choiceMenu.setPath(sprite);
-            hostOrJoinMenu.setPath(sprite);
-            lobbyMenu.setPath(sprite);
-            music.setPath(sprite);
-            game.setPath(sprite);
-            music.musicMenu.play();
-            sprite.easterEgg = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg) {
-            music.musicMenu.stop();
-            sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
-            sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
-            sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
-            sprite.setBackPath("../Client/assets/Background/city_2/1.png");
-            sprite.setVeryBackBuildPath("../Client/assets/Background/city_2/2.png");
-            sprite.setBackBuildPath("../Client/assets/Background/city_2/3.png");
-            sprite.setMidBuildPath("../Client/assets/Background/city_2/4.png");
-            sprite.setFrontBuildPath("../Client/assets/Background/city_2/5.png");
             menu.setPath(sprite);
             choiceMenu.setPath(sprite);
             hostOrJoinMenu.setPath(sprite);

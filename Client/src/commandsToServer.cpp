@@ -76,12 +76,27 @@ void handleReceive(
             } catch (const std::exception& e) {
                 std::cerr << "Exception in handleReceive: " << e.what() << std::endl;
             }
+        } else if (receivedData.command == NEW_HEALTH) {
+            int id = receivedData.args[0];
+            int health = receivedData.args[1];
+
+            try {
+                Entity entity = registry.getEntity(id);
+                if (registry.hasComponent(entity, HealthPoint{})) {
+                    HealthPoint& entityPos = registry.getComponent(entity, HealthPoint{});
+                    entityPos.setHealthPoint(health);
+                    registry.setEntity(entity, id);
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "Exception in handleReceive: " << e.what() << std::endl;
+            }
         } else if (receivedData.command == NEW_PLAYER) {
             std::vector<Entity> list = registry.getListEntities();
 
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
+            int healthPoint = receivedData.args[3];
 
             log("id= " + std::to_string(id) + "| xPos= " + std::to_string(xPos) + "| yPos= " + std::to_string(yPos));
 
@@ -89,6 +104,7 @@ void handleReceive(
                 return;
             Entity player = registry.createEntityWithID(id);
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
+            player = registry.addComponent(player, HealthPoint(healthPoint));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
             player = registry.addComponent(

@@ -7,17 +7,18 @@
 
 #include "menu/inLoopGame.hpp"
 
-void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress)
+void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress)
 {
     if (m_clock.getElapsedTime().asMilliseconds() < 1000)
         return;
     m_clock.restart();
-    for (auto &entity : registry.getListEntities()) {
+    for (auto& entity : registry.getListEntities()) {
         commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
     }
 }
 
-void InLoopGame::PingServer(CommandsToServer &commandsToServer, IpAdress& ipAdress) {
+void InLoopGame::PingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress)
+{
     if (m_clock2.getElapsedTime().asMilliseconds() < 1000)
         return;
     m_clock2.restart();
@@ -54,6 +55,7 @@ void InLoopGame::gameInLoop(
     refreshRegistry(registry, commandsToServer, ipAdress);
     PingServer(commandsToServer, ipAdress);
     try {
+        game.displayHealth(std::ref(registry), music);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),
@@ -69,6 +71,9 @@ void InLoopGame::gameInLoop(
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
+        }
+        if (event.key.code == sf::Keyboard::K) {
+            game.damageToPlayer(commandsToServer, registry, ipAdress);
         }
     }
     if (event.type == sf::Event::KeyReleased) {

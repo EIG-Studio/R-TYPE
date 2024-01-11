@@ -28,6 +28,7 @@ Sprite::Sprite()
     this->m_pathMainSong = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
     this->m_pathShootSound = "../Client/assets/Songs/shoot.wav";
     this->m_pathBoomEnemies = "../Client/assets/Songs/enemiesBoom.wav";
+    this->m_pathKillPlayer = "../Client/assets/Songs/death.wav";
     this->easterEgg = false;
 }
 
@@ -151,4 +152,9 @@ std::string Sprite::getShootSoundPath()
 std::string Sprite::getBoomEnemiesPath()
 {
     return this->m_pathBoomEnemies;
+}
+
+std::string Sprite::getKillPlayerPath()
+{
+    return this->m_pathKillPlayer;
 }

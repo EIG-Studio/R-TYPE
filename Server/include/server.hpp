@@ -38,6 +38,7 @@ public:
     void createBullet(Registry& registry, int posx, int posy);
     void GameLoop(Registry& registry);
     void PlayerLoop(Registry& registry);
+    void damageThePlayer(Registry& registry, int damage, int id);
 
 private:
     boost::asio::io_service m_ioService;
