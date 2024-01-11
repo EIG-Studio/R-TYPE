@@ -35,7 +35,6 @@ void InLoopMenus::choiceMenuInLoop(
     if (buttonManager.getPlayButton().checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         hostOrJoinMenu.onHostOrJoin = true;
-        hostOrJoinMenu.setInputTextFromString("127.0.0.1");
         choiceMenu.onChoice = false;
     }
     if (buttonManager.getSettingsButton().checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
@@ -70,35 +69,37 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     LobbyMenu& lobbyMenu,
     Game& game,
     CommandsToServer& commandsToServer,
-    Button& retourButton,
-    Button& hostButton,
-    Button& joinButton,
+    ButtonManager &buttonManager,
     sf::Event& event,
     IpAdress& ipAdress)
 {
     hostOrJoinMenu.setCursorPosition(windowManager.getWindow());
-    retourButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
-    hostButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
-    joinButton.checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
-    if (hostButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+    buttonManager.getRetourButton().checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    buttonManager.getHostButton().checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    buttonManager.getJoinButton().checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
+    buttonManager.getIpButton().setText(hostOrJoinMenu.getInputText().getString());
+    buttonManager.getIpButton().setPosition(sf::Vector2f(windowManager.getWindow().getSize().x / 2 - hostOrJoinMenu.getInputText().getString().getSize() * 20 / 2, windowManager.getWindow().getSize().y / 2));
+    buttonManager.getIpButton().setSize(sf::Vector2f(hostOrJoinMenu.getInputText().getString().getSize() * 20, 50));
+    if (buttonManager.getHostButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         lobbyMenu.onLobby = true;
     }
-    if (joinButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+    if (buttonManager.getJoinButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         game.onGame = true;
         commandsToServer.sendToServerAsync("LOGIN", ipAdress);
     }
-    if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+    if (buttonManager.getRetourButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
         hostOrJoinMenu.setInputTextFromString("");
     }
     hostOrJoinMenu.inputText(event, ipAdress);
     windowManager.getWindow().draw(hostOrJoinMenu.getInputText());
-    hostButton.draw(windowManager.getWindow());
-    joinButton.draw(windowManager.getWindow());
-    retourButton.draw(windowManager.getWindow());
+    buttonManager.getHostButton().draw(windowManager.getWindow());
+    buttonManager.getJoinButton().draw(windowManager.getWindow());
+    buttonManager.getRetourButton().draw(windowManager.getWindow());
+    buttonManager.getIpButton().draw(windowManager.getWindow());
     windowManager.getWindow().draw(hostOrJoinMenu);
 }
 

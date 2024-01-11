@@ -129,18 +129,7 @@ void menuChoice(
     } else if (choiceMenu.onChoice) {
         introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
     } else if (hostOrJoinMenu.onHostOrJoin) {
-        introMenu.hostOrJoinMenuInLoop(
-            hostOrJoinMenu,
-            windowManager,
-            choiceMenu,
-            lobbyMenu,
-            game,
-            commandsToServer,
-            buttonManager.getRetourButton(),
-            buttonManager.getHostButton(),
-            buttonManager.getJoinButton(),
-            event,
-            ipAdress);
+        introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
     } else if (lobbyMenu.onLobby) {
         introMenu.lobbyMenuInLoop(
             lobbyMenu,
@@ -219,13 +208,6 @@ int main()
     std::string ipAddress = getLocalIpAddress();
     ipAddressText.setString(ipAddress);
     lobbyMenu.setIpAdress(ipAddressText);
-
-    sf::Text text;
-    text.setFont(windowManager.getFont());
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2);
-    hostOrJoinMenu.setInputText(text);
 
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 

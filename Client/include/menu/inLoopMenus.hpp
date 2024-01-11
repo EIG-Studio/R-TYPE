@@ -33,9 +33,7 @@ public:
         LobbyMenu& lobbyMenu,
         Game& game,
         CommandsToServer& commandsToServer,
-        Button& retourButton,
-        Button& hostButton,
-        Button& joinButton,
+        ButtonManager &buttonManager,
         sf::Event& event,
         IpAdress& ipAdress);
     void lobbyMenuInLoop(

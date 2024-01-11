@@ -77,3 +77,24 @@ void Button::draw(sf::RenderWindow& window) const
     window.draw(m_shape);
     window.draw(m_label);
 }
+
+void Button::setText(const std::string& text)
+{
+    m_label.setString(text);
+}
+
+void Button::setPosition(const sf::Vector2f& position)
+{
+    m_shape.setPosition(position);
+    m_label.setPosition(
+        m_shape.getPosition().x + (m_shape.getSize().x - m_label.getLocalBounds().width) / 2,
+        m_shape.getPosition().y + (m_shape.getSize().y - m_label.getLocalBounds().height) / 2);
+}
+
+void Button::setSize(const sf::Vector2f& size)
+{
+    m_shape.setSize(size);
+    m_label.setPosition(
+        m_shape.getPosition().x + (m_shape.getSize().x - m_label.getLocalBounds().width) / 2,
+        m_shape.getPosition().y + (m_shape.getSize().y - m_label.getLocalBounds().height) / 2);
+}
