@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.platform.os }}
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         platform:
           - { name: Windows Latest, os: windows-latest }
@@ -36,7 +36,7 @@ jobs:
 
       - name: Install Boost on Windows
         if: runner.os == 'Windows'
-        run: choco install boost-msvc-14.3 --version=1.82.0
+        run: choco install boost-msvc-14.3
 
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'

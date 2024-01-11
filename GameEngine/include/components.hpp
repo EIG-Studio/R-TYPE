@@ -45,6 +45,21 @@ private:
     float m_lp;
 };
 
+/********-Score Component-******/
+class ScorePoint
+{
+public:
+    ScorePoint() = default;
+    ScorePoint(int score);
+    ~ScorePoint() = default;
+
+    int getScorePoint() const;
+    void setScorePoint(int m_score);
+
+private:
+    float m_score;
+};
+
 /********-Velocity Component-******/
 class Velocity
 {
@@ -187,6 +202,7 @@ enum EntityType
     Player_Projectile,
     Enemy_Projectile,
     Wall,
+    HUD,
     Unknow
 };
 
@@ -224,6 +240,9 @@ inline std::ostream& operator<<(std::ostream& os, const Type& type)
             break;
         case EntityType::Wall:
             os << "Wall";
+            break;
+        case EntityType::HUD:
+            os << "HUD";
             break;
         default:
             os << "Unknown";

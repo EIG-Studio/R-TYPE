@@ -31,7 +31,9 @@ public:
         ButtonManager& buttonManager,
         ChoiceMenu& choiceMenu,
         IpAdress& ipAdress);
+    void updateScore(WindowManager& windowManager, Registry& registry);
 
+    sf::Text scoreText;
 private:
     void refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress);
     void pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress);

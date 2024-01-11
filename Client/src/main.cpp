@@ -67,11 +67,11 @@ void handleWindowEvents(
             sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
             sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
             sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
-            sprite.setBackPath("../Client/assets/Background/city_1/1.png");
-            sprite.setVeryBackBuildPath("../Client/assets/Background/city_1/2.png");
-            sprite.setBackBuildPath("../Client/assets/Background/city_1/3.png");
-            sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
-            sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
+            sprite.setBackPath("../Client/assets/Background/city_2/1.png");
+            sprite.setVeryBackBuildPath("../Client/assets/Background/city_2/2.png");
+            sprite.setBackBuildPath("../Client/assets/Background/city_2/3.png");
+            sprite.setMidBuildPath("../Client/assets/Background/city_2/4.png");
+            sprite.setFrontBuildPath("../Client/assets/Background/city_2/5.png");
             menu.setPath(sprite);
             choiceMenu.setPath(sprite);
             hostOrJoinMenu.setPath(sprite);
@@ -213,7 +213,16 @@ int main()
     fpsText.setFont(windowManager.getFont());
     fpsText.setCharacterSize(15);
     fpsText.setFillColor(sf::Color::White);
+    fpsText.setOutlineColor(sf::Color::Black);
+    fpsText.setOutlineThickness(1);
     fpsText.setPosition(10.0f, 10.0f);
+
+    inLoopGame.scoreText.setFont(windowManager.getFont());
+    inLoopGame.scoreText.setCharacterSize(24);
+    inLoopGame.scoreText.setFillColor(sf::Color::White);
+    inLoopGame.scoreText.setOutlineColor(sf::Color::Black);
+    inLoopGame.scoreText.setOutlineThickness(1);
+    inLoopGame.scoreText.setPosition(windowManager.getWindow().getSize().x / 2 - 50, windowManager.getWindow().getSize().y / 50);
 
     sf::Text ipAddressText;
     ipAddressText.setFont(windowManager.getFont());

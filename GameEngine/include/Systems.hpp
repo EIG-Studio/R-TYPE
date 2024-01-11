@@ -36,6 +36,7 @@ enum COMMAND
     RIGHT,
     NEW_PLAYER,
     NEW_ENEMY,
+    NEW_BOSS,
     DELETE,
     PLAYER_PROJECTILE,
     PLAY_BOOM_ENEMIES,
@@ -48,6 +49,8 @@ enum COMMAND
     UNKNOWN,
     EMPTY,
     ALIVE,
+    NEW_HUD,
+    SCORE,
 };
 
 COMMAND getCommand(const std::string& commandStr);

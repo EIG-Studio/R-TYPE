@@ -29,6 +29,8 @@ public:
     void setText(const std::string& text);
     void setPosition(const sf::Vector2f& position);
     void setSize(const sf::Vector2f& size);
+    void setOutlineColor(const sf::Color& color);
+    sf::Color getOutlineColor();
 
 private:
     sf::RectangleShape m_shape;
@@ -132,6 +134,24 @@ public:
         2.0f,
         "IP BUTTON",
         m_font,
+        21),
+    m_levelOneButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 100),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "LEVEL 1",
+        m_font,
+        21),
+    m_levelTwoButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "LEVEL 2",
+        m_font,
         21)
     {
     }
@@ -176,6 +196,14 @@ public:
     {
         return m_ipButton;
     }
+    Button& getLevelOneButton()
+    {
+        return m_levelOneButton;
+    }
+    Button& getLevelTwoButton()
+    {
+        return m_levelTwoButton;
+    }
 
 private:
     sf::RenderWindow& m_window;
@@ -190,4 +218,6 @@ private:
     Button m_joinButton;
     Button m_startButton;
     Button m_ipButton;
+    Button m_levelOneButton;
+    Button m_levelTwoButton;
 };

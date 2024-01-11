@@ -53,14 +53,7 @@ compile_commands.json
 build/*
 CMakeUserPresets.json
 
-# Conan
-conan.lock
-conanbuildinfo.txt 
-conaninfo.txt
-graph_info.json
-
 samurai_ecs
 samurai_server
 samurai_client
 test.sh
-Samurai-*

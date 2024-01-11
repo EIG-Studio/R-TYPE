@@ -31,16 +31,19 @@ void Registry::destroyEntity(Entity entity)
 {
     ID newID = any_cast<ID>(entity.mComponents[0]);
     size_t id = newID.getID();
-    size_t entityID;
 
     assert(!m_entities.empty());
 
-    for (size_t i = 0; i < m_entities.size(); i++) {
-        entityID = any_cast<ID>(m_entities[i].mComponents[0]).getID();
-        if (entityID == id)
-            m_entities.erase(m_entities.begin() + i);
+    for (auto it = m_entities.begin(); it != m_entities.end(); ++it) {
+        size_t entityID = any_cast<ID>((*it).mComponents[0]).getID();
+        if (entityID == id) {
+            std::cout << "Destroying entity with ID: " << entityID << std::endl;
+            m_toDelete.push_back(id);
+            return;
+        }
     }
-    std::cout << "Destroying entity with ID: " << entityID << std::endl;
+
+    std::cerr << "Entity with ID " << id << " not found for destruction." << std::endl;
 }
 #include <iostream>
 
@@ -49,10 +52,14 @@ std::string Registry::systemsManager()
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
             // shootingSystem(entity, *this);
-            // deathSystem(entity, *this);
             movementSystem(entity, *this);
-            // collisionSystem(entity, m_entities, *this);
+            //collisionSystem(entity, m_entities, *this);
+            deathSystem(entity, *this);
         }
+    for (auto& id : m_toDelete) {
+        this->deleteById(id);
+    }
+    m_toDelete.clear();
     return "Hello";
 }
 
@@ -93,6 +100,20 @@ bool Registry::hasEntity(size_t id)
     return false;
 }
 
+bool Registry::hasEntityType(Type type)
+{
+    Type otherType;
+
+    for (auto& entity : m_entities) {
+        if (hasComponent(entity, Type{})) {
+            otherType = getComponent(entity, Type{});
+            if (otherType.getEntityType() == type.getEntityType()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 void Registry::setEntity(Entity& entityToCopy, int id)
 {
@@ -118,6 +139,19 @@ Entity Registry::getPlayer()
         }
     }
     throw std::runtime_error("No Player entity found\n");
+}
+
+Entity Registry::getScore()
+{
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::HUD) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No Score entity found\n");
 }
 
 Entity Registry::getFirstEnemy()

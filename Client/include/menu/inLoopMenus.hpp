@@ -42,6 +42,7 @@ public:
         WindowManager& windowManager,
         HostOrJoinMenu& hostOrJoinMenu,
         Game& game,
+        Sprite& sprite,
         CommandsToServer& commandsToServer,
         ButtonManager& buttonManager,
         IpAdress& ipAdress);
