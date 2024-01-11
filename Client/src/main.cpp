@@ -127,14 +127,7 @@ void menuChoice(
     if (menu.onMenu) {
         introMenu.introMenuInLoop(menu, windowManager, music, clock);
     } else if (choiceMenu.onChoice) {
-        introMenu.choiceMenuInLoop(
-            windowManager,
-            choiceMenu,
-            buttonManager.getPlayButton(),
-            buttonManager.getSettingsButton(),
-            buttonManager.getExitButton(),
-            hostOrJoinMenu,
-            settingMenu);
+        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
     } else if (hostOrJoinMenu.onHostOrJoin) {
         introMenu.hostOrJoinMenuInLoop(
             hostOrJoinMenu,

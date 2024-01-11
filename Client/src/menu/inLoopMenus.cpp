@@ -24,31 +24,30 @@ void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Musi
 void InLoopMenus::choiceMenuInLoop(
     WindowManager& windowManager,
     ChoiceMenu& choiceMenu,
-    Button& playButton,
-    Button& settingsButton,
-    Button& exitButton,
+    ButtonManager &buttonManager,
     HostOrJoinMenu& hostOrJoinMenu,
     SettingMenu& settingMenu)
 {
     choiceMenu.setCursorPosition(windowManager.getWindow());
-    playButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-    settingsButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-    exitButton.checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
-    if (playButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
+    buttonManager.getPlayButton().checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+    buttonManager.getSettingsButton().checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+    buttonManager.getExitButton().checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+    if (buttonManager.getPlayButton().checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         hostOrJoinMenu.onHostOrJoin = true;
+        hostOrJoinMenu.setInputTextFromString("127.0.0.1");
         choiceMenu.onChoice = false;
     }
-    if (settingsButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
+    if (buttonManager.getSettingsButton().checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
         settingMenu.onSetting = true;
         choiceMenu.onChoice = false;
     }
-    if (exitButton.checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
+    if (buttonManager.getExitButton().checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY())) {
         exit(0);
     }
-    playButton.draw(windowManager.getWindow());
-    settingsButton.draw(windowManager.getWindow());
-    exitButton.draw(windowManager.getWindow());
+    buttonManager.getPlayButton().draw(windowManager.getWindow());
+    buttonManager.getSettingsButton().draw(windowManager.getWindow());
+    buttonManager.getExitButton().draw(windowManager.getWindow());
     windowManager.getWindow().draw(choiceMenu);
 }
 

@@ -22,9 +22,7 @@ public:
     void choiceMenuInLoop(
         WindowManager& windowManager,
         ChoiceMenu& choiceMenu,
-        Button& playButton,
-        Button& settingsButton,
-        Button& exitButton,
+        ButtonManager& buttonManager,
         HostOrJoinMenu& hostOrJoinMenu,
         SettingMenu& settingMenu);
     void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
