@@ -19,6 +19,8 @@
 
 void shootingSystem(Entity entity, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
     if (!registry.hasComponent(entity, Shooter{}) || !registry.hasComponent(entity, Position{}))
         return;
 
@@ -30,6 +32,8 @@ void shootingSystem(Entity entity, Registry& registry)
 
 void deathSystem(Entity entity, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
     if (!registry.hasComponent(entity, HealthPoint{}))
         return;
 
@@ -50,6 +54,8 @@ void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 
 void movementSystem(Entity entity, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
     if (!registry.hasComponent(entity, Speed{}) || !registry.hasComponent(entity, Velocity{}) ||
         !registry.hasComponent(entity, Position{}))
         return;
@@ -200,6 +206,8 @@ void iaSystem(Entity entity, Registry& registry)
 #include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
+    if (entity.mComponents.empty())
+        return;
     if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) || !registry.hasComponent(entity, Type{}))
         return;
 
