@@ -27,6 +27,7 @@ class Server
 public:
     Server() : m_socket(m_ioService, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 7171))
     {
+        m_clock = std::clock();
     }
 
     void startListening(Registry& registry);
@@ -49,6 +50,7 @@ private:
     std::mutex m_ClientMutex;
     std::vector<Client> m_clients;
     bool gameStarted = false;
+    std::clock_t m_clock;
     unsigned char m_buffer[sizeof(TransferData)];
 
     void handleReceivedData(

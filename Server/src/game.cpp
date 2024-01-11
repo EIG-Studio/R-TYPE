@@ -86,12 +86,20 @@ void Server::GameLoop(Registry& registry)
         for (auto& playerProjectile : playersProjectiles) {
             m_registeryMutex.lock();
             playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
-            m_registeryMutex.unlock();
-        }
-        for (auto& playerProjectile : playersProjectiles) {
-            m_registeryMutex.lock();
             projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), ennemies);
             m_registeryMutex.unlock();
         }
+        if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && ennemies.size() < 5 && gameStarted) {
+
+            std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
+            m_registeryMutex.lock();
+            this->createEnnemy(registry);
+            m_registeryMutex.unlock();
+            m_clock = std::clock();
+        }
+        // for (auto& playerProjectile : playersProjectiles) {
+        //     m_registeryMutex.lock();
+        //     m_registeryMutex.unlock();
+        // }
     }
 }

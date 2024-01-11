@@ -33,18 +33,9 @@ public:
     m_receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171),
     m_work(std::make_unique<boost::asio::io_service::work>(m_ioService))
     {
-        std::cout << "CommandsToServer constructor called." << std::endl;
-
         m_socket.open(boost::asio::ip::udp::v4());
         m_secondSocket.open(boost::asio::ip::udp::v4());
-
-        m_ioServiceThread = std::thread([this]() {
-            std::cout << "ioService thread starting." << std::endl;
-            m_ioService.run();
-            std::cout << "ioService thread ending." << std::endl;
-        });
-
-        std::cout << "CommandsToServer constructor finished." << std::endl;
+        m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
     }
 
     ~CommandsToServer()
