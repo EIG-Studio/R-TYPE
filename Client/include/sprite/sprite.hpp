@@ -21,9 +21,13 @@ public:
     void setLogoPath(std::string mString);
     void setTitlePath(std::string mString);
     void setMainSongPath(std::string mString);
-    void setBackPath(std::string mString);
     void setPlayerPath(std::string mString);
     void setEnemyPath(std::string mString);
+    void setBackPath(std::string mString);
+    void setVeryBackBuildPath(std::string mString);
+    void setBackBuildPath(std::string mString);
+    void setMidBuildPath(std::string mString);
+    void setFrontBuildPath(std::string mString);
 
     std::string getLogoPath();
     std::string getTitlePath();
