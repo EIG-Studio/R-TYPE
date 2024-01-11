@@ -17,7 +17,7 @@ void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsT
     }
 }
 
-void InLoopGame::PingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress)
+void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress)
 {
     if (m_clock2.getElapsedTime().asMilliseconds() < 1000)
         return;
@@ -34,18 +34,17 @@ void InLoopGame::gameInLoop(
     Sprite& sprite,
     sf::Clock& onGameClock,
     Registry& registry,
-    Button& resumeButton,
-    Button& toMenuButton,
+    ButtonManager& buttonManager,
     ChoiceMenu& choiceMenu,
     IpAdress& ipAdress)
 {
     game.setCursorPosition(windowManager.getWindow());
-    resumeButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
-    toMenuButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
-    if (resumeButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+    buttonManager.getResumeButton().checkHover(game.getCursorPosX(), game.getCursorPosY());
+    buttonManager.getToMenuButton().checkHover(game.getCursorPosX(), game.getCursorPosY());
+    if (buttonManager.getResumeButton().checkClick(game.getCursorPosX(), game.getCursorPosY())) {
         game.onPause = false;
     }
-    if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+    if (buttonManager.getToMenuButton().checkClick(game.getCursorPosX(), game.getCursorPosY())) {
         game.onGame = false;
         choiceMenu.onChoice = true;
     }
@@ -53,7 +52,7 @@ void InLoopGame::gameInLoop(
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
     refreshRegistry(registry, commandsToServer, ipAdress);
-    PingServer(commandsToServer, ipAdress);
+    pingServer(commandsToServer, ipAdress);
     try {
         game.movePlayer(
             std::ref(registry),
@@ -94,8 +93,8 @@ void InLoopGame::gameInLoop(
         registry.systemsManager(windowManager.getWindow());
         game.displayArrow(registry, windowManager);
         if (game.onPause) {
-            resumeButton.draw(windowManager.getWindow());
-            toMenuButton.draw(windowManager.getWindow());
+            buttonManager.getResumeButton().draw(windowManager.getWindow());
+            buttonManager.getToMenuButton().draw(windowManager.getWindow());
         }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
