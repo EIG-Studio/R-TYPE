@@ -49,6 +49,7 @@ enum COMMAND
     UNKNOWN,
     EMPTY,
     ALIVE,
+    NEW_HUD,
     SCORE,
 };
 

@@ -131,10 +131,10 @@ int main()
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
 
-    fpsText.setFont(windowManager.getFont());
-    fpsText.setCharacterSize(15);
-    fpsText.setFillColor(sf::Color::White);
-    fpsText.setPosition(20.0f, 20.0f);
+    inLoopGame.scoreText.setFont(windowManager.getFont());
+    inLoopGame.scoreText.setCharacterSize(15);
+    inLoopGame.scoreText.setFillColor(sf::Color::White);
+    inLoopGame.scoreText.setPosition(30.0f, 30.0f);
 
     sf::Text ipAddressText;
     ipAddressText.setFont(windowManager.getFont());

@@ -109,14 +109,6 @@ void handleReceive(
                     103 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().width,
                     56.25 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().height)));
             registry.setEntity(player, id);
-
-            Entity entity_score = registry.createEntity();
-            ID score_id = registry.getComponent(entity_score, ID{});
-            ScorePoint score;
-            score.setScorePoint(0);
-            entity_score = registry.addComponent(entity_score, Type(std::any_cast<EntityType>(HUD)));
-            entity_score = registry.addComponent(entity_score, score);
-            registry.setEntity(entity_score, score_id);
         } else if (receivedData.command == NEW_ENEMY) {
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
@@ -174,22 +166,30 @@ void handleReceive(
             registry.deleteById(receivedData.args[0]);
         } else if (receivedData.command == PLAY_BOOM_ENEMIES) {
             music.boomEnemies.play();
+        } else if (receivedData.command == NEW_HUD) {
+            std::cout << "NEW_HUD" << std::endl;
+            int id = receivedData.args[0];
+            int data_score = receivedData.args[1];
+
+            Entity entity_score = registry.createEntityWithID(id);
+            ScorePoint score;
+            score.setScorePoint(data_score);
+            entity_score = registry.addComponent(entity_score, Type(std::any_cast<EntityType>(HUD)));
+            entity_score = registry.addComponent(entity_score, score);
+            registry.setEntity(entity_score, id);
         } else if (receivedData.command == SCORE) {
-            Entity score = registry.getScore();
-            ID score_id = registry.getComponent(score, ID{});
-            ScorePoint& score_points = registry.getComponent(score, ScorePoint{});
+            if (registry.hasEntityType(HUD)) {
+                std::cout << "SCORE " << std::endl;
+                Entity score = registry.getScore();
+                ID score_id = registry.getComponent(score, ID{});
+                ScorePoint& score_points = registry.getComponent(score, ScorePoint{});
 
-            score_points.setScorePoint(receivedData.args[0]);
+                score_points.setScorePoint(receivedData.args[0]);
 
-            registry.setEntity(score, score_id);
-        } else if (receivedData.command == SCORE) {
-            Entity score = registry.getScore();
-            ID score_id = registry.getComponent(score, ID{});
-            ScorePoint& score_points = registry.getComponent(score, ScorePoint{});
-
-            score_points.setScorePoint(receivedData.args[0]);
-
-            registry.setEntity(score, score_id);
+                registry.setEntity(score, score_id);
+            } else {
+                std::cout << "[LOG] NO SCORE" << std::endl;
+            }
         } else if (error) {
             std::cerr << "Error in handleReceive: " << error.message() << std::endl;
         }
