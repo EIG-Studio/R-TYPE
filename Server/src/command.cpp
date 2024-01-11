@@ -21,20 +21,17 @@ std::size_t Server::createPlayer(Registry& registry)
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Player);
-    HealthPoint healthPointComponent(20);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, sizeComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
-    entity = registry.addComponent(entity, healthPointComponent);
 
     std::ostringstream newPlayer;
     newPlayer << "NEW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
-              << healthPointComponent.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-              << sizeComponent.getSize().second << " " << typeComponent << "\n";
+              << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
     addMessage(newPlayer.str());
     return registry.getComponent(entity, idComponent).getID();
 }
@@ -54,7 +51,29 @@ void Server::createEnemy(Registry& registry)
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(randNb(5, 10));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
-    HealthPoint healthPointComponent(5);
+
+    Entity entity = registry.createEntity();
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+
+    std::ostringstream newPlayer2;
+    newPlayer2 << "NEW_ENEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
+               << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
+    addMessage(newPlayer2.str());
+}
+
+void Server::createBoss(Registry& registry)
+{
+    ID idComponent = ID();
+    Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
+    Size sizeComponent = Size(std::make_pair(1, 1));
+    Speed speedComponent(randNb(5, 6));
+    Type typeComponent = std::any_cast<EntityType>(Enemy);
+    HealthPoint healthPointComponent(20);
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
@@ -65,7 +84,7 @@ void Server::createEnemy(Registry& registry)
     entity = registry.addComponent(entity, healthPointComponent);
 
     std::ostringstream newPlayer2;
-    newPlayer2 << "NEW_ENEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+    newPlayer2 << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
     addMessage(newPlayer2.str());
@@ -80,14 +99,12 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(15);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
-    HealthPoint healthPointComponent(1);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, sizeComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
-    entity = registry.addComponent(entity, healthPointComponent);
 
     std::ostringstream newPlayerProjectile;
     newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
@@ -95,18 +112,6 @@ void Server::createBullet(Registry& registry, int posx, int posy)
                         << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " "
                         << typeComponent << "\n";
     addMessage(newPlayerProjectile.str());
-}
-
-void Server::damageThePlayer(Registry& registry, int damage, int id)
-{
-    Entity entity = registry.getEntity(id);
-    HealthPoint& healthPoint = registry.getComponent(entity, HealthPoint{});
-
-    healthPoint.setHealthPoint(healthPoint.getHealthPoint() - damage);
-    std::ostringstream newHealth;
-    newHealth << "NEW_HEALTH " << id << " " << healthPoint.getHealthPoint() << "\n";
-    addMessage(newHealth.str());
-    registry.setEntity(entity, id);
 }
 
 void Server::addMessage(const std::string& message)
@@ -174,21 +179,25 @@ void Server::sendAllEntites(Registry& registry)
             oss << "PLAYER_PROJECTILE ";
         else if (type == Enemy_Projectile)
             oss << "ENEMY_PROJECTILE ";
+        else if (type == HUD)
+            oss << "HUD ";
         else
             oss << "UNKNOWN ";
-        auto positionComponent = registry.getComponent(entity, Position{});
-        auto xPosition = positionComponent.getPosition().first;
-        auto yPosition = positionComponent.getPosition().second;
 
-        auto sizeComponent = registry.getComponent(entity, Size{});
-        auto xSize = sizeComponent.getSize().first;
-        auto ySize = sizeComponent.getSize().second;
+        if (type != HUD) {
+            auto positionComponent = registry.getComponent(entity, Position{});
+            auto xPosition = positionComponent.getPosition().first;
+            auto yPosition = positionComponent.getPosition().second;
 
-        auto healthPoint = registry.getComponent(entity, HealthPoint{});
-        auto nbHealth = healthPoint.getHealthPoint();
+            auto sizeComponent = registry.getComponent(entity, Size{});
+            auto xSize = sizeComponent.getSize().first;
+            auto ySize = sizeComponent.getSize().second;
 
-        oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " " << nbHealth
-            << " " << xSize << " " << ySize << " " << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
+            oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " " << xSize
+                << " " << ySize << " " << registry.getComponent(entity, Type{}).getEntityType() << std::endl;
+        } else {
+            oss << registry.getComponent(entity, ID{}).getID() << std::endl;
+        }
         addMessage(oss.str());
     }
 }
@@ -207,6 +216,14 @@ bool Server::startGame(Registry& registry)
     createEnemy(registry);
     createEnemy(registry);
     createEnemy(registry);
+
+    Entity entity_score = registry.createEntity();
+    Type type = HUD;
+    ScorePoint score;
+    score.setScorePoint(0);
+    entity_score = registry.addComponent(entity_score, type);
+    entity_score = registry.addComponent(entity_score, score);
+
     return true;
 }
 
@@ -222,15 +239,9 @@ void Server::handleReceivedData(
 
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
-        } else if (receivedData.command == DAMAGE_TO_PLAYER) {
-            damageThePlayer(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
             if (!gameStarted)
                 gameStarted = startGame(registry);
-            if (isClient(remoteEndpoint)) {
-                std::cout << "Client already connected" << std::endl;
-                return;
-            }
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);

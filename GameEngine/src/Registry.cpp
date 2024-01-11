@@ -93,6 +93,20 @@ bool Registry::hasEntity(size_t id)
     return false;
 }
 
+bool Registry::hasEntityType(Type type)
+{
+    Type otherType;
+
+    for (auto& entity : m_entities) {
+        if (hasComponent(entity, Type{})) {
+            otherType = getComponent(entity, Type{});
+            if (otherType.getEntityType() == type.getEntityType()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 void Registry::setEntity(Entity& entityToCopy, int id)
 {
@@ -118,6 +132,19 @@ Entity Registry::getPlayer()
         }
     }
     throw std::runtime_error("No Player entity found\n");
+}
+
+Entity Registry::getScore()
+{
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::HUD) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No Score entity found\n");
 }
 
 Entity Registry::getFirstEnemy()

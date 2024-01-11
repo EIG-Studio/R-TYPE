@@ -30,20 +30,20 @@ void shootingSystem(Entity entity, Registry& registry)
 
 void deathSystem(Entity entity, Registry& registry)
 {
-    if (!registry.hasComponent(entity, HealthPoint{}))
-        return;
+    // if (!registry.hasComponent(entity, HealthPoint{}))
+    //     return;
 
-    if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0)
-        registry.destroyEntity(entity);
+    // if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0)
+    //     registry.destroyEntity(entity);
 }
 
 void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 {
-    if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
-        return;
+    // if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
+    //     return;
 
-    auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
-    healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
+    // auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
+    // healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
 }
 
 void movementSystem(Entity entity, Registry& registry)

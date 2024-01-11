@@ -48,6 +48,7 @@ enum COMMAND
     UNKNOWN,
     EMPTY,
     ALIVE,
+    SCORE,
 };
 
 COMMAND getCommand(const std::string& commandStr);
