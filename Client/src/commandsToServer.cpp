@@ -97,25 +97,25 @@ void handleReceive(
                     103 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().width,
                     56.25 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().height)));
             registry.setEntity(player, id);
-        } else if (receivedData.command == NEW_ENNEMY) {
+        } else if (receivedData.command == NEW_ENEMY) {
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
 
-            Entity ennemy = registry.createEntityWithID(id);
-            ennemy = registry.addComponent(ennemy, Position(std::make_pair(xPos, yPos)));
-            ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
-            ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
-            ennemy = registry.addComponent(
-                ennemy,
+            Entity enemy = registry.createEntityWithID(id);
+            enemy = registry.addComponent(enemy, Position(std::make_pair(xPos, yPos)));
+            enemy = registry.addComponent(enemy, Renderer("../Client/assets/Cars/cars/190.png"));
+            enemy = registry.addComponent(enemy, Type(std::any_cast<EntityType>(Enemy)));
+            enemy = registry.addComponent(
+                enemy,
                 Size(std::make_pair(
-                    103 / registry.getComponent(ennemy, Renderer{}).getRenderer().getLocalBounds().width,
-                    56.25 / registry.getComponent(ennemy, Renderer{}).getRenderer().getLocalBounds().height)));
+                    103 / registry.getComponent(enemy, Renderer{}).getRenderer().getLocalBounds().width,
+                    56.25 / registry.getComponent(enemy, Renderer{}).getRenderer().getLocalBounds().height)));
 
-            Position ennemyPos = registry.getComponent(ennemy, Position{});
-            std::pair<int, int> pairPos = ennemyPos.getPosition();
+            Position enemyPos = registry.getComponent(enemy, Position{});
+            std::pair<int, int> pairPos = enemyPos.getPosition();
 
-            std::cout << "Ennemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
+            std::cout << "Enemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (receivedData.command == PLAYER_PROJECTILE) {
             std::cout << "player projectile created" << std::endl;
             int id = receivedData.args[0];

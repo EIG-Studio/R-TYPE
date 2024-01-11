@@ -55,9 +55,9 @@ public:
     std::vector<Entity> getListEntities();
     std::vector<Entity> getListPlayersProjectile();
     std::vector<Entity> deletePlayersProjectile(int id);
-    std::vector<Entity> deleteEnnemy(int id);
+    std::vector<Entity> deleteEnemy(int id);
     void deleteById(int id);
-    void destroyEnnemy(std::vector<Entity> ennemyList);
+    void destroyEnemy(std::vector<Entity> enemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>

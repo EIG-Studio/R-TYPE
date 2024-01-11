@@ -26,7 +26,8 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
 void iaSystem(Entity entity, Registry& registry);
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window);
 
-enum COMMAND {
+enum COMMAND
+{
     NEW,
     LOGIN,
     UP,
@@ -34,7 +35,7 @@ enum COMMAND {
     LEFT,
     RIGHT,
     NEW_PLAYER,
-    NEW_ENNEMY,
+    NEW_ENEMY,
     DELETE,
     PLAYER_PROJECTILE,
     PLAY_BOOM_ENNEMIES,

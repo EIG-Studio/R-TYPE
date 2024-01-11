@@ -5,15 +5,15 @@
 # Tables of Contents
 
 - [Entites](#entites)
-    - [Player](#player)
-    - [Ennemy](#ennemy)
-    - [Player Projectile](#Player-Projectile)
+  - [Player](#player)
+  - [Enemy](#enemy)
+  - [Player Projectile](#Player-Projectile)
 - [Server](#Server)
-    - [Login](#Login)
-    - [Position](#position)
-    - [Input](#input)
+  - [Login](#Login)
+  - [Position](#position)
+  - [Input](#input)
 - [Update](#update)
-    - [Update entites](#update-entites)
+  - [Update entites](#update-entites)
 
 ## Entites
 
@@ -23,30 +23,29 @@ Message: `NEW_PLAYER [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new player is created
 
-### Ennemy
+### Enemy
 
-Message: `NEW_ENNEMY [ID] [X] [Y] [TYPE]`
+Message: `NEW_ENEMY [ID] [X] [Y] [TYPE]`
 
-This message is sent to the client when a new ennemy is created
+This message is sent to the client when a new enemy is created
 
-Message: `MOVE_ENNEMY [ID]`
+Message: `MOVE_ENEMY [ID]`
 
-This message is sent to the client when a ennemy is moved
+This message is sent to the client when a enemy is moved
 
 Message: `DELETE [ID]`
 
-This message is sent to the client when a ennemy is move
-
+This message is sent to the client when a enemy is move
 
 ### Player Projectile
 
 Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
 
-This message is sent to the client when a new projectile is created  
+This message is sent to the client when a new projectile is created
 
 Message `MOVE_PROJECTILE [ID]`
 
-This message is sent to the client when a projectile is moved  
+This message is sent to the client when a projectile is moved
 
 Message: `DELETE_PROJECTILE [ID]`
 
@@ -78,11 +77,12 @@ Messages:
 
 Keys are binds on the client side
 
-
 ## Update
 
 ### Update entites
+
 Message:
+
 ```
 UPDATE
 [ID] [X] [Y] [TYPE]

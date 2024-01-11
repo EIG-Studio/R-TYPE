@@ -23,7 +23,7 @@ public:
     void setMainSongPath(std::string mString);
     void setBackPath(std::string mString);
     void setPlayerPath(std::string mString);
-    void setEnnemyPath(std::string mString);
+    void setEnemyPath(std::string mString);
 
     std::string getLogoPath();
     std::string getTitlePath();
@@ -34,7 +34,7 @@ public:
     std::string getMidBuildPath();
     std::string getFrontBuildPath();
     std::string getPlayerPath();
-    std::string getEnnemyPath();
+    std::string getEnemyPath();
     std::string getCursorPath();
 
     std::string getMainSongPath();
@@ -53,7 +53,7 @@ private:
     std::string m_pathFrontBuild;
 
     std::string m_pathPlayer;
-    std::string m_pathEnnemy;
+    std::string m_pathEnemy;
 
     std::string m_pathMainSong;
     std::string m_pathShootSound;

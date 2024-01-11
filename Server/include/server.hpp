@@ -34,7 +34,7 @@ public:
     void startSending();
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
-    void createEnnemy(Registry& registry);
+    void createEnemy(Registry& registry);
     void createBullet(Registry& registry, int posx, int posy);
     void GameLoop(Registry& registry);
     void PlayerLoop(Registry& registry);
@@ -61,7 +61,7 @@ private:
     void addMessage(const std::string& message);
     std::size_t createPlayer(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
-    void ennemyMove(Registry& registry, Entity& entity, std::size_t id);
+    void enemyMove(Registry& registry, Entity& entity, std::size_t id);
     void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
     void projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> ennemies);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);

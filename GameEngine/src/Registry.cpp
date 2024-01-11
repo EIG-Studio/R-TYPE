@@ -130,7 +130,7 @@ Entity Registry::getFirstEnemy()
             }
         }
     }
-    throw std::runtime_error("No Ennemy entity found");
+    throw std::runtime_error("No Enemy entity found");
 }
 
 std::vector<Entity> Registry::getListEnemies()
@@ -191,15 +191,15 @@ std::vector<Entity> Registry::deletePlayersProjectile(int id)
     return playersProjectiles;
 }
 
-std::vector<Entity> Registry::deleteEnnemy(int id)
+std::vector<Entity> Registry::deleteEnemy(int id)
 {
     std::vector<Entity> ennemies;
-    for (auto& ennemy : m_entities) {
-        if (this->hasComponent(ennemy, Type{})) {
-            Type& typeComponent = this->getComponent(ennemy, Type{});
+    for (auto& enemy : m_entities) {
+        if (this->hasComponent(enemy, Type{})) {
+            Type& typeComponent = this->getComponent(enemy, Type{});
             if (typeComponent.getEntityType() == EntityType::Player) {
-                if (id == this->getComponent(ennemy, ID{}).getID()) {
-                    this->destroyEntity(ennemy);
+                if (id == this->getComponent(enemy, ID{}).getID()) {
+                    this->destroyEntity(enemy);
                 }
             }
         }
@@ -235,10 +235,10 @@ std::vector<Entity> Registry::getListEntities()
     return enemies;
 }
 
-void Registry::destroyEnnemy(std::vector<Entity> ennemyList)
+void Registry::destroyEnemy(std::vector<Entity> enemyList)
 {
-    Position ennemyPos = this->getComponent(ennemyList[0], Position{});
-    std::pair<float, float> pairPos = ennemyPos.getPosition();
-    std::cout << "ENNEMY POS X: " << pairPos.first << std::endl;
-    std::cout << "ENNEMY POS Y: " << pairPos.second << std::endl;
+    Position enemyPos = this->getComponent(enemyList[0], Position{});
+    std::pair<float, float> pairPos = enemyPos.getPosition();
+    std::cout << "ENEMY POS X: " << pairPos.first << std::endl;
+    std::cout << "ENEMY POS Y: " << pairPos.second << std::endl;
 }

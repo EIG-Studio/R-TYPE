@@ -13,9 +13,9 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
     Position projectile_pos_type = registry.getComponent(projectile, Position{});
     std::pair<int, int> projectile_pos = projectile_pos_type.getPosition();
 
-    for (auto& ennemy : ennemies) {
-        ID enemy_id = registry.getComponent(ennemy, ID{});
-        Position enemy_pos_type = registry.getComponent(ennemy, Position{});
+    for (auto& enemy : ennemies) {
+        ID enemy_id = registry.getComponent(enemy, ID{});
+        Position enemy_pos_type = registry.getComponent(enemy, Position{});
         std::pair<int, int> enemy_pos = enemy_pos_type.getPosition();
 
         if (projectile_pos.first < enemy_pos.first + 50 && projectile_pos.first + 50 > enemy_pos.first &&
@@ -49,20 +49,20 @@ void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_
     registry.setEntity(entity, id);
 }
 
-void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
+void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
 {
-    float ennemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
+    float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
     Position& positionComponent = registry.getComponent(entity, Position());
 
     if (positionComponent.getPosition().first < -100) {
         addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
-        this->createEnnemy(registry);
+        this->createEnemy(registry);
         return;
     }
 
     positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first - 1 * ennemySpeed, positionComponent.getPosition().second));
+        std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second));
 
     std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
                          " " + std::to_string(positionComponent.getPosition().second) + "\n";
@@ -73,14 +73,14 @@ void Server::ennemyMove(Registry& registry, Entity& entity, std::size_t id)
 void Server::GameLoop(Registry& registry)
 {
     while (true) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         m_registeryMutex.lock();
         std::vector<Entity> ennemies = registry.getListEnemies();
         std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
         m_registeryMutex.unlock();
-        for (auto& ennemy : ennemies) {
+        for (auto& enemy : ennemies) {
             m_registeryMutex.lock();
-            ennemyMove(registry, ennemy, registry.getComponent(ennemy, ID{}).getID());
+            enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
             m_registeryMutex.unlock();
         }
         for (auto& playerProjectile : playersProjectiles) {
@@ -93,7 +93,7 @@ void Server::GameLoop(Registry& registry)
 
             std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
             m_registeryMutex.lock();
-            this->createEnnemy(registry);
+            this->createEnemy(registry);
             m_registeryMutex.unlock();
             m_clock = std::clock();
         }

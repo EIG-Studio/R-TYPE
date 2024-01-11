@@ -44,7 +44,7 @@ int randNb(int x, int y)
     return distrib(gen);
 }
 
-void Server::createEnnemy(Registry& registry)
+void Server::createEnemy(Registry& registry)
 {
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
@@ -60,7 +60,7 @@ void Server::createEnnemy(Registry& registry)
     entity = registry.addComponent(entity, typeComponent);
 
     std::ostringstream newPlayer2;
-    newPlayer2 << "NEW_ENNEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+    newPlayer2 << "NEW_ENEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
     addMessage(newPlayer2.str());
@@ -150,7 +150,7 @@ void Server::sendAllEntites(Registry& registry)
         if (type == Player)
             oss << "NEW_PLAYER ";
         else if (type == Enemy)
-            oss << "NEW_ENNEMY ";
+            oss << "NEW_ENEMY ";
         else if (type == Player_Projectile)
             oss << "PLAYER_PROJECTILE ";
         else if (type == Enemy_Projectile)
@@ -181,10 +181,10 @@ void Server::refreshClientRegistry(Registry& registry, int id)
 bool Server::startGame(Registry& registry)
 {
     std::cout << "Game started" << std::endl;
-    createEnnemy(registry);
-    createEnnemy(registry);
-    createEnnemy(registry);
-    createEnnemy(registry);
+    createEnemy(registry);
+    createEnemy(registry);
+    createEnemy(registry);
+    createEnemy(registry);
     return true;
 }
 
@@ -208,8 +208,8 @@ void Server::handleReceivedData(
             sendAllEntites(registry);
         } else if (receivedData.command == UPDATE) {
             sendAllEntites(registry);
-        } else if (receivedData.command == NEW_ENNEMY) {
-            createEnnemy(registry);
+        } else if (receivedData.command == NEW_ENEMY) {
+            createEnemy(registry);
         } else if (
             receivedData.command == DOWN || receivedData.command == UP || receivedData.command == LEFT ||
             receivedData.command == RIGHT) {
