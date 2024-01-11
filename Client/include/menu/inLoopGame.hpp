@@ -32,10 +32,10 @@ public:
         IpAdress& ipAdress);
     void updateScore(WindowManager& windowManager, Registry& registry);
 
+    sf::Text scoreText;
 private:
     void refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress);
     void pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress);
     sf::Clock m_clock;
     sf::Clock m_clock2;
-    sf::Text scoreText;
 };

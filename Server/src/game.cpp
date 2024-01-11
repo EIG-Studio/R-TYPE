@@ -53,6 +53,7 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
             if (registry.getComponent(enemy, HealthPoint{}).getHealthPoint() <= 0) {
                 registry.deleteById(enemy_id.getID());
                 addMessage("DELETE " + std::to_string(enemy_id.getID()) + "\n");
+                addMessage("SCORE " + std::to_string(score_point.getScorePoint()) + "|");
                 addMessage("PLAY_BOOM_ENEMIES");
             }
         }
@@ -67,9 +68,6 @@ void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
     if (positionComponent.getPosition().first < -100) {
         addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
-        // for (auto& client : m_clients) {
-        //     damageThePlayer(registry, 3, client.getId());
-        // }
     }
 
     positionComponent.setPosition(
@@ -89,6 +87,7 @@ void Server::GameLoop(Registry& registry)
         std::vector<Entity> enemies = registry.getListEnemies();
         std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
         m_registeryMutex.unlock();
+
         for (auto& enemy : enemies) {
             m_registeryMutex.lock();
             enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());

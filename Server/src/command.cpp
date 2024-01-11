@@ -207,11 +207,11 @@ void Server::sendAllEntites(Registry& registry)
         else if (type == Enemy_Projectile)
             oss << "ENEMY_PROJECTILE ";
         else if (type == HUD)
-            oss << "HUD ";
+            oss << "NEW_HUD ";
         else
             oss << "UNKNOWN ";
 
-        if (type != HUD) {
+        if (type == Player || type == Enemy || type == Player_Projectile || type == Enemy_Projectile) {
             auto positionComponent = registry.getComponent(entity, Position{});
             auto xPosition = positionComponent.getPosition().first;
             auto yPosition = positionComponent.getPosition().second;
@@ -226,10 +226,13 @@ void Server::sendAllEntites(Registry& registry)
             oss << registry.getComponent(entity, ID{}).getID() << " " << xPosition << " " << yPosition << " " << health
                 << " " << xSize << " " << ySize << " " << registry.getComponent(entity, Type{}).getEntityType()
                 << std::endl;
-        } else {
-            oss << registry.getComponent(entity, ID{}).getID() << std::endl;
+            addMessage(oss.str());
+        } else if (type == HUD) {
+            std::cout << "SCOOOREEEE\n";
+            ScorePoint score = registry.getComponent(entity, ScorePoint{});
+            oss << registry.getComponent(entity, ID{}).getID() << " " << std::to_string(score.getScorePoint()) << std::endl;
+            addMessage(oss.str());
         }
-        addMessage(oss.str());
     }
 }
 
@@ -249,12 +252,15 @@ bool Server::startGame(Registry& registry)
     createEnemy(registry);
 
     Entity entity_score = registry.createEntity();
+    ID score_id = registry.getComponent(entity_score, score_id);
     Type type = HUD;
     ScorePoint score;
     score.setScorePoint(0);
     entity_score = registry.addComponent(entity_score, type);
     entity_score = registry.addComponent(entity_score, score);
-
+    addMessage("NEW_HUD " + std::to_string(score_id.getID()) + " " + std::to_string(score.getScorePoint()) + "\n");
+    registry.setEntity(entity_score, score_id);
+    std::cout << "CREATE\n";
     return true;
 }
 

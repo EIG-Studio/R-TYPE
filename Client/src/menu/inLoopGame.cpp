@@ -16,9 +16,9 @@ void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
         ScorePoint score_points = registry.getComponent(score, ScorePoint{});
 
         scoreText.setString(std::to_string(static_cast<int>(score_points.getScorePoint())));
-        std::cout << "LOG: " << std::to_string(score_points.getScorePoint()) << std::endl;
+        // std::cout << "LOG: " << std::to_string(score_points.getScorePoint()) << std::endl;
     } else {
-        //std::cout << "LOG: " << "no score" << std::endl;
+        // std::cout << "LOG: " << "no score" << std::endl;
     }
 }
 
