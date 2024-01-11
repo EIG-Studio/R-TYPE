@@ -110,11 +110,32 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     windowManager.getWindow().draw(hostOrJoinMenu);
 }
 
+void levelOneConfig(Game& game, Sprite& sprite)
+{
+    sprite.setBackPath("../Client/assets/Background/city_1/1.png");
+    sprite.setVeryBackBuildPath("../Client/assets/Background/city_1/2.png");
+    sprite.setBackBuildPath("../Client/assets/Background/city_1/3.png");
+    sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
+    sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
+    game.setPath(sprite);
+}
+
+void levelTwoConfig(Game& game, Sprite& sprite)
+{
+    sprite.setBackPath("../Client/assets/Background/city_7/1.png");
+    sprite.setVeryBackBuildPath("../Client/assets/Background/city_7/2.png");
+    sprite.setBackBuildPath("../Client/assets/Background/city_7/3.png");
+    sprite.setMidBuildPath("../Client/assets/Background/city_7/4.png");
+    sprite.setFrontBuildPath("../Client/assets/Background/city_7/5.png");
+    game.setPath(sprite);
+}
+
 void InLoopMenus::lobbyMenuInLoop(
     LobbyMenu& lobbyMenu,
     WindowManager& windowManager,
     HostOrJoinMenu& hostOrJoinMenu,
     Game& game,
+    Sprite& sprite,
     CommandsToServer& commandsToServer,
     ButtonManager& buttonManager,
     IpAdress& ipAdress)
@@ -137,11 +158,13 @@ void InLoopMenus::lobbyMenuInLoop(
         buttonManager.getLevelOneButton().setOutlineColor(sf::Color::Red);
         if (buttonManager.getLevelTwoButton().getOutlineColor() == sf::Color::Red)
             buttonManager.getLevelTwoButton().setOutlineColor(sf::Color::White);
+        levelOneConfig(game, sprite);
     }
     if (buttonManager.getLevelTwoButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         buttonManager.getLevelTwoButton().setOutlineColor(sf::Color::Red);
         if (buttonManager.getLevelOneButton().getOutlineColor() == sf::Color::Red)
             buttonManager.getLevelOneButton().setOutlineColor(sf::Color::White);
+        levelTwoConfig(game, sprite);
     }
     buttonManager.getLevelOneButton().draw(windowManager.getWindow());
     buttonManager.getLevelTwoButton().draw(windowManager.getWindow());
@@ -178,7 +201,7 @@ void menuChoice(
     } else if (hostOrJoinMenu.onHostOrJoin) {
         introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
     } else if (lobbyMenu.onLobby) {
-        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
+        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, sprite, commandsToServer, buttonManager, ipAdress);
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
     } else if (game.onGame) {
