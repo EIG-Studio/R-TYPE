@@ -120,8 +120,8 @@ void InLoopMenus::lobbyMenuInLoop(
     IpAdress& ipAdress)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
-    buttonManager.getLevelOneButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
-    buttonManager.getLevelTwoButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    //buttonManager.getLevelOneButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    //buttonManager.getLevelTwoButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     buttonManager.getStartButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     buttonManager.getRetourButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     if (buttonManager.getStartButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
@@ -134,10 +134,14 @@ void InLoopMenus::lobbyMenuInLoop(
         hostOrJoinMenu.onHostOrJoin = true;
     }
     if (buttonManager.getLevelOneButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
-        std::cout << "LEVEL 1" << std::endl;
+        buttonManager.getLevelOneButton().setOutlineColor(sf::Color::Red);
+        if (buttonManager.getLevelTwoButton().getOutlineColor() == sf::Color::Red)
+            buttonManager.getLevelTwoButton().setOutlineColor(sf::Color::White);
     }
     if (buttonManager.getLevelTwoButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
-        std::cout << "LEVEL 2" << std::endl;
+        buttonManager.getLevelTwoButton().setOutlineColor(sf::Color::Red);
+        if (buttonManager.getLevelOneButton().getOutlineColor() == sf::Color::Red)
+            buttonManager.getLevelOneButton().setOutlineColor(sf::Color::White);
     }
     buttonManager.getLevelOneButton().draw(windowManager.getWindow());
     buttonManager.getLevelTwoButton().draw(windowManager.getWindow());

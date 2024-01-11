@@ -103,3 +103,8 @@ void Button::setOutlineColor(const sf::Color& color)
 {
     m_shape.setOutlineColor(color);
 }
+
+sf::Color Button::getOutlineColor()
+{
+    return m_shape.getOutlineColor();
+}

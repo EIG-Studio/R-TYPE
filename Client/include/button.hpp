@@ -30,6 +30,7 @@ public:
     void setPosition(const sf::Vector2f& position);
     void setSize(const sf::Vector2f& size);
     void setOutlineColor(const sf::Color& color);
+    sf::Color getOutlineColor();
 
 private:
     sf::RectangleShape m_shape;
