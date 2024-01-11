@@ -37,28 +37,6 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
     }
 }
 
-void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_t id)
-{
-    if (registry.hasComponent(entity, Position()) == false || registry.hasComponent(entity, Speed()) == false)
-        return;
-    Position& positionComponent = registry.getComponent(entity, Position());
-    int speed = registry.getComponent(entity, Speed()).getSpeed();
-
-    if (positionComponent.getPosition().first > 800) {
-        registry.deleteById(id);
-        addMessage("DELETE " + std::to_string(id) + "\n");
-        return;
-    }
-
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first + 1 * speed, positionComponent.getPosition().second));
-
-    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
-                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, id);
-}
-
 void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
 {
     float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
@@ -96,7 +74,11 @@ void Server::GameLoop(Registry& registry)
         }
         for (auto& playerProjectile : playersProjectiles) {
             m_registeryMutex.lock();
-            playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
+            std::ostringstream oss;
+            oss << "NEW_POS " << registry.getComponent(playerProjectile, ID{}).getID() << " "
+                << registry.getComponent(playerProjectile, Position{}).getPosition().first << " "
+                << registry.getComponent(playerProjectile, Position{}).getPosition().second << "\n";
+            addMessage(oss.str());
             projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), enemies);
             m_registeryMutex.unlock();
         }
@@ -108,5 +90,6 @@ void Server::GameLoop(Registry& registry)
             m_registeryMutex.unlock();
             m_clock = std::clock();
         }
+        registry.systemsManager();
     }
 }
