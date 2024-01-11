@@ -129,12 +129,16 @@ int main()
     fpsText.setFont(windowManager.getFont());
     fpsText.setCharacterSize(15);
     fpsText.setFillColor(sf::Color::White);
+    fpsText.setOutlineColor(sf::Color::Black);
+    fpsText.setOutlineThickness(1);
     fpsText.setPosition(10.0f, 10.0f);
 
     inLoopGame.scoreText.setFont(windowManager.getFont());
-    inLoopGame.scoreText.setCharacterSize(15);
+    inLoopGame.scoreText.setCharacterSize(24);
     inLoopGame.scoreText.setFillColor(sf::Color::White);
-    inLoopGame.scoreText.setPosition(30.0f, 30.0f);
+    inLoopGame.scoreText.setOutlineColor(sf::Color::Black);
+    inLoopGame.scoreText.setOutlineThickness(1);
+    inLoopGame.scoreText.setPosition(windowManager.getWindow().getSize().x / 2 - 50, windowManager.getWindow().getSize().y / 50);
 
     sf::Text ipAddressText;
     ipAddressText.setFont(windowManager.getFont());

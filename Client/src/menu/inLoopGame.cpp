@@ -6,6 +6,7 @@
 */
 
 #include "menu/inLoopGame.hpp"
+
 #include "menu/inGame.hpp"
 
 void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
@@ -15,7 +16,7 @@ void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
         Entity score = registry.getScore();
         ScorePoint score_points = registry.getComponent(score, ScorePoint{});
 
-        scoreText.setString(std::to_string(static_cast<int>(score_points.getScorePoint())));
+        scoreText.setString("Score: " + std::to_string(static_cast<int>(score_points.getScorePoint())));
         // std::cout << "LOG: " << std::to_string(score_points.getScorePoint()) << std::endl;
     } else {
         // std::cout << "LOG: " << "no score" << std::endl;
@@ -108,12 +109,12 @@ void InLoopGame::gameInLoop(
         onGameClock.restart();
     }
     windowManager.getWindow().draw(game);
-    windowManager.getWindow().draw(scoreText);
-    windowManager.getWindow().draw(game.getHealthPointText());
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());
         game.displayArrow(registry, windowManager);
+        windowManager.getWindow().draw(scoreText);
+        windowManager.getWindow().draw(game.getHealthPointText());
         if (game.onPause) {
             buttonManager.getResumeButton().draw(windowManager.getWindow());
             buttonManager.getToMenuButton().draw(windowManager.getWindow());

@@ -56,11 +56,9 @@ void movementSystem(Entity entity, Registry& registry)
     auto& velocity = registry.getComponent(entity, Velocity{});
     auto& speed = registry.getComponent(entity, Speed{});
 
-    std::cout << "Pos Before x: "<< position.getPosition().first << ", y: " << position.getPosition().second << std::endl;
     position.setPosition(
         {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
          position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
-    std::cout << "Pos After x: "<< position.getPosition().first << ", y: " << position.getPosition().second << std::endl;
     registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
 }
 
