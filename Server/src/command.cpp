@@ -120,6 +120,9 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
     HealthPoint healthPoint(1);
     Damage damage(3);
+    Velocity velocityComponent = Velocity();
+
+    velocityComponent.setVelocity(1, 0);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
@@ -128,6 +131,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     entity = registry.addComponent(entity, typeComponent);
     entity = registry.addComponent(entity, healthPoint);
     entity = registry.addComponent(entity, damage);
+    entity = registry.addComponent(entity, velocityComponent);
 
     std::ostringstream newPlayerProjectile;
     newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
