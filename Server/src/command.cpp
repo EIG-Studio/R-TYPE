@@ -69,11 +69,11 @@ void Server::createEnemy(Registry& registry)
 void Server::createBoss(Registry& registry)
 {
     ID idComponent = ID();
-    Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
+    Position positionComponent = Position(std::make_pair(randNb(1000, 1100), randNb(0, 500)));
     Size sizeComponent = Size(std::make_pair(1, 1));
-    Speed speedComponent(randNb(5, 6));
+    Speed speedComponent(randNb(1, 3));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
-    HealthPoint healthPointComponent(20);
+    HealthPoint healthPointComponent(50);
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);

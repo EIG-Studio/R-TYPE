@@ -8,6 +8,19 @@
 #include "entities.hpp"
 #include "server.hpp"
 
+void Server::spawnBoss(Registry& registry)
+{
+    Entity score = registry.getScore();
+    if (!registry.hasComponent(score, ScorePoint{}))
+        return;
+    ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
+    static int spawnBoss = 0;
+    if (scorePoint.getScorePoint() == 1 && spawnBoss == 0) {
+        createBoss(registry);
+        spawnBoss = 1;
+    }
+}
+
 void Server::projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> enemies)
 {
     Position projectile_pos_type = registry.getComponent(projectile, Position{});
@@ -26,7 +39,8 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
             ScorePoint& score_point = registry.getComponent(score, ScorePoint{});
             score_point.setScorePoint((score_point.getScorePoint() + 1));
             registry.setEntity(score, score_id);
-            // std::cout << std::to_string(score_point.getScorePoint()) << std::endl;
+            std::cout << "HELLLLLLLOOOOOOO " << std::to_string(score_point.getScorePoint()) << " HELLLLLLLOOOOOOO"
+                      << std::endl;
             registry.deleteById(projectile_id);
 
             addMessage("DELETE " + std::to_string(projectile_id) + "\n");
@@ -107,6 +121,11 @@ void Server::GameLoop(Registry& registry)
             this->createEnemy(registry);
             m_registeryMutex.unlock();
             m_clock = std::clock();
+        }
+        if (gameStarted) {
+            m_registeryMutex.lock();
+            spawnBoss(registry);
+            m_registeryMutex.unlock();
         }
     }
 }
