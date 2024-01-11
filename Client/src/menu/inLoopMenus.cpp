@@ -51,7 +51,11 @@ void InLoopMenus::choiceMenuInLoop(
     windowManager.getWindow().draw(choiceMenu);
 }
 
-void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, ButtonManager& buttonManager)
+void InLoopMenus::settingsMenuInLoop(
+    SettingMenu& settingMenu,
+    WindowManager& windowManager,
+    ChoiceMenu& choiceMenu,
+    ButtonManager& buttonManager)
 {
     buttonManager.getRetourButton().checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
     settingMenu.setCursorPosition(windowManager.getWindow());
@@ -116,6 +120,8 @@ void InLoopMenus::lobbyMenuInLoop(
     IpAdress& ipAdress)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
+    buttonManager.getLevelOneButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    buttonManager.getLevelTwoButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     buttonManager.getStartButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     buttonManager.getRetourButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     if (buttonManager.getStartButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
@@ -127,6 +133,14 @@ void InLoopMenus::lobbyMenuInLoop(
         lobbyMenu.onLobby = false;
         hostOrJoinMenu.onHostOrJoin = true;
     }
+    if (buttonManager.getLevelOneButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
+        std::cout << "LEVEL 1" << std::endl;
+    }
+    if (buttonManager.getLevelTwoButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
+        std::cout << "LEVEL 2" << std::endl;
+    }
+    buttonManager.getLevelOneButton().draw(windowManager.getWindow());
+    buttonManager.getLevelTwoButton().draw(windowManager.getWindow());
     buttonManager.getStartButton().draw(windowManager.getWindow());
     buttonManager.getRetourButton().draw(windowManager.getWindow());
     windowManager.getWindow().draw(lobbyMenu.getIpAdress());
