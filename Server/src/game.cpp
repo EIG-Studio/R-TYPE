@@ -51,7 +51,6 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
             addMessage("DELETE " + std::to_string(projectile_id) + "\n");
 
             if (registry.getComponent(enemy, HealthPoint{}).getHealthPoint() <= 0) {
-                registry.deleteById(enemy_id.getID());
                 addMessage("DELETE " + std::to_string(enemy_id.getID()) + "\n");
                 addMessage("PLAY_BOOM_ENEMIES");
             }

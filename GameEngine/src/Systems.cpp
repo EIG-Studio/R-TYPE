@@ -34,7 +34,7 @@ void deathSystem(Entity entity, Registry& registry)
         return;
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0)
-        registry.destroyEntity(entity);
+        registry.deleteById(registry.getComponent(entity, ID{}).getID());
 }
 
 void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
@@ -129,13 +129,41 @@ void collisionProjectile(const Entity& entity, Entity otherEntity, Registry& reg
 }
 
 
-bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<float, float> end)
+bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<float, float> size)
 {
-    return x > origin.first && x < origin.first + end.first && y > origin.second && y < origin.second + end.second;
+    return x >= origin.first && x <= origin.first + size.first &&
+           y >= origin.second && y <= origin.second + size.second;
+}
+
+bool checkCollisionForFourCorners(Entity entity, Entity otherEntity, Registry& registry)
+{
+    if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(otherEntity, HitBox{}))
+        return false;
+
+    std::pair<float, float> originEntity = registry.getComponent(entity, HitBox{}).getOriPos();
+    std::pair<float, float> sizeEntity = registry.getComponent(entity, HitBox{}).getSize();
+    std::pair<float, float> originOther = registry.getComponent(otherEntity, HitBox{}).getOriPos();
+    std::pair<float, float> sizeOther = registry.getComponent(otherEntity, HitBox{}).getSize();
+
+    float xOther = originOther.first;
+    float yOther = originOther.second;
+    float xOtherEnd = xOther + sizeOther.first;
+    float yOtherEnd = yOther + sizeOther.second;
+
+    // Check for collision
+    bool topLeft = checkHitBox(xOther, yOther, originEntity, sizeEntity);
+    bool topRight = checkHitBox(xOtherEnd, yOther, originEntity, sizeEntity);
+    bool bottomLeft = checkHitBox(xOther, yOtherEnd, originEntity, sizeEntity);
+    bool bottomRight = checkHitBox(xOtherEnd, yOtherEnd, originEntity, sizeEntity);
+
+    return topLeft || topRight || bottomLeft || bottomRight;
 }
 
 void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
 {
+    if (entity.mComponents.empty())
+        return;
+
     std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
         {EntityType::Player, collisionPlayer},
         {EntityType::Enemy, collisionEnemy},
@@ -149,16 +177,17 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
 
     entityType = registry.getComponent(entity, Type{}).getEntityType();
     for (auto& otherEntity : entities) {
-        if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
+        if (!registry.hasComponent(otherEntity, HitBox{}) || !registry.hasComponent(otherEntity, Type{}))
             continue;
         if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID())
             continue;
-
-        auto it = map.find(entityType);
-        if (it != map.end()) {
-            it->second(entity, otherEntity, registry);
-        } else {
-            continue;
+        if (checkCollisionForFourCorners(entity, otherEntity, registry)) {
+            auto it = map.find(entityType);
+            if (it != map.end()) {
+                it->second(entity, otherEntity, registry);
+            } else {
+                continue;
+            }
         }
     }
 }
