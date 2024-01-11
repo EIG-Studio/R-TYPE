@@ -26,12 +26,8 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
 void iaSystem(Entity entity, Registry& registry);
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window);
 
-<<<<<<< HEAD
 enum COMMAND
 {
-=======
-enum COMMAND {
->>>>>>> refs/remotes/origin/Client
     NEW,
     LOGIN,
     UP,
@@ -39,7 +35,6 @@ enum COMMAND {
     LEFT,
     RIGHT,
     NEW_PLAYER,
-<<<<<<< HEAD
     NEW_ENEMY,
     DELETE,
     PLAYER_PROJECTILE,
@@ -53,19 +48,6 @@ enum COMMAND {
     UNKNOWN,
     EMPTY,
     ALIVE,
-=======
-    NEW_ENNEMY,
-    MOVE_ENNEMY,
-    DELETE,
-    PLAYER_PROJECTILE,
-    MOVE_PROJECTILE,
-    REFRESH,
-    NEW_POS,
-    UPDATE,
-    SHOOT,
-    UNKNOWN, 
-    EMPTY
->>>>>>> refs/remotes/origin/Client
 };
 
 COMMAND getCommand(const std::string& commandStr);
