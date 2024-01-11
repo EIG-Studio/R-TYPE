@@ -265,7 +265,7 @@ void HostOrJoinMenu::inputText(sf::Event& event, IpAdress& ipAdress)
 {
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode >= 48 && event.text.unicode <= 57 || event.text.unicode == 46 || event.text.unicode == 8) {
-            if (this->m_userInput.length() < 15) {
+            if (this->m_userInput.length() < 15 || event.text.unicode == 8) {
                 if (event.text.unicode < 128 && event.text.unicode != 8 && this->m_userInput.length() < 15) {
                     this->m_userInput += static_cast<char>(event.text.unicode);
                     this->m_inputText.setString(this->m_userInput);
@@ -285,6 +285,11 @@ void HostOrJoinMenu::setInputText(sf::Text text)
     this->m_inputText = std::move(text);
 }
 
+void HostOrJoinMenu::setInputTextFromString(std::string text)
+{
+    this->m_inputText.setString(text);
+}
+
 sf::Text HostOrJoinMenu::getInputText()
 {
     return this->m_inputText;
@@ -293,6 +298,12 @@ sf::Text HostOrJoinMenu::getInputText()
 std::string HostOrJoinMenu::getUserInput()
 {
     return this->m_userInput;
+}
+
+void HostOrJoinMenu::setUserInput(std::string userInput)
+{
+    // set string
+    this->m_userInput = std::move(userInput);
 }
 
 float HostOrJoinMenu::getCursorPosX()

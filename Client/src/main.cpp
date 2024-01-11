@@ -48,6 +48,7 @@ void handleWindowEvents(
     Menu& menu,
     ChoiceMenu& choiceMenu,
     HostOrJoinMenu& hostOrJoinMenu,
+    LobbyMenu& lobbyMenu,
     Game& game,
     Sprite& sprite,
     Music& music)
@@ -61,27 +62,20 @@ void handleWindowEvents(
             menu.onMenu = false;
             choiceMenu.onChoice = true;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && menu.onMenu && !sprite.easterEgg) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (menu.onMenu || choiceMenu.onChoice) && !sprite.easterEgg) {
             music.musicMenu.stop();
             sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
             sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
             sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
+            sprite.setBackPath("../Client/assets/Background/city_1/1.png");
+            sprite.setVeryBackBuildPath("../Client/assets/Background/city_1/2.png");
+            sprite.setBackBuildPath("../Client/assets/Background/city_1/3.png");
+            sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
+            sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
             menu.setPath(sprite);
             choiceMenu.setPath(sprite);
             hostOrJoinMenu.setPath(sprite);
-            music.setPath(sprite);
-            game.setPath(sprite);
-            music.musicMenu.play();
-            sprite.easterEgg = true;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && choiceMenu.onChoice && !sprite.easterEgg) {
-            music.musicMenu.stop();
-            sprite.setLogoPath("../Client/assets/MainMenu/runnerLogo.png");
-            sprite.setTitlePath("../Client/assets/MainMenu/runnerTitle.png");
-            sprite.setMainSongPath("../Client/assets/Songs/runner.wav");
-            menu.setPath(sprite);
-            choiceMenu.setPath(sprite);
-            hostOrJoinMenu.setPath(sprite);
+            lobbyMenu.setPath(sprite);
             music.setPath(sprite);
             game.setPath(sprite);
             music.musicMenu.play();
@@ -127,60 +121,17 @@ void menuChoice(
     if (menu.onMenu) {
         introMenu.introMenuInLoop(menu, windowManager, music, clock);
     } else if (choiceMenu.onChoice) {
-        introMenu.choiceMenuInLoop(
-            windowManager,
-            choiceMenu,
-            buttonManager.getPlayButton(),
-            buttonManager.getSettingsButton(),
-            buttonManager.getExitButton(),
-            hostOrJoinMenu,
-            settingMenu);
+        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
     } else if (hostOrJoinMenu.onHostOrJoin) {
-        introMenu.hostOrJoinMenuInLoop(
-            hostOrJoinMenu,
-            windowManager,
-            choiceMenu,
-            lobbyMenu,
-            game,
-            commandsToServer,
-            buttonManager.getRetourButton(),
-            buttonManager.getHostButton(),
-            buttonManager.getJoinButton(),
-            event,
-            ipAdress);
+        introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
     } else if (lobbyMenu.onLobby) {
-        introMenu.lobbyMenuInLoop(
-            lobbyMenu,
-            windowManager,
-            hostOrJoinMenu,
-            game,
-            commandsToServer,
-            buttonManager.getRetourButton(),
-            buttonManager.getStartButton(),
-            ipAdress);
+        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
     } else if (settingMenu.onSetting) {
-        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
+        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
     } else if (game.onGame) {
-        inLoopGame.gameInLoop(
-            event,
-            windowManager,
-            game,
-            music,
-            commandsToServer,
-            sprite,
-            onGameClock,
-            registry,
-            buttonManager.getResumeButton(),
-            buttonManager.getToMenuButton(),
-            choiceMenu,
-            ipAdress);
+        inLoopGame
+            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
     }
-}
-
-
-void myLog(const std::string& message)
-{
-    std::cout << "[LOG] " << message << std::endl;
 }
 
 int main()
@@ -227,20 +178,13 @@ int main()
     ipAddressText.setString(ipAddress);
     lobbyMenu.setIpAdress(ipAddressText);
 
-    sf::Text text;
-    text.setFont(windowManager.getFont());
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2);
-    hostOrJoinMenu.setInputText(text);
-
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
     Registry registry = Registry();
-    commandsToServer.asyncReceiveSecondSocket(std::ref(registry));
+    commandsToServer.asyncReceive(std::ref(registry), music);
     while (windowManager.getWindow().isOpen()) {
         sf::Event event{};
-        handleWindowEvents(event, windowManager, menu, choiceMenu, hostOrJoinMenu, game, sprite, music);
+        handleWindowEvents(event, windowManager, menu, choiceMenu, hostOrJoinMenu, lobbyMenu, game, sprite, music);
         updateFpsText(windowManager, fpsText, clock, frameCount);
         menuChoice(
             menu,

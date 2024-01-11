@@ -22,12 +22,10 @@ public:
     void choiceMenuInLoop(
         WindowManager& windowManager,
         ChoiceMenu& choiceMenu,
-        Button& playButton,
-        Button& settingsButton,
-        Button& exitButton,
+        ButtonManager& buttonManager,
         HostOrJoinMenu& hostOrJoinMenu,
         SettingMenu& settingMenu);
-    void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton);
+    void settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, ButtonManager& buttonManager);
     void hostOrJoinMenuInLoop(
         HostOrJoinMenu& hostOrJoinMenu,
         WindowManager& windowManager,
@@ -35,9 +33,7 @@ public:
         LobbyMenu& lobbyMenu,
         Game& game,
         CommandsToServer& commandsToServer,
-        Button& retourButton,
-        Button& hostButton,
-        Button& joinButton,
+        ButtonManager& buttonManager,
         sf::Event& event,
         IpAdress& ipAdress);
     void lobbyMenuInLoop(
@@ -46,8 +42,7 @@ public:
         HostOrJoinMenu& hostOrJoinMenu,
         Game& game,
         CommandsToServer& commandsToServer,
-        Button& retourButton,
-        Button& startButton,
+        ButtonManager& buttonManager,
         IpAdress& ipAdress);
 
 private:

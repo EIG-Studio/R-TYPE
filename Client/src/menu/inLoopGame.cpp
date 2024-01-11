@@ -7,14 +7,22 @@
 
 #include "menu/inLoopGame.hpp"
 
-void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress)
+void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress)
 {
-    if (m_clock.getElapsedTime().asMilliseconds() < 500)
+    if (m_clock.getElapsedTime().asMilliseconds() < 1000)
         return;
     m_clock.restart();
-    for (auto &entity : registry.getListEntities()) {
+    for (auto& entity : registry.getListEntities()) {
         commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
     }
+}
+
+void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress)
+{
+    if (m_clock2.getElapsedTime().asMilliseconds() < 1000)
+        return;
+    m_clock2.restart();
+    commandsToServer.sendToServerAsync("ALIVE", ipAdress);
 }
 
 void InLoopGame::gameInLoop(
@@ -26,18 +34,17 @@ void InLoopGame::gameInLoop(
     Sprite& sprite,
     sf::Clock& onGameClock,
     Registry& registry,
-    Button& resumeButton,
-    Button& toMenuButton,
+    ButtonManager& buttonManager,
     ChoiceMenu& choiceMenu,
     IpAdress& ipAdress)
 {
     game.setCursorPosition(windowManager.getWindow());
-    resumeButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
-    toMenuButton.checkHover(game.getCursorPosX(), game.getCursorPosY());
-    if (resumeButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+    buttonManager.getResumeButton().checkHover(game.getCursorPosX(), game.getCursorPosY());
+    buttonManager.getToMenuButton().checkHover(game.getCursorPosX(), game.getCursorPosY());
+    if (buttonManager.getResumeButton().checkClick(game.getCursorPosX(), game.getCursorPosY())) {
         game.onPause = false;
     }
-    if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
+    if (buttonManager.getToMenuButton().checkClick(game.getCursorPosX(), game.getCursorPosY())) {
         game.onGame = false;
         choiceMenu.onChoice = true;
     }
@@ -45,7 +52,9 @@ void InLoopGame::gameInLoop(
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
     refreshRegistry(registry, commandsToServer, ipAdress);
+    pingServer(commandsToServer, ipAdress);
     try {
+        game.displayHealth(std::ref(registry), music, windowManager);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),
@@ -61,6 +70,9 @@ void InLoopGame::gameInLoop(
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
+        }
+        if (event.key.code == sf::Keyboard::K) {
+            game.damageToPlayer(commandsToServer, registry, ipAdress);
         }
     }
     if (event.type == sf::Event::KeyReleased) {
@@ -80,12 +92,14 @@ void InLoopGame::gameInLoop(
         onGameClock.restart();
     }
     windowManager.getWindow().draw(game);
+    windowManager.getWindow().draw(game.getHealPointText());
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());
+        game.displayArrow(registry, windowManager);
         if (game.onPause) {
-            resumeButton.draw(windowManager.getWindow());
-            toMenuButton.draw(windowManager.getWindow());
+            buttonManager.getResumeButton().draw(windowManager.getWindow());
+            buttonManager.getToMenuButton().draw(windowManager.getWindow());
         }
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
