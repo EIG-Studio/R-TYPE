@@ -96,6 +96,7 @@ void InLoopGame::gameInLoop(
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());
+        game.displayArrow(registry, windowManager);
         if (game.onPause) {
             resumeButton.draw(windowManager.getWindow());
             toMenuButton.draw(windowManager.getWindow());

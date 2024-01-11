@@ -12,6 +12,7 @@
 #include "commandsToServer.hpp"
 #include "ipAdress.hpp"
 #include "sprite/sprite.hpp"
+#include "window.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
@@ -59,6 +60,8 @@ public:
     float getCursorPosX();
     float getCursorPosY();
     void displayHealth(Registry& registry, Music& music);
+    void displayArrow(Registry& registry, WindowManager& windowManager);
+
     bool onGame;
     bool onPause;
     bool hasFocus{false};

@@ -91,14 +91,10 @@ void handleReceive(
                 std::cerr << "Exception in handleReceive: " << e.what() << std::endl;
             }
         } else if (receivedData.command == NEW_PLAYER) {
-            std::vector<Entity> list = registry.getListEntities();
-
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
             int healthPoint = receivedData.args[3];
-
-            log("id= " + std::to_string(id) + "| xPos= " + std::to_string(xPos) + "| yPos= " + std::to_string(yPos));
 
             if (registry.hasEntity(id))
                 return;

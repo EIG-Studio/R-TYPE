@@ -227,6 +227,10 @@ void Server::handleReceivedData(
         } else if (receivedData.command == LOGIN) {
             if (!gameStarted)
                 gameStarted = startGame(registry);
+            if (isClient(remoteEndpoint)) {
+                std::cout << "Client already connected" << std::endl;
+                return;
+            }
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);
