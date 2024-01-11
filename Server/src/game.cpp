@@ -60,8 +60,9 @@ void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
     if (positionComponent.getPosition().first < -100) {
         addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
-        this->createEnemy(registry);
-        return;
+        // for (auto& client : m_clients) {
+        //     damageThePlayer(registry, 3, client.getId());
+        // }
     }
 
     positionComponent.setPosition(

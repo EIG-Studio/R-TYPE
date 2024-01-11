@@ -190,14 +190,14 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     });
 }
 
-void CommandsToServer::asyncReceiveSecondSocket(Registry& registry, Music& music)
+void CommandsToServer::asyncReceive(Registry& registry, Music& music)
 {
     m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music](auto&& pH1, auto&& pH2) {
         this->mutex.lock();
         handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music);
         this->mutex.unlock();
         memset(m_buffer, 0, sizeof(TransferData));
-        asyncReceiveSecondSocket(std::ref(registry), music);
+        asyncReceive(std::ref(registry), music);
     });
 }
 
