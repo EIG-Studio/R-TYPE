@@ -5,6 +5,7 @@
 ** game
 */
 
+#include "components.hpp"
 #include "entities.hpp"
 #include "server.hpp"
 
@@ -27,12 +28,20 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
             score_point.setScorePoint((score_point.getScorePoint() + 1));
             registry.setEntity(score, score_id);
             // std::cout << std::to_string(score_point.getScorePoint()) << std::endl;
+            // degats
+            registry.getComponent(enemy, HealthPoint{})
+                .setHealthPoint(
+                    registry.getComponent(enemy, HealthPoint{}).getHealthPoint() -
+                    registry.getComponent(projectile, Damage{}).getDamage());
+            registry.setEntity(enemy, enemy_id);
             registry.deleteById(projectile_id);
-
             addMessage("DELETE " + std::to_string(projectile_id) + "\n");
-            registry.deleteById(enemy_id.getID());
-            addMessage("DELETE " + std::to_string(enemy_id.getID()) + "\n");
-            addMessage("PLAY_BOOM_ENEMIES");
+
+            if (registry.getComponent(enemy, HealthPoint{}).getHealthPoint() <= 0) {
+                registry.deleteById(enemy_id.getID());
+                addMessage("DELETE " + std::to_string(enemy_id.getID()) + "\n");
+                addMessage("PLAY_BOOM_ENEMIES");
+            }
         }
     }
 }
