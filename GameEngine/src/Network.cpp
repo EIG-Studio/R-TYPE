@@ -25,6 +25,7 @@ static std::map<std::string, COMMAND> commandMap =
      {"SHOOT", SHOOT},
      {"DAMAGE_TO_PLAYER", DAMAGE_TO_PLAYER},
      {"REFRESH", REFRESH},
+     {"SCORE", SCORE},
      {"UNKNOWN", UNKNOWN}};
 
 static std::map<std::string, EntityType> typeMap =
@@ -33,6 +34,7 @@ static std::map<std::string, EntityType> typeMap =
      {"Player_Projectile", Player_Projectile},
      {"Enemy_Projectile", Enemy_Projectile},
      {"Enemy", Enemy},
+     {"HUD", HUD},
      {"Wall", Wall}};
 
 COMMAND getCommand(const std::string& commandStr)

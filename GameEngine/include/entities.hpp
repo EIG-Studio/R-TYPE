@@ -48,8 +48,10 @@ public:
     Entity getEntity(size_t id);
     void setEntity(Entity& entityToCopy, int id);
     Entity getPlayer();
+    Entity getScore();
     Entity getFirstEnemy();
     bool hasEntity(size_t id);
+    bool hasEntityType(Type type);
     std::vector<Entity> getListEnemies();
     std::vector<Entity> getListPlayers();
     std::vector<Entity> getListEntities();
@@ -69,11 +71,6 @@ public:
 
     template <typename T>
     bool hasComponent(Entity& entity, T component);
-
-    // void setWindow(sf::RenderWindow window)
-    // {
-    //     m_window = std::move(window);
-    // }
 
 private:
     std::vector<Entity> m_entities;

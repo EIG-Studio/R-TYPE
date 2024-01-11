@@ -41,7 +41,6 @@ std::string getLocalIpAddress()
     return "Failed to retrieve IP address";
 }
 
-
 void handleWindowEvents(
     sf::Event& event,
     WindowManager& windowManager,
@@ -98,42 +97,6 @@ void updateFpsText(WindowManager& windowManager, sf::Text& fpsText, sf::Clock& c
     }
 }
 
-void menuChoice(
-    Menu& menu,
-    InLoopMenus& introMenu,
-    WindowManager& windowManager,
-    Music& music,
-    sf::Clock& clock,
-    ChoiceMenu& choiceMenu,
-    HostOrJoinMenu& hostOrJoinMenu,
-    LobbyMenu& lobbyMenu,
-    ButtonManager& buttonManager,
-    Game& game,
-    CommandsToServer& commandsToServer,
-    SettingMenu& settingMenu,
-    InLoopGame& inLoopGame,
-    sf::Event& event,
-    Sprite& sprite,
-    sf::Clock& onGameClock,
-    Registry& registry,
-    IpAdress& ipAdress)
-{
-    if (menu.onMenu) {
-        introMenu.introMenuInLoop(menu, windowManager, music, clock);
-    } else if (choiceMenu.onChoice) {
-        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
-    } else if (hostOrJoinMenu.onHostOrJoin) {
-        introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
-    } else if (lobbyMenu.onLobby) {
-        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
-    } else if (settingMenu.onSetting) {
-        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
-    } else if (game.onGame) {
-        inLoopGame
-            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
-    }
-}
-
 int main()
 {
     WindowManager windowManager;
@@ -167,6 +130,11 @@ int main()
     fpsText.setCharacterSize(15);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
+
+    fpsText.setFont(windowManager.getFont());
+    fpsText.setCharacterSize(15);
+    fpsText.setFillColor(sf::Color::White);
+    fpsText.setPosition(20.0f, 20.0f);
 
     sf::Text ipAddressText;
     ipAddressText.setFont(windowManager.getFont());

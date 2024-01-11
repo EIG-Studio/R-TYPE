@@ -62,12 +62,12 @@ public:
     void displayHealth(Registry& registry, Music& music, WindowManager& windowManager);
     void displayArrow(Registry& registry, WindowManager& windowManager);
 
-    void setHealPointText(sf::Text mHealPoint);
-    sf::Text getHealPointText();
+    void setHealthPointText(sf::Text mHealthPoint);
+    sf::Text getHealthPointText();
 
     bool onGame;
     bool onPause;
-    bool dispHealFirst{false};
+    bool healthPointFirst{false};
     bool hasFocus{false};
 
 private:
@@ -110,6 +110,6 @@ private:
     int m_tempMouseX;
     int m_tempMouseY;
 
-    sf::Text m_healthPoint;
+    sf::Text m_healthPointText;
     int m_healthPointTemp;
 };
