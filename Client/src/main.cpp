@@ -125,38 +125,13 @@ void menuChoice(
     } else if (hostOrJoinMenu.onHostOrJoin) {
         introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
     } else if (lobbyMenu.onLobby) {
-        introMenu.lobbyMenuInLoop(
-            lobbyMenu,
-            windowManager,
-            hostOrJoinMenu,
-            game,
-            commandsToServer,
-            buttonManager.getRetourButton(),
-            buttonManager.getStartButton(),
-            ipAdress);
+        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
     } else if (settingMenu.onSetting) {
-        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager.getRetourButton());
+        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
     } else if (game.onGame) {
-        inLoopGame.gameInLoop(
-            event,
-            windowManager,
-            game,
-            music,
-            commandsToServer,
-            sprite,
-            onGameClock,
-            registry,
-            buttonManager.getResumeButton(),
-            buttonManager.getToMenuButton(),
-            choiceMenu,
-            ipAdress);
+        inLoopGame
+            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
     }
-}
-
-
-void myLog(const std::string& message)
-{
-    std::cout << "[LOG] " << message << std::endl;
 }
 
 int main()

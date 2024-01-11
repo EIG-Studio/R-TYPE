@@ -24,7 +24,7 @@ void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Musi
 void InLoopMenus::choiceMenuInLoop(
     WindowManager& windowManager,
     ChoiceMenu& choiceMenu,
-    ButtonManager &buttonManager,
+    ButtonManager& buttonManager,
     HostOrJoinMenu& hostOrJoinMenu,
     SettingMenu& settingMenu)
 {
@@ -50,15 +50,15 @@ void InLoopMenus::choiceMenuInLoop(
     windowManager.getWindow().draw(choiceMenu);
 }
 
-void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, Button& retourButton)
+void InLoopMenus::settingsMenuInLoop(SettingMenu& settingMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, ButtonManager& buttonManager)
 {
-    retourButton.checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
+    buttonManager.getRetourButton().checkHover(settingMenu.getCursorPosX(), settingMenu.getCursorPosY());
     settingMenu.setCursorPosition(windowManager.getWindow());
-    if (retourButton.checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
+    if (buttonManager.getRetourButton().checkClick(settingMenu.getCursorPosX(), settingMenu.getCursorPosY())) {
         settingMenu.onSetting = false;
         choiceMenu.onChoice = true;
     }
-    retourButton.draw(windowManager.getWindow());
+    buttonManager.getRetourButton().draw(windowManager.getWindow());
     windowManager.getWindow().draw(settingMenu);
 }
 
@@ -69,7 +69,7 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     LobbyMenu& lobbyMenu,
     Game& game,
     CommandsToServer& commandsToServer,
-    ButtonManager &buttonManager,
+    ButtonManager& buttonManager,
     sf::Event& event,
     IpAdress& ipAdress)
 {
@@ -78,7 +78,9 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     buttonManager.getHostButton().checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
     buttonManager.getJoinButton().checkHover(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY());
     buttonManager.getIpButton().setText(hostOrJoinMenu.getInputText().getString());
-    buttonManager.getIpButton().setPosition(sf::Vector2f(windowManager.getWindow().getSize().x / 2 - hostOrJoinMenu.getInputText().getString().getSize() * 20 / 2, windowManager.getWindow().getSize().y / 2));
+    buttonManager.getIpButton().setPosition(sf::Vector2f(
+        windowManager.getWindow().getSize().x / 2 - hostOrJoinMenu.getInputText().getString().getSize() * 20 / 2,
+        windowManager.getWindow().getSize().y / 2));
     buttonManager.getIpButton().setSize(sf::Vector2f(hostOrJoinMenu.getInputText().getString().getSize() * 20, 50));
     if (buttonManager.getHostButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
         hostOrJoinMenu.onHostOrJoin = false;
@@ -109,26 +111,23 @@ void InLoopMenus::lobbyMenuInLoop(
     HostOrJoinMenu& hostOrJoinMenu,
     Game& game,
     CommandsToServer& commandsToServer,
-    Button& retourButton,
-    Button& startButton,
+    ButtonManager& buttonManager,
     IpAdress& ipAdress)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
-    startButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
-    retourButton.checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
-    if (startButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
+    buttonManager.getStartButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    buttonManager.getRetourButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
+    if (buttonManager.getStartButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
         game.onGame = true;
         commandsToServer.sendToServerAsync("LOGIN", ipAdress);
     }
-    if (retourButton.checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
+    if (buttonManager.getRetourButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         lobbyMenu.onLobby = false;
         hostOrJoinMenu.onHostOrJoin = true;
-        
-            
     }
-    startButton.draw(windowManager.getWindow());
-    retourButton.draw(windowManager.getWindow());
+    buttonManager.getStartButton().draw(windowManager.getWindow());
+    buttonManager.getRetourButton().draw(windowManager.getWindow());
     windowManager.getWindow().draw(lobbyMenu.getIpAdress());
     windowManager.getWindow().draw(lobbyMenu);
 }
