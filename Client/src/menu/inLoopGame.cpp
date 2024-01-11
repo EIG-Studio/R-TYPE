@@ -69,7 +69,7 @@ void InLoopGame::gameInLoop(
     refreshRegistry(registry, commandsToServer, ipAdress);
     pingServer(commandsToServer, ipAdress);
     try {
-        // game.displayHealth(std::ref(registry), music, windowManager);
+        game.displayHealth(std::ref(registry), music, windowManager);
         updateScore(windowManager, registry);
         game.movePlayer(
             std::ref(registry),
@@ -109,7 +109,7 @@ void InLoopGame::gameInLoop(
     }
     windowManager.getWindow().draw(game);
     windowManager.getWindow().draw(scoreText);
-    //windowManager.getWindow().draw(game.getHealPointText());
+    windowManager.getWindow().draw(game.getHealthPointText());
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());
