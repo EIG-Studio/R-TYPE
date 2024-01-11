@@ -8,6 +8,7 @@
 #include "menu/inGame.hpp"
 
 #include <sstream>
+#include <utility>
 
 Game::Game()
 {
@@ -258,7 +259,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     }
 }
 
-void Game::displayHealth(Registry& registry, Music& music)
+void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
 {
     Entity player;
     try {
@@ -269,11 +270,33 @@ void Game::displayHealth(Registry& registry, Music& music)
     }
     int healthPoint = registry.getComponent(player, HealthPoint{}).getHealthPoint();
 
-    std::cout << healthPoint << std::endl;
+    if (!this->healthPointFirst || m_healthPointTemp != healthPoint) {
+        this->m_healthPointTemp = healthPoint;
+        sf::Text healthPointText;
+        healthPointText.setFont(windowManager.getFont());
+        healthPointText.setCharacterSize(24);
+        healthPointText.setFillColor(sf::Color::White);
+        healthPointText.setPosition(24, windowManager.getWindow().getSize().y - 48);
+
+        std::string healthP = std::to_string(healthPoint);
+        healthPointText.setString("HP: " + healthP);
+        this->setHealthPointText(healthPointText);
+    }
+
     if (healthPoint <= 0) {
         registry.deleteById(registry.getComponent(player, ID{}).getID());
         music.musicMenu.stop();
         music.killPlayer.play();
         this->onGame = false;
     }
+}
+
+void Game::setHealthPointText(sf::Text mHealthPoint)
+{
+    this->m_healthPointText = std::move(mHealthPoint);
+}
+
+sf::Text Game::getHealthPointText()
+{
+    return m_healthPointText;
 }

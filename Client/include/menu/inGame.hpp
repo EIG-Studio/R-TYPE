@@ -59,11 +59,15 @@ public:
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
-    void displayHealth(Registry& registry, Music& music);
+    void displayHealth(Registry& registry, Music& music, WindowManager& windowManager);
     void displayArrow(Registry& registry, WindowManager& windowManager);
+
+    void setHealthPointText(sf::Text mHealthPoint);
+    sf::Text getHealthPointText();
 
     bool onGame;
     bool onPause;
+    bool healthPointFirst{false};
     bool hasFocus{false};
 
 private:
@@ -105,4 +109,7 @@ private:
     sf::Sprite m_cursorSprite;
     int m_tempMouseX;
     int m_tempMouseY;
+
+    sf::Text m_healthPointText;
+    int m_healthPointTemp;
 };
