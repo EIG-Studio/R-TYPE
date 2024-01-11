@@ -9,6 +9,7 @@
 
 #include "commandsToServer.hpp"
 #include "menu/inGame.hpp"
+#include "menu/inLoopGame.hpp"
 #include "menu/menus.hpp"
 #include "music/sounds.hpp"
 #include "window.hpp"
@@ -47,3 +48,23 @@ public:
 
 private:
 };
+
+void menuChoice(
+    Menu& menu,
+    InLoopMenus& introMenu,
+    WindowManager& windowManager,
+    Music& music,
+    sf::Clock& clock,
+    ChoiceMenu& choiceMenu,
+    HostOrJoinMenu& hostOrJoinMenu,
+    LobbyMenu& lobbyMenu,
+    ButtonManager& buttonManager,
+    Game& game,
+    CommandsToServer& commandsToServer,
+    SettingMenu& settingMenu,
+    InLoopGame& inLoopGame,
+    sf::Event& event,
+    Sprite& sprite,
+    sf::Clock& onGameClock,
+    Registry& registry,
+    IpAdress& ipAdress);
