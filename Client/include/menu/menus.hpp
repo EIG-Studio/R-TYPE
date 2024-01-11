@@ -88,9 +88,13 @@ public:
     void setInputText(sf::Text text);
     sf::Text getInputText();
     void inputText(sf::Event& event, IpAdress& ipAdress);
+<<<<<<< HEAD
     void setInputTextFromString(std::string text);
     std::string getUserInput();
     void setUserInput(std::string userInput);
+=======
+    std::string getUserInput();
+>>>>>>> refs/remotes/origin/Client
     bool onHostOrJoin;
 
 private:

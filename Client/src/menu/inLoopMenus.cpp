@@ -69,7 +69,13 @@ void InLoopMenus::hostOrJoinMenuInLoop(
     LobbyMenu& lobbyMenu,
     Game& game,
     CommandsToServer& commandsToServer,
+<<<<<<< HEAD
     ButtonManager& buttonManager,
+=======
+    Button& retourButton,
+    Button& hostButton,
+    Button& joinButton,
+>>>>>>> refs/remotes/origin/Client
     sf::Event& event,
     IpAdress& ipAdress)
 {
@@ -86,22 +92,36 @@ void InLoopMenus::hostOrJoinMenuInLoop(
         hostOrJoinMenu.onHostOrJoin = false;
         lobbyMenu.onLobby = true;
     }
+<<<<<<< HEAD
     if (buttonManager.getJoinButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+=======
+    if (joinButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+>>>>>>> refs/remotes/origin/Client
         hostOrJoinMenu.onHostOrJoin = false;
         game.onGame = true;
         commandsToServer.sendToServerAsync("LOGIN", ipAdress);
     }
+<<<<<<< HEAD
     if (buttonManager.getRetourButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+=======
+    if (retourButton.checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+>>>>>>> refs/remotes/origin/Client
         hostOrJoinMenu.onHostOrJoin = false;
         choiceMenu.onChoice = true;
         hostOrJoinMenu.setInputTextFromString("");
     }
     hostOrJoinMenu.inputText(event, ipAdress);
     windowManager.getWindow().draw(hostOrJoinMenu.getInputText());
+<<<<<<< HEAD
     buttonManager.getHostButton().draw(windowManager.getWindow());
     buttonManager.getJoinButton().draw(windowManager.getWindow());
     buttonManager.getRetourButton().draw(windowManager.getWindow());
     buttonManager.getIpButton().draw(windowManager.getWindow());
+=======
+    hostButton.draw(windowManager.getWindow());
+    joinButton.draw(windowManager.getWindow());
+    retourButton.draw(windowManager.getWindow());
+>>>>>>> refs/remotes/origin/Client
     windowManager.getWindow().draw(hostOrJoinMenu);
 }
 
@@ -111,7 +131,12 @@ void InLoopMenus::lobbyMenuInLoop(
     HostOrJoinMenu& hostOrJoinMenu,
     Game& game,
     CommandsToServer& commandsToServer,
+<<<<<<< HEAD
     ButtonManager& buttonManager,
+=======
+    Button& retourButton,
+    Button& startButton,
+>>>>>>> refs/remotes/origin/Client
     IpAdress& ipAdress)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
@@ -126,8 +151,13 @@ void InLoopMenus::lobbyMenuInLoop(
         lobbyMenu.onLobby = false;
         hostOrJoinMenu.onHostOrJoin = true;
     }
+<<<<<<< HEAD
     buttonManager.getStartButton().draw(windowManager.getWindow());
     buttonManager.getRetourButton().draw(windowManager.getWindow());
+=======
+    startButton.draw(windowManager.getWindow());
+    retourButton.draw(windowManager.getWindow());
+>>>>>>> refs/remotes/origin/Client
     windowManager.getWindow().draw(lobbyMenu.getIpAdress());
     windowManager.getWindow().draw(lobbyMenu);
 }

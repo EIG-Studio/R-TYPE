@@ -50,6 +50,7 @@ void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
     updateSpriteTexture(sprite, texturePath);
 }
 
+<<<<<<< HEAD
 void Game::movePlayer(
     Registry& registry,
     float movementSpeed,
@@ -58,6 +59,9 @@ void Game::movePlayer(
     CommandsToServer& commandsToServer,
     Sprite mSprite,
     IpAdress& ipAdress)
+=======
+void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress)
+>>>>>>> refs/remotes/origin/Client
 {
     Entity player;
     try {
@@ -187,6 +191,7 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     std::ostringstream shooting;
     shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
+<<<<<<< HEAD
 }
 
 void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
@@ -215,4 +220,6 @@ void Game::displayArrow(Registry& registry, WindowManager& windowManager)
     sprite.setPosition(pairPos.first + 46, pairPos.second - 30);
     sprite.setScale(0.04, 0.04);
     windowManager.getWindow().draw(sprite);
+=======
+>>>>>>> refs/remotes/origin/Client
 }

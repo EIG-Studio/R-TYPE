@@ -1,5 +1,6 @@
 # Server
 
+<<<<<<< HEAD
 ### This is a technique documentation for explain the differents tools offered by the server
 
 # Tables of Contents
@@ -251,3 +252,9 @@ std::size_t bytesReceived;
 boost::asio::ip::udp::endpoint remoteEndpoint;
 server.handleReceivedData(error, bytesReceived, registry, remoteEndpoint);
 ```
+=======
+### This is a documentation for explain the server
+
+# Tables of Contents
+
+>>>>>>> refs/remotes/origin/Client

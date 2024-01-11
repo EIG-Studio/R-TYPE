@@ -123,15 +123,62 @@ void menuChoice(
     } else if (choiceMenu.onChoice) {
         introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
     } else if (hostOrJoinMenu.onHostOrJoin) {
+<<<<<<< HEAD
         introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
     } else if (lobbyMenu.onLobby) {
         introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
+=======
+        introMenu.hostOrJoinMenuInLoop(
+            hostOrJoinMenu,
+            windowManager,
+            choiceMenu,
+            lobbyMenu,
+            game,
+            commandsToServer,
+            buttonManager.getRetourButton(),
+            buttonManager.getHostButton(),
+            buttonManager.getJoinButton(),
+            event,
+            ipAdress);
+    } else if (lobbyMenu.onLobby) {
+        introMenu.lobbyMenuInLoop(
+            lobbyMenu,
+            windowManager,
+            hostOrJoinMenu,
+            game,
+            commandsToServer,
+            buttonManager.getRetourButton(),
+            buttonManager.getStartButton(),
+            ipAdress);
+>>>>>>> refs/remotes/origin/Client
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
     } else if (game.onGame) {
+<<<<<<< HEAD
         inLoopGame
             .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
+=======
+        inLoopGame.gameInLoop(
+            event,
+            windowManager,
+            game,
+            music,
+            commandsToServer,
+            sprite,
+            onGameClock,
+            registry,
+            buttonManager.getResumeButton(),
+            buttonManager.getToMenuButton(),
+            choiceMenu,
+            ipAdress);
+>>>>>>> refs/remotes/origin/Client
     }
+}
+
+
+void myLog(const std::string& message)
+{
+    std::cout << "[LOG] " << message << std::endl;
 }
 
 int main()
@@ -178,6 +225,16 @@ int main()
     ipAddressText.setString(ipAddress);
     lobbyMenu.setIpAdress(ipAddressText);
 
+<<<<<<< HEAD
+=======
+    sf::Text text;
+    text.setFont(windowManager.getFont());
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2);
+    hostOrJoinMenu.setInputText(text);
+
+>>>>>>> refs/remotes/origin/Client
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
     Registry registry = Registry();

@@ -20,10 +20,15 @@ public:
     sf::Music musicMenu;
     sf::Music musicSecret;
     sf::Music shootSound;
+<<<<<<< HEAD
     sf::Music boomEnemies;
     sf::Music killPlayer;
     bool playMenuMusic;
     void setPath(Sprite mSprite);
+=======
+    bool      playMenuMusic;
+    void      setPath(Sprite mSprite);
+>>>>>>> refs/remotes/origin/Client
 
 protected:
 

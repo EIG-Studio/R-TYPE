@@ -237,8 +237,15 @@ std::vector<Entity> Registry::getListEntities()
 
 void Registry::destroyEnemy(std::vector<Entity> enemyList)
 {
+<<<<<<< HEAD
     Position enemyPos = this->getComponent(enemyList[0], Position{});
     std::pair<float, float> pairPos = enemyPos.getPosition();
     std::cout << "ENEMY POS X: " << pairPos.first << std::endl;
     std::cout << "ENEMY POS Y: " << pairPos.second << std::endl;
+=======
+    Position ennemyPos = this->getComponent(ennemyList[0], Position{});
+    std::pair<float, float> pairPos = ennemyPos.getPosition();
+    std::cout << "ENNEMY POS X: " << pairPos.first << std::endl;
+    std::cout << "ENNEMY POS Y: " << pairPos.second << std::endl;
+>>>>>>> refs/remotes/origin/Client
 }

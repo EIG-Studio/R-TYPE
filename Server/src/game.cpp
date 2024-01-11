@@ -93,6 +93,7 @@ void Server::GameLoop(Registry& registry)
             projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), enemies);
             m_registeryMutex.unlock();
         }
+<<<<<<< HEAD
         if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && gameStarted) {
 
             std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
@@ -105,5 +106,7 @@ void Server::GameLoop(Registry& registry)
         //     m_registeryMutex.lock();
         //     m_registeryMutex.unlock();
         // }
+=======
+>>>>>>> refs/remotes/origin/Client
     }
 }

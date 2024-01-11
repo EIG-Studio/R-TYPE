@@ -257,6 +257,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         states.texture = &m_cursorTexture;
         target.draw(m_cursorSprite, states);
     }
+<<<<<<< HEAD
 }
 
 void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
@@ -300,4 +301,6 @@ void Game::setHealPointText(sf::Text mHealPoint)
 sf::Text Game::getHealPointText()
 {
     return this->m_healthPoint;
+=======
+>>>>>>> refs/remotes/origin/Client
 }

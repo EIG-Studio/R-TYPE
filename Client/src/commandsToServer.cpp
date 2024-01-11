@@ -49,8 +49,12 @@ void handleReceive(
     const boost::system::error_code& error,
     size_t len,
     unsigned char buffer[sizeof(TransferData)],
+<<<<<<< HEAD
     std::string& /*mNewPos*/,
     Music& music)
+=======
+    std::string& /*mNewPos*/)
+>>>>>>> refs/remotes/origin/Client
 {
     if (!error && len == 0) {
         std::cout << "No data received, non-blocking return." << std::endl;
@@ -76,6 +80,7 @@ void handleReceive(
             } catch (const std::exception& e) {
                 std::cerr << "Exception in handleReceive: " << e.what() << std::endl;
             }
+<<<<<<< HEAD
         } else if (receivedData.command == NEW_HEALTH) {
             int id = receivedData.args[0];
             int health = receivedData.args[1];
@@ -95,6 +100,16 @@ void handleReceive(
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
             int healthPoint = receivedData.args[3];
+=======
+        } else if (receivedData.command == NEW_PLAYER) {
+            std::vector<Entity> list = registry.getListEntities();
+
+            int id = receivedData.args[0];
+            int xPos = receivedData.args[1];
+            int yPos = receivedData.args[2];
+
+            log("id= " + std::to_string(id) + "| xPos= " + std::to_string(xPos) + "| yPos= " + std::to_string(yPos));
+>>>>>>> refs/remotes/origin/Client
 
             if (registry.hasEntity(id))
                 return;
@@ -109,6 +124,7 @@ void handleReceive(
                     103 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().width,
                     56.25 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().height)));
             registry.setEntity(player, id);
+<<<<<<< HEAD
         } else if (receivedData.command == NEW_ENEMY) {
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
@@ -128,6 +144,27 @@ void handleReceive(
             std::pair<int, int> pairPos = enemyPos.getPosition();
 
             std::cout << "Enemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
+=======
+        } else if (receivedData.command == NEW_ENNEMY) {
+            int id = receivedData.args[0];
+            int xPos = receivedData.args[1];
+            int yPos = receivedData.args[2];
+
+            Entity ennemy = registry.createEntityWithID(id);
+            ennemy = registry.addComponent(ennemy, Position(std::make_pair(xPos, yPos)));
+            ennemy = registry.addComponent(ennemy, Renderer("../Client/assets/Cars/cars/190.png"));
+            ennemy = registry.addComponent(ennemy, Type(std::any_cast<EntityType>(Enemy)));
+            ennemy = registry.addComponent(
+                ennemy,
+                Size(std::make_pair(
+                    103 / registry.getComponent(ennemy, Renderer{}).getRenderer().getLocalBounds().width,
+                    56.25 / registry.getComponent(ennemy, Renderer{}).getRenderer().getLocalBounds().height)));
+
+            Position ennemyPos = registry.getComponent(ennemy, Position{});
+            std::pair<int, int> pairPos = ennemyPos.getPosition();
+
+            std::cout << "Ennemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
+>>>>>>> refs/remotes/origin/Client
         } else if (receivedData.command == PLAYER_PROJECTILE) {
             std::cout << "player projectile created" << std::endl;
             int id = receivedData.args[0];
@@ -149,10 +186,13 @@ void handleReceive(
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (receivedData.command == DELETE) {
             registry.deleteById(receivedData.args[0]);
+<<<<<<< HEAD
         } else if (receivedData.command == PLAY_BOOM_ENEMIES) {
             music.boomEnemies.play();
         } else if (error) {
             std::cerr << "Error in handleReceive: " << error.message() << std::endl;
+=======
+>>>>>>> refs/remotes/origin/Client
         }
     }
 }
@@ -177,9 +217,12 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     }
     unsigned char buffer[sizeof(TransferData)];
     std::memcpy(buffer, &data, sizeof(TransferData));
+<<<<<<< HEAD
     if (ipAdress.getUserInput().empty()) {
         ipAdress.setUserInput("127.0.0.1");
     }
+=======
+>>>>>>> refs/remotes/origin/Client
     boost::asio::ip::udp::endpoint receiverEndpoint(boost::asio::ip::address::from_string(ipAdress.getUserInput()), 7171);
     socket.async_send_to(boost::asio::buffer(buffer), receiverEndpoint, [](const boost::system::error_code& ec, std::size_t bytes_transferred) {
         if (ec) {
@@ -192,12 +235,21 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
 
 void CommandsToServer::asyncReceive(Registry& registry, Music& music)
 {
+<<<<<<< HEAD
     m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music](auto&& pH1, auto&& pH2) {
         this->mutex.lock();
         handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music);
         this->mutex.unlock();
         memset(m_buffer, 0, sizeof(TransferData));
         asyncReceive(std::ref(registry), music);
+=======
+    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry](auto&& pH1, auto&& pH2) {
+        this->mutex.lock();
+        handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos);
+        this->mutex.unlock();
+        memset(m_buffer, 0, sizeof(TransferData));
+        asyncReceiveSecondSocket(std::ref(registry));
+>>>>>>> refs/remotes/origin/Client
     });
 }
 

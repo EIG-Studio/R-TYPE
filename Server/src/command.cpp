@@ -97,6 +97,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     addMessage(newPlayerProjectile.str());
 }
 
+<<<<<<< HEAD
 void Server::damageThePlayer(Registry& registry, int damage, int id)
 {
     Entity entity = registry.getEntity(id);
@@ -112,6 +113,11 @@ void Server::damageThePlayer(Registry& registry, int damage, int id)
 void Server::addMessage(const std::string& message)
 {
     this->m_MessageMutex.lock();
+=======
+void Server::addMessage(const std::string& message)
+{
+    this->m_mutex.lock();
+>>>>>>> refs/remotes/origin/Client
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
@@ -129,7 +135,11 @@ void Server::addMessage(const std::string& message)
         i++;
     }
     m_messages.emplace_front(data);
+<<<<<<< HEAD
     this->m_MessageMutex.unlock();
+=======
+    this->m_mutex.unlock();
+>>>>>>> refs/remotes/origin/Client
 }
 
 void Server::playerMove(Registry& registry, COMMAND direction, std::size_t id)
@@ -169,7 +179,11 @@ void Server::sendAllEntites(Registry& registry)
         if (type == Player)
             oss << "NEW_PLAYER ";
         else if (type == Enemy)
+<<<<<<< HEAD
             oss << "NEW_ENEMY ";
+=======
+            oss << "NEW_ENNEMY ";
+>>>>>>> refs/remotes/origin/Client
         else if (type == Player_Projectile)
             oss << "PLAYER_PROJECTILE ";
         else if (type == Enemy_Projectile)
@@ -200,6 +214,7 @@ void Server::refreshClientRegistry(Registry& registry, int id)
     }
 }
 
+<<<<<<< HEAD
 bool Server::startGame(Registry& registry)
 {
     std::cout << "Game started" << std::endl;
@@ -210,6 +225,8 @@ bool Server::startGame(Registry& registry)
     return true;
 }
 
+=======
+>>>>>>> refs/remotes/origin/Client
 void Server::handleReceivedData(
     const boost::system::error_code& error,
     std::size_t bytesReceived,
@@ -222,6 +239,7 @@ void Server::handleReceivedData(
 
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
+<<<<<<< HEAD
         } else if (receivedData.command == DAMAGE_TO_PLAYER) {
             damageThePlayer(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
@@ -230,20 +248,36 @@ void Server::handleReceivedData(
             if (isClient(remoteEndpoint)) {
                 std::cout << "Client already connected" << std::endl;
                 return;
+=======
+        } else if (receivedData.command == LOGIN) {
+            if (!gameStarted) {
+                gameStarted = true;
+                std::cout << "Game started" << std::endl;
+                createEnnemy(registry);
+                createEnnemy(registry);
+                createEnnemy(registry);
+                createEnnemy(registry);
+>>>>>>> refs/remotes/origin/Client
             }
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);
         } else if (receivedData.command == UPDATE) {
             sendAllEntites(registry);
+<<<<<<< HEAD
         } else if (receivedData.command == NEW_ENEMY) {
             createEnemy(registry);
+=======
+        } else if (receivedData.command == NEW_ENNEMY) {
+            createEnnemy(registry);
+>>>>>>> refs/remotes/origin/Client
         } else if (
             receivedData.command == DOWN || receivedData.command == UP || receivedData.command == LEFT ||
             receivedData.command == RIGHT) {
             playerMove(registry, receivedData.command, receivedData.args[0]);
         } else if (receivedData.command == REFRESH) {
             refreshClientRegistry(registry, receivedData.args[0]);
+<<<<<<< HEAD
         } else if (receivedData.command == ALIVE) {
             m_ClientMutex.lock();
             for (Client& client : m_clients) {
@@ -252,6 +286,8 @@ void Server::handleReceivedData(
                 }
             }
             m_ClientMutex.unlock();
+=======
+>>>>>>> refs/remotes/origin/Client
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << receivedData.command << std::endl;

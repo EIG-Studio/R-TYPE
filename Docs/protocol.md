@@ -33,7 +33,7 @@ Message: `MOVE_ENNEMY [ID]`
 
 This message is sent to the client when a ennemy is moved
 
-Message: `DELETE_ENNEMY [ID]`
+Message: `DELETE [ID]`
 
 This message is sent to the client when a ennemy is move
 
@@ -44,7 +44,7 @@ Message: `PLAYER_PROJECTILE [ID] [X] [Y] [TYPE]`
 
 This message is sent to the client when a new projectile is created  
 
-Messeage `MOVE_PROJECTILE [ID]`
+Message `MOVE_PROJECTILE [ID]`
 
 This message is sent to the client when a projectile is moved  
 

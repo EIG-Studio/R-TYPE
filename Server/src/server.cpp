@@ -26,6 +26,7 @@ void Server::startSending()
     TransferData data;
     while (true) {
         data = {.command = EMPTY};
+<<<<<<< HEAD
         this->m_MessageMutex.lock();
         if (!m_messages.empty()) {
             data = m_messages.back();
@@ -34,6 +35,16 @@ void Server::startSending()
         if (!(data.command == EMPTY)) {
             sendMessage(data);
             this->m_MessageMutex.lock();
+=======
+        this->m_mutex.lock();
+        if (!m_messages.empty()) {
+            data = m_messages.back();
+        }
+        this->m_mutex.unlock();
+        if (!(data.command == EMPTY)) {
+            sendMessage(data);
+            this->m_mutex.lock();
+>>>>>>> refs/remotes/origin/Client
             m_messages.pop_back();
             this->m_MessageMutex.unlock();
         }
@@ -51,6 +62,7 @@ void Server::sendMessage(TransferData data)
     }
 }
 
+<<<<<<< HEAD
 bool Server::isClient(const boost::asio::ip::udp::endpoint& clientEndpoint)
 {
     for (const auto& client : m_clients) {
@@ -61,6 +73,8 @@ bool Server::isClient(const boost::asio::ip::udp::endpoint& clientEndpoint)
     return false;
 }
 
+=======
+>>>>>>> refs/remotes/origin/Client
 void Server::addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id)
 {
     if (find(m_clients.begin(), m_clients.end(), clientEndpoint) == m_clients.end()) {
