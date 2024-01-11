@@ -98,3 +98,8 @@ void Button::setSize(const sf::Vector2f& size)
         m_shape.getPosition().x + (m_shape.getSize().x - m_label.getLocalBounds().width) / 2,
         m_shape.getPosition().y + (m_shape.getSize().y - m_label.getLocalBounds().height) / 2);
 }
+
+void Button::setOutlineColor(const sf::Color& color)
+{
+    m_shape.setOutlineColor(color);
+}

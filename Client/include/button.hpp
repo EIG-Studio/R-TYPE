@@ -29,6 +29,7 @@ public:
     void setText(const std::string& text);
     void setPosition(const sf::Vector2f& position);
     void setSize(const sf::Vector2f& size);
+    void setOutlineColor(const sf::Color& color);
 
 private:
     sf::RectangleShape m_shape;
