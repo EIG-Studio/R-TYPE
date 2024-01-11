@@ -136,6 +136,21 @@ void handleReceive(
             std::pair<int, int> pairPos = enemyPos.getPosition();
 
             std::cout << "Enemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
+        } else if (receivedData.command == NEW_BOSS) {
+            int id = receivedData.args[0];
+            int xPos = receivedData.args[1];
+            int yPos = receivedData.args[2];
+
+            Entity enemy = registry.createEntityWithID(id);
+            enemy = registry.addComponent(enemy, Position(std::make_pair(xPos, yPos)));
+            enemy = registry.addComponent(enemy, Renderer("../Client/assets/Boss/v-police.png"));
+            enemy = registry.addComponent(enemy, Type(std::any_cast<EntityType>(Enemy)));
+            enemy = registry.addComponent(enemy, Size(std::make_pair(2, 2)));
+
+            Position enemyPos = registry.getComponent(enemy, Position{});
+            std::pair<int, int> pairPos = enemyPos.getPosition();
+
+            std::cout << "Enemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (receivedData.command == PLAYER_PROJECTILE) {
             std::cout << "player projectile created" << std::endl;
             int id = receivedData.args[0];
