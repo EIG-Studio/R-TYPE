@@ -36,6 +36,7 @@ public:
     void sendAllEntites(Registry& registry);
     void createEnemy(Registry& registry);
     void createBullet(Registry& registry, int posx, int posy);
+    void createBoss(Registry& registry);
     void GameLoop(Registry& registry);
     void PlayerLoop(Registry& registry);
     void damageThePlayer(Registry& registry, int damage, int id);

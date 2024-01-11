@@ -71,6 +71,30 @@ void Server::createEnemy(Registry& registry)
     addMessage(newPlayer2.str());
 }
 
+void Server::createBoss(Registry& registry)
+{
+    ID idComponent = ID();
+    Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
+    Size sizeComponent = Size(std::make_pair(1, 1));
+    Speed speedComponent(randNb(5, 6));
+    Type typeComponent = std::any_cast<EntityType>(Enemy);
+    HealthPoint healthPointComponent(20);
+
+    Entity entity = registry.createEntity();
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+    entity = registry.addComponent(entity, healthPointComponent);
+
+    std::ostringstream newPlayer2;
+    newPlayer2 << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
+               << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << " " << typeComponent << "\n";
+    addMessage(newPlayer2.str());
+}
+
 void Server::createBullet(Registry& registry, int posx, int posy)
 {
 

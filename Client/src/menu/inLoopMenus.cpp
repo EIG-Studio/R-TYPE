@@ -8,6 +8,7 @@
 #include "menu/inLoopMenus.hpp"
 
 #include "SFML/Window/Event.hpp"
+#include "menu/inLoopGame.hpp"
 #include "menu/menus.hpp"
 
 void InLoopMenus::introMenuInLoop(Menu& menu, WindowManager& windowManager, Music& music, sf::Clock& clock)
@@ -130,4 +131,40 @@ void InLoopMenus::lobbyMenuInLoop(
     buttonManager.getRetourButton().draw(windowManager.getWindow());
     windowManager.getWindow().draw(lobbyMenu.getIpAdress());
     windowManager.getWindow().draw(lobbyMenu);
+}
+
+void menuChoice(
+    Menu& menu,
+    InLoopMenus& introMenu,
+    WindowManager& windowManager,
+    Music& music,
+    sf::Clock& clock,
+    ChoiceMenu& choiceMenu,
+    HostOrJoinMenu& hostOrJoinMenu,
+    LobbyMenu& lobbyMenu,
+    ButtonManager& buttonManager,
+    Game& game,
+    CommandsToServer& commandsToServer,
+    SettingMenu& settingMenu,
+    InLoopGame& inLoopGame,
+    sf::Event& event,
+    Sprite& sprite,
+    sf::Clock& onGameClock,
+    Registry& registry,
+    IpAdress& ipAdress)
+{
+    if (menu.onMenu) {
+        introMenu.introMenuInLoop(menu, windowManager, music, clock);
+    } else if (choiceMenu.onChoice) {
+        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
+    } else if (hostOrJoinMenu.onHostOrJoin) {
+        introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
+    } else if (lobbyMenu.onLobby) {
+        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
+    } else if (settingMenu.onSetting) {
+        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
+    } else if (game.onGame) {
+        inLoopGame
+            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
+    }
 }
