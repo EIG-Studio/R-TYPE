@@ -49,7 +49,7 @@ add_executable(${PROJECT_NAME}
 
 
 ################# LIBRARIES #################
-target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include ${Boost_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE include ../GameEngine/include ${Boost_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-window sfml-graphics sfml-system sfml-audio sfml-network Boost::boost samurai_ecs)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
