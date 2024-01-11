@@ -8,11 +8,14 @@
 #include "menu/inGame.hpp"
 
 #include <sstream>
+#include <utility>
 
 Game::Game()
 {
     this->onGame = false;
     this->onPause = false;
+    this->m_tempMouseX = 0;
+    this->m_tempMouseY = 0;
 }
 
 void Game::setPath(Sprite mSprite)
@@ -45,10 +48,6 @@ void Game::setPath(Sprite mSprite)
     this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
     this->m_cursorSprite.setTexture(this->m_cursorTexture);
 
-    //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
-    //this->m_playerSprite.setTexture(this->m_playerTexture);
-
-    //// Trouver un moyen pour rendre ça plus beau
     m_backSprite.setScale(1152 / m_backSprite.getLocalBounds().width, 648 / m_backSprite.getLocalBounds().height);
     m_backSprite.setPosition(0, 0);
     m_backSprite2.setScale(1152 / m_backSprite2.getLocalBounds().width, 648 / m_backSprite2.getLocalBounds().height);
@@ -79,17 +78,8 @@ void Game::setPath(Sprite mSprite)
         .setScale(1152 / m_frontBuildSprite2.getLocalBounds().width, 648 / m_frontBuildSprite2.getLocalBounds().height);
     m_frontBuildSprite2.setPosition(m_frontBuildSprite2.getLocalBounds().width * 2, 0);
 
-    //m_playerSprite.setScale(103 / m_playerSprite.getLocalBounds().width, 56.25 / m_playerSprite.getLocalBounds().height);
-    //m_playerSprite.setPosition(100, 100);
-
     m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
     m_cursorSprite.setPosition(0, 0);
-}
-
-void Game::setPlayerPath(Sprite mSprite)
-{
-    //this->m_playerTexture.loadFromFile(mSprite.getPlayerPath());
-    //this->m_playerSprite.setTexture(this->m_playerTexture);
 }
 
 void Game::moveParallax()
@@ -141,28 +131,27 @@ void Game::repeatParallax()
 float Game::getPosPlayerY(Registry& registry)
 {
     Entity player = registry.getPlayer();
-    Position player_pos = registry.getComponent(player, Position{});
-    std::pair<float, float> pair_pos = player_pos.getPosition();
-    Renderer player_renderer = registry.getComponent(player, Renderer{});
-    sf::Sprite player_sprite = player_renderer.getRenderer();
-    return pair_pos.second + (player_sprite.getGlobalBounds().height / 2);
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    Renderer playerRenderer = registry.getComponent(player, Renderer{});
+    sf::Sprite playerSprite = playerRenderer.getRenderer();
+    return pairPos.second + (playerSprite.getGlobalBounds().height / 2);
 }
 
 float Game::getPosPlayerX(Registry& registry)
 {
     Entity player = registry.getPlayer();
-    Renderer player_renderer = registry.getComponent(player, Renderer{});
-    sf::Sprite player_sprite = player_renderer.getRenderer();
-    return player_sprite.getPosition().x;
+    Renderer playerRenderer = registry.getComponent(player, Renderer{});
+    sf::Sprite playerSprite = playerRenderer.getRenderer();
+    return playerSprite.getPosition().x;
 }
 
-float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
+float Game::setNewPositionX(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
     std::ostringstream newPos;
 
-    // Reception et séparation pour plus de facilité de modification
     std::string token;
     while (std::getline(iss, token, ' ')) {
         tokens.push_back(token);
@@ -172,13 +161,12 @@ float Game::setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToSer
     return newPosX;
 }
 
-float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer)
+float Game::setNewPositionY(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
     std::ostringstream newPos;
 
-    // Reception et séparation pour plus de facilité de modification
     std::string token;
     while (std::getline(iss, token, ' ')) {
         tokens.push_back(token);
@@ -187,88 +175,6 @@ float Game::setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToSer
     float newPosY = std::stof(tokens[2]);
     return newPosY;
 }
-
-
-//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
-//         if (this->m_playerSprite.getPosition().y > 0) {
-//             // Il faut bouger de movementSpeed à chaque fois
-//             std::ostringstream oss;
-//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-//                 << movementSpeed << " 1";
-//             // oss << "UP";
-//             std::string positionString = oss.str();
-//             commandsToServer.sendToServerAsync(positionString);
-//             //
-//             // ecs.callMoveUp();
-//             std::cout << "UP" << std::endl;
-//
-//             this->m_playerSprite
-//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-//             //
-//             mSprite.setPlayerPath("../Client/assets/Cars/189_toUp.png");
-//             this->setPlayerPath(mSprite);
-//         }
-//     }
-//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
-//         if (this->m_playerSprite.getPosition().x < winX - 103) {
-//             // Il faut bouger de movementSpeed à chaque fois
-//             std::ostringstream oss;
-//             // oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-//             //     << movementSpeed << " 2";
-//             oss << "RIGHT";
-//             std::string positionString = oss.str();
-//             commandsToServer.sendToServerAsync(positionString);
-//             //
-//             // ecs.callMoveRight();
-//             std::cout << "RIGHT" << std::endl;
-//             this->m_playerSprite
-//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-//             //
-//             mSprite.setPlayerPath("../Client/assets/Cars/189_toRight.png");
-//             this->setPlayerPath(mSprite);
-//         }
-//     }
-//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
-//         if (this->m_playerSprite.getPosition().y < winY - 37.75) {
-//             // Il faut bouger de movementSpeed à chaque fois
-//             std::ostringstream oss;
-//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-//                 << movementSpeed << " 3";
-//             std::string positionString = oss.str();
-//             commandsToServer.sendToServerAsync(positionString);
-//             //
-//             // ecs.callMoveDown();
-//             std::cout << "DOWN" << std::endl;
-//             this->m_playerSprite
-//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-//             //
-//             mSprite.setPlayerPath("../Client/assets/Cars/189_toDown.png");
-//             this->setPlayerPath(mSprite);
-//         }
-//     }
-//     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
-//         if (this->m_playerSprite.getPosition().x > 0) {
-//             // Il faut bouger de movementSpeed à chaque fois
-//             std::ostringstream oss;
-//             oss << "POS " << this->m_playerSprite.getPosition().x << " " << this->m_playerSprite.getPosition().y << " "
-//                 << movementSpeed << " 4";
-//             std::string positionString = oss.str();
-//             commandsToServer.sendToServerAsync(positionString);
-//             //
-//             // ecs.callMoveLeft();
-//             std::cout << "LEFT" << std::endl;
-//             this->m_playerSprite
-//                 .setPosition(this->setNewPositionX(this->m_playerSprite, commandsToServer), this->setNewPositionY(this->m_playerSprite, commandsToServer));
-//             //
-//             mSprite.setPlayerPath("../Client/assets/Cars/189_toLeft.png");
-//             this->setPlayerPath(mSprite);
-//         }
-//     }
-//     if (tempPosX == this->m_playerSprite.getPosition().x && tempPosY == this->m_playerSprite.getPosition().y) {
-//         mSprite.setPlayerPath("../Client/assets/Cars/189_neutral.png");
-//         this->setPlayerPath(mSprite);
-//     }
-// }
 
 void Game::colidePlayer()
 {
@@ -337,7 +243,6 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.texture = &m_midBuildTexture2;
     states.texture = &m_frontBuildTexture;
     states.texture = &m_frontBuildTexture2;
-    //states.texture = &m_playerTexture;
     target.draw(m_backSprite, states);
     target.draw(m_backSprite2, states);
     target.draw(m_veryBackBuildSprite, states);
@@ -352,5 +257,47 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         states.texture = &m_cursorTexture;
         target.draw(m_cursorSprite, states);
     }
-    //target.draw(m_playerSprite, states);
+}
+
+void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
+{
+    Entity player;
+    try {
+        player = registry.getPlayer();
+    } catch (std::exception& e) {
+        std::cout << e.what();
+        return;
+    }
+    int healthPoint = registry.getComponent(player, HealthPoint{}).getHealthPoint();
+
+    if (!this->dispHealFirst || m_healthPointTemp != healthPoint) {
+        m_healthPointTemp = healthPoint;
+        sf::Text healPointText;
+        healPointText.setFont(windowManager.getFont());
+        healPointText.setCharacterSize(24);
+        healPointText.setFillColor(sf::Color::White);
+        healPointText.setPosition(24, windowManager.getWindow().getSize().y - 48);
+
+        std::string healPointString = std::to_string(healthPoint);
+        healPointText.setString("HP " + healPointString);
+        this->setHealPointText(healPointText);
+        this->dispHealFirst = true;
+    }
+
+    if (healthPoint <= 0) {
+        registry.deleteById(registry.getComponent(player, ID{}).getID());
+        music.musicMenu.stop();
+        music.killPlayer.play();
+        this->onGame = false;
+    }
+}
+
+void Game::setHealPointText(sf::Text mHealPoint)
+{
+    this->m_healthPoint = std::move(mHealPoint);
+}
+
+sf::Text Game::getHealPointText()
+{
+    return this->m_healthPoint;
 }

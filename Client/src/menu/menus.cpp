@@ -2,6 +2,8 @@
 
 #include "button.hpp"
 
+#include <utility>
+
 //----------Basic Menu----------//
 Menu::Menu()
 {
@@ -258,6 +260,52 @@ void HostOrJoinMenu::setCursorPosition(sf::RenderWindow& window)
     }
 }
 
+#include <iostream>
+void HostOrJoinMenu::inputText(sf::Event& event, IpAdress& ipAdress)
+{
+    if (event.type == sf::Event::TextEntered) {
+        if (event.text.unicode >= 48 && event.text.unicode <= 57 || event.text.unicode == 46 || event.text.unicode == 8) {
+            if (this->m_userInput.length() < 15 || event.text.unicode == 8) {
+                if (event.text.unicode < 128 && event.text.unicode != 8 && this->m_userInput.length() < 15) {
+                    this->m_userInput += static_cast<char>(event.text.unicode);
+                    this->m_inputText.setString(this->m_userInput);
+                } else if (event.text.unicode == 8 && !this->m_userInput.empty()) {
+                    this->m_userInput.pop_back();
+                    this->m_inputText.setString(this->m_userInput);
+                }
+                ipAdress.setUserInput(this->m_userInput);
+            }
+        }
+    }
+}
+
+
+void HostOrJoinMenu::setInputText(sf::Text text)
+{
+    this->m_inputText = std::move(text);
+}
+
+void HostOrJoinMenu::setInputTextFromString(std::string text)
+{
+    this->m_inputText.setString(text);
+}
+
+sf::Text HostOrJoinMenu::getInputText()
+{
+    return this->m_inputText;
+}
+
+std::string HostOrJoinMenu::getUserInput()
+{
+    return this->m_userInput;
+}
+
+void HostOrJoinMenu::setUserInput(std::string userInput)
+{
+    // set string
+    this->m_userInput = std::move(userInput);
+}
+
 float HostOrJoinMenu::getCursorPosX()
 {
     return this->m_cursorSprite.getPosition().x;
@@ -292,7 +340,6 @@ void LobbyMenu::setPath(Sprite mSprite)
     this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
     this->m_cursorSprite.setTexture(this->m_cursorTexture);
 
-    //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite
         .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
@@ -337,6 +384,16 @@ float LobbyMenu::getCursorPosX()
 float LobbyMenu::getCursorPosY()
 {
     return this->m_cursorSprite.getPosition().y;
+}
+
+void LobbyMenu::setIpAdress(sf::Text mIpAdress)
+{
+    this->m_ipAddressText = std::move(mIpAdress);
+}
+
+sf::Text LobbyMenu::getIpAdress()
+{
+    return this->m_ipAddressText;
 }
 
 void LobbyMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const

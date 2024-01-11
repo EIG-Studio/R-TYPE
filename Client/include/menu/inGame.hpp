@@ -9,9 +9,10 @@
 
 #include "../../GameEngine/include/components.hpp"
 #include "../../GameEngine/include/entities.hpp"
-#include "ECS.hpp"
 #include "commandsToServer.hpp"
+#include "ipAdress.hpp"
 #include "sprite/sprite.hpp"
+#include "window.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
@@ -27,8 +28,15 @@ public:
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite);
-    void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
+    void movePlayer(
+        Registry& registry,
+        float movementSpeed,
+        float winX,
+        float winY,
+        CommandsToServer& commandsToServer,
+        Sprite mSprite,
+        IpAdress& ipAdress);
+    void moveEnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& enemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void HandleMovement(
         Registry& registry,
@@ -39,18 +47,27 @@ public:
         float deltaY,
         const std::string& path,
         float windowLimit,
-        float spriteLimit);
+        float spriteLimit,
+        IpAdress& ipAdress);
     void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
-    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType);
+    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress);
     std::string InputTypeToString(sf::Keyboard::Key key);
     void colidePlayer();
-    void shooting(CommandsToServer& commandsToServer, Registry& registry);
+    void shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
+    void damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void isPaused();
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
+    void displayHealth(Registry& registry, Music& music, WindowManager& windowManager);
+    void displayArrow(Registry& registry, WindowManager& windowManager);
+
+    void setHealPointText(sf::Text mHealPoint);
+    sf::Text getHealPointText();
+
     bool onGame;
     bool onPause;
+    bool dispHealFirst{false};
     bool hasFocus{false};
 
 private:
@@ -92,4 +109,7 @@ private:
     sf::Sprite m_cursorSprite;
     int m_tempMouseX;
     int m_tempMouseY;
+
+    sf::Text m_healthPoint;
+    int m_healthPointTemp;
 };

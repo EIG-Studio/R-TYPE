@@ -21,13 +21,13 @@ class Position
 {
 public:
     Position() = default;
-    Position(std::pair<float, float> originPos);
+    Position(std::pair<int, int> originPos);
     ~Position() = default;
-    std::pair<float, float> getPosition() const;
-    void setPosition(std::pair<float, float> newPos);
+    std::pair<int, int> getPosition() const;
+    void setPosition(std::pair<int, int> newPos);
 
 private:
-    std::pair<float, float> m_pos;
+    std::pair<int, int> m_pos;
 };
 
 /********-HealthPoint Component-******/
@@ -39,7 +39,6 @@ public:
     ~HealthPoint() = default;
 
     float getHealthPoint() const;
-
     void setHealthPoint(float mLp);
 
 private:
@@ -188,6 +187,7 @@ enum EntityType
     Player_Projectile,
     Enemy_Projectile,
     Wall,
+    Unknow
 };
 
 class Type

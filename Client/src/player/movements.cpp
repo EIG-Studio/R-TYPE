@@ -5,18 +5,16 @@
 ** movements
 */
 
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
+#include "components.hpp"
 #include "entities.hpp"
+#include "ipAdress.hpp"
 #include "menu/inGame.hpp"
 
 #include <sstream>
 
-#include <cstddef>
-
-const float JOYSTICK_THRESHOLD = 20.0f;
-const float SPRITE_WIDTH = 103.0f;
-const float SPRITE_HEIGHT = 37.75f;
+const float joystickThreshold = 20.0f;
+const float spriteWidth = 103.0f;
+const float spriteHeight = 37.75f;
 
 struct MovementConfig
 {
@@ -28,7 +26,7 @@ struct MovementConfig
     float spriteLimit;
 };
 
-void UpdateSpriteTexture(sf::Sprite& sprite, const std::string& texturePath)
+void updateSpriteTexture(sf::Sprite& sprite, const std::string& texturePath)
 {
     static std::map<std::string, sf::Texture> textureCache;
     auto it = textureCache.find(texturePath);
@@ -45,44 +43,50 @@ void UpdateSpriteTexture(sf::Sprite& sprite, const std::string& texturePath)
     sprite.setTexture(it->second);
 }
 
-void UpdateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, const std::string& texturePath)
+void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, const std::string& texturePath)
 {
     sprite.setPosition(newX, newY);
 
-    UpdateSpriteTexture(sprite, texturePath);
+    updateSpriteTexture(sprite, texturePath);
 }
 
-void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite)
+void Game::movePlayer(
+    Registry& registry,
+    float movementSpeed,
+    float winX,
+    float winY,
+    CommandsToServer& commandsToServer,
+    Sprite mSprite,
+    IpAdress& ipAdress)
 {
     Entity player;
     try {
         player = registry.getPlayer();
-        if (this->hasFocus == false) {
+        if (!this->hasFocus) {
             return;
         }
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         std::cout << e.what();
         return;
     }
     std::vector<Entity> list = registry.getListEntities();
-    Position player_pos = registry.getComponent(player, Position{});
-    std::pair<float, float> pair_pos = player_pos.getPosition();
-    Renderer player_renderer = registry.getComponent(player, Renderer{});
-    float initialPosX = pair_pos.first;
-    float initialPosY = pair_pos.second;
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    Renderer playerRenderer = registry.getComponent(player, Renderer{});
+    float initialPosX = pairPos.first;
+    float initialPosY = pairPos.second;
 
-    ID id_p = registry.getComponent(player, ID{});
+    ID idP = registry.getComponent(player, ID{});
     std::vector<MovementConfig> movements =
-        {{sf::Keyboard::Up, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::Z, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::Right, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::D, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::Down, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::S, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::Left, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT},
-         {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, SPRITE_HEIGHT}};
+        {{sf::Keyboard::Up, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, spriteHeight},
+         {sf::Keyboard::Z, 0, -movementSpeed, "../Client/assets/Cars/189_toUp.png", winY, spriteHeight},
+         {sf::Keyboard::Right, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, spriteHeight},
+         {sf::Keyboard::D, 0, -movementSpeed, "../Client/assets/Cars/189_toRight.png", winY, spriteHeight},
+         {sf::Keyboard::Down, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, spriteHeight},
+         {sf::Keyboard::S, 0, -movementSpeed, "../Client/assets/Cars/189_toDown.png", winY, spriteHeight},
+         {sf::Keyboard::Left, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, spriteHeight},
+         {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, spriteHeight}};
 
-    
     for (const auto& config : movements) {
         HandleMovement(
             registry,
@@ -93,39 +97,16 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
             config.deltaY,
             config.spritePath,
             config.windowLimit,
-            config.spriteLimit);
+            config.spriteLimit,
+            ipAdress);
     }
-
-    if (initialPosX == pair_pos.first && initialPosY == pair_pos.second) {
-        player_renderer.setRenderer("../Client/assets/Cars/189_neutral.png");
+    if (initialPosX == pairPos.first && initialPosY == pairPos.second) {
+        playerRenderer.setRenderer("../Client/assets/Cars/189_neutral.png");
     }
-}
-
-void Game::moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies)
-{
-    // for (auto ennemy : ennemies) {
-    //     std::ostringstream oss;
-    //     size_t id = registry.getComponent(ennemy, ID{}).getID();
-
-    //     oss << "MOVE_ENNEMIES" << " " << id;
-    //     commandsToServer.sendToServerAsync(oss.str());
-    // }
-}
-
-void Game::movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets)
-{
-    // for (auto bullet : bullets) {
-    //     std::ostringstream oss;
-    //     size_t id = registry.getComponent(bullet, ID{}).getID();
-
-    //     oss << "MOVE_PROJECTILE" << " " << id;
-    //     commandsToServer.sendToServerAsync(oss.str());
-    // }
 }
 
 std::string Game::InputTypeToString(sf::Keyboard::Key key)
 {
-    //std::cout << "Key pressed " << key << " (int value: " << static_cast<int>(key) << ")\n";
     switch (key) {
         case sf::Keyboard::Left:
         case sf::Keyboard::Q:
@@ -157,56 +138,81 @@ void Game::HandleMovement(
     float deltaY,
     const std::string& path,
     float windowLimit,
-    float spriteLimit)
+    float spriteLimit,
+    IpAdress& ipAdress)
 {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
 
     Entity player = registry.getPlayer();
-    Position player_pos = registry.getComponent(player, Position{});
-    std::pair<float, float> pair_pos = player_pos.getPosition();
-    Renderer player_renderer = registry.getComponent(player, Renderer{});
-    sf::Sprite player_sprite = player_renderer.getRenderer();
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    Renderer playerRenderer = registry.getComponent(player, Renderer{});
+    sf::Sprite playerSprite = playerRenderer.getRenderer();
 
     if (keyPressed) {
         std::string inputType = InputTypeToString(key);
-        if (updateClock.getElapsedTime().asSeconds() >= 0.02f) {
-            std::string inputType = InputTypeToString(key);
-            SendInputUpdate(commandsToServer, registry, inputType);
-
-            // Reset the clock after sending the update
+        if (updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
+            SendInputUpdate(commandsToServer, registry, inputType, ipAdress);
             updateClock.restart();
         }
-        //std::cout << "DEBUG: player pos: " << pair_pos.first << " " << pair_pos.second << '\n';
-        if (((deltaX != 0 && pair_pos.first >= 0 && pair_pos.first <= windowLimit - spriteLimit) ||
-             (deltaY != 0 && pair_pos.second >= 0 && pair_pos.second <= windowLimit - spriteLimit)) &&
-            (pair_pos.first != player_sprite.getPosition().x || pair_pos.second != player_sprite.getPosition().y)) {
-            UpdateSpritePositionAndPath(player_sprite, pair_pos.first, pair_pos.second, path);
+        if (((deltaX != 0 && pairPos.first >= 0 && pairPos.first <= windowLimit - spriteLimit) ||
+             (deltaY != 0 && pairPos.second >= 0 && pairPos.second <= windowLimit - spriteLimit)) &&
+            (pairPos.first != playerSprite.getPosition().x || pairPos.second != playerSprite.getPosition().y)) {
+            updateSpritePositionAndPath(playerSprite, pairPos.first, pairPos.second, path);
         }
     }
 }
 
-void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType)
+void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress)
 {
     std::ostringstream oss;
     Entity player;
     try {
         player = registry.getPlayer();
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         std::cout << e.what();
         return;
     }
-    ID player_id = registry.getComponent(player, ID{});
-    oss << inputType << " " << player_id.getID();
+    ID playerId = registry.getComponent(player, ID{});
+    oss << inputType << " " << playerId.getID();
     std::string inputString = oss.str();
-    commandsToServer.sendToServerAsync(inputString);
+    commandsToServer.sendToServerAsync(inputString, ipAdress);
 }
 
-void Game::shooting(CommandsToServer& commandsToServer, Registry& registry)
+void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getPlayer();
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
     shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
-    commandsToServer.sendToServerAsync(shooting.str());
+    commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
+}
+
+void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
+{
+    Entity player = registry.getPlayer();
+    ID playerId = registry.getComponent(player, ID{});
+    int id = playerId.getID();
+    std::ostringstream damage;
+
+    damage << "DAMAGE_TO_PLAYER " << 1 << " " << id;
+    commandsToServer.sendToServerAsync(damage.str(), ipAdress);
+}
+
+void Game::displayArrow(Registry& registry, WindowManager& windowManager)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    sf::Texture texture;
+    sf::Sprite sprite;
+    if (!texture.loadFromFile("../Client/assets/arrow.png")) {
+        std::cerr << "Failed to load arrow texture" << std::endl;
+        return;
+    }
+    sprite.setTexture(texture);
+    sprite.setPosition(pairPos.first + 46, pairPos.second - 30);
+    sprite.setScale(0.04, 0.04);
+    windowManager.getWindow().draw(sprite);
 }

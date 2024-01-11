@@ -44,14 +44,23 @@ void Registry::destroyEntity(Entity entity)
 }
 #include <iostream>
 
+std::string Registry::systemsManager()
+{
+    if (!m_entities.empty())
+        for (const Entity& entity : m_entities) {
+            // shootingSystem(entity, *this);
+            // deathSystem(entity, *this);
+            movementSystem(entity, *this);
+            // collisionSystem(entity, m_entities, *this);
+        }
+    return "Hello";
+}
+
 std::string Registry::systemsManager(sf::RenderWindow& window)
 {
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
-            shootingSystem(entity, *this);
-            deathSystem(entity, *this);
-            movementSystem(entity, *this);
-            collisionSystem(entity, m_entities, *this);
+            // movementSystem(entity, *this);
             renderSystem(entity, *this, window);
         }
     return "Hello";
@@ -121,7 +130,7 @@ Entity Registry::getFirstEnemy()
             }
         }
     }
-    throw std::runtime_error("No Ennemy entity found");
+    throw std::runtime_error("No Enemy entity found");
 }
 
 std::vector<Entity> Registry::getListEnemies()
@@ -182,20 +191,20 @@ std::vector<Entity> Registry::deletePlayersProjectile(int id)
     return playersProjectiles;
 }
 
-std::vector<Entity> Registry::deleteEnnemy(int id)
+std::vector<Entity> Registry::deleteEnemy(int id)
 {
-    std::vector<Entity> ennemies;
-    for (auto& ennemy : m_entities) {
-        if (this->hasComponent(ennemy, Type{})) {
-            Type& typeComponent = this->getComponent(ennemy, Type{});
+    std::vector<Entity> enemies;
+    for (auto& enemy : m_entities) {
+        if (this->hasComponent(enemy, Type{})) {
+            Type& typeComponent = this->getComponent(enemy, Type{});
             if (typeComponent.getEntityType() == EntityType::Player) {
-                if (id == this->getComponent(ennemy, ID{}).getID()) {
-                    this->destroyEntity(ennemy);
+                if (id == this->getComponent(enemy, ID{}).getID()) {
+                    this->destroyEntity(enemy);
                 }
             }
         }
     }
-    return ennemies;
+    return enemies;
 }
 
 void Registry::deleteById(int id)
@@ -226,15 +235,10 @@ std::vector<Entity> Registry::getListEntities()
     return enemies;
 }
 
-void Registry::destroyEnnemy(std::vector<Entity> ennemyList)
+void Registry::destroyEnemy(std::vector<Entity> enemyList)
 {
-    Position ennemyPos = this->getComponent(ennemyList[0], Position{});
-    std::pair<float, float> pairPos = ennemyPos.getPosition();
-    std::cout << "ENNEMY POS X: " << pairPos.first << std::endl;
-    std::cout << "ENNEMY POS Y: " << pairPos.second << std::endl;
-    //if (playerPosY <= ennemyPosY + 40 && playerPosY >= ennemyPosY - 15) {
-    //    std::cout << "BOOM !!!!" << std::endl;
-    //}
-
-    //sf::Vertex line[] = {sf::Vertex(sf::Vector2f(10, ennemyPosY + 20)), sf::Vertex(sf::Vector2f(10, ennemyPosY - 30))};
+    Position enemyPos = this->getComponent(enemyList[0], Position{});
+    std::pair<float, float> pairPos = enemyPos.getPosition();
+    std::cout << "ENEMY POS X: " << pairPos.first << std::endl;
+    std::cout << "ENEMY POS Y: " << pairPos.second << std::endl;
 }

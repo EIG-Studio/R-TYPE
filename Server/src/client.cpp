@@ -7,11 +7,32 @@
 
 #include "client.hpp"
 
-void Client::sendMessage(const std::string message)
+bool Client::operator==(const boost::asio::ip::udp::endpoint& endpoint) const
 {
+    return m_remoteEndpoint == endpoint;
 }
 
-std::string Client::receiveMessage()
+boost::asio::ip::udp::endpoint Client::getEndpoint() const
 {
-    return "";
+    return m_remoteEndpoint;
+}
+
+void Client::setId(std::size_t id)
+{
+    m_id = id;
+}
+
+std::size_t Client::getId() const
+{
+    return m_id;
+}
+
+void Client::setAlive(bool alive)
+{
+    m_alive = alive;
+}
+
+bool Client::isAlive() const
+{
+    return m_alive;
 }

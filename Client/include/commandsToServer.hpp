@@ -7,8 +7,11 @@
 
 #pragma once
 
-#include "../../GameEngine/include/components.hpp"
-#include "../../GameEngine/include/entities.hpp"
+#include "Systems.hpp"
+#include "components.hpp"
+#include "entities.hpp"
+#include "ipAdress.hpp"
+#include "music/sounds.hpp"
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -25,59 +28,36 @@ public:
     CommandsToServer& operator=(const CommandsToServer&) = delete;
 
     CommandsToServer() :
-    socket(ioService),
-    secondSocket(ioService),
-    receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171),
-    work(std::make_unique<boost::asio::io_service::work>(ioService))
+    m_socket(m_ioService),
+    m_receiverEndpoint(boost::asio::ip::address::from_string("127.0.0.1"), 7171),
+    m_work(std::make_unique<boost::asio::io_service::work>(m_ioService))
     {
-        std::cout << "CommandsToServer constructor called." << std::endl;
-
-        socket.open(boost::asio::ip::udp::v4());
-        secondSocket.open(boost::asio::ip::udp::v4());
-
-        ioServiceThread = std::thread([this]() {
-            std::cout << "ioService thread starting." << std::endl;
-            ioService.run();
-            std::cout << "ioService thread ending." << std::endl;
-        });
-
-        std::cout << "CommandsToServer constructor finished." << std::endl;
+        m_socket.open(boost::asio::ip::udp::v4());
+        m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
     }
 
     ~CommandsToServer()
     {
-        work.reset(); // Allow io_service to exit
-        if (ioServiceThread.joinable()) {
-            ioServiceThread.join();
+        m_work.reset();
+        if (m_ioServiceThread.joinable()) {
+            m_ioServiceThread.join();
         }
     }
 
     std::string getNewPos() const;
 
-    std::future<void> sendToServerAsync(std::string msg);
-    void asyncReceive(Registry& registry);
-    void asyncReceiveSecondSocket(Registry& registry);
-    void handleReceiveSecondSocket(
-        Registry& registry,
-        const boost::system::error_code& error,
-        size_t len,
-        boost::array<char, 2048>& recvBuf,
-        std::string& mNewPos);
-    void processMessage(const std::string& asciiString, Registry& registry);
-
+    std::future<void> sendToServerAsync(std::string msg, IpAdress& ipAdress);
+    void asyncReceive(Registry& registry, Music& music);
     std::mutex mutex;
 
 private:
     std::string m_newPos;
-    boost::asio::io_service ioService;
-    std::thread ioServiceThread;
-    std::unique_ptr<boost::asio::io_service::work> work;
+    boost::asio::io_service m_ioService;
+    std::thread m_ioServiceThread;
+    std::unique_ptr<boost::asio::io_service::work> m_work;
 
-    boost::asio::ip::udp::socket socket;
-    boost::asio::ip::udp::endpoint receiverEndpoint;
-    boost::array<char, 2048> recvBuf;
+    boost::asio::ip::udp::socket m_socket;
+    boost::asio::ip::udp::endpoint m_receiverEndpoint;
 
-    boost::asio::ip::udp::socket secondSocket;
-    boost::asio::ip::udp::endpoint senderEndpoint;
-    boost::array<char, 2048> recvBufSecond;
+    unsigned char m_buffer[sizeof(TransferData)]{};
 };

@@ -26,6 +26,9 @@ public:
     bool checkClick(float cursorX, float cursorY);
     bool checkHover(float cursorX, float cursorY);
     void draw(sf::RenderWindow& window) const;
+    void setText(const std::string& text);
+    void setPosition(const sf::Vector2f& position);
+    void setSize(const sf::Vector2f& size);
 
 private:
     sf::RectangleShape m_shape;
@@ -48,7 +51,7 @@ public:
         2.0f,
         "Play",
         m_font,
-        20),
+        21),
     m_settingsButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
@@ -57,7 +60,7 @@ public:
         2.0f,
         "Settings",
         m_font,
-        20),
+        21),
     m_retourButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(window.getSize().x / 2 + 150, window.getSize().y / 2 + 200),
@@ -66,7 +69,7 @@ public:
         2.0f,
         "Retour",
         m_font,
-        20),
+        21),
     m_exitButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 60),
@@ -75,7 +78,7 @@ public:
         2.0f,
         "Exit",
         m_font,
-        20),
+        21),
     m_resumeButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 - 60),
@@ -84,7 +87,7 @@ public:
         2.0f,
         "Resume",
         m_font,
-        20),
+        21),
     m_toMenuButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
@@ -93,7 +96,7 @@ public:
         2.0f,
         "To Menu",
         m_font,
-        20),
+        21),
     m_hostButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 100),
@@ -102,16 +105,16 @@ public:
         2.0f,
         "Host",
         m_font,
-        20),
+        21),
     m_joinButton(
         sf::Vector2f(200, 50),
-        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
+        sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 + 200),
         sf::Color::Black,
         sf::Color::White,
         2.0f,
         "Join",
         m_font,
-        20),
+        21),
     m_startButton(
         sf::Vector2f(200, 50),
         sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 + 200),
@@ -120,7 +123,16 @@ public:
         2.0f,
         "Start",
         m_font,
-        20)
+        21),
+    m_ipButton(
+        sf::Vector2f(200, 50),
+        sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2),
+        sf::Color::Black,
+        sf::Color::White,
+        2.0f,
+        "IP BUTTON",
+        m_font,
+        21)
     {
     }
 
@@ -160,98 +172,12 @@ public:
     {
         return m_startButton;
     }
-
-private:
-    void createButtons()
+    Button& getIpButton()
     {
-        m_playButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 60),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Play",
-            m_font,
-            20);
-
-        m_settingsButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Settings",
-            m_font,
-            20);
-
-        m_retourButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 + 150, m_window.getSize().y / 2 + 200),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Retour",
-            m_font,
-            20);
-
-        m_exitButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 + 60),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Exit",
-            m_font,
-            20);
-
-        m_resumeButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 60),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Play",
-            m_font,
-            20);
-
-        m_toMenuButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Settings",
-            m_font,
-            20);
-        m_hostButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 - 100),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Host",
-            m_font,
-            20);
-        m_joinButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Join",
-            m_font,
-            20);
-        m_startButton = Button(
-            sf::Vector2f(200, 50),
-            sf::Vector2f(m_window.getSize().x / 2 - 100, m_window.getSize().y / 2 + 200),
-            sf::Color::Black,
-            sf::Color::White,
-            2.0f,
-            "Start",
-            m_font,
-            20);
+        return m_ipButton;
     }
 
+private:
     sf::RenderWindow& m_window;
     sf::Font m_font;
     Button m_playButton;
@@ -263,4 +189,5 @@ private:
     Button m_hostButton;
     Button m_joinButton;
     Button m_startButton;
+    Button m_ipButton;
 };

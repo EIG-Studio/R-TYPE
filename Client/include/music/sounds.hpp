@@ -13,17 +13,17 @@
 
 #include <SFML/Window/Event.hpp>
 
-#include <iostream>
-
 class Music
 {
 public:
     Music();
     sf::Music musicMenu;
     sf::Music musicSecret;
-    bool      playMenuMusic;
-    void      setPath(Sprite mSprite);
-    // void HandleMusicKey(sf::Event &event);
+    sf::Music shootSound;
+    sf::Music boomEnemies;
+    sf::Music killPlayer;
+    bool playMenuMusic;
+    void setPath(Sprite mSprite);
 
 protected:
 

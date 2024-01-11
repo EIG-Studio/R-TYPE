@@ -7,6 +7,12 @@
 
 #include "button.hpp"
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
 Button::Button(
     const sf::Vector2f& size,
     const sf::Vector2f& position,
@@ -39,8 +45,12 @@ bool Button::checkClick(float cursorX, float cursorY)
     bool clicked = m_shape.getGlobalBounds().contains(cursorX, cursorY) &&
                    (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0));
 
-
     if (clicked && !m_isClicked) {
+#ifdef _WIN32
+        Sleep(500);
+#else
+        usleep(500000);
+#endif
         m_isClicked = true;
         return true;
     } else if (!clicked) {
@@ -66,4 +76,25 @@ void Button::draw(sf::RenderWindow& window) const
 {
     window.draw(m_shape);
     window.draw(m_label);
+}
+
+void Button::setText(const std::string& text)
+{
+    m_label.setString(text);
+}
+
+void Button::setPosition(const sf::Vector2f& position)
+{
+    m_shape.setPosition(position);
+    m_label.setPosition(
+        m_shape.getPosition().x + (m_shape.getSize().x - m_label.getLocalBounds().width) / 2,
+        m_shape.getPosition().y + (m_shape.getSize().y - m_label.getLocalBounds().height) / 2);
+}
+
+void Button::setSize(const sf::Vector2f& size)
+{
+    m_shape.setSize(size);
+    m_label.setPosition(
+        m_shape.getPosition().x + (m_shape.getSize().x - m_label.getLocalBounds().width) / 2,
+        m_shape.getPosition().y + (m_shape.getSize().y - m_label.getLocalBounds().height) / 2);
 }

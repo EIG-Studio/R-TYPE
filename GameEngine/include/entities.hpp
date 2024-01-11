@@ -6,6 +6,8 @@
 */
 
 #pragma once
+#define getComponent(e, f) getComponentT(e, f, __FILE__, __func__, __LINE__)
+
 #include "components.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -53,15 +55,16 @@ public:
     std::vector<Entity> getListEntities();
     std::vector<Entity> getListPlayersProjectile();
     std::vector<Entity> deletePlayersProjectile(int id);
-    std::vector<Entity> deleteEnnemy(int id);
+    std::vector<Entity> deleteEnemy(int id);
     void deleteById(int id);
-    void destroyEnnemy(std::vector<Entity> ennemyList);
+    void destroyEnemy(std::vector<Entity> enemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
     template <typename T>
     void removeComponent(Entity entity, T component);
     template <typename T>
-    T& getComponent(Entity& entity, T component);
+    T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line);
+    std::string systemsManager();
     std::string systemsManager(sf::RenderWindow& window);
 
     template <typename T>
@@ -127,9 +130,8 @@ void Registry::removeComponent(Entity entity, T component)
 
 #include <iostream>
 template <typename T>
-T& Registry::getComponent(Entity& entity, T component)
+T& Registry::getComponentT(Entity& entity, T component, const char* file, const char* fn, int line)
 {
-    component;
     for (auto& mComponent : entity.mComponents) {
         try {
             std::any_cast<T>(mComponent);
@@ -138,13 +140,13 @@ T& Registry::getComponent(Entity& entity, T component)
             continue;
         }
     }
-    throw std::runtime_error("Entity Component not found");
+    throw std::runtime_error(
+        "Component not found function called at " + std::string(file) + " " + std::string(fn) + " " + std::to_string(line));
 }
 
 template <typename T>
 bool Registry::hasComponent(Entity& entity, T component)
 {
-    component;
     for (const auto& otherComponent : entity.mComponents) {
         try {
             std::any_cast<T>(otherComponent);
