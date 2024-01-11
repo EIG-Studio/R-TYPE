@@ -12,7 +12,7 @@
 #include "commandsToServer.hpp"
 #include "ipAdress.hpp"
 #include "sprite/sprite.hpp"
-#include "ipAdress.hpp"
+#include "window.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
@@ -28,8 +28,15 @@ public:
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress);
-    void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
+    void movePlayer(
+        Registry& registry,
+        float movementSpeed,
+        float winX,
+        float winY,
+        CommandsToServer& commandsToServer,
+        Sprite mSprite,
+        IpAdress& ipAdress);
+    void moveEnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& enemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void HandleMovement(
         Registry& registry,
@@ -47,6 +54,7 @@ public:
     std::string InputTypeToString(sf::Keyboard::Key key);
     void colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
+    void damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void isPaused();
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();

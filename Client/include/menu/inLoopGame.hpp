@@ -28,12 +28,13 @@ public:
         Sprite& sprite,
         sf::Clock& onGameClock,
         Registry& registry,
-        Button& resumeButton,
-        Button& toMenuButton,
+        ButtonManager& buttonManager,
         ChoiceMenu& choiceMenu,
         IpAdress& ipAdress);
 
 private:
-    void refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress);
+    void refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress);
+    void pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress);
     sf::Clock m_clock;
+    sf::Clock m_clock2;
 };

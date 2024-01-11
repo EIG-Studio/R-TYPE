@@ -31,17 +31,19 @@ public:
         WindowManager& windowManager,
         ChoiceMenu& choiceMenu,
         LobbyMenu& lobbyMenu,
-        Button& retourButton,
-        Button& hostButton,
-        Button& joinButton);
+        Game& game,
+        CommandsToServer& commandsToServer,
+        ButtonManager& buttonManager,
+        sf::Event& event,
+        IpAdress& ipAdress);
     void lobbyMenuInLoop(
         LobbyMenu& lobbyMenu,
         WindowManager& windowManager,
         HostOrJoinMenu& hostOrJoinMenu,
         Game& game,
         CommandsToServer& commandsToServer,
-        Button& retourButton,
-        Button& startButton);
+        ButtonManager& buttonManager,
+        IpAdress& ipAdress);
 
 private:
 };
