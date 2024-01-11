@@ -52,9 +52,9 @@ std::string Registry::systemsManager()
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
             // shootingSystem(entity, *this);
-            deathSystem(entity, *this);
             movementSystem(entity, *this);
-            collisionSystem(entity, m_entities, *this);
+            //collisionSystem(entity, m_entities, *this);
+            deathSystem(entity, *this);
         }
     for (auto& id : m_toDelete) {
         this->deleteById(id);
