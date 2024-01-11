@@ -51,5 +51,4 @@ Pour le 22 :
 - Pouvoir créer des entities [V]
 - Pouvoir choisir les components dans l'entity [V]
 - Avoir Tout les systems basiques [V]
-- Avoir le SendChange pour le serveur
 - Essayer de faire en sorte d'être le plus générique
