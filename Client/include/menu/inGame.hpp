@@ -10,8 +10,8 @@
 #include "../../GameEngine/include/components.hpp"
 #include "../../GameEngine/include/entities.hpp"
 #include "commandsToServer.hpp"
-#include "sprite/sprite.hpp"
 #include "ipAdress.hpp"
+#include "sprite/sprite.hpp"
 
 class Game : public sf::Drawable, public sf::Transformable
 {
@@ -27,8 +27,15 @@ public:
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     void SendMessage(CommandsToServer& commandsToServer);
-    void movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress);
-    void moveEnnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& ennemies);
+    void movePlayer(
+        Registry& registry,
+        float movementSpeed,
+        float winX,
+        float winY,
+        CommandsToServer& commandsToServer,
+        Sprite mSprite,
+        IpAdress& ipAdress);
+    void moveEnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& enemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void HandleMovement(
         Registry& registry,

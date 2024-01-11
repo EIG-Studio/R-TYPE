@@ -193,7 +193,7 @@ std::vector<Entity> Registry::deletePlayersProjectile(int id)
 
 std::vector<Entity> Registry::deleteEnemy(int id)
 {
-    std::vector<Entity> ennemies;
+    std::vector<Entity> enemies;
     for (auto& enemy : m_entities) {
         if (this->hasComponent(enemy, Type{})) {
             Type& typeComponent = this->getComponent(enemy, Type{});
@@ -204,7 +204,7 @@ std::vector<Entity> Registry::deleteEnemy(int id)
             }
         }
     }
-    return ennemies;
+    return enemies;
 }
 
 void Registry::deleteById(int id)

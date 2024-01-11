@@ -137,8 +137,8 @@ void handleReceive(
             std::cout << "player projectile created created pos: " << pairPos.first << " " << pairPos.second << '\n';
         } else if (receivedData.command == DELETE) {
             registry.deleteById(receivedData.args[0]);
-        } else if (receivedData.command == PLAY_BOOM_ENNEMIES) {
-            music.boomEnnemies.play();
+        } else if (receivedData.command == PLAY_BOOM_ENEMIES) {
+            music.boomEnemies.play();
         } else if (error) {
             std::cerr << "Error in handleReceive: " << error.message() << std::endl;
         }

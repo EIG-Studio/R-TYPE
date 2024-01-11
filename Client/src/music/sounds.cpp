@@ -6,6 +6,7 @@
 */
 
 #include "music/sounds.hpp"
+
 #include <iostream>
 
 Music::Music()
@@ -15,16 +16,13 @@ Music::Music()
 
 void Music::setPath(Sprite mSprite)
 {
-    if (!this->musicMenu.openFromFile(mSprite.getMainSongPath()))
-    {
+    if (!this->musicMenu.openFromFile(mSprite.getMainSongPath())) {
         std::cout << "Music not found" << std::endl;
     }
-    if (!this->shootSound.openFromFile(mSprite.getShootSoundPath()))
-    {
+    if (!this->shootSound.openFromFile(mSprite.getShootSoundPath())) {
         std::cout << "Shoot sound not found" << std::endl;
     }
-    if (!this->boomEnnemies.openFromFile(mSprite.getBoomEnnemiesPath()))
-    {
+    if (!this->boomEnemies.openFromFile(mSprite.getBoomEnemiesPath())) {
         std::cout << "Shoot sound not found" << std::endl;
     }
 }

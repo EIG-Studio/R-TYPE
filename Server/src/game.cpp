@@ -8,12 +8,12 @@
 #include "entities.hpp"
 #include "server.hpp"
 
-void Server::projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> ennemies)
+void Server::projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> enemies)
 {
     Position projectile_pos_type = registry.getComponent(projectile, Position{});
     std::pair<int, int> projectile_pos = projectile_pos_type.getPosition();
 
-    for (auto& enemy : ennemies) {
+    for (auto& enemy : enemies) {
         ID enemy_id = registry.getComponent(enemy, ID{});
         Position enemy_pos_type = registry.getComponent(enemy, Position{});
         std::pair<int, int> enemy_pos = enemy_pos_type.getPosition();
@@ -25,7 +25,7 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
             addMessage("DELETE " + std::to_string(projectile_id) + "\n");
             registry.deleteById(enemy_id.getID());
             addMessage("DELETE " + std::to_string(enemy_id.getID()) + "\n");
-            addMessage("PLAY_BOOM_ENNEMIES");
+            addMessage("PLAY_BOOM_ENEMIES");
         }
     }
 }
@@ -75,10 +75,10 @@ void Server::GameLoop(Registry& registry)
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         m_registeryMutex.lock();
-        std::vector<Entity> ennemies = registry.getListEnemies();
+        std::vector<Entity> enemies = registry.getListEnemies();
         std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
         m_registeryMutex.unlock();
-        for (auto& enemy : ennemies) {
+        for (auto& enemy : enemies) {
             m_registeryMutex.lock();
             enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
             m_registeryMutex.unlock();
@@ -86,10 +86,10 @@ void Server::GameLoop(Registry& registry)
         for (auto& playerProjectile : playersProjectiles) {
             m_registeryMutex.lock();
             playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
-            projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), ennemies);
+            projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), enemies);
             m_registeryMutex.unlock();
         }
-        if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && ennemies.size() < 5 && gameStarted) {
+        if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && gameStarted) {
 
             std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
             m_registeryMutex.lock();

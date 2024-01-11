@@ -24,7 +24,7 @@ Sprite::Sprite()
     this->m_pathEnemy = "../Client/assets/Cars/cars/190.png";
     this->m_pathMainSong = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
     this->m_pathShootSound = "../Client/assets/Songs/shoot.wav";
-    this->m_pathBoomEnnemies = "../Client/assets/Songs/ennemiesBoom.wav";
+    this->m_pathBoomEnemies = "../Client/assets/Songs/enemiesBoom.wav";
     this->easterEgg = false;
 }
 
@@ -125,7 +125,7 @@ std::string Sprite::getShootSoundPath()
     return this->m_pathShootSound;
 }
 
-std::string Sprite::getBoomEnnemiesPath()
+std::string Sprite::getBoomEnemiesPath()
 {
-    return this->m_pathBoomEnnemies;
+    return this->m_pathBoomEnemies;
 }
