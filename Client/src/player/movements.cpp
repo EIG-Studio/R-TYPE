@@ -166,8 +166,8 @@ void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
         std::cout << e.what();
         return;
     }
-    ID player_id = registry.getComponent(player, ID{});
-    oss << inputType << " " << player_id.getID();
+    ID playerId = registry.getComponent(player, ID{});
+    oss << inputType << " " << playerId.getID();
     std::string inputString = oss.str();
     commandsToServer.sendToServerAsync(inputString, ipAdress);
 }
@@ -180,4 +180,21 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     std::ostringstream shooting;
     shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
+}
+
+void Game::displayArrow(Registry& registry, WindowManager& windowManager)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    sf::Texture texture;
+    sf::Sprite sprite;
+    if (!texture.loadFromFile("../Client/assets/arrow.png")) {
+        std::cerr << "Failed to load arrow texture" << std::endl;
+        return;
+    }
+    sprite.setTexture(texture);
+    sprite.setPosition(pairPos.first + 46, pairPos.second - 30);
+    sprite.setScale(0.04, 0.04);
+    windowManager.getWindow().draw(sprite);
 }
