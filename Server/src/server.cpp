@@ -83,7 +83,6 @@ void Server::PlayerLoop(Registry& registry)
         m_clients = clients;
         m_ClientMutex.unlock();
         if (m_clients.size() == 0 && gameStarted) {
-            std::cout << "No more clients, exiting" << std::endl;
             std::vector<std::size_t> ids;
             m_registeryMutex.lock();
             for (Entity& entity : registry.getListEntities()) {
@@ -94,6 +93,7 @@ void Server::PlayerLoop(Registry& registry)
             }
             m_registeryMutex.unlock();
             gameStarted = false;
+            std::cout << "No more clients, reset donne" << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::seconds(2));
         for (auto& client : m_clients) {
