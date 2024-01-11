@@ -76,6 +76,7 @@ private:
     std::vector<Entity> m_entities;
     sf::RenderWindow m_window;
     size_t m_id = 0;
+    std::vector<size_t> m_toDelete;
 };
 
 template <typename T>

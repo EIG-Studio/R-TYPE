@@ -20,10 +20,8 @@ public:
     sf::Music musicMenu;
     sf::Music musicSecret;
     sf::Music shootSound;
-    sf::Music boomEnemies;
-    sf::Music killPlayer;
-    bool playMenuMusic;
-    void setPath(Sprite mSprite);
+    bool      playMenuMusic;
+    void      setPath(Sprite mSprite);
 
 protected:
 

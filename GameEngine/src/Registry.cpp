@@ -31,16 +31,19 @@ void Registry::destroyEntity(Entity entity)
 {
     ID newID = any_cast<ID>(entity.mComponents[0]);
     size_t id = newID.getID();
-    size_t entityID;
 
     assert(!m_entities.empty());
 
-    for (size_t i = 0; i < m_entities.size(); i++) {
-        entityID = any_cast<ID>(m_entities[i].mComponents[0]).getID();
-        if (entityID == id)
-            m_entities.erase(m_entities.begin() + i);
+    for (auto it = m_entities.begin(); it != m_entities.end(); ++it) {
+        size_t entityID = any_cast<ID>((*it).mComponents[0]).getID();
+        if (entityID == id) {
+            std::cout << "Destroying entity with ID: " << entityID << std::endl;
+            m_toDelete.push_back(id);
+            return;
+        }
     }
-    std::cout << "Destroying entity with ID: " << entityID << std::endl;
+
+    std::cerr << "Entity with ID " << id << " not found for destruction." << std::endl;
 }
 #include <iostream>
 
@@ -51,8 +54,12 @@ std::string Registry::systemsManager()
             // shootingSystem(entity, *this);
             deathSystem(entity, *this);
             movementSystem(entity, *this);
-            // collisionSystem(entity, m_entities, *this);
+            collisionSystem(entity, m_entities, *this);
         }
+    for (auto& id : m_toDelete) {
+        this->deleteById(id);
+    }
+    m_toDelete.clear();
     return "Hello";
 }
 

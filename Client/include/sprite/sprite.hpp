@@ -21,13 +21,9 @@ public:
     void setLogoPath(std::string mString);
     void setTitlePath(std::string mString);
     void setMainSongPath(std::string mString);
-    void setPlayerPath(std::string mString);
-    void setEnemyPath(std::string mString);
     void setBackPath(std::string mString);
-    void setVeryBackBuildPath(std::string mString);
-    void setBackBuildPath(std::string mString);
-    void setMidBuildPath(std::string mString);
-    void setFrontBuildPath(std::string mString);
+    void setPlayerPath(std::string mString);
+    void setEnnemyPath(std::string mString);
 
     std::string getLogoPath();
     std::string getTitlePath();
@@ -38,13 +34,11 @@ public:
     std::string getMidBuildPath();
     std::string getFrontBuildPath();
     std::string getPlayerPath();
-    std::string getEnemyPath();
+    std::string getEnnemyPath();
     std::string getCursorPath();
-    std::string getKillPlayerPath();
 
     std::string getMainSongPath();
     std::string getShootSoundPath();
-    std::string getBoomEnemiesPath();
 
 private:
     std::string m_pathLogo;
@@ -58,10 +52,8 @@ private:
     std::string m_pathFrontBuild;
 
     std::string m_pathPlayer;
-    std::string m_pathEnemy;
+    std::string m_pathEnnemy;
 
     std::string m_pathMainSong;
     std::string m_pathShootSound;
-    std::string m_pathBoomEnemies;
-    std::string m_pathKillPlayer;
 };
