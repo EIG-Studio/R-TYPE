@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.platform.os }}
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         platform:
           - { name: Windows Latest, os: windows-latest }
