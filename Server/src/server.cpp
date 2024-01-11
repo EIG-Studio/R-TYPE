@@ -36,8 +36,6 @@ void Server::startSending()
             this->m_MessageMutex.lock();
             m_messages.pop_back();
             this->m_MessageMutex.unlock();
-        } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(010));
         }
     }
 }

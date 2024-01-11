@@ -32,7 +32,10 @@ void Server::projectileCollision(Registry& registry, Entity& projectile, std::si
 
 void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_t id)
 {
+    if (registry.hasComponent(entity, Position()) == false || registry.hasComponent(entity, Speed()) == false)
+        return;
     Position& positionComponent = registry.getComponent(entity, Position());
+    int speed = registry.getComponent(entity, Speed()).getSpeed();
 
     if (positionComponent.getPosition().first > 800) {
         registry.deleteById(id);
@@ -41,7 +44,7 @@ void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_
     }
 
     positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first + 1 * 7, positionComponent.getPosition().second));
+        std::make_pair(positionComponent.getPosition().first + 1 * speed, positionComponent.getPosition().second));
 
     std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
                          " " + std::to_string(positionComponent.getPosition().second) + "\n";
