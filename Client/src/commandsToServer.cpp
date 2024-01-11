@@ -76,15 +76,31 @@ void handleReceive(
             } catch (const std::exception& e) {
                 std::cerr << "Exception in handleReceive: " << e.what() << std::endl;
             }
+        } else if (receivedData.command == NEW_HEALTH) {
+            int id = receivedData.args[0];
+            int health = receivedData.args[1];
+
+            try {
+                Entity entity = registry.getEntity(id);
+                if (registry.hasComponent(entity, HealthPoint{})) {
+                    HealthPoint& entityPos = registry.getComponent(entity, HealthPoint{});
+                    entityPos.setHealthPoint(health);
+                    registry.setEntity(entity, id);
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "Exception in handleReceive: " << e.what() << std::endl;
+            }
         } else if (receivedData.command == NEW_PLAYER) {
             int id = receivedData.args[0];
             int xPos = receivedData.args[1];
             int yPos = receivedData.args[2];
+            int healthPoint = receivedData.args[3];
 
             if (registry.hasEntity(id))
                 return;
             Entity player = registry.createEntityWithID(id);
             player = registry.addComponent(player, Position(std::make_pair(xPos, yPos)));
+            player = registry.addComponent(player, HealthPoint(healthPoint));
             player = registry.addComponent(player, Renderer("../Client/assets/Cars/189.png"));
             player = registry.addComponent(player, Type(std::any_cast<EntityType>(Player)));
             player = registry.addComponent(
@@ -174,14 +190,14 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     });
 }
 
-void CommandsToServer::asyncReceiveSecondSocket(Registry& registry, Music& music)
+void CommandsToServer::asyncReceive(Registry& registry, Music& music)
 {
     m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music](auto&& pH1, auto&& pH2) {
         this->mutex.lock();
         handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music);
         this->mutex.unlock();
         memset(m_buffer, 0, sizeof(TransferData));
-        asyncReceiveSecondSocket(std::ref(registry), music);
+        asyncReceive(std::ref(registry), music);
     });
 }
 

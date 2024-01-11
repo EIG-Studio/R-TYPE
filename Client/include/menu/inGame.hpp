@@ -54,10 +54,12 @@ public:
     std::string InputTypeToString(sf::Keyboard::Key key);
     void colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
+    void damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void isPaused();
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
+    void displayHealth(Registry& registry, Music& music);
     void displayArrow(Registry& registry, WindowManager& windowManager);
 
     bool onGame;

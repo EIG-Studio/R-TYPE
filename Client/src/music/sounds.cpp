@@ -23,6 +23,9 @@ void Music::setPath(Sprite mSprite)
         std::cout << "Shoot sound not found" << std::endl;
     }
     if (!this->boomEnemies.openFromFile(mSprite.getBoomEnemiesPath())) {
-        std::cout << "Shoot sound not found" << std::endl;
+        std::cout << "Boom sound not found" << std::endl;
+    }
+    if (!this->killPlayer.openFromFile(mSprite.getKillPlayerPath())) {
+        std::cout << "Boom sound not found" << std::endl;
     }
 }

@@ -40,6 +40,7 @@ public:
     std::string getPlayerPath();
     std::string getEnemyPath();
     std::string getCursorPath();
+    std::string getKillPlayerPath();
 
     std::string getMainSongPath();
     std::string getShootSoundPath();
@@ -62,4 +63,5 @@ private:
     std::string m_pathMainSong;
     std::string m_pathShootSound;
     std::string m_pathBoomEnemies;
+    std::string m_pathKillPlayer;
 };

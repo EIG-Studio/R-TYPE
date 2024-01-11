@@ -38,6 +38,7 @@ public:
     void createBullet(Registry& registry, int posx, int posy);
     void GameLoop(Registry& registry);
     void PlayerLoop(Registry& registry);
+    void damageThePlayer(Registry& registry, int damage, int id);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:

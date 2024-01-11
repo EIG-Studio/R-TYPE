@@ -54,6 +54,7 @@ void InLoopGame::gameInLoop(
     refreshRegistry(registry, commandsToServer, ipAdress);
     pingServer(commandsToServer, ipAdress);
     try {
+        game.displayHealth(std::ref(registry), music);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),
@@ -69,6 +70,9 @@ void InLoopGame::gameInLoop(
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
+        }
+        if (event.key.code == sf::Keyboard::K) {
+            game.damageToPlayer(commandsToServer, registry, ipAdress);
         }
     }
     if (event.type == sf::Event::KeyReleased) {
