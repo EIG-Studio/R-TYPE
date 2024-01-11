@@ -131,6 +131,11 @@ int main()
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.0f, 10.0f);
 
+    fpsText.setFont(windowManager.getFont());
+    fpsText.setCharacterSize(15);
+    fpsText.setFillColor(sf::Color::White);
+    fpsText.setPosition(20.0f, 20.0f);
+
     sf::Text ipAddressText;
     ipAddressText.setFont(windowManager.getFont());
     ipAddressText.setCharacterSize(24);

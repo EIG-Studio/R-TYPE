@@ -63,7 +63,7 @@ public:
     void displayArrow(Registry& registry, WindowManager& windowManager);
 
     void setHealPointText(sf::Text mHealPoint);
-    sf::Text getHealPointText();
+    //sf::Text getHealPointText();
 
     bool onGame;
     bool onPause;
@@ -109,7 +109,4 @@ private:
     sf::Sprite m_cursorSprite;
     int m_tempMouseX;
     int m_tempMouseY;
-
-    sf::Text m_healthPoint;
-    int m_healthPointTemp;
 };

@@ -6,6 +6,21 @@
 */
 
 #include "menu/inLoopGame.hpp"
+#include "menu/inGame.hpp"
+
+void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
+{
+    if (registry.hasEntityType(HUD)) {
+        windowManager.getWindow().clear();
+        Entity score = registry.getScore();
+        ScorePoint score_points = registry.getComponent(score, ScorePoint{});
+
+        scoreText.setString(std::to_string(static_cast<int>(score_points.getScorePoint())));
+        std::cout << "LOG: " << std::to_string(score_points.getScorePoint()) << std::endl;
+    } else {
+        //std::cout << "LOG: " << "no score" << std::endl;
+    }
+}
 
 void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress)
 {
@@ -54,7 +69,8 @@ void InLoopGame::gameInLoop(
     refreshRegistry(registry, commandsToServer, ipAdress);
     pingServer(commandsToServer, ipAdress);
     try {
-        game.displayHealth(std::ref(registry), music, windowManager);
+        // game.displayHealth(std::ref(registry), music, windowManager);
+        updateScore(windowManager, registry);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),
@@ -92,7 +108,8 @@ void InLoopGame::gameInLoop(
         onGameClock.restart();
     }
     windowManager.getWindow().draw(game);
-    windowManager.getWindow().draw(game.getHealPointText());
+    windowManager.getWindow().draw(scoreText);
+    //windowManager.getWindow().draw(game.getHealPointText());
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());

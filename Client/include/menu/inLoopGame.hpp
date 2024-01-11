@@ -30,10 +30,12 @@ public:
         ButtonManager& buttonManager,
         ChoiceMenu& choiceMenu,
         IpAdress& ipAdress);
+    void updateScore(WindowManager& windowManager, Registry& registry);
 
 private:
     void refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress);
     void pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress);
     sf::Clock m_clock;
     sf::Clock m_clock2;
+    sf::Text scoreText;
 };
