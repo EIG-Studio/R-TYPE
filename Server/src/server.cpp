@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-void Server::playerLoop(Registry& registry)
+void Server::PlayerLoop(Registry& registry)
 {
     while (true) {
         std::vector<Client> clients;

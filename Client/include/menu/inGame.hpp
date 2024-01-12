@@ -35,7 +35,7 @@ public:
         CommandsToServer& commandsToServer,
         const Sprite& mSprite,
         IpAdress& ipAdress);
-    void moveEnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& enemies);
+    void moveEnemies(Registry& registry);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void handleMovement(
         Registry& registry,
@@ -67,6 +67,7 @@ public:
     bool onPause;
     bool healthPointFirst{false};
     bool hasFocus{false};
+    int current_level = 1;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -110,4 +111,5 @@ private:
 
     sf::Text m_healthPointText;
     int m_healthPointTemp;
+
 };

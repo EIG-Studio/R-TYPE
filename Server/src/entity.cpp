@@ -106,6 +106,10 @@ void Server::createEnemy(Registry& registry)
     Position positionComponent = Position(std::make_pair(randNb(1200, 2000), randNb(0, 500)));
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(randNb(5, 10));
+    if (m_currentLevel == 1)
+        speedComponent.setSpeed(randNb(50, 70));
+    else
+        speedComponent.setSpeed(randNb(15, 20));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
     HealthPoint healthPoint(5);
     HitBox hb = HitBox(positionComponent.getPosition(), std::make_pair(100, 50));
