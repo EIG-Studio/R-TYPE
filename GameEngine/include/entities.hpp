@@ -48,13 +48,9 @@ public:
     Entity getFirstEnemy();
     bool hasEntity(size_t id);
     bool hasEntityType(Type type);
-    std::vector<Entity> getListEnemies();
-    std::vector<Entity> getListPlayers();
     std::vector<Entity> getListEntities();
-    std::vector<Entity> getListPlayersProjectile();
-    std::vector<Entity> deletePlayersProjectile(int id);
-    std::vector<Entity> deleteEnemy(int id);
-    void deleteById(int id);
+    std::vector<Entity> getListEntities(EntityType type);
+     void deleteById(int id);
     void destroyEnemy(std::vector<Entity> enemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
@@ -117,7 +113,7 @@ void Registry::removeComponent(Entity entity, T component)
 
     entity.mComponents.erase(entity.mComponents.begin() + index);
 
-    for (auto & mEntitie : m_entities) {
+    for (auto& mEntitie : m_entities) {
         newID = any_cast<ID>(mEntitie.mComponents[0]);
         if (newID.getID() == id)
             mEntitie = entity;
@@ -125,7 +121,7 @@ void Registry::removeComponent(Entity entity, T component)
 }
 
 template <typename T>
-T& Registry::getComponentT(Entity& entity, T  /*component*/, const char* file, const char* fn, int line)
+T& Registry::getComponentT(Entity& entity, T /*component*/, const char* file, const char* fn, int line)
 {
     for (auto& mComponent : entity.mComponents) {
         try {
@@ -140,7 +136,7 @@ T& Registry::getComponentT(Entity& entity, T  /*component*/, const char* file, c
 }
 
 template <typename T>
-bool Registry::hasComponent(Entity& entity, T  /*component*/)
+bool Registry::hasComponent(Entity& entity, T /*component*/)
 {
     for (const auto& otherComponent : entity.mComponents) {
         try {

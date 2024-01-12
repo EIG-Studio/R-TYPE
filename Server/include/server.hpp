@@ -40,6 +40,9 @@ public:
     void Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
     void PlayerLoop(Registry& registry);
     void damageThePlayer(Registry& registry, int damage, int id);
+    void gameLoop(Registry& registry);
+    void level1Loop(Registry& registry, std::vector<Entity> enemies);
+    void playerLoop(Registry& registry);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:

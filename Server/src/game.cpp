@@ -134,8 +134,7 @@ void Server::GameLoop(Registry& registry)
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         m_registeryMutex.lock();
-        std::vector<Entity> enemies = registry.getListEnemies();
-        std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
+        std::vector<Entity> enemies = registry.getListEntities(Enemy);
         m_registeryMutex.unlock();
 
         if (m_currentLevel == 1)

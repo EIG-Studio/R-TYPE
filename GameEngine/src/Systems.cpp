@@ -54,7 +54,7 @@ std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
     registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
     std::cout << "healthPoint: " << healthPoint.getHealthPoint() << std::endl;
     return "NEW_HEALTH " + std::to_string(registry.getComponent(otherEntity, ID{}).getID()) + " " +
-           std::to_string(registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint());
+           std::to_string(registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint()) + "\n";
 }
 
 std::string movementSystem(Entity entity, Registry& registry)

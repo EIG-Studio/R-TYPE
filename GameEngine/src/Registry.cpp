@@ -237,78 +237,19 @@ Entity Registry::getFirstEnemy()
     throw std::runtime_error("No Enemy entity found");
 }
 
-std::vector<Entity> Registry::getListEnemies()
+std::vector<Entity> Registry::getListEntities(EntityType type)
 {
-    std::vector<Entity> enemies;
+    std::vector<Entity> entities;
+
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Enemy) {
-                enemies.push_back(entity);
+            if (typeComponent.getEntityType() == type) {
+                entities.push_back(entity);
             }
         }
     }
-    return enemies;
-}
-
-std::vector<Entity> Registry::getListPlayers()
-{
-    std::vector<Entity> players;
-    for (auto& player : m_entities) {
-        if (this->hasComponent(player, Type{})) {
-            Type& typeComponent = this->getComponent(player, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player) {
-                players.push_back(player);
-            }
-        }
-    }
-    return players;
-}
-
-std::vector<Entity> Registry::getListPlayersProjectile()
-{
-    std::vector<Entity> playersProjectiles;
-    for (auto& playerProjectile : m_entities) {
-        if (this->hasComponent(playerProjectile, Type{})) {
-            Type& typeComponent = this->getComponent(playerProjectile, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player_Projectile) {
-                playersProjectiles.push_back(playerProjectile);
-            }
-        }
-    }
-    return playersProjectiles;
-}
-
-std::vector<Entity> Registry::deletePlayersProjectile(int id)
-{
-    std::vector<Entity> playersProjectiles;
-    for (auto& playerProjectile : m_entities) {
-        if (this->hasComponent(playerProjectile, Type{})) {
-            Type& typeComponent = this->getComponent(playerProjectile, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player_Projectile) {
-                if (id == this->getComponent(playerProjectile, ID{}).getID()) {
-                    this->destroyEntity(playerProjectile);
-                }
-            }
-        }
-    }
-    return playersProjectiles;
-}
-
-std::vector<Entity> Registry::deleteEnemy(int id)
-{
-    std::vector<Entity> enemies;
-    for (auto& enemy : m_entities) {
-        if (this->hasComponent(enemy, Type{})) {
-            Type& typeComponent = this->getComponent(enemy, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player) {
-                if (id == this->getComponent(enemy, ID{}).getID()) {
-                    this->destroyEntity(enemy);
-                }
-            }
-        }
-    }
-    return enemies;
+    return entities;
 }
 
 void Registry::deleteById(int id)
@@ -331,10 +272,7 @@ std::vector<Entity> Registry::getListEntities()
 {
     std::vector<Entity> enemies;
     for (auto& entity : m_entities) {
-        if (this->hasComponent(entity, Type{})) {
-            Type& typeComponent = this->getComponent(entity, Type{});
-            enemies.push_back(entity);
-        }
+        enemies.push_back(entity);
     }
     return enemies;
 }
