@@ -129,8 +129,6 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     socket.async_send_to(boost::asio::buffer(buffer), receiverEndpoint, [](const boost::system::error_code& ec, std::size_t /*bytes_transferred*/) {
         if (ec) {
             std::cerr << "Send error: " << ec.message() << std::endl;
-        } else {
-            // std::cout << "Sent " << bytes_transferred << " bytes to server." << std::endl;
         }
     });
 }
