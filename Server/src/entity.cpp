@@ -81,7 +81,6 @@ void Server::createArrow(Registry& registry)
 
     Entity entity = registry.createEntityWithID(idComponent);
     entity = registry.addComponent(entity, Position(playerPos));
-    entity = registry.addComponent(entity, Renderer("../Client/assets/arrow.png"));
     entity = registry.addComponent(entity, Size(std::make_pair(1, 1)));
     entity = registry.addComponent(entity, Type(std::any_cast<EntityType>(Arrow_Player)));
 
