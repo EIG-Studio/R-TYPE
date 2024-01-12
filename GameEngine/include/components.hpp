@@ -268,9 +268,15 @@ public:
     sf::Sprite& getRenderer();
     sf::Texture getTexture() const;
 
+    std::string getPath()
+    {
+        return m_path;
+    }
+
     void setRenderer(const std::string& texturePath);
 
 private:
+    std::string m_path;
     sf::Texture m_texture;
     sf::Sprite m_sprite;
 };

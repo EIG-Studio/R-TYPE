@@ -118,6 +118,24 @@ void createPlayerProjectile(Registry& registry, int id, int xPos, int yPos)
     std::cout << "Player projectile created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
+void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
+{
+    std::cout << "Player projectile created" << std::endl;
+    Entity playerProjectile = registry.createEntityWithID(id);
+    playerProjectile = registry.addComponent(playerProjectile, Position(std::make_pair(xPos, yPos)));
+    playerProjectile = registry.addComponent(playerProjectile, Renderer("../Client/assets/Cars/movement parts/thruster/flame2.png"));
+    playerProjectile = registry.addComponent(playerProjectile, Type(std::any_cast<EntityType>(Player_Projectile)));
+    playerProjectile = registry.addComponent(
+        playerProjectile,
+        Size(std::make_pair(
+            68.5 / registry.getComponent(playerProjectile, Renderer{}).getRenderer().getLocalBounds().width,
+            21.25 / registry.getComponent(playerProjectile, Renderer{}).getRenderer().getLocalBounds().height)));
+
+    Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
+    std::pair<int, int> pairPos = playerProjectilePos.getPosition();
+    std::cout << "HUHUHU created pos: " << pairPos.first << " " << pairPos.second << '\n';
+}
+
 void createHud(Registry& registry, int id, int dataScore)
 {
     std::cout << "NEW_HUD" << std::endl;

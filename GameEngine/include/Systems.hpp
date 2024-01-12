@@ -45,6 +45,7 @@ enum COMMAND
     NEW_HEALTH,
     UPDATE,
     SHOOT,
+    HUHUHU,
     DAMAGE_TO_PLAYER,
     UNKNOWN,
     EMPTY,

@@ -39,6 +39,38 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     addMessage(newPlayerProjectile.str());
 }
 
+void Server::createBullet2(Registry& registry, int posx, int posy)
+{
+    Entity entity = registry.createEntity();
+    ID idComponent = ID();
+    auto positionComponent = Position(std::make_pair(posx, posy));
+    Size sizeComponent = Size(std::make_pair(1, 1));
+    Speed speedComponent(100);
+    Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
+    HealthPoint healthPoint(1);
+    Damage damage(10);
+    Velocity velocityComponent = Velocity();
+
+    velocityComponent.setVelocity(1, 0);
+
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+    entity = registry.addComponent(entity, healthPoint);
+    entity = registry.addComponent(entity, damage);
+    entity = registry.addComponent(entity, velocityComponent);
+    entity = registry.addComponent(entity, HitBox(positionComponent.getPosition(), std::make_pair(50, 50)));
+
+    std::ostringstream newPlayerProjectile;
+    newPlayerProjectile << "HUHUHU_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
+                        << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
+                        << " " << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
+                        << sizeComponent.getSize().second << " " << typeComponent << "\n";
+    addMessage(newPlayerProjectile.str());
+}
+
 std::size_t Server::createPlayer(Registry& registry)
 {
     Entity entity = registry.createEntity();

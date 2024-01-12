@@ -67,6 +67,7 @@ private:
     std::size_t createPlayer(Registry& registry);
     void createEnemy(Registry& registry);
     void createBullet(Registry& registry, int posx, int posy);
+    void createBullet2(Registry& registry, int posx, int posy);
     void createBoss(Registry& registry);
     void createArrow(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
