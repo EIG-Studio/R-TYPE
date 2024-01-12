@@ -87,6 +87,9 @@ void InLoopGame::gameInLoop(
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
         }
+        if (event.key.code == sf::Keyboard::J) {
+            game.spawnPowerUp(commandsToServer, registry, ipAdress);;
+        }
         if (event.key.code == sf::Keyboard::K) {
             game.damageToPlayer(commandsToServer, registry, ipAdress);
         }

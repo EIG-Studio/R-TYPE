@@ -80,6 +80,8 @@ void handleReceive(
                 break;
             case PLAYER_PROJECTILE:
                 createPlayerProjectile(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
+            case POWER_UP:
+                createPowerUp(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
             case DELETE:
                 registry.deleteById(receivedData.args[0]);

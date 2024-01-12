@@ -203,6 +203,7 @@ enum EntityType
     Enemy_Projectile,
     Wall,
     HUD,
+    Power_Up,
     Unknow
 };
 
@@ -234,6 +235,9 @@ inline std::ostream& operator<<(std::ostream& os, const Type& type)
             break;
         case EntityType::Player_Projectile:
             os << "Player_Projectile";
+            break;
+        case EntityType::Power_Up:
+            os << "Power_Up";
             break;
         case EntityType::Enemy_Projectile:
             os << "Enemy_Projectile";
