@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "../../GameEngine/include/components.hpp"
 #include "../../GameEngine/include/entities.hpp"
 #include "commandsToServer.hpp"
 #include "ipAdress.hpp"
@@ -27,7 +26,7 @@ public:
     void repeatParallax();
     float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
     float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
-    void SendMessage(CommandsToServer& commandsToServer);
+    void sendMessage(CommandsToServer& commandsToServer);
     void movePlayer(
         Registry& registry,
         float movementSpeed,
@@ -38,7 +37,7 @@ public:
         IpAdress& ipAdress);
     void moveEnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& enemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
-    void HandleMovement(
+    void handleMovement(
         Registry& registry,
         sf::Keyboard::Key key,
         CommandsToServer& commandsToServer,
@@ -49,9 +48,9 @@ public:
         float windowLimit,
         float spriteLimit,
         IpAdress& ipAdress);
-    void SendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
-    void SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress);
-    std::string InputTypeToString(sf::Keyboard::Key key);
+    void sendPositionUpdate(CommandsToServer& commandsToServer, Registry& registry, std::pair<float, float> newPos, float speed);
+    void sendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress);
+    std::string inputTypeToString(sf::Keyboard::Key key);
     void colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
@@ -73,9 +72,9 @@ public:
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    Entity player;
+    Entity m_player;
 
-    sf::Clock updateClock;
+    sf::Clock m_updateClock;
 
     sf::Texture m_backTexture;
     sf::Sprite m_backSprite;

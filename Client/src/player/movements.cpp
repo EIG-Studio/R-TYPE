@@ -88,7 +88,7 @@ void Game::movePlayer(
          {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, spriteHeight}};
 
     for (const auto& config : movements) {
-        HandleMovement(
+        handleMovement(
             registry,
             config.key,
             commandsToServer,
@@ -105,7 +105,7 @@ void Game::movePlayer(
     }
 }
 
-std::string Game::InputTypeToString(sf::Keyboard::Key key)
+std::string Game::inputTypeToString(sf::Keyboard::Key key)
 {
     switch (key) {
         case sf::Keyboard::Left:
@@ -129,7 +129,7 @@ std::string Game::InputTypeToString(sf::Keyboard::Key key)
     }
 }
 
-void Game::HandleMovement(
+void Game::handleMovement(
     Registry& registry,
     sf::Keyboard::Key key,
     CommandsToServer& commandsToServer,
@@ -150,10 +150,10 @@ void Game::HandleMovement(
     sf::Sprite playerSprite = playerRenderer.getRenderer();
 
     if (keyPressed) {
-        std::string inputType = InputTypeToString(key);
-        if (updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
-            SendInputUpdate(commandsToServer, registry, inputType, ipAdress);
-            updateClock.restart();
+        std::string inputType = inputTypeToString(key);
+        if (m_updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
+            sendInputUpdate(commandsToServer, registry, inputType, ipAdress);
+            m_updateClock.restart();
         }
         if (((deltaX != 0 && pairPos.first >= 0 && pairPos.first <= windowLimit - spriteLimit) ||
              (deltaY != 0 && pairPos.second >= 0 && pairPos.second <= windowLimit - spriteLimit)) &&
@@ -163,7 +163,7 @@ void Game::HandleMovement(
     }
 }
 
-void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress)
+void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress)
 {
     std::ostringstream oss;
     Entity player;
