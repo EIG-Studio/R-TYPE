@@ -31,16 +31,10 @@ The goal of this project is to implement a multithreaded server and a graphical 
 
 ## Install 🔧
 
-**Linux:**
+**for install and run the project**
 
 ```sh
 ./run.sh
-```
-
-**Windows:**
-
-```sh
-in progress
 ```
 
 ## Usage Example
