@@ -39,6 +39,7 @@ public:
     void createBoss(Registry& registry);
     void spawnBoss(Registry& registry);
     void GameLoop(Registry& registry);
+    void Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
     void PlayerLoop(Registry& registry);
     void damageThePlayer(Registry& registry, int damage, int id);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
@@ -54,6 +55,7 @@ private:
     std::mutex m_ClientMutex;
     std::vector<Client> m_clients;
     bool gameStarted = false;
+    int current_level = 1;
     std::clock_t m_clock;
     unsigned char m_buffer[sizeof(TransferData)];
 

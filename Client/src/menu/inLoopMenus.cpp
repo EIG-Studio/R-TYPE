@@ -159,12 +159,14 @@ void InLoopMenus::lobbyMenuInLoop(
         if (buttonManager.getLevelTwoButton().getOutlineColor() == sf::Color::Red)
             buttonManager.getLevelTwoButton().setOutlineColor(sf::Color::White);
         levelOneConfig(game, sprite);
+        commandsToServer.sendToServerAsync("LEVEL 1", ipAdress);
     }
     if (buttonManager.getLevelTwoButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
         buttonManager.getLevelTwoButton().setOutlineColor(sf::Color::Red);
         if (buttonManager.getLevelOneButton().getOutlineColor() == sf::Color::Red)
             buttonManager.getLevelOneButton().setOutlineColor(sf::Color::White);
         levelTwoConfig(game, sprite);
+        commandsToServer.sendToServerAsync("LEVEL 2", ipAdress);
     }
     buttonManager.getLevelOneButton().draw(windowManager.getWindow());
     buttonManager.getLevelTwoButton().draw(windowManager.getWindow());

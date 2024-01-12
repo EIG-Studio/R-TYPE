@@ -313,6 +313,8 @@ void Server::handleReceivedData(
             playerMove(registry, receivedData.command, receivedData.args[0]);
         } else if (receivedData.command == REFRESH) {
             refreshClientRegistry(registry, receivedData.args[0]);
+        } else if (receivedData.command == LEVEL) {
+            current_level = receivedData.args[0];
         } else if (receivedData.command == ALIVE) {
             m_ClientMutex.lock();
             for (Client& client : m_clients) {

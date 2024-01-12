@@ -51,6 +51,7 @@ enum COMMAND
     ALIVE,
     NEW_HUD,
     SCORE,
+    LEVEL,
 };
 
 COMMAND getCommand(const std::string& commandStr);

@@ -28,6 +28,7 @@ static std::map<std::string, COMMAND> commandMap =
      {"REFRESH", REFRESH},
      {"SCORE", SCORE},
      {"NEW_HUD", NEW_HUD},
+     {"LEVEL", LEVEL},
      {"UNKNOWN", UNKNOWN}};
 
 static std::map<std::string, EntityType> typeMap =
