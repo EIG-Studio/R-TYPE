@@ -39,7 +39,7 @@ void deathSystem(Entity entity, Registry& registry)
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
         std::cout << "ca passe ici" << std::endl;
-        registry.m_toDelete.push_back(registry.getComponent(entity, ID{}).getID());
+        registry.toDelete.push_back(registry.getComponent(entity, ID{}).getID());
         // registry.deleteById(registry.getComponent(entity, ID{}).getID());
     }
 }
