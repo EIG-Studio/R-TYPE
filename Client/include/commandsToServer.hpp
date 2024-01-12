@@ -46,7 +46,7 @@ public:
 
     std::string getNewPos() const;
 
-    std::future<void> sendToServerAsync(std::string msg, IpAdress& ipAdress);
+    std::future<void> sendToServerAsync(const std::string& msg, IpAdress& ipAdress);
     void asyncReceive(Registry& registry, Music& music);
     std::mutex mutex;
 
