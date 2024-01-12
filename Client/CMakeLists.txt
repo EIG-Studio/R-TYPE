@@ -44,6 +44,7 @@ add_executable(${PROJECT_NAME}
     src/menu/inGame.cpp
     src/commandsToServer.cpp
     src/player/movements.cpp
+    src/createEntity.cpp
 )
 
 
