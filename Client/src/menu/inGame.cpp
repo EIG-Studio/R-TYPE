@@ -263,7 +263,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Game::moveEnemies(Registry& registry)
 {
-    const std::vector<Entity>& ennemies = registry.getListEnemies();
+    const std::vector<Entity>& ennemies = registry.getListEntities(Enemy);
 
     for (auto& ennemy : ennemies) {
         Entity curr_ennemy = ennemy;

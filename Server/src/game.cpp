@@ -56,7 +56,7 @@ void Server::enemyShootAndMove(Registry& registry, Entity& entity, std::size_t i
         registry.deleteById(id);
     }
 
-    std::vector<Entity> players = registry.getListPlayers();
+    std::vector<Entity> players = registry.getListEntities(Player);
     Entity randomPlayer;
     Position randomPlayer_pos;
     if (!players.empty()) {
@@ -82,7 +82,7 @@ void Server::enemyShootAndMove(Registry& registry, Entity& entity, std::size_t i
     registry.setEntity(entity, id);
 }
 
-void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles)
+void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies)
 {
     for (auto& enemy : enemies) {
         m_registeryMutex.lock();
@@ -104,20 +104,11 @@ void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::v
     }
 }
 
-void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles)
+void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies)
 {
     for (auto& enemy : enemies) {
         m_registeryMutex.lock();
         enemyShootAndMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
-        m_registeryMutex.unlock();
-    }
-    for (auto& playerProjectile : playersProjectiles) {
-        m_registeryMutex.lock();
-        std::ostringstream oss;
-        oss << "NEW_POS " << registry.getComponent(playerProjectile, ID{}).getID() << " "
-            << registry.getComponent(playerProjectile, Position{}).getPosition().first << " "
-            << registry.getComponent(playerProjectile, Position{}).getPosition().second << "\n";
-        addMessage(oss.str());
         m_registeryMutex.unlock();
     }
     if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && m_gameStarted) {
@@ -143,9 +134,9 @@ void Server::GameLoop(Registry& registry)
         m_registeryMutex.unlock();
 
         if (m_currentLevel == 1)
-            Level1_Loop(registry, enemies, playersProjectiles);
+            Level1_Loop(registry, enemies);
         else
-            Level2_Loop(registry, enemies, playersProjectiles);
+            Level2_Loop(registry, enemies);
         std::vector<std::string> msg = registry.systemsManager();
         for (auto& message : msg) {
             addMessage(message);
