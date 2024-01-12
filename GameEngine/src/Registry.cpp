@@ -198,6 +198,19 @@ Entity Registry::getArrow()
     throw std::runtime_error("No arrow entity found\n");
 }
 
+Entity Registry::getBoss()
+{
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::Boss) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No arrow entity found\n");
+}
+
 Entity Registry::getScore()
 {
     for (auto& entity : m_entities) {

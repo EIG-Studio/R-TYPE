@@ -136,7 +136,7 @@ void Server::createBoss(Registry& registry)
     Size sizeComponent = Size(std::make_pair(2, 2));
     HitBox hitboxComponent = HitBox(positionComponent.getPosition(), std::make_pair(100, 100));
     Speed speedComponent(randNb(1, 3));
-    Type typeComponent = std::any_cast<EntityType>(Enemy);
+    Type typeComponent = std::any_cast<EntityType>(Boss);
     HealthPoint healthPointComponent(50);
     Damage damageComponent(1);
 
