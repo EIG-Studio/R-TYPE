@@ -93,7 +93,7 @@ void Server::PlayerLoop(Registry& registry)
             }
             m_registeryMutex.unlock();
             gameStarted = false;
-            std::cout << "No more clients, reset donne" << std::endl;
+            std::cout << "No more clients, reset done" << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::seconds(2));
         for (auto& client : m_clients) {
