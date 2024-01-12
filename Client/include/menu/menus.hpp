@@ -88,7 +88,7 @@ public:
     void setInputText(sf::Text text);
     sf::Text getInputText();
     void inputText(sf::Event& event, IpAdress& ipAdress);
-    void setInputTextFromString(std::string text);
+    void setInputTextFromString(const std::string& text);
     std::string getUserInput();
     void setUserInput(std::string userInput);
     bool onHostOrJoin;
