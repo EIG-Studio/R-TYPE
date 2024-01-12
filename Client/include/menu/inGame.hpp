@@ -53,7 +53,6 @@ public:
     std::string inputTypeToString(sf::Keyboard::Key key);
     void colidePlayer();
     void shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
-    void spawnPowerUp(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress);
     void isPaused();
     void setCursorPosition(sf::RenderWindow& window);

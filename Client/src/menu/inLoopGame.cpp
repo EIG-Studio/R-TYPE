@@ -88,7 +88,7 @@ void InLoopGame::gameInLoop(
             music.shootSound.play();
         }
         if (event.key.code == sf::Keyboard::J) {
-            game.spawnPowerUp(commandsToServer, registry, ipAdress);;
+            std::cout << "power up" << std::endl;
         }
         if (event.key.code == sf::Keyboard::K) {
             game.damageToPlayer(commandsToServer, registry, ipAdress);

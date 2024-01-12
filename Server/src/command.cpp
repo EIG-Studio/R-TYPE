@@ -150,38 +150,6 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     addMessage(newPlayerProjectile.str());
 }
 
-void Server::createPowerUp(Registry& registry, int posx, int posy)
-{
-    Entity entity = registry.createEntity();
-    ID idComponent = ID();
-    auto positionComponent = Position(std::make_pair(posx, posy));
-    Size sizeComponent = Size(std::make_pair(1, 1));
-    Speed speedComponent(15);
-    Type typeComponent = std::any_cast<EntityType>(Power_Up);
-    HealthPoint healthPoint(1);
-    Damage damage(3);
-    Velocity velocityComponent = Velocity();
-
-    velocityComponent.setVelocity(1, 0);
-
-    entity = registry.addComponent(entity, idComponent);
-    entity = registry.addComponent(entity, positionComponent);
-    entity = registry.addComponent(entity, sizeComponent);
-    entity = registry.addComponent(entity, speedComponent);
-    entity = registry.addComponent(entity, typeComponent);
-    entity = registry.addComponent(entity, healthPoint);
-    entity = registry.addComponent(entity, damage);
-    entity = registry.addComponent(entity, velocityComponent);
-    entity = registry.addComponent(entity, HitBox(positionComponent.getPosition(), std::make_pair(50, 50)));
-
-    std::ostringstream newPlayerProjectile;
-    newPlayerProjectile << "POWER_UP " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
-                        << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
-                        << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-                        << sizeComponent.getSize().second << " " << typeComponent << "\n";
-    addMessage(newPlayerProjectile.str());
-}
-
 void Server::addMessage(const std::string& message)
 {
     this->m_messageMutex.lock();
@@ -245,8 +213,6 @@ void Server::sendAllEntites(Registry& registry)
             oss << "NEW_ENEMY ";
         else if (type == Player_Projectile)
             oss << "PLAYER_PROJECTILE ";
-        else if (type == Power_Up)
-            oss << "POWER_UP ";
         else if (type == Enemy_Projectile)
             oss << "ENEMY_PROJECTILE ";
         else if (type == HUD)
@@ -254,7 +220,7 @@ void Server::sendAllEntites(Registry& registry)
         else
             oss << "UNKNOWN ";
 
-        if (type == Player || type == Enemy || type == Player_Projectile || type == Power_Up || type == Enemy_Projectile) {
+        if (type == Player || type == Enemy || type == Player_Projectile || type == Enemy_Projectile) {
             auto positionComponent = registry.getComponent(entity, Position{});
             auto xPosition = positionComponent.getPosition().first;
             auto yPosition = positionComponent.getPosition().second;
@@ -340,8 +306,6 @@ void Server::handleReceivedData(
 
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
-        } else if (receivedData.command == POWER_UP) {
-            createPowerUp(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == DAMAGE_TO_PLAYER) {
             damageThePlayer(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
