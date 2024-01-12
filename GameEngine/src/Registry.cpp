@@ -89,7 +89,7 @@ std::vector<std::string> Registry::systemsManager()
     int newScore = 0;
     for (auto& id : toDelete) {
         Entity entity = getEntity(id);
-        if (getComponent(entity, Type{}).getEntityType() == EntityType::Enemy) {
+        if (hasComponent(entity, Type{}) && getComponent(entity, Type{}).getEntityType() == EntityType::Enemy) {
             newScore += 1;
         }
         this->deleteById(id);
