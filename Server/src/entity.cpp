@@ -13,7 +13,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     ID idComponent = ID();
     auto positionComponent = Position(std::make_pair(posx, posy));
     Size sizeComponent = Size(std::make_pair(1, 1));
-    Speed speedComponent(15);
+    Speed speedComponent(100);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
     HealthPoint healthPoint(1);
     Damage damage(3);

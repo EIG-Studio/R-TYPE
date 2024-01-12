@@ -36,6 +36,7 @@ public:
         const Sprite& mSprite,
         IpAdress& ipAdress);
     void moveEnemies(Registry& registry);
+    void moveBullets(Registry& registry);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void handleMovement(
         Registry& registry,

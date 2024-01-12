@@ -279,6 +279,20 @@ void Game::moveEnemies(Registry& registry)
     std::cout << "ENNEMIES\n";
 }
 
+void Game::moveBullets(Registry& registry)
+{
+    const std::vector<Entity>& bullets = registry.getListEntities(Player_Projectile);
+
+    for (auto& bullet : bullets) {
+        Entity curr_bullet = bullet;
+        Position& positionComponent = registry.getComponent(curr_bullet, Position{});
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first + 15, positionComponent.getPosition().second));
+        registry.setEntity(curr_bullet, registry.getComponent(curr_bullet, ID{}).getID());
+    }
+    std::cout << "ENNEMIES\n";
+}
+
 void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
 {
     Entity player;

@@ -80,6 +80,7 @@ void InLoopGame::gameInLoop(
             sprite,
             ipAdress);
         game.moveEnemies(registry);
+        game.moveBullets(registry);
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
