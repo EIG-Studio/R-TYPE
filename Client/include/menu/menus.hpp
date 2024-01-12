@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "sprite/sprite.hpp"
 #include "ipAdress.hpp"
+#include "sprite/sprite.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
 {
