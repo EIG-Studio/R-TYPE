@@ -24,8 +24,8 @@ public:
     float getPosPlayerX(Registry& registry);
     void moveParallax();
     void repeatParallax();
-    float setNewPositionX(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
-    float setNewPositionY(sf::Sprite mSprite, CommandsToServer& mCommandsToServer);
+    float setNewPositionX(const sf::Sprite& mSprite, CommandsToServer& mCommandsToServer);
+    float setNewPositionY(const sf::Sprite& mSprite, CommandsToServer& mCommandsToServer);
     void sendMessage(CommandsToServer& commandsToServer);
     void movePlayer(
         Registry& registry,
