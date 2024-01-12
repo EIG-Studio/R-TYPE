@@ -9,6 +9,8 @@
 
 #include "menu/inGame.hpp"
 
+#include <iostream>
+
 void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
 {
     if (registry.hasEntityType(HUD)) {

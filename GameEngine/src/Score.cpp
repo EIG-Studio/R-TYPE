@@ -7,9 +7,9 @@
 
 #include "components.hpp"
 
-ScorePoint::ScorePoint(int hp)
+ScorePoint::ScorePoint(int score)
 {
-    this->m_score = hp;
+    this->m_score = score;
 }
 
 int ScorePoint::getScorePoint() const

@@ -2,6 +2,7 @@
 #include "entities.hpp"
 
 #include <any>
+#include <iostream>
 
 #include <cassert>
 #include <cstddef>
@@ -35,8 +36,8 @@ void Registry::destroyEntity(Entity entity)
 
     assert(!m_entities.empty());
 
-    for (auto it = m_entities.begin(); it != m_entities.end(); ++it) {
-        size_t entityID = any_cast<ID>((*it).mComponents[0]).getID();
+    for (auto& mEntitie : m_entities) {
+        size_t entityID = any_cast<ID>(mEntitie.mComponents[0]).getID();
         if (entityID == id) {
             std::cout << "Destroying entity with ID: " << entityID << std::endl;
             toDelete.push_back(id);
@@ -46,7 +47,6 @@ void Registry::destroyEntity(Entity entity)
 
     std::cerr << "Entity with ID " << id << " not found for destruction." << std::endl;
 }
-#include <iostream>
 
 std::string Registry::systemsManager()
 {

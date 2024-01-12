@@ -21,4 +21,3 @@ void Type::setEntityType(EntityType entityType)
 {
     this->m_entityType = entityType;
 }
-

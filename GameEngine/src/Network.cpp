@@ -6,7 +6,7 @@
 */
 #include "Systems.hpp"
 
-static std::map<std::string, COMMAND> commandMap =
+std::map<std::string, COMMAND> commandMap =
     {{"EMPTY", EMPTY},
      {"DELETE", DELETE},
      {"LOGIN", LOGIN},
@@ -31,7 +31,7 @@ static std::map<std::string, COMMAND> commandMap =
      {"LEVEL", LEVEL},
      {"UNKNOWN", UNKNOWN}};
 
-static std::map<std::string, EntityType> typeMap =
+std::map<std::string, EntityType> typeMap =
     {{"Player", Player},
      {"Other_Player", Other_Player},
      {"Player_Projectile", Player_Projectile},

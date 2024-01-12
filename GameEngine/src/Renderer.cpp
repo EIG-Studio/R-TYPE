@@ -1,8 +1,9 @@
 #include "SFML/Graphics/Texture.hpp"
 #include "components.hpp"
+
 #include <SFML/Graphics/Sprite.hpp>
+
 #include <iostream>
-#include <memory>
 
 Renderer::Renderer(const std::string& texturePath)
 {
