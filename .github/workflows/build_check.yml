@@ -38,7 +38,7 @@ jobs:
         with:
           path: |
             C:\Users\runneradmin\AppData\Local\Temp\chocolatey\boost-msvc-14.3\${{ env.BOOST_VERSION }}
-          key: boost_1_82_0-msvc-14.3-64.exe
+          key: boost_1_82_0-msvc-14.3-32.exe
 
       - name: Install Windows Dependencies
         if: runner.os == 'Windows' && steps.cache-boost.outputs.cache-hit != 'true'
