@@ -3,17 +3,20 @@ name: Build Check
 on:
   push:
     paths:
-    - 'Client/**'
-    - 'Server/**'
-    - 'GameEngine/**'
-    - 'CMakeLists.txt'
+      - 'Client/**'
+      - 'Server/**'
+      - 'GameEngine/**'
+      - 'CMakeLists.txt'
   pull_request:
     paths:
-    - 'Client/**'
-    - 'Server/**'
-    - 'GameEngine/**'
-    - 'CMakeLists.txt'
+      - 'Client/**'
+      - 'Server/**'
+      - 'GameEngine/**'
+      - 'CMakeLists.txt'
   workflow_dispatch:
+
+env:
+  BOOST_VERSION: '1.82.0'
 
 jobs:
   build:
@@ -21,42 +24,32 @@ jobs:
     runs-on: ${{ matrix.platform.os }}
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         platform:
           - { name: Windows Latest, os: windows-latest }
-          - { name: Linux GCC,      os: ubuntu-latest }
-          - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang-16 -DCMAKE_CXX_COMPILER=clang++-16 }
+          - { name: Linux GCC, os: ubuntu-latest }
+          - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang-16 -DCMAKE_CXX_COMPILER=clang++-16 }
 
     steps:
-      - name: Install Chocolatey
+      - name: Install Windows Dependencies
         if: runner.os == 'Windows'
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-      - name: Install Boost on Windows
-        if: runner.os == 'Windows'
-        run: choco install boost-msvc-14.3
+          choco install boost-msvc-${{ env.BOOST_VERSION }}
 
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy
-
-      - name: Install clang-format 16
-        if: runner.os == 'Linux'
-        shell: bash
-        run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install clang-16 clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
-
-      - name: Install Boost
-        if: runner.os == 'Linux'
-        run: sudo apt-get install -y libboost-all-dev
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy libboost-all-dev
+          wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install clang-16 clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
 
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Configure
         shell: bash
-        run: cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}}
+        run: cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install ${{ matrix.platform.flags }}
 
       - name: Build
         shell: bash
@@ -65,3 +58,4 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --install build --config Release
+
