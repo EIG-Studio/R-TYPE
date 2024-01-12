@@ -16,6 +16,7 @@ Game::Game()
     this->onPause = false;
     this->m_tempMouseX = 0;
     this->m_tempMouseY = 0;
+    this->m_healthPointTemp = 0;
 }
 
 void Game::setPath(Sprite mSprite)
