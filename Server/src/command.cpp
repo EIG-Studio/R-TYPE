@@ -14,6 +14,8 @@
 #include <random>
 #include <string>
 
+#include <cstdlib>
+
 std::size_t Server::createPlayer(Registry& registry)
 {
     Entity entity = registry.createEntity();
@@ -42,6 +44,28 @@ std::size_t Server::createPlayer(Registry& registry)
               << sizeComponent.getSize().second << " " << typeComponent << "\n";
     addMessage(newPlayer.str());
     return registry.getComponent(entity, idComponent).getID();
+}
+
+void Server::createArrow(Registry& registry)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+
+    ID idComponent = ID();
+    auto positionComponent = Position(playerPos);
+    Size sizeComponent = Size(std::make_pair(1, 1));
+
+    Entity entity = registry.createEntityWithID(idComponent);
+    entity = registry.addComponent(entity, Position(playerPos));
+    entity = registry.addComponent(entity, Renderer("../Client/assets/arrow.png"));
+    entity = registry.addComponent(entity, Size(std::make_pair(1, 1)));
+    entity = registry.addComponent(entity, Type(std::any_cast<EntityType>(Arrow_Player)));
+
+
+    std::ostringstream arrowStr;
+    arrowStr << "ARROW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+             << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << "\n";
+    addMessage(arrowStr.str());
 }
 
 int randNb(int x, int y)
@@ -85,18 +109,22 @@ void Server::createBoss(Registry& registry)
 {
     ID idComponent = ID();
     Position positionComponent = Position(std::make_pair(randNb(1000, 1100), randNb(0, 500)));
-    Size sizeComponent = Size(std::make_pair(1, 1));
+    Size sizeComponent = Size(std::make_pair(2, 2));
+    HitBox hitboxComponent = HitBox(positionComponent.getPosition(), std::make_pair(100, 100));
     Speed speedComponent(randNb(1, 3));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
     HealthPoint healthPointComponent(50);
+    Damage damageComponent(1);
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, sizeComponent);
+    entity = registry.addComponent(entity, hitboxComponent);
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
     entity = registry.addComponent(entity, healthPointComponent);
+    entity = registry.addComponent(entity, damageComponent);
 
     std::ostringstream newPlayer2;
     newPlayer2 << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
@@ -313,6 +341,7 @@ void Server::handleReceivedData(
                 m_gameStarted = startGame(registry);
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
+            createArrow(registry);
             sendAllEntites(registry);
         } else if (receivedData.command == UPDATE) {
             sendAllEntites(registry);

@@ -52,6 +52,7 @@ enum COMMAND
     NEW_HUD,
     SCORE,
     LEVEL,
+    ARROW_PLAYER,
 };
 
 COMMAND getCommand(const std::string& commandStr);

@@ -203,6 +203,7 @@ enum EntityType
     Enemy_Projectile,
     Wall,
     HUD,
+    Arrow_Player,
     Unknow
 };
 

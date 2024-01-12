@@ -28,9 +28,6 @@ public:
     void startSending();
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
-    void createEnemy(Registry& registry);
-    void createBullet(Registry& registry, int posx, int posy);
-    void createBoss(Registry& registry);
     void spawnBoss(Registry& registry);
     void gameLoop(Registry& registry);
     void level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
@@ -60,6 +57,10 @@ private:
         boost::asio::ip::udp::endpoint& remoteEndpoint);
     void addMessage(const std::string& message);
     std::size_t createPlayer(Registry& registry);
+    void createEnemy(Registry& registry);
+    void createBullet(Registry& registry, int posx, int posy);
+    void createBoss(Registry& registry);
+    void createArrow(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void enemyMove(Registry& registry, Entity& entity, std::size_t id);
     void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);

@@ -142,6 +142,19 @@ Entity Registry::getPlayer()
     throw std::runtime_error("No Player entity found\n");
 }
 
+Entity Registry::getArrow()
+{
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::Arrow_Player) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No arrow entity found\n");
+}
+
 Entity Registry::getScore()
 {
     for (auto& entity : m_entities) {

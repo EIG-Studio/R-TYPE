@@ -43,6 +43,7 @@ public:
     void setEntity(Entity& entityToCopy, int id);
     Entity getPlayer();
     Entity getScore();
+    Entity getArrow();
     Entity getFirstEnemy();
     bool hasEntity(size_t id);
     bool hasEntityType(Type type);

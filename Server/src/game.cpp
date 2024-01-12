@@ -18,7 +18,7 @@ void Server::spawnBoss(Registry& registry)
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
     static int spawnBoss = 0;
-    if (scorePoint.getScorePoint() == 1 && spawnBoss == 0) {
+    if (scorePoint.getScorePoint() == 0 && spawnBoss == 0) {
         createBoss(registry);
         spawnBoss = 1;
     }
