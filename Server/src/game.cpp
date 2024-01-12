@@ -26,38 +26,39 @@ void Server::spawnBoss(Registry& registry)
 
 void Server::projectileCollision(Registry& registry, Entity& projectile, std::size_t projectileId, std::vector<Entity> enemies)
 {
-    Position projectilePosType = registry.getComponent(projectile, Position{});
-    std::pair<int, int> projectilePos = projectilePosType.getPosition();
-
-    for (auto& enemy : enemies) {
-        ID enemyId = registry.getComponent(enemy, ID{});
-        Position enemyPosType = registry.getComponent(enemy, Position{});
-        std::pair<int, int> enemyPos = enemyPosType.getPosition();
-
-        if (projectilePos.first < enemyPos.first + 50 && projectilePos.first + 50 > enemyPos.first &&
-            projectilePos.second < enemyPos.second + 50 && projectilePos.second + 50 > enemyPos.second) {
-
-            Entity score = registry.getScore();
-            ID scoreId = registry.getComponent(score, ID{});
-            ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
-            scorePoint.setScorePoint((scorePoint.getScorePoint() + 1));
-            registry.setEntity(score, scoreId);
-            registry.getComponent(enemy, HealthPoint{})
-                .setHealthPoint(
-                    registry.getComponent(enemy, HealthPoint{}).getHealthPoint() -
-                    registry.getComponent(projectile, Damage{}).getDamage());
-            registry.setEntity(enemy, enemyId);
-            registry.deleteById(projectileId);
-            addMessage("DELETE " + std::to_string(projectileId) + "\n");
-
-            if (registry.getComponent(enemy, HealthPoint{}).getHealthPoint() <= 0) {
-                addMessage("DELETE " + std::to_string(enemyId.getID()) + "\n");
-                addMessage("SCORE " + std::to_string(scorePoint.getScorePoint()) + "|");
-                addMessage("PLAY_BOOM_ENEMIES");
-            }
-        }
-    }
 }
+//     Position projectilePosType = registry.getComponent(projectile, Position{});
+//     std::pair<int, int> projectilePos = projectilePosType.getPosition();
+
+//     for (auto& enemy : enemies) {
+//         ID enemyId = registry.getComponent(enemy, ID{});
+//         Position enemyPosType = registry.getComponent(enemy, Position{});
+//         std::pair<int, int> enemyPos = enemyPosType.getPosition();
+
+//         if (projectilePos.first < enemyPos.first + 50 && projectilePos.first + 50 > enemyPos.first &&
+//             projectilePos.second < enemyPos.second + 50 && projectilePos.second + 50 > enemyPos.second) {
+
+//             Entity score = registry.getScore();
+//             ID scoreId = registry.getComponent(score, ID{});
+//             ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
+//             scorePoint.setScorePoint((scorePoint.getScorePoint() + 1));
+//             registry.setEntity(score, scoreId);
+//             registry.getComponent(enemy, HealthPoint{})
+//                 .setHealthPoint(
+//                     registry.getComponent(enemy, HealthPoint{}).getHealthPoint() -
+//                     registry.getComponent(projectile, Damage{}).getDamage());
+//             registry.setEntity(enemy, enemyId);
+//             registry.deleteById(projectileId);
+//             addMessage("DELETE " + std::to_string(projectileId) + "\n");
+
+//             if (registry.getComponent(enemy, HealthPoint{}).getHealthPoint() <= 0) {
+//                 addMessage("DELETE " + std::to_string(enemyId.getID()) + "\n");
+//                 addMessage("SCORE " + std::to_string(scorePoint.getScorePoint()) + "|");
+//                 addMessage("PLAY_BOOM_ENEMIES");
+//             }
+//         }
+//     }
+// }
 
 void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
 {

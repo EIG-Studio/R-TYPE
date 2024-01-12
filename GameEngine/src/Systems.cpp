@@ -47,11 +47,18 @@ void deathSystem(Entity entity, Registry& registry)
 
 void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 {
-    // if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
-    //     return;
+    std::cout << "ca passe ici" << std::endl;
+    if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
+        return;
 
-    // auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
-    // healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
+    std::cout << "Entity type : " << registry.getComponent(entity, Type()) << std::endl;
+    std::cout << "otherEntity type : " << registry.getComponent(otherEntity, Type()) << std::endl;
+    auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
+    std::cout << registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint() << std::endl;
+    healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
+    registry.getComponent(entity, HealthPoint{}).setHealthPoint(registry.getComponent(entity, HealthPoint{}).getHealthPoint() - registry.getComponent(otherEntity, Damage{}).getDamage());
+    std::cout << registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint() << std::endl;
+    registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
 }
 
 void movementSystem(Entity entity, Registry& registry)
@@ -115,8 +122,8 @@ void collisionEnemy(const Entity& entity, Entity otherEntity, Registry& registry
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
         damagedSystem(entity, otherEntity, registry);
 
-    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall)
-        noMoveSystem(entity, otherEntity, registry);
+    // if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall)
+        // noMoveSystem(entity, otherEntity, registry);
 }
 
 void collisionProjectile(const Entity& entity, Entity otherEntity, Registry& registry)

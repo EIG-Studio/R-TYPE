@@ -60,6 +60,8 @@ void Server::createEnemy(Registry& registry)
     Speed speedComponent(randNb(5, 10));
     Type typeComponent = std::any_cast<EntityType>(Enemy);
     HealthPoint healthPoint(5);
+    HitBox hb = HitBox(positionComponent.getPosition(), std::make_pair(100, 50));
+    Damage damage(1);
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
@@ -68,6 +70,8 @@ void Server::createEnemy(Registry& registry)
     entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
     entity = registry.addComponent(entity, healthPoint);
+    entity = registry.addComponent(entity, hb);
+    entity = registry.addComponent(entity, damage);
 
     std::ostringstream newPlayer2;
     newPlayer2 << "NEW_ENEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
