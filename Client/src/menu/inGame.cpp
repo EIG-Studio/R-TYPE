@@ -261,6 +261,24 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     }
 }
 
+void Game::moveEnemies(Registry& registry)
+{
+    const std::vector<Entity>& ennemies = registry.getListEnemies();
+
+    for (auto& ennemy : ennemies) {
+        Entity curr_ennemy = ennemy;
+        Position& positionComponent = registry.getComponent(curr_ennemy, Position{});
+        if (current_level == 1)
+            positionComponent.setPosition(
+                std::make_pair(positionComponent.getPosition().first - 9, positionComponent.getPosition().second));
+        else
+            positionComponent.setPosition(
+                std::make_pair(positionComponent.getPosition().first - 1, positionComponent.getPosition().second));
+        registry.setEntity(curr_ennemy, registry.getComponent(curr_ennemy, ID{}).getID());
+    }
+    std::cout << "ENNEMIES\n";
+}
+
 void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
 {
     Entity player;

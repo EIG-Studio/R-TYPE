@@ -2,6 +2,12 @@
 
 ### This is a technique documentation for explain the differents tools offered by the Client
 
+# Link to other documentation
+
+* **You can find more information about the project [here](https://github.com/EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle/wiki).**
+* **You can find more technical information about the GameEngine [here](Docs/gameEngine.md).**
+* **You can find more technical information about the Server [here](Docs/server.md).**
+
 # Tables of Contents
 
 - [Function `main`](#function-main)

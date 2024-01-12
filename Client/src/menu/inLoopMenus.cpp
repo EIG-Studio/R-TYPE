@@ -118,6 +118,7 @@ void levelOneConfig(Game& game, Sprite& sprite)
     sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
     sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
     game.setPath(sprite);
+    game.current_level = 1;
 }
 
 void levelTwoConfig(Game& game, Sprite& sprite)
@@ -128,6 +129,7 @@ void levelTwoConfig(Game& game, Sprite& sprite)
     sprite.setMidBuildPath("../Client/assets/Background/city_7/4.png");
     sprite.setFrontBuildPath("../Client/assets/Background/city_7/5.png");
     game.setPath(sprite);
+    game.current_level = 2;
 }
 
 void InLoopMenus::lobbyMenuInLoop(

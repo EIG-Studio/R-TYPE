@@ -35,9 +35,11 @@ public:
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
     void spawnBoss(Registry& registry);
-    void gameLoop(Registry& registry);
-    void level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
-    void playerLoop(Registry& registry);
+    void GameLoop(Registry& registry);
+    void Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
+    void Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
+    void PlayerLoop(Registry& registry);
+    void damageThePlayer(Registry& registry, int damage, int id);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:
@@ -68,6 +70,7 @@ private:
     void createArrow(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void enemyMove(Registry& registry, Entity& entity, std::size_t id);
+    void enemyShootAndMove(Registry& registry, Entity& entity, std::size_t id);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
