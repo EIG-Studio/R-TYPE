@@ -7,7 +7,11 @@
 
 #include "createEntity.hpp"
 
+#include "components.hpp"
+
 #include <iostream>
+
+#include <cstdlib>
 
 void updatePosition(Registry& registry, int id, int xPos, int yPos)
 {
@@ -17,6 +21,16 @@ void updatePosition(Registry& registry, int id, int xPos, int yPos)
             Position& entityPos = registry.getComponent(entity, Position{});
             entityPos.setPosition(std::make_pair(xPos, yPos));
             registry.setEntity(entity, id);
+        }
+        if (registry.hasEntityType(Arrow_Player)) {
+            Entity arrow = registry.getArrow();
+            Position& arrowPos = registry.getComponent(arrow, Position{});
+            std::pair<int, int> arrowPairPos = arrowPos.getPosition();
+            Entity player = registry.getPlayer();
+            Position& playerPos = registry.getComponent(player, Position{});
+            std::pair<int, int> playerPairPos = playerPos.getPosition();
+            arrowPos.setPosition(std::make_pair(playerPairPos.first + 46, playerPairPos.second - 30));
+            registry.setEntity(arrow, registry.getComponent(arrow, ID{}).getID());
         }
     } catch (const std::exception& e) {
         std::cerr << "Exception in updatePosition: " << e.what() << std::endl;
@@ -128,4 +142,18 @@ void createScore(Registry& registry, int dataScore)
     } else {
         std::cout << "[LOG] NO SCORE" << std::endl;
     }
+}
+
+void createArrow(Registry& registry, int id)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+
+    Entity arrow = registry.createEntityWithID(id);
+    arrow = registry.addComponent(arrow, Position(playerPos));
+    arrow = registry.addComponent(arrow, Renderer("../Client/assets/arrow.png"));
+    arrow = registry.addComponent(arrow, Size(std::make_pair(0.04, 0.04)));
+    arrow = registry.addComponent(arrow, Type(std::any_cast<EntityType>(Arrow_Player)));
+
+    registry.setEntity(arrow, id);
 }

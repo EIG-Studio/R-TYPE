@@ -59,7 +59,6 @@ public:
     float getCursorPosX();
     float getCursorPosY();
     void displayHealth(Registry& registry, Music& music, WindowManager& windowManager);
-    void displayArrow(Registry& registry, WindowManager& windowManager);
 
     void setHealthPointText(sf::Text mHealthPoint);
     sf::Text getHealthPointText();

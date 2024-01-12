@@ -200,20 +200,3 @@ void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry
     damage << "DAMAGE_TO_PLAYER " << 1 << " " << id;
     commandsToServer.sendToServerAsync(damage.str(), ipAdress);
 }
-
-void Game::displayArrow(Registry& registry, WindowManager& windowManager)
-{
-    Entity player = registry.getPlayer();
-    Position playerPos = registry.getComponent(player, Position{});
-    std::pair<float, float> pairPos = playerPos.getPosition();
-    sf::Texture texture;
-    sf::Sprite sprite;
-    if (!texture.loadFromFile("../Client/assets/arrow.png")) {
-        std::cerr << "Failed to load arrow texture" << std::endl;
-        return;
-    }
-    sprite.setTexture(texture);
-    sprite.setPosition(pairPos.first + 46, pairPos.second - 30);
-    sprite.setScale(0.04, 0.04);
-    windowManager.getWindow().draw(sprite);
-}

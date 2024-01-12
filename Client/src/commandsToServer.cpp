@@ -93,6 +93,8 @@ void handleReceive(
             case SCORE:
                 createScore(registry, receivedData.args[0]);
                 break;
+            case ARROW_PLAYER:
+                createArrow(registry, receivedData.args[0]);
             default:
                 std::cout << "[LOG] NO SCORE" << std::endl;
                 break;

@@ -111,7 +111,6 @@ void InLoopGame::gameInLoop(
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());
-        game.displayArrow(registry, windowManager);
         windowManager.getWindow().draw(scoreText);
         windowManager.getWindow().draw(game.getHealthPointText());
         if (game.onPause) {
