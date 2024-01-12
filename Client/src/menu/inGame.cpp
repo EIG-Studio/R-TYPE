@@ -16,6 +16,7 @@ Game::Game()
     this->onPause = false;
     this->m_tempMouseX = 0;
     this->m_tempMouseY = 0;
+    this->m_healthPointTemp = 0;
 }
 
 void Game::setPath(Sprite mSprite)
@@ -146,7 +147,7 @@ float Game::getPosPlayerX(Registry& registry)
     return playerSprite.getPosition().x;
 }
 
-float Game::setNewPositionX(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsToServer)
+float Game::setNewPositionX(const sf::Sprite& /*mSprite*/, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -161,7 +162,7 @@ float Game::setNewPositionX(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsT
     return newPosX;
 }
 
-float Game::setNewPositionY(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsToServer)
+float Game::setNewPositionY(const sf::Sprite& /*mSprite*/, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;

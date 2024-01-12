@@ -31,16 +31,10 @@ The goal of this project is to implement a multithreaded server and a graphical 
 
 ## Install 🔧
 
-**Linux:**
+**for install and run the project**
 
 ```sh
 ./run.sh
-```
-
-**Windows:**
-
-```sh
-in progress
 ```
 
 ## Usage Example
@@ -69,7 +63,10 @@ in progress
 
 ## 📖 Documentation
 
-You can find more information about the project [here](https://github.com/R-TYPE-Polo/R-TYPE/wiki).
+* **You can find more information about the project [here](https://github.com/R-TYPE-Polo/R-TYPE/wiki).**
+* **You can find more technical information about the GameEngine [here](Docs/gameEngine.md).**
+* **You can find more technical information about the Server [here](Docs/server.md).**
+* **You can find more technical information about the Client [here](Docs/client.md).**
 
 ## Contributing
 

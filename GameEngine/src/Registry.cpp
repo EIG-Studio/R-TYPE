@@ -3,6 +3,7 @@
 
 #include <any>
 
+#include <cassert>
 #include <cstddef>
 
 Entity Registry::createEntity()
@@ -38,7 +39,7 @@ void Registry::destroyEntity(Entity entity)
         size_t entityID = any_cast<ID>((*it).mComponents[0]).getID();
         if (entityID == id) {
             std::cout << "Destroying entity with ID: " << entityID << std::endl;
-            m_toDelete.push_back(id);
+            toDelete.push_back(id);
             return;
         }
     }
@@ -56,10 +57,10 @@ std::string Registry::systemsManager()
             collisionSystem(entity, m_entities, *this);
             deathSystem(entity, *this);
         }
-    for (auto& id : m_toDelete) {
+    for (auto& id : toDelete) {
         this->deleteById(id);
     }
-    m_toDelete.clear();
+    toDelete.clear();
     return "Hello";
 }
 
@@ -102,7 +103,7 @@ bool Registry::hasEntity(size_t id)
 
 bool Registry::hasEntityType(Type type)
 {
-    Type otherType;
+    Type otherType{};
 
     for (auto& entity : m_entities) {
         if (hasComponent(entity, Type{})) {

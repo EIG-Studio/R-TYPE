@@ -5,7 +5,6 @@
 ** window
 */
 
-
 #pragma once
 
 #include "SFML/Graphics/Image.hpp"
@@ -37,7 +36,6 @@ private:
     float m_maxFPS{};
     float m_millisecondsPerFrame{};
     std::unique_ptr<sf::RenderWindow> m_window;
-    ;
     sf::Font m_font;
     sf::Image m_icon;
 };

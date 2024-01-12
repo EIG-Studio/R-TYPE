@@ -54,7 +54,7 @@ public:
     ~ScorePoint() = default;
 
     int getScorePoint() const;
-    void setScorePoint(int m_score);
+    void setScorePoint(int score);
 
 private:
     float m_score;
