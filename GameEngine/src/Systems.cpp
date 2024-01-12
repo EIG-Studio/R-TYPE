@@ -39,29 +39,31 @@ void deathSystem(Entity entity, Registry& registry)
         return;
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
-        std::cout << "ca passe ici" << std::endl;
         registry.toDelete.push_back(registry.getComponent(entity, ID{}).getID());
         // registry.deleteById(registry.getComponent(entity, ID{}).getID());
     }
 }
 
-void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
+std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 {
     if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
-        return;
+        return "";
 
     auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
     healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
     registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
+    std::cout << "healthPoint: " << healthPoint.getHealthPoint() << std::endl;
+    return "NEW_HEALTH " + std::to_string(registry.getComponent(otherEntity, ID{}).getID()) + " " +
+           std::to_string(registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint());
 }
 
-void movementSystem(Entity entity, Registry& registry)
+std::string movementSystem(Entity entity, Registry& registry)
 {
     if (entity.mComponents.empty())
-        return;
+        return "";
     if (!registry.hasComponent(entity, Speed{}) || !registry.hasComponent(entity, Velocity{}) ||
         !registry.hasComponent(entity, Position{}))
-        return;
+        return "";
 
     auto& position = registry.getComponent(entity, Position{});
     auto& velocity = registry.getComponent(entity, Velocity{});
@@ -71,6 +73,9 @@ void movementSystem(Entity entity, Registry& registry)
         {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
          position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
     registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
+    return "NEW_POS " + std::to_string(registry.getComponent(entity, ID{}).getID()) + " " +
+           std::to_string(registry.getComponent(entity, Position{}).getPosition().first) + " " +
+           std::to_string(registry.getComponent(entity, Position{}).getPosition().second) + "\n";
 }
 
 void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
@@ -85,57 +90,61 @@ void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
     registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
 }
 
-void collisionPlayer(const Entity& entity, Entity otherEntity, Registry& registry)
+std::string collisionPlayer(const Entity& entity, Entity otherEntity, Registry& registry)
 {
     if (!registry.hasComponent(otherEntity, Type{}))
-        return;
+        return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
-        return;
+        return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile)
-        damagedSystem(entity, otherEntity, registry);
+        return damagedSystem(entity, otherEntity, registry);
 
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall)
         noMoveSystem(entity, otherEntity, registry);
+    return "";
 }
 
-void collisionEnemy(const Entity& entity, Entity otherEntity, Registry& registry)
+std::string collisionEnemy(const Entity& entity, Entity otherEntity, Registry& registry)
 {
     if (!registry.hasComponent(otherEntity, Type{}))
-        return;
+        return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy)
-        return;
+        return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
-        damagedSystem(entity, otherEntity, registry);
+        return damagedSystem(entity, otherEntity, registry);
 
     // if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall)
-        // noMoveSystem(entity, otherEntity, registry);
+    // noMoveSystem(entity, otherEntity, registry);
+    return "";
 }
 
-void collisionProjectile(const Entity& entity, Entity otherEntity, Registry& registry)
+std::string collisionProjectile(Entity entity, Entity otherEntity, Registry& registry)
 {
     if (!registry.hasComponent(otherEntity, Type{}))
-        return;
+        return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player)
-        return;
+        return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile)
-        damagedSystem(entity, otherEntity, registry);
+        return damagedSystem(entity, otherEntity, registry);
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall) {
         registry.destroyEntity(entity);
+        return "DELETE " + std::to_string(registry.getComponent(entity, ID{}).getID()) + "\n";
     }
+    return "";
 }
 
 bool isCollision(
@@ -175,12 +184,12 @@ bool checkCollision(Entity entity, Entity otherEntity, Registry& registry)
     return isCollision(originEntity, sizeEntity, originOther, sizeOther);
 }
 
-void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
+std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry)
 {
     if (entity.mComponents.empty())
-        return;
+        return "";
 
-    std::map<EntityType, std::function<void(Entity, Entity, Registry&)>> map = {
+    std::map<EntityType, std::function<std::string(Entity, Entity, Registry&)>> map = {
         {EntityType::Player, collisionPlayer},
         {EntityType::Enemy, collisionEnemy},
         {EntityType::Player_Projectile, collisionProjectile},
@@ -189,7 +198,7 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
     EntityType entityType;
 
     if (!registry.hasComponent(entity, HitBox{}) || !registry.hasComponent(entity, Type{}))
-        return;
+        return "";
 
     entityType = registry.getComponent(entity, Type{}).getEntityType();
     for (auto& otherEntity : entities) {
@@ -201,12 +210,13 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
         if (checkCollision(entity, otherEntity, registry)) {
             auto it = map.find(entityType);
             if (it != map.end()) {
-                it->second(entity, otherEntity, registry);
+                return it->second(entity, otherEntity, registry);
             } else {
                 continue;
             }
         }
     }
+    return "";
 }
 
 void iaSystem(Entity entity, Registry& registry)

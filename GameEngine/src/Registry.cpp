@@ -48,20 +48,63 @@ void Registry::destroyEntity(Entity entity)
     std::cerr << "Entity with ID " << id << " not found for destruction." << std::endl;
 }
 
-std::string Registry::systemsManager()
+// std::string Registry::systemsManager()
+// {
+//     if (!m_entities.empty())
+//         for (const Entity& entity : m_entities) {
+//             // shootingSystem(entity, *this);
+//             movementSystem(entity, *this);
+//             collisionSystem(entity, m_entities, *this);
+//             deathSystem(entity, *this);
+//         }
+//     for (auto& id : toDelete) {
+//         this->deleteById(id);
+//     }
+//     toDelete.clear();
+//     return "Hello";
+// }
+
+std::vector<std::string> Registry::systemsManager()
 {
-    if (!m_entities.empty())
-        for (const Entity& entity : m_entities) {
-            // shootingSystem(entity, *this);
-            movementSystem(entity, *this);
-            collisionSystem(entity, m_entities, *this);
-            deathSystem(entity, *this);
+    std::vector<std::string> messages;
+
+    if (m_entities.empty())
+        return messages;
+    bool score = hasScore();
+    for (const Entity& entity : m_entities) {
+        std::string message = "";
+        // shootingSystem(entity, *this);
+        message = movementSystem(entity, *this);
+        if (message != "") {
+            messages.push_back(message);
+            message = "";
         }
+        message = collisionSystem(entity, m_entities, *this);
+        if (message != "") {
+            messages.push_back(message);
+            message = "";
+        }
+        deathSystem(entity, *this);
+    }
+    int newScore = 0;
     for (auto& id : toDelete) {
+        Entity entity = getEntity(id);
+        if (getComponent(entity, Type{}).getEntityType() == EntityType::Enemy) {
+            newScore += 1;
+        }
         this->deleteById(id);
+        messages.push_back("DELETE " + std::to_string(id));
+    }
+    if (score and newScore > 0) {
+        Entity score = getScore();
+        ID scoreId = getComponent(score, ID{});
+        ScorePoint& scorePoint = getComponent(score, ScorePoint{});
+        scorePoint.setScorePoint((scorePoint.getScorePoint() + newScore));
+        setEntity(score, scoreId.getID());
+        messages.push_back("SCORE " + std::to_string(scorePoint.getScorePoint()) + "|");
     }
     toDelete.clear();
-    return "Hello";
+    return messages;
 }
 
 std::string Registry::systemsManager(sf::RenderWindow& window)
@@ -166,6 +209,19 @@ Entity Registry::getScore()
         }
     }
     throw std::runtime_error("No Score entity found\n");
+}
+
+bool Registry::hasScore()
+{
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::HUD) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 Entity Registry::getFirstEnemy()

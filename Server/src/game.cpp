@@ -86,16 +86,6 @@ void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::ve
         enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
         m_registeryMutex.unlock();
     }
-    for (auto& playerProjectile : playersProjectiles) {
-        m_registeryMutex.lock();
-        std::ostringstream oss;
-        oss << "NEW_POS " << registry.getComponent(playerProjectile, ID{}).getID() << " "
-            << registry.getComponent(playerProjectile, Position{}).getPosition().first << " "
-            << registry.getComponent(playerProjectile, Position{}).getPosition().second << "\n";
-        addMessage(oss.str());
-        projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), enemies);
-        m_registeryMutex.unlock();
-    }
     if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && m_gameStarted) {
 
         std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
@@ -122,6 +112,9 @@ void Server::gameLoop(Registry& registry)
 
         if (m_currentLevel == 1)
             level1Loop(registry, enemies, playersProjectiles);
-        registry.systemsManager();
+        std::vector<std::string> msg = registry.systemsManager();
+        for (auto& message : msg) {
+            addMessage(message);
+        }
     }
 }

@@ -44,6 +44,7 @@ public:
     Entity getPlayer();
     Entity getScore();
     Entity getArrow();
+    bool hasScore();
     Entity getFirstEnemy();
     bool hasEntity(size_t id);
     bool hasEntityType(Type type);
@@ -61,7 +62,8 @@ public:
     void removeComponent(Entity entity, T component);
     template <typename T>
     T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line);
-    std::string systemsManager();
+    // std::string systemsManager();
+    std::vector<std::string> systemsManager();
     std::string systemsManager(sf::RenderWindow& window);
 
     template <typename T>
