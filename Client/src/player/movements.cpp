@@ -53,10 +53,10 @@ void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
 void Game::movePlayer(
     Registry& registry,
     float movementSpeed,
-    float  /*winX*/,
+    float /*winX*/,
     float winY,
     CommandsToServer& commandsToServer,
-    const Sprite&  /*mSprite*/,
+    const Sprite& /*mSprite*/,
     IpAdress& ipAdress)
 {
     Entity player;
@@ -133,7 +133,7 @@ void Game::handleMovement(
     Registry& registry,
     sf::Keyboard::Key key,
     CommandsToServer& commandsToServer,
-    float  /*movementSpeed*/,
+    float /*movementSpeed*/,
     float deltaX,
     float deltaY,
     const std::string& path,
