@@ -18,7 +18,6 @@ void Menu::setPath(Sprite mSprite)
     this->m_menuTitleSprite.setTexture(this->m_menuTitleTexture);
     this->m_burnCityFont.loadFromFile(mSprite.getFontPath());
 
-    //// Trouver un moyen pour rendre ça plus beau
     m_menuLogoSprite.setScale(260 / m_menuLogoSprite.getLocalBounds().width, 299 / m_menuLogoSprite.getLocalBounds().height);
     m_menuLogoSprite.setPosition(800 / 2 - 260 / 2, 50);
 
@@ -71,7 +70,6 @@ void ChoiceMenu::setPath(Sprite mSprite)
 
     this->m_mainMenuFont.loadFromFile(mSprite.getFontPath());
 
-    //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite
         .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
@@ -152,7 +150,6 @@ void SettingMenu::setPath(Sprite mSprite)
     this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
     this->m_cursorSprite.setTexture(this->m_cursorTexture);
 
-    //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite
         .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
@@ -223,7 +220,6 @@ void HostOrJoinMenu::setPath(Sprite mSprite)
     this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
     this->m_cursorSprite.setTexture(this->m_cursorTexture);
 
-    //// Trouver un moyen pour rendre ça plus beau
     m_logoSamuraiSprite
         .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
     m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
@@ -260,7 +256,6 @@ void HostOrJoinMenu::setCursorPosition(sf::RenderWindow& window)
     }
 }
 
-#include <iostream>
 void HostOrJoinMenu::inputText(sf::Event& event, IpAdress& ipAdress)
 {
     if (event.type == sf::Event::TextEntered) {
@@ -279,13 +274,12 @@ void HostOrJoinMenu::inputText(sf::Event& event, IpAdress& ipAdress)
     }
 }
 
-
 void HostOrJoinMenu::setInputText(sf::Text text)
 {
     this->m_inputText = std::move(text);
 }
 
-void HostOrJoinMenu::setInputTextFromString(std::string text)
+void HostOrJoinMenu::setInputTextFromString(const std::string& text)
 {
     this->m_inputText.setString(text);
 }
@@ -302,7 +296,6 @@ std::string HostOrJoinMenu::getUserInput()
 
 void HostOrJoinMenu::setUserInput(std::string userInput)
 {
-    // set string
     this->m_userInput = std::move(userInput);
 }
 
