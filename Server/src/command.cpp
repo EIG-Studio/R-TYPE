@@ -132,6 +132,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     entity = registry.addComponent(entity, healthPoint);
     entity = registry.addComponent(entity, damage);
     entity = registry.addComponent(entity, velocityComponent);
+    entity = registry.addComponent(entity, HitBox(positionComponent.getPosition(), std::make_pair(50, 50)));
 
     std::ostringstream newPlayerProjectile;
     newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
@@ -243,6 +244,23 @@ void Server::refreshClientRegistry(Registry& registry, int id)
     }
 }
 
+void createWall(Registry& registry)
+{
+    Entity wall = registry.createEntity();
+    Position position = Position{std::make_pair(800, 0)};
+    // Size size = Size{std::make_pair(300, 3000)};
+    Type type = Type{std::any_cast<EntityType>(Wall)};
+    HitBox hitbox = HitBox{position.getPosition(), std::make_pair(100, 600)};
+    HealthPoint healthPoint = HealthPoint{10000};
+    ID idComponent = ID();
+
+    wall = registry.addComponent(wall, idComponent);
+    wall = registry.addComponent(wall, position);
+    wall = registry.addComponent(wall, healthPoint);
+    wall = registry.addComponent(wall, type);
+    wall = registry.addComponent(wall, hitbox);
+}
+
 bool Server::startGame(Registry& registry)
 {
     std::cout << "Game started" << std::endl;
@@ -250,6 +268,7 @@ bool Server::startGame(Registry& registry)
     createEnemy(registry);
     createEnemy(registry);
     createEnemy(registry);
+    createWall(registry);
 
     Entity entity_score = registry.createEntity();
     ID score_id = registry.getComponent(entity_score, score_id);
