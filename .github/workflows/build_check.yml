@@ -32,24 +32,25 @@ jobs:
           - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang-16 -DCMAKE_CXX_COMPILER=clang++-16 }
 
     steps:
-      - name: Cache Boost 32
-        id: cache-boost-32
-        uses: actions/cache@v3
-        with:
-          path: |
-            C:\Users\runneradmin\AppData\Local\Temp\chocolatey\boost-msvc-14.3\${{ env.BOOST_VERSION }}
-          key: boost_1_82_0-msvc-14.3-32.exe
-
-      - name: Cache Boost 64
-        id: cache-boost-64
-        uses: actions/cache@v3
-        with:
-          path: |
-            C:\Users\runneradmin\AppData\Local\Temp\chocolatey\boost-msvc-14.3\${{ env.BOOST_VERSION }}
-          key: boost_1_82_0-msvc-14.3-64.exe
+      # - name: Cache Boost 32
+      #   id: cache-boost-32
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       C:\Users\runneradmin\AppData\Local\Temp\chocolatey\boost-msvc-14.3\${{ env.BOOST_VERSION }}
+      #     key: boost_1_82_0-msvc-14.3-32.exe
+      #
+      # - name: Cache Boost 64
+      #   id: cache-boost-64
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       C:\Users\runneradmin\AppData\Local\Temp\chocolatey\boost-msvc-14.3\${{ env.BOOST_VERSION }}
+      #     key: boost_1_82_0-msvc-14.3-64.exe
 
       - name: Install Windows Dependencies
-        if: runner.os == 'Windows' && steps.cache-boost-32.outputs.cache-hit != 'true' || steps.cache-boost-64.outputs.cache-hit != 'true'
+        # if: runner.os == 'Windows' && steps.cache-boost-32.outputs.cache-hit != 'true' && steps.cache-boost-64.outputs.cache-hit != 'true'
+        if: runner.os == 'Windows'
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
           choco install boost-msvc-14.3 --version=${{ env.BOOST_VERSION }}
