@@ -48,20 +48,48 @@ void Registry::destroyEntity(Entity entity)
     std::cerr << "Entity with ID " << id << " not found for destruction." << std::endl;
 }
 
-std::string Registry::systemsManager()
+// std::string Registry::systemsManager()
+// {
+//     if (!m_entities.empty())
+//         for (const Entity& entity : m_entities) {
+//             // shootingSystem(entity, *this);
+//             movementSystem(entity, *this);
+//             collisionSystem(entity, m_entities, *this);
+//             deathSystem(entity, *this);
+//         }
+//     for (auto& id : toDelete) {
+//         this->deleteById(id);
+//     }
+//     toDelete.clear();
+//     return "Hello";
+// }
+
+std::vector<std::string> Registry::systemsManager()
 {
+    std::vector<std::string> messages;
+
     if (!m_entities.empty())
         for (const Entity& entity : m_entities) {
+            std::string message = "";
             // shootingSystem(entity, *this);
             movementSystem(entity, *this);
-            collisionSystem(entity, m_entities, *this);
+            if (message != "") {
+                messages.push_back(message);
+                message = "";
+            }
+            message = collisionSystem(entity, m_entities, *this);
+            if (message != "") {
+                messages.push_back(message);
+                message = "";
+            }
             deathSystem(entity, *this);
         }
     for (auto& id : toDelete) {
         this->deleteById(id);
+        messages.push_back("DELETE " + std::to_string(id));
     }
     toDelete.clear();
-    return "Hello";
+    return messages;
 }
 
 std::string Registry::systemsManager(sf::RenderWindow& window)

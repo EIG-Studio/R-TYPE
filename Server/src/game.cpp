@@ -122,6 +122,9 @@ void Server::gameLoop(Registry& registry)
 
         if (m_currentLevel == 1)
             level1Loop(registry, enemies, playersProjectiles);
-        registry.systemsManager();
+        std::vector<std::string> msg = registry.systemsManager();
+        for (auto& message : msg) {
+            addMessage(message);
+        }
     }
 }
