@@ -39,7 +39,6 @@ void deathSystem(Entity entity, Registry& registry)
         return;
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
-        std::cout << "ca passe ici" << std::endl;
         registry.toDelete.push_back(registry.getComponent(entity, ID{}).getID());
         // registry.deleteById(registry.getComponent(entity, ID{}).getID());
     }
@@ -58,13 +57,13 @@ std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
            std::to_string(registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint());
 }
 
-void movementSystem(Entity entity, Registry& registry)
+std::string movementSystem(Entity entity, Registry& registry)
 {
     if (entity.mComponents.empty())
-        return;
+        return "";
     if (!registry.hasComponent(entity, Speed{}) || !registry.hasComponent(entity, Velocity{}) ||
         !registry.hasComponent(entity, Position{}))
-        return;
+        return "";
 
     auto& position = registry.getComponent(entity, Position{});
     auto& velocity = registry.getComponent(entity, Velocity{});
@@ -74,6 +73,9 @@ void movementSystem(Entity entity, Registry& registry)
         {position.getPosition().first + velocity.getVelocity().first * speed.getSpeed(),
          position.getPosition().second + velocity.getVelocity().second * speed.getSpeed()});
     registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
+    return "NEW_POS " + std::to_string(registry.getComponent(entity, ID{}).getID()) + " " +
+           std::to_string(registry.getComponent(entity, Position{}).getPosition().first) + " " +
+           std::to_string(registry.getComponent(entity, Position{}).getPosition().second) + "\n";
 }
 
 void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)

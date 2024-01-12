@@ -23,7 +23,7 @@ std::size_t Server::createPlayer(Registry& registry)
     Speed speedComponent(5);
     Type typeComponent = std::any_cast<EntityType>(Player);
     HealthPoint healthPoint(20);
-    HitBox hb = HitBox(positionComponent.getPosition(), std::make_pair(100, 50));
+    HitBox hb = HitBox(positionComponent.getPosition(), std::make_pair(100, 40));
     Velocity velocityComponent = Velocity();
     velocityComponent.setVelocity(0, 0);
     entity = registry.addComponent(entity, idComponent);
@@ -34,6 +34,7 @@ std::size_t Server::createPlayer(Registry& registry)
     entity = registry.addComponent(entity, healthPoint);
     entity = registry.addComponent(entity, hb);
     entity = registry.addComponent(entity, velocityComponent);
+    entity = registry.addComponent(entity, Damage(100));
 
     std::ostringstream newPlayer;
     newPlayer << "NEW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "

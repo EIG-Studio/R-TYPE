@@ -21,7 +21,7 @@
 void shootingSystem(Entity entity, Registry& registry);
 void deathSystem(Entity entity, Registry& registry);
 std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry);
-void movementSystem(Entity entity, Registry& registry);
+std::string movementSystem(Entity entity, Registry& registry);
 std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry);
 void iaSystem(Entity entity, Registry& registry);
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window);
