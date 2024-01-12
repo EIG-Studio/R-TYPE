@@ -7,6 +7,8 @@
 
 #include "client.hpp"
 
+#include "server.hpp"
+
 bool Client::operator==(const boost::asio::ip::udp::endpoint& endpoint) const
 {
     return m_remoteEndpoint == endpoint;
@@ -35,4 +37,22 @@ void Client::setAlive(bool alive)
 bool Client::isAlive() const
 {
     return m_alive;
+}
+
+bool Server::isClient(const boost::asio::ip::udp::endpoint& clientEndpoint)
+{
+    std::any_of(m_clients.begin(), m_clients.end(), [clientEndpoint](const auto& client) {
+        return client == clientEndpoint;
+    });
+
+    return false;
+}
+
+void Server::addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id)
+{
+    if (find(m_clients.begin(), m_clients.end(), clientEndpoint) == m_clients.end()) {
+        Client client(clientEndpoint, id);
+        m_clients.push_back(client);
+        std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
+    }
 }

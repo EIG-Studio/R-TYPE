@@ -36,6 +36,8 @@ add_executable(${PROJECT_NAME}
     src/command.cpp
     src/client.cpp
     src/game.cpp
+    src/entity.cpp
+    src/communication.cpp
 )
 
 ################# LIBRARIES #################

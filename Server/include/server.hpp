@@ -14,7 +14,13 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <deque>
+#include <iostream>
+#include <ostream>
+#include <random>
+#include <string>
 #include <vector>
+
+#include <cstdlib>
 
 class Server
 {
@@ -32,7 +38,6 @@ public:
     void gameLoop(Registry& registry);
     void level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> playersProjectiles);
     void playerLoop(Registry& registry);
-    void damageThePlayer(Registry& registry, int damage, int id);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:
@@ -63,9 +68,8 @@ private:
     void createArrow(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void enemyMove(Registry& registry, Entity& entity, std::size_t id);
-    void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
-    void projectileCollision(Registry& registry, Entity& projectile, std::size_t projectileId, std::vector<Entity> enemies);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
+    void createWall(Registry& registry, int posx, int posy, int sizex, int sizey);
 };
