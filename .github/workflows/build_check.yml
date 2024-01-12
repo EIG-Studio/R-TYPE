@@ -32,24 +32,24 @@ jobs:
           - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang-16 -DCMAKE_CXX_COMPILER=clang++-16 }
 
     steps:
-      - name: Check Cache
-        id: restore-cache
+      - name: Cache Chocolatey packages
         uses: actions/cache@v2
         with:
           path: |
-            |-
-              C:/Program Files/boost
-              /usr/include/boost
-          key: boost-${{ env.BOOST_VERSION }}-${{ runner.os }}
+            C:\ProgramData\chocolatey\bin
+            C:\ProgramData\chocolatey\lib
+          key: choco-${{ runner.os }}-${{ hashFiles('**/*.chocoInstall.ps1') }}
+          restore-keys: |
+            choco-${{ runner.os }}-
 
       - name: Install Windows Dependencies
-        if: runner.os == 'Windows' && steps.restore-cache.outputs.cache-hit != 'true'
+        if: runner.os == 'Windows'
         run: |
           Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
           choco install boost-msvc-14.3 --version=${{ env.BOOST_VERSION }}
 
       - name: Install Linux Dependencies
-        if: runner.os == 'Linux' && steps.restore-cache.outputs.cache-hit != 'true'
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy libboost-all-dev
           wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install clang-16 clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
@@ -68,13 +68,3 @@ jobs:
       - name: Install
         shell: bash
         run: cmake --install build --config Release
-
-      - name: Save Cache
-        id: save-cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            |-
-              C:/Program Files/boost
-              /usr/include/boost
-          key: boost-${{ env.BOOST_VERSION }}-${{ runner.os }}
