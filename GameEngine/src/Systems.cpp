@@ -47,17 +47,11 @@ void deathSystem(Entity entity, Registry& registry)
 
 void damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
 {
-    std::cout << "ca passe ici" << std::endl;
     if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
         return;
 
-    std::cout << "Entity type : " << registry.getComponent(entity, Type()) << std::endl;
-    std::cout << "otherEntity type : " << registry.getComponent(otherEntity, Type()) << std::endl;
     auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
-    std::cout << registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint() << std::endl;
     healthPoint.setHealthPoint(healthPoint.getHealthPoint() - registry.getComponent(entity, Damage{}).getDamage());
-    registry.getComponent(entity, HealthPoint{}).setHealthPoint(registry.getComponent(entity, HealthPoint{}).getHealthPoint() - registry.getComponent(otherEntity, Damage{}).getDamage());
-    std::cout << registry.getComponent(otherEntity, HealthPoint{}).getHealthPoint() << std::endl;
     registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
 }
 
