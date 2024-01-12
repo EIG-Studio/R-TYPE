@@ -10,6 +10,7 @@
 #include "ipAdress.hpp"
 #include "menu/inGame.hpp"
 
+#include <iostream>
 #include <sstream>
 
 const float joystickThreshold = 20.0f;

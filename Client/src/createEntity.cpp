@@ -7,6 +7,8 @@
 
 #include "createEntity.hpp"
 
+#include <iostream>
+
 void updatePosition(Registry& registry, int id, int xPos, int yPos)
 {
     try {

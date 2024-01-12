@@ -7,6 +7,7 @@
 
 #include "menu/inGame.hpp"
 
+#include <iostream>
 #include <sstream>
 #include <utility>
 
