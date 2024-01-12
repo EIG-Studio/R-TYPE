@@ -9,6 +9,7 @@
 #include "entities.hpp"
 #include "server.hpp"
 
+#include <iostream>
 #include <ostream>
 #include <random>
 #include <string>
@@ -117,7 +118,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
 {
     Entity entity = registry.createEntity();
     ID idComponent = ID();
-    Position positionComponent = Position(std::make_pair(posx, posy));
+    auto positionComponent = Position(std::make_pair(posx, posy));
     Size sizeComponent = Size(std::make_pair(1, 1));
     Speed speedComponent(15);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
@@ -147,7 +148,7 @@ void Server::createBullet(Registry& registry, int posx, int posy)
 
 void Server::addMessage(const std::string& message)
 {
-    this->m_MessageMutex.lock();
+    this->m_messageMutex.lock();
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
@@ -165,7 +166,7 @@ void Server::addMessage(const std::string& message)
         i++;
     }
     m_messages.emplace_front(data);
-    this->m_MessageMutex.unlock();
+    this->m_messageMutex.unlock();
 }
 
 void Server::playerMove(Registry& registry, COMMAND direction, std::size_t id)
@@ -276,15 +277,15 @@ bool Server::startGame(Registry& registry)
     createWall(registry, -10, -100, 800, 100);
     createWall(registry, -10, 600, 800, 100);
 
-    Entity entity_score = registry.createEntity();
-    ID score_id = registry.getComponent(entity_score, score_id);
+    Entity entityScore = registry.createEntity();
+    ID scoreId = registry.getComponent(entityScore, ID());
     Type type = HUD;
-    ScorePoint score;
+    ScorePoint score{};
     score.setScorePoint(0);
-    entity_score = registry.addComponent(entity_score, type);
-    entity_score = registry.addComponent(entity_score, score);
-    addMessage("NEW_HUD " + std::to_string(score_id.getID()) + " " + std::to_string(score.getScorePoint()) + "\n");
-    registry.setEntity(entity_score, score_id);
+    entityScore = registry.addComponent(entityScore, type);
+    entityScore = registry.addComponent(entityScore, score);
+    addMessage("NEW_HUD " + std::to_string(scoreId.getID()) + " " + std::to_string(score.getScorePoint()) + "\n");
+    registry.setEntity(entityScore, scoreId);
     std::cout << "CREATE\n";
     return true;
 }
@@ -304,8 +305,8 @@ void Server::handleReceivedData(
         } else if (receivedData.command == DAMAGE_TO_PLAYER) {
             damageThePlayer(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
-            if (!gameStarted)
-                gameStarted = startGame(registry);
+            if (!m_gameStarted)
+                m_gameStarted = startGame(registry);
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
             sendAllEntites(registry);
@@ -320,15 +321,15 @@ void Server::handleReceivedData(
         } else if (receivedData.command == REFRESH) {
             refreshClientRegistry(registry, receivedData.args[0]);
         } else if (receivedData.command == LEVEL) {
-            current_level = receivedData.args[0];
+            m_currentLevel = receivedData.args[0];
         } else if (receivedData.command == ALIVE) {
-            m_ClientMutex.lock();
+            m_clientMutex.lock();
             for (Client& client : m_clients) {
                 if (client == m_remoteEndpoint) {
                     client.setAlive(true);
                 }
             }
-            m_ClientMutex.unlock();
+            m_clientMutex.unlock();
         } else {
             std::ostringstream cmd;
             cmd << "Unknown command: " << receivedData.command << std::endl;

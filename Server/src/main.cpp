@@ -10,6 +10,7 @@
 #include "entities.hpp"
 #include "server.hpp"
 
+#include <iostream>
 #include <thread>
 
 int main()
@@ -20,8 +21,8 @@ int main()
 
         std::thread serverThread(&Server::startListening, &server, std::ref(registry));
         std::thread serverThread2(&Server::startSending, &server);
-        std::thread serverThread3(&Server::GameLoop, &server, std::ref(registry));
-        std::thread serverThread4(&Server::PlayerLoop, &server, std::ref(registry));
+        std::thread serverThread3(&Server::gameLoop, &server, std::ref(registry));
+        std::thread serverThread4(&Server::playerLoop, &server, std::ref(registry));
 
         serverThread.join();
         serverThread2.join();

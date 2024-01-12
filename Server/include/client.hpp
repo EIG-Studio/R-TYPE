@@ -9,13 +9,14 @@
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
+#include <utility>
 
 class Client
 {
 public:
     Client() = default;
     Client(boost::asio::ip::udp::endpoint remoteEndpoint, std::size_t id) :
-    m_remoteEndpoint{remoteEndpoint},
+    m_remoteEndpoint{std::move(remoteEndpoint)},
     m_id{id} {};
     ~Client() = default;
     bool operator==(const boost::asio::ip::udp::endpoint& endpoint) const;
@@ -30,6 +31,6 @@ public:
 
 private:
     boost::asio::ip::udp::endpoint m_remoteEndpoint;
-    std::size_t m_id;
+    std::size_t m_id{};
     bool m_alive{true};
 };
