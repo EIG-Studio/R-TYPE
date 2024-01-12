@@ -14,12 +14,9 @@ void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
     if (registry.hasEntityType(HUD)) {
         windowManager.getWindow().clear();
         Entity score = registry.getScore();
-        ScorePoint score_points = registry.getComponent(score, ScorePoint{});
+        ScorePoint scorePoints = registry.getComponent(score, ScorePoint{});
 
-        scoreText.setString("Score: " + std::to_string(static_cast<int>(score_points.getScorePoint())));
-        // std::cout << "LOG: " << std::to_string(score_points.getScorePoint()) << std::endl;
-    } else {
-        // std::cout << "LOG: " << "no score" << std::endl;
+        scoreText.setString("Score: " + std::to_string(static_cast<int>(scorePoints.getScorePoint())));
     }
 }
 
@@ -81,7 +78,7 @@ void InLoopGame::gameInLoop(
             sprite,
             ipAdress);
     } catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << std::endl;
     }
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::F) {
@@ -120,7 +117,7 @@ void InLoopGame::gameInLoop(
             buttonManager.getToMenuButton().draw(windowManager.getWindow());
         }
     } catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << std::endl;
     }
     commandsToServer.mutex.unlock();
 }
