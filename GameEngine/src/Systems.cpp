@@ -14,6 +14,7 @@
 #include <SFML/Window/Window.hpp>
 
 #include <functional>
+#include <iostream>
 #include <map>
 #include <utility>
 
@@ -146,16 +147,19 @@ bool checkHitBox(float x, float y, std::pair<float, float> origin, std::pair<flo
     std::cout << "origin.second: " << origin.second << std::endl;
     std::cout << "size.first: " << size.first << std::endl;
     std::cout << "size.second: " << size.second << std::endl;
-    bool result = x >= origin.first && x <= origin.first + size.first &&
-           y >= origin.second && y <= origin.second + size.second;
+    bool result = x >= origin.first && x <= origin.first + size.first && y >= origin.second &&
+                  y <= origin.second + size.second;
     std::cout << "result: " << result << std::endl << std::endl;
-    return x >= origin.first && x <= origin.first + size.first &&
-           y >= origin.second && y <= origin.second + size.second;
+    return x >= origin.first && x <= origin.first + size.first && y >= origin.second && y <= origin.second + size.second;
 }
 
 
-bool isCollision(const std::pair<int, int>& pos1, const std::pair<int, int>& size1,
-                 const std::pair<int, int>& pos2, const std::pair<int, int>& size2) {
+bool isCollision(
+    const std::pair<int, int>& pos1,
+    const std::pair<int, int>& size1,
+    const std::pair<int, int>& pos2,
+    const std::pair<int, int>& size2)
+{
     // Calculate the boundaries of the first object
     int left1 = pos1.first;
     int right1 = pos1.first + size1.first;
@@ -223,7 +227,8 @@ void collisionSystem(Entity entity, std::vector<Entity> entities, Registry& regi
     for (auto& otherEntity : entities) {
         if (!registry.hasComponent(otherEntity, HitBox{}) || !registry.hasComponent(otherEntity, Type{}))
             continue;
-        if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID() || registry.getComponent(otherEntity, Type{}).getEntityType() == entityType)
+        if (registry.getComponent(otherEntity, ID{}).getID() == registry.getComponent(entity, ID{}).getID() ||
+            registry.getComponent(otherEntity, Type{}).getEntityType() == entityType)
             continue;
         if (checkCollisionForFourCorners(entity, otherEntity, registry)) {
             std::cout << "collision detected" << std::endl;
@@ -242,12 +247,12 @@ void iaSystem(Entity entity, Registry& registry)
     // Implementation for AI system
 }
 
-#include <iostream>
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
     if (entity.mComponents.empty())
         return;
-    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) || !registry.hasComponent(entity, Type{}))
+    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) ||
+        !registry.hasComponent(entity, Type{}))
         return;
 
     Type& typeComponent = registry.getComponent(entity, Type{});
@@ -258,10 +263,11 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
     sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
-    sprite.setScale(registry.getComponent(entity, Size{}).getSize().first,
-        registry.getComponent(entity, Size{}).getSize().second);
-    sprite.setPosition(registry.getComponent(entity, Position{}).getPosition().first,
-    registry.getComponent(entity, Position{}).getPosition().second);
+    sprite
+        .setScale(registry.getComponent(entity, Size{}).getSize().first, registry.getComponent(entity, Size{}).getSize().second);
+    sprite.setPosition(
+        registry.getComponent(entity, Position{}).getPosition().first,
+        registry.getComponent(entity, Position{}).getPosition().second);
     sprite.setTexture(text);
     window.draw(sprite);
 }

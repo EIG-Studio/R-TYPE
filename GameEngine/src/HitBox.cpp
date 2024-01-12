@@ -19,6 +19,7 @@ std::pair<float, float> HitBox::getOriPos() const
 {
     return this->m_originPos;
 }
+
 std::pair<float, float> HitBox::getSize() const
 {
     return this->m_size;
