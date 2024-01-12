@@ -107,6 +107,8 @@ void Server::handleReceivedData(
 
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
+        } else if (receivedData.command == HUHUHU) {
+            createBullet2(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
             if (!m_gameStarted)
                 m_gameStarted = startGame(registry);

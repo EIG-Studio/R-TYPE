@@ -90,7 +90,8 @@ void InLoopGame::gameInLoop(
             music.shootSound.play();
         }
         if (event.key.code == sf::Keyboard::J) {
-            std::cout << "power up" << std::endl;
+            game.shooting2(commandsToServer, registry, ipAdress);
+            music.shootSound.play();
         }
         if (event.key.code == sf::Keyboard::K) {
             game.damageToPlayer(commandsToServer, registry, ipAdress);

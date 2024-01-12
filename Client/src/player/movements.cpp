@@ -190,6 +190,16 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }
 
+void Game::shooting2(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    std::ostringstream shooting;
+    shooting << "HUHUHU " << pairPos.first + 100 << " " << pairPos.second + 10;
+    commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
+}
+
 void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getPlayer();
