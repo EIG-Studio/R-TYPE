@@ -53,10 +53,10 @@ void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
 void Game::movePlayer(
     Registry& registry,
     float movementSpeed,
-    float winX,
+    float  /*winX*/,
     float winY,
     CommandsToServer& commandsToServer,
-    Sprite mSprite,
+    const Sprite&  /*mSprite*/,
     IpAdress& ipAdress)
 {
     Entity player;
@@ -66,7 +66,7 @@ void Game::movePlayer(
             return;
         }
     } catch (std::exception& e) {
-        std::cout << e.what();
+        std::cout << e.what() << std::endl;
         return;
     }
     std::vector<Entity> list = registry.getListEntities();
@@ -133,7 +133,7 @@ void Game::handleMovement(
     Registry& registry,
     sf::Keyboard::Key key,
     CommandsToServer& commandsToServer,
-    float movementSpeed,
+    float  /*movementSpeed*/,
     float deltaX,
     float deltaY,
     const std::string& path,

@@ -33,7 +33,7 @@ public:
         float winX,
         float winY,
         CommandsToServer& commandsToServer,
-        Sprite mSprite,
+        const Sprite& mSprite,
         IpAdress& ipAdress);
     void moveEnemies(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& enemies);
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
