@@ -20,6 +20,10 @@ void Server::spawnBoss(Registry& registry)
     static int spawnBoss = 0;
     if (scorePoint.getScorePoint() == 0 && spawnBoss == 0) {
         createBoss(registry);
+        Entity boss = registry.getBoss();
+        std::size_t bossId = registry.getComponent(boss, ID{}).getID();
+        std::cout << "Boss created with id: " << bossId << std::endl;
+        enemyMove(registry, boss, bossId);
         spawnBoss = 1;
     }
 }
@@ -95,6 +99,7 @@ void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::v
     if (m_gameStarted) {
         m_registeryMutex.lock();
         spawnBoss(registry);
+
         m_registeryMutex.unlock();
     }
 }

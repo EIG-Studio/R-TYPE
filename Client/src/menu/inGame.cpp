@@ -270,7 +270,7 @@ void Game::moveEnemies(Registry& registry)
         Position& positionComponent = registry.getComponent(curr_ennemy, Position{});
         if (current_level == 1)
             positionComponent.setPosition(
-                std::make_pair(positionComponent.getPosition().first - 4, positionComponent.getPosition().second));
+                std::make_pair(positionComponent.getPosition().first - 9, positionComponent.getPosition().second));
         else
             positionComponent.setPosition(
                 std::make_pair(positionComponent.getPosition().first - 1, positionComponent.getPosition().second));

@@ -44,6 +44,7 @@ public:
     Entity getPlayer();
     Entity getScore();
     Entity getArrow();
+    Entity getBoss();
     bool hasScore();
     Entity getFirstEnemy();
     bool hasEntity(size_t id);

@@ -22,7 +22,7 @@ void updatePosition(Registry& registry, int id, int xPos, int yPos)
             entityPos.setPosition(std::make_pair(xPos, yPos));
             registry.setEntity(entity, id);
         }
-        if (registry.hasEntityType(Arrow_Player)) {
+        if (registry.hasEntityType(Arrow_Player) && registry.hasEntityType(Player)) {
             Entity arrow = registry.getArrow();
             Position& arrowPos = registry.getComponent(arrow, Position{});
             std::pair<int, int> arrowPairPos = arrowPos.getPosition();
@@ -91,7 +91,7 @@ void createBoss(Registry& registry, int id, int xPos, int yPos)
     Entity boss = registry.createEntityWithID(id);
     boss = registry.addComponent(boss, Position(std::make_pair(xPos, yPos)));
     boss = registry.addComponent(boss, Renderer("../Client/assets/Boss/v-police.png"));
-    boss = registry.addComponent(boss, Type(std::any_cast<EntityType>(Enemy)));
+    boss = registry.addComponent(boss, Type(std::any_cast<EntityType>(Boss)));
     boss = registry.addComponent(boss, Size(std::make_pair(2, 2)));
 
     Position bossPos = registry.getComponent(boss, Position{});

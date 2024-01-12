@@ -9,6 +9,13 @@
 #include "entities.hpp"
 #include "server.hpp"
 
+#include <iostream>
+#include <ostream>
+#include <random>
+#include <string>
+
+#include <cstdlib>
+
 void Server::playerMove(Registry& registry, COMMAND direction, std::size_t id)
 {
     Entity entity = registry.getEntity(id);
