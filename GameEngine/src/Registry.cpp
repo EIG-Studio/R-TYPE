@@ -209,7 +209,7 @@ Entity Registry::getBoss()
             }
         }
     }
-    throw std::runtime_error("No arrow entity found\n");
+    throw std::runtime_error("No boss entity found\n");
 }
 
 Entity Registry::getScore()

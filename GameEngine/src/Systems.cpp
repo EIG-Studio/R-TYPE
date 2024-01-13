@@ -115,11 +115,13 @@ std::string collisionEnemy(const Entity& entity, Entity otherEntity, Registry& r
         return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile ||
-        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy)
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Boss)
         return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player ||
-        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile ||
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Boss)
         return damagedSystem(entity, otherEntity, registry);
 
     // if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall)
@@ -194,6 +196,7 @@ std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registr
         {EntityType::Enemy, collisionEnemy},
         {EntityType::Player_Projectile, collisionProjectile},
         {EntityType::Enemy_Projectile, collisionProjectile},
+        {EntityType::Boss, collisionEnemy},
     };
     EntityType entityType;
 

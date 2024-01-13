@@ -59,18 +59,18 @@ void Server::enemyShootAndMove(Registry& registry, Entity& entity, std::size_t i
 
     std::vector<Entity> players = registry.getListEntities(Player);
     Entity randomPlayer;
-    Position randomPlayer_pos;
+    Position randomPlayerPos;
     if (!players.empty()) {
-        srand(time(0));
+        srand(time(nullptr));
         int randomIndex = rand() % players.size();
         randomPlayer = players[randomIndex];
-        randomPlayer_pos = registry.getComponent(randomPlayer, Position{});
+        randomPlayerPos = registry.getComponent(randomPlayer, Position{});
     }
 
-    if (positionComponent.getPosition().second < randomPlayer_pos.getPosition().second)
+    if (positionComponent.getPosition().second < randomPlayerPos.getPosition().second)
         positionComponent.setPosition(
             std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second + 8));
-    else if (positionComponent.getPosition().second > randomPlayer_pos.getPosition().second)
+    else if (positionComponent.getPosition().second > randomPlayerPos.getPosition().second)
         positionComponent.setPosition(
             std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second - 8));
     else
