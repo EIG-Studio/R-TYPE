@@ -11,8 +11,6 @@
 
 #include <iostream>
 
-#include <cstdlib>
-
 void updatePosition(Registry& registry, int id, int xPos, int yPos)
 {
     try {
@@ -169,7 +167,7 @@ void createArrow(Registry& registry, int id)
     Position playerPos = registry.getComponent(player, Position{});
 
     Entity arrow = registry.createEntityWithID(id);
-    arrow = registry.addComponent(arrow, Position(playerPos));
+    arrow = registry.addComponent(arrow, Position(std::make_pair(-100, -100)));
     arrow = registry.addComponent(arrow, Renderer("../Client/assets/arrow.png"));
     arrow = registry.addComponent(arrow, Size(std::make_pair(0.04, 0.04)));
     arrow = registry.addComponent(arrow, Type(std::any_cast<EntityType>(Arrow_Player)));
