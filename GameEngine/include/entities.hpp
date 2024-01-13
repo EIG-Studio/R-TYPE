@@ -17,13 +17,7 @@
 #include <SFML/System.hpp>
 
 #include <any>
-#include <iostream>
-#include <memory>
-#include <unordered_map>
 #include <vector>
-
-#include <cassert>
-#include <cstdint>
 
 class Entity
 {
@@ -49,16 +43,15 @@ public:
     void setEntity(Entity& entityToCopy, int id);
     Entity getPlayer();
     Entity getScore();
+    Entity getArrow();
+    Entity getBoss();
+    bool hasScore();
     Entity getFirstEnemy();
     bool hasEntity(size_t id);
     bool hasEntityType(Type type);
-    std::vector<Entity> getListEnemies();
-    std::vector<Entity> getListPlayers();
     std::vector<Entity> getListEntities();
-    std::vector<Entity> getListPlayersProjectile();
-    std::vector<Entity> deletePlayersProjectile(int id);
-    std::vector<Entity> deleteEnemy(int id);
-    void deleteById(int id);
+    std::vector<Entity> getListEntities(EntityType type);
+     void deleteById(int id);
     void destroyEnemy(std::vector<Entity> enemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
@@ -66,13 +59,15 @@ public:
     void removeComponent(Entity entity, T component);
     template <typename T>
     T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line);
-    std::string systemsManager();
+    // std::string systemsManager();
+    std::vector<std::string> systemsManager();
     std::string systemsManager(sf::RenderWindow& window);
 
     template <typename T>
     bool hasComponent(Entity& entity, T component);
 
-    std::vector<size_t> m_toDelete;
+    std::vector<size_t> toDelete;
+
 private:
     std::vector<Entity> m_entities;
     sf::RenderWindow m_window;
@@ -90,10 +85,10 @@ Entity Registry::addComponent(Entity entity, T component)
 
     entity.mComponents.push_back(component);
 
-    for (size_t i = 0; i < m_entities.size(); i++) {
-        newID = any_cast<ID>(m_entities[i].mComponents[0]);
+    for (auto& mEntitie : m_entities) {
+        newID = any_cast<ID>(mEntitie.mComponents[0]);
         if (newID.getID() == id)
-            m_entities[i] = entity;
+            mEntitie = entity;
     }
     return entity;
 }
@@ -119,16 +114,15 @@ void Registry::removeComponent(Entity entity, T component)
 
     entity.mComponents.erase(entity.mComponents.begin() + index);
 
-    for (size_t i = 0; i < m_entities.size(); i++) {
-        newID = any_cast<ID>(m_entities[i].mComponents[0]);
+    for (auto& mEntitie : m_entities) {
+        newID = any_cast<ID>(mEntitie.mComponents[0]);
         if (newID.getID() == id)
-            m_entities[i] = entity;
+            mEntitie = entity;
     }
 }
 
-#include <iostream>
 template <typename T>
-T& Registry::getComponentT(Entity& entity, T component, const char* file, const char* fn, int line)
+T& Registry::getComponentT(Entity& entity, T /*component*/, const char* file, const char* fn, int line)
 {
     for (auto& mComponent : entity.mComponents) {
         try {
@@ -143,7 +137,7 @@ T& Registry::getComponentT(Entity& entity, T component, const char* file, const 
 }
 
 template <typename T>
-bool Registry::hasComponent(Entity& entity, T component)
+bool Registry::hasComponent(Entity& entity, T /*component*/)
 {
     for (const auto& otherComponent : entity.mComponents) {
         try {

@@ -1,7 +1,12 @@
 # Server
 
-<<<<<<< HEAD
 ### This is a technique documentation for explain the differents tools offered by the server
+
+# Link to other documentation
+
+* **You can find more information about the project [here](https://github.com/EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle/wiki).**
+* **You can find more technical information about the GameEngine [here](Docs/gameEngine.md).**
+* **You can find more technical information about the Client [here](Docs/client.md).**
 
 # Tables of Contents
 
@@ -252,9 +257,3 @@ std::size_t bytesReceived;
 boost::asio::ip::udp::endpoint remoteEndpoint;
 server.handleReceivedData(error, bytesReceived, registry, remoteEndpoint);
 ```
-=======
-### This is a documentation for explain the server
-
-# Tables of Contents
-
->>>>>>> refs/remotes/origin/Client

@@ -8,7 +8,6 @@
 #pragma once
 
 #include "Systems.hpp"
-#include "components.hpp"
 #include "entities.hpp"
 #include "ipAdress.hpp"
 #include "music/sounds.hpp"
@@ -16,10 +15,11 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <future>
-#include <iostream>
 #include <mutex>
 #include <string>
 #include <thread>
+
+int setPlayer(int id);
 
 class CommandsToServer
 {
@@ -46,7 +46,7 @@ public:
 
     std::string getNewPos() const;
 
-    std::future<void> sendToServerAsync(std::string msg, IpAdress& ipAdress);
+    std::future<void> sendToServerAsync(const std::string& msg, IpAdress& ipAdress);
     void asyncReceive(Registry& registry, Music& music);
     std::mutex mutex;
 

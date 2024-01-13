@@ -7,14 +7,34 @@
 
 #include "menu/inLoopGame.hpp"
 
-<<<<<<< HEAD
+#include "menu/inGame.hpp"
+
+#include <iostream>
+
+void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
+{
+    if (registry.hasEntityType(HUD)) {
+        windowManager.getWindow().clear();
+        Entity score = registry.getScore();
+        ScorePoint scorePoints = registry.getComponent(score, ScorePoint{});
+
+        scoreText.setString("Score: " + std::to_string(static_cast<int>(scorePoints.getScorePoint())));
+    }
+}
+
 void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress)
 {
     if (m_clock.getElapsedTime().asMilliseconds() < 1000)
         return;
     m_clock.restart();
     for (auto& entity : registry.getListEntities()) {
-        commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
+        if (!registry.hasComponent(entity, Type()))
+            continue;
+        EntityType type = registry.getComponent(entity, Type()).getEntityType();
+        if (type == EntityType::Player || type == EntityType::Player_Projectile || type == EntityType::Enemy) {
+            commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
+            continue;
+        }
     }
 }
 
@@ -25,17 +45,20 @@ void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdre
     m_clock2.restart();
     commandsToServer.sendToServerAsync("ALIVE", ipAdress);
 }
-=======
-void InLoopGame::refreshRegistry(Registry &registry, CommandsToServer &commandsToServer, IpAdress& ipAdress)
+
+void boosIsAlive(Registry& registry, Game& game, YouWinMenu& youWinMenu)
 {
-    if (m_clock.getElapsedTime().asMilliseconds() < 500)
-        return;
-    m_clock.restart();
-    for (auto &entity : registry.getListEntities()) {
-        commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
+    if (registry.hasEntityType(Boss)) {
+        Entity boss = registry.getBoss();
+        if (registry.hasComponent(boss, HealthPoint{})) {
+            HealthPoint& bossHealth = registry.getComponent(boss, HealthPoint{});
+            if (bossHealth.getHealthPoint() <= 0) {
+                game.onGame = false;
+                youWinMenu.onWin = true;
+            }
+        }
     }
 }
->>>>>>> refs/remotes/origin/Client
 
 void InLoopGame::gameInLoop(
     sf::Event& event,
@@ -46,13 +69,10 @@ void InLoopGame::gameInLoop(
     Sprite& sprite,
     sf::Clock& onGameClock,
     Registry& registry,
-<<<<<<< HEAD
     ButtonManager& buttonManager,
-=======
-    Button& resumeButton,
-    Button& toMenuButton,
->>>>>>> refs/remotes/origin/Client
     ChoiceMenu& choiceMenu,
+    YouWinMenu& youWinMenu,
+    YouLooseMenu& youLooseMenu,
     IpAdress& ipAdress)
 {
     game.setCursorPosition(windowManager.getWindow());
@@ -61,11 +81,7 @@ void InLoopGame::gameInLoop(
     if (buttonManager.getResumeButton().checkClick(game.getCursorPosX(), game.getCursorPosY())) {
         game.onPause = false;
     }
-<<<<<<< HEAD
     if (buttonManager.getToMenuButton().checkClick(game.getCursorPosX(), game.getCursorPosY())) {
-=======
-    if (toMenuButton.checkClick(game.getCursorPosX(), game.getCursorPosY())) {
->>>>>>> refs/remotes/origin/Client
         game.onGame = false;
         choiceMenu.onChoice = true;
     }
@@ -73,13 +89,11 @@ void InLoopGame::gameInLoop(
     game.hasFocus = windowManager.getWindow().hasFocus();
     commandsToServer.mutex.lock();
     refreshRegistry(registry, commandsToServer, ipAdress);
-<<<<<<< HEAD
     pingServer(commandsToServer, ipAdress);
     try {
-        game.displayHealth(std::ref(registry), music, windowManager);
-=======
-    try {
->>>>>>> refs/remotes/origin/Client
+        game.displayHealth(std::ref(registry), music, windowManager, youLooseMenu);
+        updateScore(windowManager, registry);
+        boosIsAlive(registry, game, youWinMenu);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),
@@ -88,19 +102,22 @@ void InLoopGame::gameInLoop(
             commandsToServer,
             sprite,
             ipAdress);
+        game.moveEnemies(registry);
+        game.moveBullets(registry);
     } catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << std::endl;
     }
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
-<<<<<<< HEAD
+        }
+        if (event.key.code == sf::Keyboard::J) {
+            game.shooting2(commandsToServer, registry, ipAdress);
+            music.shootSound.play();
         }
         if (event.key.code == sf::Keyboard::K) {
             game.damageToPlayer(commandsToServer, registry, ipAdress);
-=======
->>>>>>> refs/remotes/origin/Client
         }
     }
     if (event.type == sf::Event::KeyReleased) {
@@ -120,26 +137,17 @@ void InLoopGame::gameInLoop(
         onGameClock.restart();
     }
     windowManager.getWindow().draw(game);
-<<<<<<< HEAD
-    windowManager.getWindow().draw(game.getHealPointText());
     commandsToServer.mutex.lock();
     try {
         registry.systemsManager(windowManager.getWindow());
-        game.displayArrow(registry, windowManager);
+        windowManager.getWindow().draw(scoreText);
+        windowManager.getWindow().draw(game.getHealthPointText());
         if (game.onPause) {
             buttonManager.getResumeButton().draw(windowManager.getWindow());
             buttonManager.getToMenuButton().draw(windowManager.getWindow());
-=======
-    commandsToServer.mutex.lock();
-    try {
-        registry.systemsManager(windowManager.getWindow());
-        if (game.onPause) {
-            resumeButton.draw(windowManager.getWindow());
-            toMenuButton.draw(windowManager.getWindow());
->>>>>>> refs/remotes/origin/Client
         }
     } catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << std::endl;
     }
     commandsToServer.mutex.unlock();
 }

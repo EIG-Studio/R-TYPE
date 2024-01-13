@@ -10,6 +10,7 @@
 #include "ipAdress.hpp"
 #include "menu/inGame.hpp"
 
+#include <iostream>
 #include <sstream>
 
 const float joystickThreshold = 20.0f;
@@ -50,27 +51,23 @@ void updateSpritePositionAndPath(sf::Sprite& sprite, float newX, float newY, con
     updateSpriteTexture(sprite, texturePath);
 }
 
-<<<<<<< HEAD
 void Game::movePlayer(
     Registry& registry,
     float movementSpeed,
-    float winX,
+    float /*winX*/,
     float winY,
     CommandsToServer& commandsToServer,
-    Sprite mSprite,
+    const Sprite& /*mSprite*/,
     IpAdress& ipAdress)
-=======
-void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float winY, CommandsToServer& commandsToServer, Sprite mSprite, IpAdress& ipAdress)
->>>>>>> refs/remotes/origin/Client
 {
     Entity player;
     try {
-        player = registry.getPlayer();
+        player = registry.getEntity(setPlayer(-1));
         if (!this->hasFocus) {
             return;
         }
     } catch (std::exception& e) {
-        std::cout << e.what();
+        std::cout << e.what() << std::endl;
         return;
     }
     std::vector<Entity> list = registry.getListEntities();
@@ -92,7 +89,7 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
          {sf::Keyboard::Q, 0, -movementSpeed, "../Client/assets/Cars/189_toLeft.png", winY, spriteHeight}};
 
     for (const auto& config : movements) {
-        HandleMovement(
+        handleMovement(
             registry,
             config.key,
             commandsToServer,
@@ -109,7 +106,7 @@ void Game::movePlayer(Registry& registry, float movementSpeed, float winX, float
     }
 }
 
-std::string Game::InputTypeToString(sf::Keyboard::Key key)
+std::string Game::inputTypeToString(sf::Keyboard::Key key)
 {
     switch (key) {
         case sf::Keyboard::Left:
@@ -133,11 +130,11 @@ std::string Game::InputTypeToString(sf::Keyboard::Key key)
     }
 }
 
-void Game::HandleMovement(
+void Game::handleMovement(
     Registry& registry,
     sf::Keyboard::Key key,
     CommandsToServer& commandsToServer,
-    float movementSpeed,
+    float /*movementSpeed*/,
     float deltaX,
     float deltaY,
     const std::string& path,
@@ -147,17 +144,17 @@ void Game::HandleMovement(
 {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
 
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     Renderer playerRenderer = registry.getComponent(player, Renderer{});
     sf::Sprite playerSprite = playerRenderer.getRenderer();
 
     if (keyPressed) {
-        std::string inputType = InputTypeToString(key);
-        if (updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
-            SendInputUpdate(commandsToServer, registry, inputType, ipAdress);
-            updateClock.restart();
+        std::string inputType = inputTypeToString(key);
+        if (m_updateClock.getElapsedTime().asSeconds() >= 0.0003f) {
+            sendInputUpdate(commandsToServer, registry, inputType, ipAdress);
+            m_updateClock.restart();
         }
         if (((deltaX != 0 && pairPos.first >= 0 && pairPos.first <= windowLimit - spriteLimit) ||
              (deltaY != 0 && pairPos.second >= 0 && pairPos.second <= windowLimit - spriteLimit)) &&
@@ -167,12 +164,12 @@ void Game::HandleMovement(
     }
 }
 
-void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress)
+void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registry, const std::string& inputType, IpAdress& ipAdress)
 {
     std::ostringstream oss;
     Entity player;
     try {
-        player = registry.getPlayer();
+        player = registry.getEntity(setPlayer(-1));
     } catch (std::exception& e) {
         std::cout << e.what();
         return;
@@ -185,41 +182,31 @@ void Game::SendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
 
 void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
-    shooting << "SHOOT " << pairPos.first << " " << pairPos.second;
+    shooting << "SHOOT " << pairPos.first + 100 << " " << pairPos.second + 10;
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
-<<<<<<< HEAD
+}
+
+void Game::shooting2(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
+{
+    Entity player = registry.getEntity(setPlayer(-1));
+    Position playerPos = registry.getComponent(player, Position{});
+    std::pair<float, float> pairPos = playerPos.getPosition();
+    std::ostringstream shooting;
+    shooting << "HUHUHU " << pairPos.first + 100 << " " << pairPos.second + 10;
+    commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }
 
 void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     ID playerId = registry.getComponent(player, ID{});
     int id = playerId.getID();
     std::ostringstream damage;
 
     damage << "DAMAGE_TO_PLAYER " << 1 << " " << id;
     commandsToServer.sendToServerAsync(damage.str(), ipAdress);
-}
-
-void Game::displayArrow(Registry& registry, WindowManager& windowManager)
-{
-    Entity player = registry.getPlayer();
-    Position playerPos = registry.getComponent(player, Position{});
-    std::pair<float, float> pairPos = playerPos.getPosition();
-    sf::Texture texture;
-    sf::Sprite sprite;
-    if (!texture.loadFromFile("../Client/assets/arrow.png")) {
-        std::cerr << "Failed to load arrow texture" << std::endl;
-        return;
-    }
-    sprite.setTexture(texture);
-    sprite.setPosition(pairPos.first + 46, pairPos.second - 30);
-    sprite.setScale(0.04, 0.04);
-    windowManager.getWindow().draw(sprite);
-=======
->>>>>>> refs/remotes/origin/Client
 }

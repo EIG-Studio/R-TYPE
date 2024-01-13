@@ -6,8 +6,7 @@
 */
 #include "Systems.hpp"
 
-<<<<<<< HEAD
-static std::map<std::string, COMMAND> commandMap =
+std::map<std::string, COMMAND> commandMap =
     {{"EMPTY", EMPTY},
      {"DELETE", DELETE},
      {"LOGIN", LOGIN},
@@ -20,18 +19,23 @@ static std::map<std::string, COMMAND> commandMap =
      {"NEW_BOSS", NEW_BOSS},
      {"ALIVE", ALIVE},
      {"PLAYER_PROJECTILE", PLAYER_PROJECTILE},
+     {"HUHUHU_PROJECTILE", HUHUHU},
      {"PLAY_BOOM_ENEMIES", PLAY_BOOM_ENEMIES},
      {"NEW_POS", NEW_POS},
      {"NEW_HEALTH", NEW_HEALTH},
      {"UPDATE", UPDATE},
      {"SHOOT", SHOOT},
+     {"HUHUHU", HUHUHU},
      {"DAMAGE_TO_PLAYER", DAMAGE_TO_PLAYER},
      {"REFRESH", REFRESH},
      {"SCORE", SCORE},
      {"NEW_HUD", NEW_HUD},
+     {"LEVEL", LEVEL},
+     {"ARROW_PLAYER", ARROW_PLAYER},
+     {"LOGIN_OK", LOGIN_OK},
      {"UNKNOWN", UNKNOWN}};
 
-static std::map<std::string, EntityType> typeMap =
+std::map<std::string, EntityType> typeMap =
     {{"Player", Player},
      {"Other_Player", Other_Player},
      {"Player_Projectile", Player_Projectile},
@@ -39,36 +43,6 @@ static std::map<std::string, EntityType> typeMap =
      {"Enemy", Enemy},
      {"HUD", HUD},
      {"Wall", Wall}};
-=======
-static std::map<std::string, COMMAND> commandMap = {
-    {"EMPTY", EMPTY},
-    {"DELETE", DELETE},
-    {"LOGIN", LOGIN},
-    {"UP", UP},
-    {"DOWN", DOWN},
-    {"LEFT", LEFT},
-    {"RIGHT", RIGHT},
-    {"NEW_PLAYER", NEW_PLAYER},
-    {"NEW_ENNEMY", NEW_ENNEMY},
-    {"MOVE_ENNEMY", MOVE_ENNEMY},
-    {"PLAYER_PROJECTILE", PLAYER_PROJECTILE},
-    {"MOVE_PROJECTILE", MOVE_PROJECTILE},
-    {"NEW_POS", NEW_POS},
-    {"UPDATE", UPDATE},
-    {"SHOOT", SHOOT},
-    {"REFRESH", REFRESH},
-    {"UNKNOWN", UNKNOWN}
-};
-
-static std::map<std::string, EntityType> typeMap = {
-    {"Player", Player},
-    {"Other_Player", Other_Player},
-    {"Player_Projectile", Player_Projectile},
-    {"Enemy_Projectile", Enemy_Projectile},
-    {"Enemy", Enemy},
-    {"Wall", Wall}
-};
->>>>>>> refs/remotes/origin/Client
 
 COMMAND getCommand(const std::string& commandStr)
 {

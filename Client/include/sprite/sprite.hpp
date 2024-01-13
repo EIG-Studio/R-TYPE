@@ -7,7 +7,13 @@
 
 #pragma once
 
-#include "sfml.hpp"
+#include <SFML/Graphics.hpp>
+
+#include <SFML/Audio.hpp>
+
+#include <SFML/Window.hpp>
+
+#include <SFML/System.hpp>
 
 #include <string>
 
@@ -46,9 +52,6 @@ public:
     std::string getShootSoundPath();
     std::string getBoomEnemiesPath();
 
-    std::string getMainSongPath();
-    std::string getShootSoundPath();
-
 private:
     std::string m_pathLogo;
     std::string m_pathTitle;
@@ -61,17 +64,10 @@ private:
     std::string m_pathFrontBuild;
 
     std::string m_pathPlayer;
-<<<<<<< HEAD
     std::string m_pathEnemy;
 
     std::string m_pathMainSong;
     std::string m_pathShootSound;
     std::string m_pathBoomEnemies;
     std::string m_pathKillPlayer;
-=======
-    std::string m_pathEnnemy;
-
-    std::string m_pathMainSong;
-    std::string m_pathShootSound;
->>>>>>> refs/remotes/origin/Client
 };

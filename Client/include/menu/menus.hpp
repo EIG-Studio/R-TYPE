@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "sprite/sprite.hpp"
 #include "ipAdress.hpp"
+#include "sprite/sprite.hpp"
 
 class Menu : public sf::Drawable, public sf::Transformable
 {
@@ -88,13 +88,9 @@ public:
     void setInputText(sf::Text text);
     sf::Text getInputText();
     void inputText(sf::Event& event, IpAdress& ipAdress);
-<<<<<<< HEAD
-    void setInputTextFromString(std::string text);
+    void setInputTextFromString(const std::string& text);
     std::string getUserInput();
     void setUserInput(std::string userInput);
-=======
-    std::string getUserInput();
->>>>>>> refs/remotes/origin/Client
     bool onHostOrJoin;
 
 private:
@@ -134,4 +130,54 @@ private:
     int m_tempMouseY;
 
     sf::Text m_ipAddressText;
+};
+
+class YouWinMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    YouWinMenu();
+    ~YouWinMenu() override = default;
+    void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
+    void setYouWinText(sf::Text mYouWinText);
+    sf::Text getYouWinText();
+    float getCursorPosX();
+    float getCursorPosY();
+    bool onWin;
+
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite m_cursorSprite;
+    sf::Text m_youWinText;
+    int m_tempMouseX;
+    int m_tempMouseY;
+};
+
+class YouLooseMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    YouLooseMenu();
+    ~YouLooseMenu() override = default;
+    void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
+    void setYouLooseText(sf::Text mYouLooseText);
+    sf::Text getYouLooseText();
+    float getCursorPosX();
+    float getCursorPosY();
+    bool onLoose;
+
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite m_cursorSprite;
+    sf::Text m_youLooseText;
+    int m_tempMouseX;
+    int m_tempMouseY;
 };

@@ -7,6 +7,7 @@
 
 #include "menu/inGame.hpp"
 
+#include <iostream>
 #include <sstream>
 #include <utility>
 
@@ -16,6 +17,7 @@ Game::Game()
     this->onPause = false;
     this->m_tempMouseX = 0;
     this->m_tempMouseY = 0;
+    this->m_healthPointTemp = 0;
 }
 
 void Game::setPath(Sprite mSprite)
@@ -130,7 +132,7 @@ void Game::repeatParallax()
 
 float Game::getPosPlayerY(Registry& registry)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     Renderer playerRenderer = registry.getComponent(player, Renderer{});
@@ -140,13 +142,13 @@ float Game::getPosPlayerY(Registry& registry)
 
 float Game::getPosPlayerX(Registry& registry)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Renderer playerRenderer = registry.getComponent(player, Renderer{});
     sf::Sprite playerSprite = playerRenderer.getRenderer();
     return playerSprite.getPosition().x;
 }
 
-float Game::setNewPositionX(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsToServer)
+float Game::setNewPositionX(const sf::Sprite& /*mSprite*/, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -161,7 +163,7 @@ float Game::setNewPositionX(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsT
     return newPosX;
 }
 
-float Game::setNewPositionY(sf::Sprite /*mSprite*/, CommandsToServer& mCommandsToServer)
+float Game::setNewPositionY(const sf::Sprite& /*mSprite*/, CommandsToServer& mCommandsToServer)
 {
     std::istringstream iss(mCommandsToServer.getNewPos());
     std::vector<std::string> tokens;
@@ -257,59 +259,43 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         states.texture = &m_cursorTexture;
         target.draw(m_cursorSprite, states);
     }
-<<<<<<< HEAD
 }
 
-void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
+void Game::moveEnemies(Registry& registry) const
+{
+    const std::vector<Entity>& ennemies = registry.getListEntities(Enemy);
+
+    for (const auto& ennemy : ennemies) {
+        Entity currEnnemy = ennemy;
+        Position& positionComponent = registry.getComponent(currEnnemy, Position{});
+        if (current_level == 1)
+            positionComponent.setPosition(
+                std::make_pair(positionComponent.getPosition().first - 9, positionComponent.getPosition().second));
+        else
+            positionComponent.setPosition(
+                std::make_pair(positionComponent.getPosition().first - 1, positionComponent.getPosition().second));
+        registry.setEntity(currEnnemy, registry.getComponent(currEnnemy, ID{}).getID());
+    }
+}
+
+void Game::moveBullets(Registry& registry)
+{
+    const std::vector<Entity>& bullets = registry.getListEntities(Player_Projectile);
+
+    for (const auto& bullet : bullets) {
+        Entity currBullet = bullet;
+        Position& positionComponent = registry.getComponent(currBullet, Position{});
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first + 15, positionComponent.getPosition().second));
+        registry.setEntity(currBullet, registry.getComponent(currBullet, ID{}).getID());
+    }
+}
+
+void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager, YouLooseMenu& youLooseMenu)
 {
     Entity player;
     try {
-        player = registry.getPlayer();
-    } catch (std::exception& e) {
-        std::cout << e.what();
-        return;
-    }
-    int healthPoint = registry.getComponent(player, HealthPoint{}).getHealthPoint();
-
-    if (!this->dispHealFirst || m_healthPointTemp != healthPoint) {
-        m_healthPointTemp = healthPoint;
-        sf::Text healPointText;
-        healPointText.setFont(windowManager.getFont());
-        healPointText.setCharacterSize(24);
-        healPointText.setFillColor(sf::Color::White);
-        healPointText.setPosition(24, windowManager.getWindow().getSize().y - 48);
-
-        std::string healPointString = std::to_string(healthPoint);
-        healPointText.setString("HP " + healPointString);
-        this->setHealPointText(healPointText);
-        this->dispHealFirst = true;
-    }
-
-    if (healthPoint <= 0) {
-        registry.deleteById(registry.getComponent(player, ID{}).getID());
-        music.musicMenu.stop();
-        music.killPlayer.play();
-        this->onGame = false;
-    }
-}
-
-void Game::setHealPointText(sf::Text mHealPoint)
-{
-    this->m_healthPoint = std::move(mHealPoint);
-}
-
-sf::Text Game::getHealPointText()
-{
-    return this->m_healthPoint;
-=======
->>>>>>> refs/remotes/origin/Client
-}
-
-void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
-{
-    Entity player;
-    try {
-        player = registry.getPlayer();
+        player = registry.getEntity(setPlayer(-1));
     } catch (std::exception& e) {
         std::cout << e.what();
         return;
@@ -334,6 +320,7 @@ void Game::displayHealth(Registry& registry, Music& music, WindowManager& window
         music.musicMenu.stop();
         music.killPlayer.play();
         this->onGame = false;
+        youLooseMenu.onLoose = true;
     }
 }
 

@@ -1,9 +1,15 @@
 # GameEngine
 
-<<<<<<< HEAD
 ### This is a technique documentation for explain the differents tools offered by the gameEngine
 
+# Link to other documentation
+
+* **You can find more information about the project [here](https://github.com/EpitechPromo2026/B-CPP-500-BDX-5-2-rtype-jules.trolle/wiki).**
+* **You can find more technical information about the Server [here](Docs/server.md).**
+* **You can find more technical information about the Client [here](Docs/client.md).**
+
 # tables of contents
+
 - [Technical Documentation Registry Class](#technical-documentation-registry-class)
   - [Methods](#methods)
   - [Features](#features)
@@ -43,91 +49,110 @@ La classe `Registry` est responsable de la gestion des entités dans le système
 ### Methods
 
 #### `Registry()`
+
 - **Description:** Default class constructor `Registry`.
 
 #### `~Registry()`
+
 - **Description:** Default class destructor `Registry`.
 
 #### `Entity createEntity()`
+
 - **Description:** Creates a new entity with a unique identifier.
 - **Return:** An instance of the `Entity` class representing the new entity.
 
 #### `Entity createEntityWithID(int customID)`
+
 - **Description:** Creates a new entity with the specified custom identifier.
 - **Parameters:**
   - `customID`: Personalized entity identifier.
 - **Return:** An instance of the `Entity` class representing the new entity.
 
 #### `void destroyEntity(Entity entity)`
+
 - **Description:** Destroys the specified entity.
 - **Parameters:**
   - `entity`: The entity to be destroyed.
 
 #### `Entity getEntity(size_t id)`
+
 - **Description:** Retrieves an entity based on its identifier.
 - **Parameters:**
   - `id`: Entity identifier.
 - **Return:** An instance of the `Entity` class corresponding to the specified identifier.
 
 #### `void setEntity(Entity& entityToCopy, int id)`
+
 - **Description:** Replaces the existing entity with a new entity specified by its identifier.
 - **Parameters:**
   - `entityToCopy`: New entity to copy.
   - `id`: Identifier of the entity to be replaced.
 
 #### `Entity getPlayer()`
+
 - **Description:** Recovers the player's entity.
 - **Return:** An instance of the `Entity` class representing the player entity.
 
 #### `Entity getFirstEnemy()`
+
 - **Description:** Recover the first enemy entity.
 - **Return:** An instance of the `Entity` class representing the first enemy entity.
 
 #### `bool hasEntity(size_t id)`
+
 - **Description:** Checks whether an entity with the specified identifier exists.
 - **Parameters:**
   - `id`: Identifier of the entity to be verified.
 - **Return:** `true` if the entity exists, otherwise `false`.
 
-#### `std::vector<Entity> getListEnemies()`
+#### `std::vector<Entity> getListEntities(Enemy()`
+
 - **Description:** Retrieves a list of enemy entities.
 - **Return:** A vector of instances of the `Entity` class representing enemy entities.
 
 #### `std::vector<Entity> getListPlayers()`
+
 - **Description:** Retrieves a list of player entities.
 - **Return:** A vector of instances of the `Entity` class representing player entities.
 
 #### `std::vector<Entity> getListEntities()`
+
 - **Description:** Retrieves a list of all entities.
 - **Return:** A vector of instances of the `Entity` class, representing all entities.
 
-#### `std::vector<Entity> getListPlayersProjectile()`
+#### `std::vector<Entity> getListEntities(Player_Projectile)`
+
 - **Description:** Retrieves a list of players' projectiles.
 - **Return:** A vector of instances of the `Entity` class representing player projectiles.
 
 #### `std::vector<Entity> deletePlayersProjectile(int id)`
+
 - **Description:** Deletes projectiles from the player specified by its ID.
 - **Parameters:**
   - `id`: Identifier of the player whose shots are to be deleted.
 - **Return:** A vector of instances of the `Entity` class after deleting projectiles.
 
 #### `std::vector<Entity> deleteEnnemy(int id)`
+
 - **Description:** Deletes the enemy specified by its ID.
 - **Parameters:**
   - `id`: Identifier of the enemy to be deleted.
 - **Return:** A vector of instances of the `Entity` class after the enemy has been deleted.
 
 #### `void deleteById(int id)`
+
 - **Description:** Deletes the entity specified by its identifier.
 - **Parameters:**
   - `id`: Identifier of the entity to be deleted.
 
 #### `void destroyEnnemy(std::vector<Entity> ennemyList)`
+
 - **Description:** Destroys specified enemy entities.
 - **Parameters:**
   - `ennemyList`: Vector of enemy entities to destroy.
 
 #### `template <typename T> Entity addComponent(Entity entity, T component)`
+
 - **Description:** Adds a component to the specified entity.
 - **Parameters:**
   - `entity`: The entity to which to add the component.
@@ -135,12 +160,14 @@ La classe `Registry` est responsable de la gestion des entités dans le système
 - **Return:** The entity updated with the new component.
 
 #### `template <typename T> void removeComponent(Entity entity, T component)`
+
 - **Description:** Removes a component from the specified entity.
 - **Parameters:**
   - `entity`: The entity to delete the component from.
   - `component`: The component to be deleted.
 
 #### `template <typename T> T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line)`
+
 - **Description:** Retrieves the specified component from the entity.
 - **Parameters:**
   - `entity`: The entity from which to retrieve the component.
@@ -152,6 +179,7 @@ La classe `Registry` est responsable de la gestion des entités dans le système
 - **Exceptions:** Throws an exception if the component is not found.
 
 #### `template <typename T> bool hasComponent(Entity& entity, T component)`
+
 - **Description:** Checks whether the entity has the specified component.
 - **Parameters:**
   - `entity`: The entity to be verified.
@@ -161,12 +189,15 @@ La classe `Registry` est responsable de la gestion des entités dans le système
 ### Features
 
 #### `std::vector<Entity> m_entities`
+
 - **Description:** Vector containing all the entities managed by the registry.
 
 #### `sf::RenderWindow m_window`
+
 - **Description:** SFML rendering window associated with the register.
 
 #### `size_t m_id`
+
 - **Description:** Variable to generate unique identifiers for entities.
 
 ### Usage
@@ -205,10 +236,12 @@ game systems implemented in the supplied C++ code. Systems are functions that ma
 The shootingSystem manages the shooting behavior of entities. It checks whether an entity has the Shooter and Position components, then creates a projectile based on position and velocity.
 
 #### Parameters
+
 - `Entity entity`: The entity for which the system is applied.
 - `Registry& registry`: A reference to the game's register.
 
 #### How it works
+
 1. Checks whether the entity has Shooter and Position components. If not, Return immediately.
 2. Checks if the entity is shooting using the Shooter component.
 3. If yes, retrieves the entity's position and creates a projectile using position and velocity.
@@ -222,10 +255,12 @@ The shootingSystem manages the shooting behavior of entities. It checks whether 
 The death system is responsible for destroying an entity if it has used up all its life points.
 
 #### Parameters
+
 - `Entity entity`: The entity for which the system is applied.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks if the entity has the HealthPoint component. If not, Return immediately.
 2. Checks if the entity's life points are less than or equal to zero.
 3. If so, destroys the entity using the register.
@@ -239,13 +274,16 @@ The death system is responsible for destroying an entity if it has used up all i
 The damage system is responsible for reducing an entity's hit points as a result of damage inflicted by another entity.
 
 #### Parameters
+
 - `Entity entity`: The entity inflicting the damage.
 - `Entity otherEntity`: The entity taking the damage.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks whether the inflicting entity has the Damage component and whether the inflicted entity has the HealthPoint component. If not, Return immediately.
 2. Reduces the hit entity's hit points according to the damage inflicted by the inflicting entity.
+
 ---
 
 ### movementSystem
@@ -255,10 +293,12 @@ The damage system is responsible for reducing an entity's hit points as a result
 The displacement system is responsible for moving an entity according to its speed and current position.
 
 #### Parameters
+
 - `Entity entity`: The entity to be moved.
 - `Registry& registry`: A reference to the game's register.
 
 #### How it works
+
 1. Checks if the entity has Speed, Velocity and Position components. If not, Return immediately.
 2. Updates the entity's position according to its current speed and direction.
 3. Resets the entity's speed after moving.
@@ -272,13 +312,16 @@ The displacement system is responsible for moving an entity according to its spe
 The no movement system is responsible for moving two entities towards each other without taking their speed into account.
 
 #### Parameters
+
 - `Entity entity`: The first entity.
 - `Entity otherEntity`: The second entity.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks whether both entities have the Position component. If not, Return immediately.
 2. Moves the first entity to the right and the second entity to the left.
+
 ---
 
 ### collisionPlayer
@@ -286,15 +329,18 @@ The no movement system is responsible for moving two entities towards each other
 The player collision system is responsible for managing interactions between the player entity and other entities in the game.
 
 #### Parameters
+
 - `const Entity& entity`: The player's entity.
 - `Entity otherEntity`: The other entity involved in the collision.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks if the `otherEntity` entity has the `Type` component. If so, Return immediately.
 2. Checks if `otherEntity` is a player projectile. If so, Return immediately.
 3. Handles collisions with enemy entities by calling `damagedSystem`.
 4. Handles collisions with player or wall entities by calling `noMoveSystem`.
+
 ---
 
 ### collisionEnemy
@@ -302,11 +348,13 @@ The player collision system is responsible for managing interactions between the
 The enemy collision system is responsible for managing interactions between the enemy entity and other entities in the game.
 
 #### Parameters
+
 - `const Entity& entity`: The enemy entity.
 - `Entity otherEntity`: The other entity involved in the collision.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks if `otherEntity` has the `Type` component. If so, Return immediately.
 2. Checks if `otherEntity` is an enemy projectile or an enemy entity. If so, Return immediately.
 3. Handles collisions with player or player projectile entities by calling `damagedSystem`.
@@ -319,15 +367,18 @@ The enemy collision system is responsible for managing interactions between the 
 The projectile collision system is responsible for managing interactions between projectiles and other entities in the game.
 
 #### Parameters
+
 - `const Entity& entity`: The projectile entity.
 - `Entity otherEntity`: The other entity involved in the collision.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks if `otherEntity` has the `Type` component. If so, Return immediately.
 2. Checks if `otherEntity` is a projectile or a player entity. If so, Return immediately.
 3. Handles collisions with enemy entities by calling `damagedSystem`.
 4. Handles collisions with wall-type entities by destroying the projectile.
+
 ---
 
 ### checkHitBox
@@ -335,12 +386,14 @@ The projectile collision system is responsible for managing interactions between
 The `checkHitBox` function checks whether a point defined by coordinates (x, y) is inside a bounding box defined by its `origin` and `end` corners.
 
 #### Parameters
+
 - `float x`: x coordinate of the point to be checked.
 - `float y`: Y coordinate of the point to be checked.
 - `std::pair<float, float> origin`: Coordinates of the upper left corner of the bounding box.
 - `std::pair<float, float> end`: Coordinates of the lower right corner of the bounding box.
 
 #### Return
+
 - `bool`: Returns `true` if the point is inside the bounding box, otherwise `false`.
 
 ---
@@ -350,11 +403,13 @@ The `checkHitBox` function checks whether a point defined by coordinates (x, y) 
 The collision management system is responsible for detecting and managing collisions between an entity and a specified list of entities.
 
 #### Parameters
+
 - `Entity entity`: The entity for which the system is applied.
 - `std::vector<Entity> entities`: The list of entities with which to check for collisions.
 - `Registry& registry`: A reference to the game registry.
 
 #### How it works
+
 1. Checks if the entity has the `HitBox` and `Type` components. If not, Return immediately.
 2. Determines the entity's type using the `Type` component.
 3. Scans the list of entities and handles collisions by calling the appropriate function according to the entity type.
@@ -366,11 +421,13 @@ The collision management system is responsible for detecting and managing collis
 The rendering system is responsible for graphically displaying an entity on an SFML window.
 
 #### Parameters
+
 - `Entity entity`: The entity for which the system is applied.
 - `Registry& registry`: A reference to the game registry.
 - `sf::RenderWindow& window`: The SFML window on which to render.
 
 #### How it works
+
 1. Checks if the entity has the `Renderer`, `Position`, and `Type` components. If not, Return immediately.
 2. Retrieves the `Type` component from the entity to determine the entity type.
 3. If the entity is a player (`EntityType::Player`), retrieves its position.
@@ -385,15 +442,18 @@ The rendering system is responsible for graphically displaying an entity on an S
 ### Additional Details
 
 #### Player Entity Rendering
+
 If the entity is of type player (`EntityType::Player`), the entity's position is retrieved. This can be useful for specific player rendering functionalities.
 
 #### Component Management
+
 - `Renderer`: Provides the texture and sprite needed for rendering.
 - `Position`: Provides the position coordinates of the entity.
 - `Type`: Allows you to determine the entity type for specific rendering functionalities.
 - `Size`: Used to adjust the scale of the sprite based on the size of the entity.
 
 #### SFML rendering
+
 The function uses the SFML library to render. It draws the entity sprite on the SFML window.
 
 ---
@@ -405,23 +465,29 @@ This documentation provides a detailed description of the components used in the
 ### Position Component
 
 #### Description
+
 The `Position` component represents the spatial coordinates of an entity in two-dimensional space.
 
 #### Methods
 
 ##### `Position()`
+
 - Default constructor.
 
 ##### `Position(std::pair<int, int> originPos)`
+
 - Constructor to initialize position coordinates with a pair of integers.
 
 ##### `~Position()`
+
 - Default destructor.
 
 ##### `std::pair<int, int> getPosition() const`
+
 - Returns the current position coordinates.
 
 ##### `void setPosition(std::pair<int, int> newPos)`
+
 - Modify position coordinates.
 
 ---
@@ -429,23 +495,29 @@ The `Position` component represents the spatial coordinates of an entity in two-
 ### HealthPoint Component
 
 #### Description
+
 The `HealthPoint` component represents the number of health points of an entity.
 
 #### Methods
 
 ##### `HealthPoint()`
+
 - Default constructor.
 
 ##### `HealthPoint(float hp)`
+
 - Constructor to initialize life points with a floating value.
 
 ##### `~HealthPoint()`
+
 - Default destructor.
 
 ##### `float getHealthPoint() const`
+
 - Returns the current number of hit points.
 
 ##### `void setHealthPoint(float mLp)`
+
 - Modify the number of hit points.
 
 ---
@@ -453,20 +525,27 @@ The `HealthPoint` component represents the number of health points of an entity.
 ### Velocity Component
 
 #### Description
+
 The `Velocity` component represents the speed of an entity in two-dimensional space.
 
 #### Methods
 
 ##### `Velocity()`
+
 - Default constructor.
+
 ####
+
 ##### `~Velocity()`
+
 - Default destructor.
 
 ##### `std::pair<float, float> getVelocity() const`
+
 - Returns the x and y components of the speed.
 
 ##### `void setVelocity(float x, float y)`
+
 - Modify the x and y components of the speed.
 
 ---
@@ -474,20 +553,25 @@ The `Velocity` component represents the speed of an entity in two-dimensional sp
 ### ID Component
 
 #### Description
+
 The `ID` component represents the unique identifier of an entity.
 
 #### Methods
 
 ##### `ID()`
+
 - Default constructor.
 
 ##### `ID(std::size_t id)`
+
 - Constructor allowing the identifier to be initialized with a value of size_t.
 
 ##### `~ID()`
+
 - Default destructor.
 
 ##### `std::size_t getID() const`
+
 - Returns the unique identifier.
 
 ---
@@ -495,23 +579,29 @@ The `ID` component represents the unique identifier of an entity.
 ### Speed Component
 
 #### Description
+
 The `Speed` component represents the speed of movement of an entity.
 
 #### Methods
 
 ##### `Speed()`
+
 - Default constructor.
 
 ##### `Speed(float speed)`
+
 - Constructor to initialize the speed with a float value.
 
 ##### `~Speed()`
+
 - Default destructor.
 
 ##### `float getSpeed() const`
+
 - Returns the speed value.
 
 ##### `void setSpeed(float newSpeed)`
+
 - Modify the speed value.
 
 ---
@@ -519,23 +609,29 @@ The `Speed` component represents the speed of movement of an entity.
 ### Damage Component
 
 #### Description
+
 The `Damage` component represents the amount of damage an entity can inflict.
 
 #### Methods
 
 ##### `Damage()`
+
 - Default constructor.
 
 ##### `Damage(float damage)`
+
 - Constructor to initialize damage with a float value.
 
 ##### `~Damage()`
+
 - Default destructor.
 
 ##### `float getDamage() const`
+
 - Returns the damage value.
 
 ##### `void setDamage(int newDamage)`
+
 - Modify the value of the damage.
 
 ---
@@ -543,23 +639,29 @@ The `Damage` component represents the amount of damage an entity can inflict.
 ### Size Component
 
 #### Description
+
 The `Size` component represents the size of an entity.
 
 #### Methods
 
 ##### `Size()`
+
 - Default constructor.
 
 ##### `Size(std::pair<float, float> originSize)`
+
 - Constructor to initialize size with a pair of float values.
 
 ##### `~Size()`
+
 - Default destructor.
 
 ##### `std::pair<float, float> getSize() const`
+
 - Returns the current size.
 
 ##### `void setSize(std::pair<float, float> newSize)`
+
 - Modify the value of the size.
 
 ---
@@ -567,55 +669,71 @@ The `Size` component represents the size of an entity.
 ### HitBox Component
 
 #### Description
+
 The `HitBox` component represents a hit box associated with an entity.
 
 #### Methods
 
 ##### `HitBox()`
+
 - Default constructor.
 
 ##### `HitBox(std::pair<float, float> originPos, std::pair<float, float> size)`
+
 - Constructor used to initialize the position and size of the collision box.
 
 ##### `~HitBox()`
+
 - Default destructor.
 
 ##### `std::pair<float, float> getOriPos() const`
+
 - Returns the original position of the collision box.
 
 ##### `std::pair<float, float> getSize() const`
+
 - Returns the current size of the collision box.
 
 ##### `void setHitBoxPosition(std::pair<float, float> originPos, std::pair<float, float> size)`
+
 - Modify the position and size of the collision box.
+
 ---
 
 ### Gravity Component
 
 #### Description
+
 The `Gravity` component manages the gravity properties of an entity, specifying the strength of gravity and whether it is active or not.
 
 #### Methods
 
 ##### `Gravity()`
+
 - Default constructor.
 
 ##### `Gravity(float gravity, bool isGravity)`
+
 - Constructor used to initialize the force of gravity and its activation state.
 
 ##### `~Gravity()`
+
 - Default destructor.
 
 ##### `float getGravity() const`
+
 - Returns the force of gravity.
 
 ##### `bool isGravity() const`
+
 - Returns the gravity activation state.
 
 ##### `void setGravity(float newGravity)`
+
 - Modify the force of gravity.
 
 ##### `void setIsGravity(bool isGravity)`
+
 - Modify the state of gravity activation.
 
 ---
@@ -623,23 +741,29 @@ The `Gravity` component manages the gravity properties of an entity, specifying 
 ### Shooter Component
 
 #### Description
+
 The `Shooter` component manages the shooting behavior of an entity, specifying whether it is shooting or not.
 
 #### Methods
 
 ##### `Shooter()`
+
 - Default constructor.
 
 ##### `Shooter(bool isShooting)`
+
 - Constructor used to initialize the firing state.
 
 ##### `~Shooter()`
+
 - Default destructor.
 
 ##### `bool isShooting() const`
+
 - Returns the entity's firing state.
 
 ##### `void setIsShooting(bool isShooting)`
+
 - Modify the entity's firing state.
 
 ---
@@ -647,26 +771,33 @@ The `Shooter` component manages the shooting behavior of an entity, specifying w
 ### Type Component
 
 #### Description
+
 The `Type` component specifies the type of an entity from the `EntityType` enumeration. It also provides a display operator overload to display the type as a string.
 
 #### Methods
 
 ##### `Type()`
+
 - Default constructor.
 
 ##### `Type(EntityType entityType)`
+
 - Constructor used to initialize the entity type.
 
 ##### `~Type()`
+
 - Default destructor.
 
 ##### `EntityType getEntityType() const`
+
 - Returns the entity type.
 
 ##### `void setEntityType(EntityType entityType)`
+
 - Modify the type of the entity.
 
 ##### `friend std::ostream& operator<<(std::ostream& os, const Type& type)`
+
 - Display operator overload to display the type.
 
 ---
@@ -674,101 +805,33 @@ The `Type` component specifies the type of an entity from the `EntityType` enume
 ### Renderer Component
 
 #### Description
+
 The `Renderer` component manages the graphic properties of an entity, such as its texture and sprite.
 
 #### Methods
 
 ##### `Renderer()`
+
 - Default constructor.
 
 ##### `explicit Renderer(const std::string& texturePath)`
+
 - Constructor to initialize the component with a texture path.
 
 ##### `~Renderer()`
+
 - Default destructor.
 
 ##### `sf::Sprite& getRenderer()`
+
 - Returns the rendering sprite reference.
 
 ##### `sf::Texture getTexture() const`
+
 - Returns the texture of the component.
 
 ##### `void setRenderer(const std::string& texturePath)`
+
 - Modify the texture and sprite of the component.
+
 ---
-=======
-### This is a documentation for explain the gameEngine
-
-# Tables of Contents
-
-- [Introduction](#introduction)
-- [Game Engine Operation](#Game-Engine-Operation)
-    - [Client Side](#client-side)
-    - [Server Side](#server-side)
-- [Using the Game Engine](#Using-the-Game-Engine)
-    - [Public Methods of the Registry](#Public-Methods-of-the-Registry)
-    - [Private Methods of the Registry](#Private-Methods-of-the-x²Registry)
-- [GameEngine Technical Documentation](techGameEngine.md)
-
-## Introduction
-
-A game engine using the ECS (Entity-Component-System) method is designed to streamline and optimize the development of video games by separating various aspects of the game into entities, components, and systems.
-
-In this model:
-
-- An *entity* represents an object in the game.
-- A *component* is a characteristic or specific aspect of that entity.
-- A *system* is processing logic that acts on entities possessing certain components.
-The use of ECS brings increased modularity to game development, allowing developers to more efficiently manage the growing complexity of projects.
-
-Major advantages include:
-
-- Component reuse.
-- Ease of adding new features.
-- Optimized performance.
-
-ECS also facilitates operation parallelization, providing significant gains in efficiency and execution speed.
-
-In summary, a game engine based on the ECS method offers a more flexible and efficient approach to structuring and developing complex video games, allowing developers to focus on specific elements of gameplay without sacrificing performance.
-
-## Game Engine Operation
-
-Our game engine is designed as a static library, subsequently used by both the server and the client in a video game, providing a robust architecture for managing entities and interactions between the server and clients.
-
-### Server Side
-
-On the server side, it acts as a central authority, managing game logic, critical calculations, and synchronization of the game world state. The ECS engine is used to maintain the absolute truth of the game, handle collisions, perform physical simulation, and process global events.
-
-Game entities, representing objects and players, are centrally updated by the server. Specific components such as position, health, or other properties are managed in the server system, ensuring global game consistency.
-
-### Client Side
-
-On the other side, each client also uses its ECS engine to display the game updated by server-received data through the SFML library.
-
-Clients receive regular updates from the server to synchronize their local instances with the global game state.
-
-Locally generated player events, such as movements or actions, are then transmitted to the server for validation and propagation to all clients. This enables instantaneous responsiveness to player actions.
-
-In summary, the use of an ECS-based game engine shared between the server and clients in a video game provides a distributed and consistent architecture, allowing smooth interaction between different parts while maintaining synchronization and game integrity.
-
-## Using the Game Engine
-
-To use the game engine effectively, one must utilize the `Registry` class, playing a central role in an ECS-based game engine.
-
-The `Registry` class acts as a global manager that stores and organizes game entities. It offers essential functionalities such as creating and destroying entities, adding and removing components, and retrieving specific components associated with an entity.
-
-By facilitating the management of entities and their components, the `Registry` enables the game engine to apply systems effectively, contributing to a modular, flexible, and extensible code design. Its central role in an ECS-based engine makes it a key component for dynamic object management and consistent implementation of game logic.
-
-### Public Methods of the Registry
-
-Public methods expose essential functionalities for external interaction with the Registry.
-
-- The CreateEntity method allows the creation of a new entity, assigning a unique identifier to each generated entity.
-- The DestroyEntity function offers the possibility to remove a specific entity from the registry, contributing to dynamic game object management.
-
-Public template methods, such as `addComponent`, `removeComponent`, `getComponent`, and `hasComponent`, provide considerable flexibility to manipulate components associated with entities. These methods allow adding, removing, retrieving, and checking the presence of components of different types. These functionalities are fundamental for the dynamic construction and modification of entities, offering a modular approach to defining individual features of game objects.
-
-### Private Methods of the Registry
-
-Private methods, such as `addComponent`, `removeComponent`, `getComponent`, and `hasComponent`, encapsulate the internal logic needed to perform these operations on entities and their components. These private methods are used to ensure consistent updating of the internal registry when adding or removing components, contributing to the stability and coherence of the ECS system in the game engine.
->>>>>>> refs/remotes/origin/Client

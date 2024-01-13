@@ -5,51 +5,22 @@
 ** game
 */
 
+#include "components.hpp"
 #include "entities.hpp"
 #include "server.hpp"
 
-void Server::projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> enemies)
+#include <iostream>
+
+void Server::spawnBoss(Registry& registry)
 {
-    Position projectile_pos_type = registry.getComponent(projectile, Position{});
-    std::pair<int, int> projectile_pos = projectile_pos_type.getPosition();
-
-    for (auto& enemy : enemies) {
-        ID enemy_id = registry.getComponent(enemy, ID{});
-        Position enemy_pos_type = registry.getComponent(enemy, Position{});
-        std::pair<int, int> enemy_pos = enemy_pos_type.getPosition();
-
-        if (projectile_pos.first < enemy_pos.first + 50 && projectile_pos.first + 50 > enemy_pos.first &&
-            projectile_pos.second < enemy_pos.second + 50 && projectile_pos.second + 50 > enemy_pos.second) {
-
-            registry.deleteById(projectile_id);
-            addMessage("DELETE " + std::to_string(projectile_id) + "\n");
-            registry.deleteById(enemy_id.getID());
-            addMessage("DELETE " + std::to_string(enemy_id.getID()) + "\n");
-            addMessage("PLAY_BOOM_ENEMIES");
-        }
-    }
-}
-
-void Server::playerProjectileMove(Registry& registry, Entity& entity, std::size_t id)
-{
-    if (registry.hasComponent(entity, Position()) == false || registry.hasComponent(entity, Speed()) == false)
+    Entity score = registry.getScore();
+    if (!registry.hasComponent(score, ScorePoint{}))
         return;
-    Position& positionComponent = registry.getComponent(entity, Position());
-    int speed = registry.getComponent(entity, Speed()).getSpeed();
-
-    if (positionComponent.getPosition().first > 800) {
-        registry.deleteById(id);
-        addMessage("DELETE " + std::to_string(id) + "\n");
-        return;
+    ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
+    if (scorePoint.getScorePoint() >= 10 && m_spawnBoss == 0) {
+        createBoss(registry);
+        m_spawnBoss = 1;
     }
-
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first + 1 * speed, positionComponent.getPosition().second));
-
-    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
-                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
-    addMessage(newPos);
-    registry.setEntity(entity, id);
 }
 
 void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
@@ -60,11 +31,7 @@ void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
     if (positionComponent.getPosition().first < -100) {
         addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
-        // for (auto& client : m_clients) {
-        //     damageThePlayer(registry, 3, client.getId());
-        // }
     }
-
     positionComponent.setPosition(
         std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second));
 
@@ -74,39 +41,168 @@ void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
     registry.setEntity(entity, id);
 }
 
+void Server::bossMove(Registry& registry, Entity& entity, std::size_t id)
+{
+    float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
+    Position& positionComponent = registry.getComponent(entity, Position());
+    if (positionComponent.getPosition().first <= 450) {
+        positionComponent.setPosition(std::make_pair(450, positionComponent.getPosition().second));
+    }
+    if (positionComponent.getPosition().first < -100) {
+        addMessage("DELETE " + std::to_string(id) + "\n");
+        registry.deleteById(id);
+    }
+    positionComponent.setPosition(
+        std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second));
+    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
+                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
+    registry.setEntity(entity, id);
+}
+
+void Server::enemyShootAndMove(Registry& registry, Entity& entity, std::size_t id)
+{
+    float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
+    Position& positionComponent = registry.getComponent(entity, Position());
+
+    if (positionComponent.getPosition().first < -100) {
+        addMessage("DELETE " + std::to_string(id) + "\n");
+        registry.deleteById(id);
+    }
+
+    std::vector<Entity> players = registry.getListEntities(Player);
+    Entity randomPlayer;
+    Position randomPlayerPos;
+    if (!players.empty()) {
+        srand(time(nullptr));
+        int randomIndex = rand() % players.size();
+        randomPlayer = players[randomIndex];
+        randomPlayerPos = registry.getComponent(randomPlayer, Position{});
+    }
+
+    if (positionComponent.getPosition().second < randomPlayerPos.getPosition().second)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second + 8));
+    else if (positionComponent.getPosition().second > randomPlayerPos.getPosition().second)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second - 8));
+    else
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second));
+
+    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
+                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
+    registry.setEntity(entity, id);
+}
+
+void Server::bossShootAndMove(Registry& registry, Entity& entity, std::size_t id)
+{
+    float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
+    Position& positionComponent = registry.getComponent(entity, Position());
+
+    if (positionComponent.getPosition().first <= 450) {
+        positionComponent.setPosition(std::make_pair(450, positionComponent.getPosition().second));
+    }
+    if (positionComponent.getPosition().first < -100) {
+        addMessage("DELETE " + std::to_string(id) + "\n");
+        registry.deleteById(id);
+    }
+
+    std::vector<Entity> players = registry.getListEntities(Player);
+    Entity randomPlayer;
+    Position randomPlayerPos;
+    if (!players.empty()) {
+        srand(time(nullptr));
+        int randomIndex = rand() % players.size();
+        randomPlayer = players[randomIndex];
+        randomPlayerPos = registry.getComponent(randomPlayer, Position{});
+    }
+
+    if (positionComponent.getPosition().second < randomPlayerPos.getPosition().second)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second + 8));
+    else if (positionComponent.getPosition().second > randomPlayerPos.getPosition().second)
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second - 8));
+    else
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second));
+
+    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
+                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
+    addMessage(newPos);
+    registry.setEntity(entity, id);
+}
+
+void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
+{
+    for (auto& enemy : enemies) {
+        m_registeryMutex.lock();
+        enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
+        m_registeryMutex.unlock();
+    }
+    for (auto& entity : boss) {
+        m_registeryMutex.lock();
+        bossMove(registry, entity, registry.getComponent(entity, ID{}).getID());
+        m_registeryMutex.unlock();
+    }
+    if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 20 && enemies.size() < 5 && m_gameStarted) {
+        std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
+        m_registeryMutex.lock();
+        this->createEnemy(registry);
+        m_registeryMutex.unlock();
+        m_clock = std::clock();
+    }
+    if (m_gameStarted) {
+        m_registeryMutex.lock();
+        spawnBoss(registry);
+        m_registeryMutex.unlock();
+    }
+}
+
+void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
+{
+    for (auto& enemy : enemies) {
+        m_registeryMutex.lock();
+        enemyShootAndMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
+        m_registeryMutex.unlock();
+    }
+    for (auto& entity : boss) {
+        m_registeryMutex.lock();
+        bossShootAndMove(registry, entity, registry.getComponent(entity, ID{}).getID());
+        m_registeryMutex.unlock();
+    }
+    if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && m_gameStarted) {
+        std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
+        m_registeryMutex.lock();
+        this->createEnemy(registry);
+        m_registeryMutex.unlock();
+        m_clock = std::clock();
+    }
+    if (m_gameStarted) {
+        m_registeryMutex.lock();
+        spawnBoss(registry);
+        m_registeryMutex.unlock();
+    }
+}
+
 void Server::GameLoop(Registry& registry)
 {
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         m_registeryMutex.lock();
-        std::vector<Entity> enemies = registry.getListEnemies();
-        std::vector<Entity> playersProjectiles = registry.getListPlayersProjectile();
+        std::vector<Entity> enemies = registry.getListEntities(Enemy);
+        std::vector<Entity> boss = registry.getListEntities(Boss);
         m_registeryMutex.unlock();
-        for (auto& enemy : enemies) {
-            m_registeryMutex.lock();
-            enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
-            m_registeryMutex.unlock();
-        }
-        for (auto& playerProjectile : playersProjectiles) {
-            m_registeryMutex.lock();
-            playerProjectileMove(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID());
-            projectileCollision(registry, playerProjectile, registry.getComponent(playerProjectile, ID{}).getID(), enemies);
-            m_registeryMutex.unlock();
-        }
-<<<<<<< HEAD
-        if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && gameStarted) {
 
-            std::cout << "New Enemy created in " << 1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC << "ms\n";
-            m_registeryMutex.lock();
-            this->createEnemy(registry);
-            m_registeryMutex.unlock();
-            m_clock = std::clock();
+        if (m_currentLevel == 1)
+            Level1_Loop(registry, enemies, boss);
+        else
+            Level2_Loop(registry, enemies, boss);
+        std::vector<std::string> msg = registry.systemsManager();
+        for (auto& message : msg) {
+            addMessage(message);
         }
-        // for (auto& playerProjectile : playersProjectiles) {
-        //     m_registeryMutex.lock();
-        //     m_registeryMutex.unlock();
-        // }
-=======
->>>>>>> refs/remotes/origin/Client
     }
 }

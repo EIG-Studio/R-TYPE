@@ -11,16 +11,16 @@
 #include "client.hpp"
 #include "entities.hpp"
 
-#include <bitset>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <deque>
 #include <iostream>
-#include <memory>
-#include <sstream>
-#include <thread>
-#include <utility>
+#include <ostream>
+#include <random>
+#include <string>
 #include <vector>
+
+#include <cstdlib>
 
 class Server
 {
@@ -34,17 +34,13 @@ public:
     void startSending();
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
-<<<<<<< HEAD
-    void createEnemy(Registry& registry);
-=======
-    void createEnnemy(Registry& registry);
->>>>>>> refs/remotes/origin/Client
-    void createBullet(Registry& registry, int posx, int posy);
-    void createBoss(Registry& registry);
     void spawnBoss(Registry& registry);
     void GameLoop(Registry& registry);
+    void Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
+    void Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
     void PlayerLoop(Registry& registry);
     void damageThePlayer(Registry& registry, int damage, int id);
+    void gameLoop(Registry& registry);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:
@@ -53,20 +49,15 @@ private:
     boost::asio::ip::udp::endpoint m_remoteEndpoint;
     boost::array<char, 128> m_recvBuf{};
     std::deque<TransferData> m_messages;
-<<<<<<< HEAD
-    std::mutex m_MessageMutex;
-=======
-    std::mutex m_mutex;
->>>>>>> refs/remotes/origin/Client
+    std::mutex m_messageMutex;
     std::mutex m_registeryMutex;
-    std::mutex m_ClientMutex;
+    std::mutex m_clientMutex;
     std::vector<Client> m_clients;
-    bool gameStarted = false;
-<<<<<<< HEAD
+    bool m_gameStarted = false;
+    int m_currentLevel = 1;
+    int m_spawnBoss = 0;
     std::clock_t m_clock;
-=======
->>>>>>> refs/remotes/origin/Client
-    unsigned char m_buffer[sizeof(TransferData)];
+    unsigned char m_buffer[sizeof(TransferData)]{};
 
     void handleReceivedData(
         const boost::system::error_code& error,
@@ -75,18 +66,19 @@ private:
         boost::asio::ip::udp::endpoint& remoteEndpoint);
     void addMessage(const std::string& message);
     std::size_t createPlayer(Registry& registry);
+    void createEnemy(Registry& registry);
+    void createBullet(Registry& registry, int posx, int posy);
+    void createBullet2(Registry& registry, int posx, int posy);
+    void createBoss(Registry& registry);
+    void createArrow(Registry& registry);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
-<<<<<<< HEAD
     void enemyMove(Registry& registry, Entity& entity, std::size_t id);
-    void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
-    void projectileCollision(Registry& registry, Entity& projectile, std::size_t projectile_id, std::vector<Entity> enemies);
+    void enemyShootAndMove(Registry& registry, Entity& entity, std::size_t id);
+    void bossMove(Registry& registry, Entity& entity, std::size_t id);
+    void bossShootAndMove(Registry& registry, Entity& entity, std::size_t id);
     void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
-=======
-    void ennemyMove(Registry& registry, Entity& entity, std::size_t id);
-    void playerProjectileMove(Registry& registry, Entity& entity, std::size_t id);
-    void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
-    void refreshClientRegistry(Registry& registry, int id);
->>>>>>> refs/remotes/origin/Client
+    void createWall(Registry& registry, int posx, int posy, int sizex, int sizey);
+    void sendMessage(TransferData data, Client& client);
 };

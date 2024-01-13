@@ -41,7 +41,6 @@ std::string getLocalIpAddress()
     return "Failed to retrieve IP address";
 }
 
-
 void handleWindowEvents(
     sf::Event& event,
     WindowManager& windowManager,
@@ -98,89 +97,6 @@ void updateFpsText(WindowManager& windowManager, sf::Text& fpsText, sf::Clock& c
     }
 }
 
-void menuChoice(
-    Menu& menu,
-    InLoopMenus& introMenu,
-    WindowManager& windowManager,
-    Music& music,
-    sf::Clock& clock,
-    ChoiceMenu& choiceMenu,
-    HostOrJoinMenu& hostOrJoinMenu,
-    LobbyMenu& lobbyMenu,
-    ButtonManager& buttonManager,
-    Game& game,
-    CommandsToServer& commandsToServer,
-    SettingMenu& settingMenu,
-    InLoopGame& inLoopGame,
-    sf::Event& event,
-    Sprite& sprite,
-    sf::Clock& onGameClock,
-    Registry& registry,
-    IpAdress& ipAdress)
-{
-    if (menu.onMenu) {
-        introMenu.introMenuInLoop(menu, windowManager, music, clock);
-    } else if (choiceMenu.onChoice) {
-        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
-    } else if (hostOrJoinMenu.onHostOrJoin) {
-<<<<<<< HEAD
-        introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
-    } else if (lobbyMenu.onLobby) {
-        introMenu.lobbyMenuInLoop(lobbyMenu, windowManager, hostOrJoinMenu, game, commandsToServer, buttonManager, ipAdress);
-=======
-        introMenu.hostOrJoinMenuInLoop(
-            hostOrJoinMenu,
-            windowManager,
-            choiceMenu,
-            lobbyMenu,
-            game,
-            commandsToServer,
-            buttonManager.getRetourButton(),
-            buttonManager.getHostButton(),
-            buttonManager.getJoinButton(),
-            event,
-            ipAdress);
-    } else if (lobbyMenu.onLobby) {
-        introMenu.lobbyMenuInLoop(
-            lobbyMenu,
-            windowManager,
-            hostOrJoinMenu,
-            game,
-            commandsToServer,
-            buttonManager.getRetourButton(),
-            buttonManager.getStartButton(),
-            ipAdress);
->>>>>>> refs/remotes/origin/Client
-    } else if (settingMenu.onSetting) {
-        introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
-    } else if (game.onGame) {
-<<<<<<< HEAD
-        inLoopGame
-            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
-=======
-        inLoopGame.gameInLoop(
-            event,
-            windowManager,
-            game,
-            music,
-            commandsToServer,
-            sprite,
-            onGameClock,
-            registry,
-            buttonManager.getResumeButton(),
-            buttonManager.getToMenuButton(),
-            choiceMenu,
-            ipAdress);
->>>>>>> refs/remotes/origin/Client
-    }
-}
-
-
-void myLog(const std::string& message)
-{
-    std::cout << "[LOG] " << message << std::endl;
-}
-
 int main()
 {
     WindowManager windowManager;
@@ -207,6 +123,10 @@ int main()
     game.setPath(sprite);
     Music music;
     music.setPath(sprite);
+    YouWinMenu youWinMenu;
+    youWinMenu.setPath(sprite);
+    YouLooseMenu youLooseMenu;
+    youLooseMenu.setPath(sprite);
 
     int frameCount = 0;
     sf::Text fpsText;
@@ -234,16 +154,22 @@ int main()
     ipAddressText.setString(ipAddress);
     lobbyMenu.setIpAdress(ipAddressText);
 
-<<<<<<< HEAD
-=======
-    sf::Text text;
-    text.setFont(windowManager.getFont());
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 2);
-    hostOrJoinMenu.setInputText(text);
+    sf::Text youWinText;
+    youWinText.setFont(windowManager.getFont());
+    youWinText.setCharacterSize(24);
+    youWinText.setFillColor(sf::Color::White);
+    youWinText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+    youWinText.setString("You Win !");
+    youWinMenu.setYouWinText(youWinText);
 
->>>>>>> refs/remotes/origin/Client
+    sf::Text youLooseText;
+    youLooseText.setFont(windowManager.getFont());
+    youLooseText.setCharacterSize(24);
+    youLooseText.setFillColor(sf::Color::White);
+    youLooseText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+    youLooseText.setString("You Loose !");
+    youLooseMenu.setYouLooseText(youLooseText);
+
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
     Registry registry = Registry();
@@ -266,6 +192,8 @@ int main()
             commandsToServer,
             settingMenu,
             inLoopGame,
+            youWinMenu,
+            youLooseMenu,
             event,
             sprite,
             onGameClock,

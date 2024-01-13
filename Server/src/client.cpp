@@ -7,6 +7,8 @@
 
 #include "client.hpp"
 
+#include "server.hpp"
+
 bool Client::operator==(const boost::asio::ip::udp::endpoint& endpoint) const
 {
     return m_remoteEndpoint == endpoint;
@@ -37,22 +39,21 @@ bool Client::isAlive() const
     return m_alive;
 }
 
-bool Client::operator==(const boost::asio::ip::udp::endpoint& endpoint) const
+bool Server::isClient(const boost::asio::ip::udp::endpoint& clientEndpoint)
 {
-    return m_remoteEndpoint == endpoint;
+    std::any_of(m_clients.begin(), m_clients.end(), [clientEndpoint](const auto& client) {
+        return client == clientEndpoint;
+    });
+
+    return false;
 }
 
-boost::asio::ip::udp::endpoint Client::getEndpoint() const
+void Server::addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id)
 {
-    return m_remoteEndpoint;
-}
-
-void Client::setId(std::size_t id)
-{
-    m_id = id;
-}
-
-std::size_t Client::getId() const
-{
-    return m_id;
+    if (find(m_clients.begin(), m_clients.end(), clientEndpoint) == m_clients.end()) {
+        Client client(clientEndpoint, id);
+        m_clients.push_back(client);
+        sendMessage(TransferData{.command = LOGIN_OK, .args = {static_cast<int>(id), 0, 0, 0}}, client);
+        std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
+    }
 }

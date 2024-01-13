@@ -11,7 +11,6 @@
 
 Sprite::Sprite()
 {
-<<<<<<< HEAD
     this->m_pathLogo = "../Client/assets/MainMenu/samuraiLogo.png";
     this->m_pathTitle = "../Client/assets/MainMenu/samuraiTitle.png";
     this->m_pathFont = "../Client/assets/Fonts/retro.ttf";
@@ -31,22 +30,6 @@ Sprite::Sprite()
     this->m_pathBoomEnemies = "../Client/assets/Songs/enemiesBoom.wav";
     this->m_pathKillPlayer = "../Client/assets/Songs/death.wav";
     this->easterEgg = false;
-=======
-    this->m_pathLogo          = "../Client/assets/MainMenu/samuraiLogo.png";
-    this->m_pathTitle         = "../Client/assets/MainMenu/samuraiTitle.png";
-    this->m_pathFont          = "../Client/assets/Fonts/retro.ttf";
-    this->m_pathCursor        = "../Client/assets/Cursor/cursor_64.png";
-    this->m_pathBack          = "../Client/assets/Background/city_1/1.png";
-    this->m_pathVeryBackBuild = "../Client/assets/Background/city_1/2.png";
-    this->m_pathBackBuild     = "../Client/assets/Background/city_1/3.png";
-    this->m_pathMidBuild      = "../Client/assets/Background/city_1/4.png";
-    this->m_pathFrontBuild    = "../Client/assets/Background/city_1/5.png";
-    this->m_pathPlayer        = "../Client/assets/Cars/189_neutral.png";
-    this->m_pathEnnemy        = "../Client/assets/Cars/cars/190.png";
-    this->m_pathMainSong      = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
-    this->m_pathShootSound    = "../Client/assets/Songs/shoot.wav";
-    this->easterEgg           = false;
->>>>>>> refs/remotes/origin/Client
 }
 
 //     setter     //
@@ -174,14 +157,4 @@ std::string Sprite::getBoomEnemiesPath()
 std::string Sprite::getKillPlayerPath()
 {
     return this->m_pathKillPlayer;
-}
-
-std::string Sprite::getMainSongPath()
-{
-    return this->m_pathMainSong;
-}
-
-std::string Sprite::getShootSoundPath()
-{
-    return this->m_pathShootSound;
 }

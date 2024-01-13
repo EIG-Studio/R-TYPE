@@ -7,13 +7,11 @@
 
 #pragma once
 
-#include "Systems.hpp"
 #include "entities.hpp"
 #include "ipAdress.hpp"
 #include "menu/inGame.hpp"
 #include "menu/menus.hpp"
 #include "window.hpp"
-#include "ipAdress.hpp"
 
 class InLoopGame
 {
@@ -30,10 +28,13 @@ public:
         Registry& registry,
         ButtonManager& buttonManager,
         ChoiceMenu& choiceMenu,
+        YouWinMenu& youWinMenu,
+        YouLooseMenu& youLooseMenu,
         IpAdress& ipAdress);
     void updateScore(WindowManager& windowManager, Registry& registry);
 
     sf::Text scoreText;
+
 private:
     void refreshRegistry(Registry& registry, CommandsToServer& commandsToServer, IpAdress& ipAdress);
     void pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdress);

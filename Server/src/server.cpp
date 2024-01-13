@@ -9,94 +9,21 @@
 
 #include "entities.hpp"
 
-void Server::startListening(Registry& registry)
-{
-    auto receiveCallback = [this, &registry](const boost::system::error_code& error, std::size_t bytesReceived) {
-        m_registeryMutex.lock();
-        handleReceivedData(error, bytesReceived, registry, m_remoteEndpoint);
-        m_registeryMutex.unlock();
-        startListening(registry);
-    };
-    m_socket.async_receive_from(boost::asio::buffer(m_buffer), m_remoteEndpoint, receiveCallback);
-    m_ioService.run();
-}
-
-void Server::startSending()
-{
-    TransferData data;
-    while (true) {
-        data = {.command = EMPTY};
-<<<<<<< HEAD
-        this->m_MessageMutex.lock();
-        if (!m_messages.empty()) {
-            data = m_messages.back();
-        }
-        this->m_MessageMutex.unlock();
-        if (!(data.command == EMPTY)) {
-            sendMessage(data);
-            this->m_MessageMutex.lock();
-=======
-        this->m_mutex.lock();
-        if (!m_messages.empty()) {
-            data = m_messages.back();
-        }
-        this->m_mutex.unlock();
-        if (!(data.command == EMPTY)) {
-            sendMessage(data);
-            this->m_mutex.lock();
->>>>>>> refs/remotes/origin/Client
-            m_messages.pop_back();
-            this->m_MessageMutex.unlock();
-        }
-    }
-}
-
-void Server::sendMessage(TransferData data)
-{
-    unsigned char buffer[sizeof(TransferData)];
-    std::memcpy(buffer, &data, sizeof(TransferData));
-
-    for (const auto& client : m_clients) {
-        m_socket.async_send_to(boost::asio::buffer(buffer), client.getEndpoint(), [](const boost::system::error_code&, std::size_t) {
-        });
-    }
-}
-
-<<<<<<< HEAD
-bool Server::isClient(const boost::asio::ip::udp::endpoint& clientEndpoint)
-{
-    for (const auto& client : m_clients) {
-        if (client == clientEndpoint) {
-            return true;
-        }
-    }
-    return false;
-}
-
-=======
->>>>>>> refs/remotes/origin/Client
-void Server::addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id)
-{
-    if (find(m_clients.begin(), m_clients.end(), clientEndpoint) == m_clients.end()) {
-        Client client(clientEndpoint, id);
-        m_clients.push_back(client);
-        std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
-    }
-}
+#include <iostream>
 
 void Server::PlayerLoop(Registry& registry)
 {
-    while (1) {
+    while (true) {
         std::vector<Client> clients;
-        m_ClientMutex.lock();
+        m_clientMutex.lock();
         for (auto& client : m_clients) {
             if (registry.hasEntity(client.getId())) {
                 clients.push_back(client);
             }
         }
         m_clients = clients;
-        m_ClientMutex.unlock();
-        if (m_clients.size() == 0 && gameStarted) {
+        m_clientMutex.unlock();
+        if (m_clients.empty() && m_gameStarted) {
             std::vector<std::size_t> ids;
             m_registeryMutex.lock();
             for (Entity& entity : registry.getListEntities()) {
@@ -105,9 +32,10 @@ void Server::PlayerLoop(Registry& registry)
             for (std::size_t id : ids) {
                 registry.deleteById(id);
             }
+            m_spawnBoss = 0;
             m_registeryMutex.unlock();
-            gameStarted = false;
-            std::cout << "No more clients, reset donne" << std::endl;
+            m_gameStarted = false;
+            std::cout << "No more clients, reset done" << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::seconds(2));
         for (auto& client : m_clients) {
@@ -118,9 +46,34 @@ void Server::PlayerLoop(Registry& registry)
                 registry.deleteById(client.getId());
                 m_registeryMutex.unlock();
             }
-            m_ClientMutex.lock();
+            m_clientMutex.lock();
             client.setAlive(false);
-            m_ClientMutex.unlock();
+            m_clientMutex.unlock();
         }
     }
+}
+
+bool Server::startGame(Registry& registry)
+{
+    std::cout << "Game started" << std::endl;
+    createEnemy(registry);
+    createEnemy(registry);
+    createEnemy(registry);
+    createEnemy(registry);
+    createWall(registry, 800, -10, 100, 600);
+    createWall(registry, -100, -10, 90, 600);
+    createWall(registry, -10, -100, 800, 100);
+    createWall(registry, -10, 625, 800, 100);
+
+    Entity entityScore = registry.createEntity();
+    ID scoreId = registry.getComponent(entityScore, ID());
+    Type type = HUD;
+    ScorePoint score{};
+    score.setScorePoint(0);
+    entityScore = registry.addComponent(entityScore, type);
+    entityScore = registry.addComponent(entityScore, score);
+    addMessage("NEW_HUD " + std::to_string(scoreId.getID()) + " " + std::to_string(score.getScorePoint()) + "\n");
+    registry.setEntity(entityScore, scoreId);
+    std::cout << "CREATE\n";
+    return true;
 }

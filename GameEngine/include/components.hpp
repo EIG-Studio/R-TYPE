@@ -54,7 +54,7 @@ public:
     ~ScorePoint() = default;
 
     int getScorePoint() const;
-    void setScorePoint(int m_score);
+    void setScorePoint(int score);
 
 private:
     float m_score;
@@ -203,6 +203,8 @@ enum EntityType
     Enemy_Projectile,
     Wall,
     HUD,
+    Arrow_Player,
+    Boss,
     Unknow
 };
 
@@ -231,6 +233,9 @@ inline std::ostream& operator<<(std::ostream& os, const Type& type)
             break;
         case EntityType::Enemy:
             os << "Enemy";
+            break;
+        case EntityType::Boss:
+            os << "Boss";
             break;
         case EntityType::Player_Projectile:
             os << "Player_Projectile";
@@ -263,9 +268,15 @@ public:
     sf::Sprite& getRenderer();
     sf::Texture getTexture() const;
 
+    std::string getPath()
+    {
+        return m_path;
+    }
+
     void setRenderer(const std::string& texturePath);
 
 private:
+    std::string m_path;
     sf::Texture m_texture;
     sf::Sprite m_sprite;
 };

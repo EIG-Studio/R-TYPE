@@ -10,6 +10,7 @@
 #include "entities.hpp"
 #include "server.hpp"
 
+#include <iostream>
 #include <thread>
 
 int main()
