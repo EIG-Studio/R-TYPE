@@ -7,12 +7,6 @@
 
 #include "button.hpp"
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
 Button::Button(
     const sf::Vector2f& size,
     const sf::Vector2f& position,
@@ -42,13 +36,8 @@ m_font(font)
 
 bool Button::checkClick(float cursorX, float cursorY)
 {
-    bool clicked;
-    if (m_shape.getGlobalBounds().contains(cursorX, cursorY) &&
-        (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0))) {
-        clicked = true;
-    } else {
-        clicked = false;
-    }
+    bool clicked = m_shape.getGlobalBounds().contains(cursorX, cursorY) &&
+                   (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0));
 
     if (m_shape.getGlobalBounds().contains(cursorX, cursorY) &&
         (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, 0)))

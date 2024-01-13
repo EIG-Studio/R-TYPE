@@ -261,36 +261,34 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
     }
 }
 
-void Game::moveEnemies(Registry& registry)
+void Game::moveEnemies(Registry& registry) const
 {
     const std::vector<Entity>& ennemies = registry.getListEntities(Enemy);
 
-    for (auto& ennemy : ennemies) {
-        Entity curr_ennemy = ennemy;
-        Position& positionComponent = registry.getComponent(curr_ennemy, Position{});
+    for (const auto& ennemy : ennemies) {
+        Entity currEnnemy = ennemy;
+        Position& positionComponent = registry.getComponent(currEnnemy, Position{});
         if (current_level == 1)
             positionComponent.setPosition(
                 std::make_pair(positionComponent.getPosition().first - 9, positionComponent.getPosition().second));
         else
             positionComponent.setPosition(
                 std::make_pair(positionComponent.getPosition().first - 1, positionComponent.getPosition().second));
-        registry.setEntity(curr_ennemy, registry.getComponent(curr_ennemy, ID{}).getID());
+        registry.setEntity(currEnnemy, registry.getComponent(currEnnemy, ID{}).getID());
     }
-    std::cout << "ENNEMIES\n";
 }
 
 void Game::moveBullets(Registry& registry)
 {
     const std::vector<Entity>& bullets = registry.getListEntities(Player_Projectile);
 
-    for (auto& bullet : bullets) {
-        Entity curr_bullet = bullet;
-        Position& positionComponent = registry.getComponent(curr_bullet, Position{});
+    for (const auto& bullet : bullets) {
+        Entity currBullet = bullet;
+        Position& positionComponent = registry.getComponent(currBullet, Position{});
         positionComponent.setPosition(
             std::make_pair(positionComponent.getPosition().first + 15, positionComponent.getPosition().second));
-        registry.setEntity(curr_bullet, registry.getComponent(curr_bullet, ID{}).getID());
+        registry.setEntity(currBullet, registry.getComponent(currBullet, ID{}).getID());
     }
-    std::cout << "ENNEMIES\n";
 }
 
 void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)

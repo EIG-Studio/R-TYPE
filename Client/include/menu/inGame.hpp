@@ -35,8 +35,8 @@ public:
         CommandsToServer& commandsToServer,
         const Sprite& mSprite,
         IpAdress& ipAdress);
-    void moveEnemies(Registry& registry);
     void moveBullets(Registry& registry);
+    void moveEnemies(Registry& registry) const;
     void movePlayerProjectile(CommandsToServer& commandsToServer, Registry& registry, const std::vector<Entity>& bullets);
     void handleMovement(
         Registry& registry,
@@ -113,5 +113,4 @@ private:
 
     sf::Text m_healthPointText;
     int m_healthPointTemp;
-
 };
