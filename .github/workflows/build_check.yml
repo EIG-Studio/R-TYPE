@@ -42,7 +42,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy libboost-all-dev
-          wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install clang-16 clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
+          wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install -y clang-16 clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
 
       - name: Checkout
         uses: actions/checkout@v3
