@@ -123,6 +123,10 @@ int main()
     game.setPath(sprite);
     Music music;
     music.setPath(sprite);
+    YouWinMenu youWinMenu;
+    youWinMenu.setPath(sprite);
+    YouLooseMenu youLooseMenu;
+    youLooseMenu.setPath(sprite);
 
     int frameCount = 0;
     sf::Text fpsText;
@@ -172,6 +176,8 @@ int main()
             commandsToServer,
             settingMenu,
             inLoopGame,
+            youWinMenu,
+            youLooseMenu,
             event,
             sprite,
             onGameClock,

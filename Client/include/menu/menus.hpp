@@ -131,3 +131,47 @@ private:
 
     sf::Text m_ipAddressText;
 };
+
+class YouWinMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    YouWinMenu();
+    ~YouWinMenu() override = default;
+    void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
+    bool onWin;
+
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite m_cursorSprite;
+    int m_tempMouseX;
+    int m_tempMouseY;
+};
+
+class YouLooseMenu : public sf::Drawable, public sf::Transformable
+{
+public:
+    YouLooseMenu();
+    ~YouLooseMenu() override = default;
+    void setPath(Sprite mSprite);
+    void setCursorPosition(sf::RenderWindow& window);
+    float getCursorPosX();
+    float getCursorPosY();
+    bool onLoose;
+
+private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::Texture m_logoSamuraiTexture;
+    sf::Sprite m_logoSamuraiSprite;
+    sf::Texture m_cursorTexture;
+    sf::Sprite m_cursorSprite;
+    int m_tempMouseX;
+    int m_tempMouseY;
+};

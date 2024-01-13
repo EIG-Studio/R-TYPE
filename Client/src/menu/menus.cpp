@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2024
+** R-TYPE
+** File description:
+** menus
+*/
+
 #include "menu/menus.hpp"
 
 #include "button.hpp"
@@ -390,6 +397,146 @@ sf::Text LobbyMenu::getIpAdress()
 }
 
 void LobbyMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+    states.texture = &m_logoSamuraiTexture;
+    states.texture = &m_cursorTexture;
+    target.draw(m_logoSamuraiSprite, states);
+    target.draw(m_cursorSprite, states);
+}
+
+//----------You Win Menu----------//
+YouWinMenu::YouWinMenu()
+{
+    onWin = false;
+    m_tempMouseX = 0;
+    m_tempMouseY = 0;
+}
+
+void YouWinMenu::setPath(Sprite mSprite)
+{
+    this->m_logoSamuraiTexture.loadFromFile(mSprite.getLogoPath());
+    this->m_logoSamuraiSprite.setTexture(this->m_logoSamuraiTexture);
+    this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
+    this->m_cursorSprite.setTexture(this->m_cursorTexture);
+
+    m_logoSamuraiSprite
+        .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
+    m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
+    m_logoSamuraiSprite.setPosition(20, 20);
+    m_cursorSprite.setPosition(0, 0);
+}
+
+void YouWinMenu::setCursorPosition(sf::RenderWindow& window)
+{
+    if (sf::Mouse::getPosition(window).x != this->m_tempMouseX && sf::Mouse::getPosition(window).y != this->m_tempMouseY) {
+        this->m_cursorSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+        this->m_tempMouseX = sf::Mouse::getPosition(window).x;
+        this->m_tempMouseY = sf::Mouse::getPosition(window).y;
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
+        if (this->m_cursorSprite.getPosition().y > 0) {
+            this->m_cursorSprite.move(0, -5);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
+        if (this->m_cursorSprite.getPosition().x < 800 - 32) {
+            this->m_cursorSprite.move(5, 0);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
+        if (this->m_cursorSprite.getPosition().y < 600 - 32) {
+            this->m_cursorSprite.move(0, 5);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
+        if (this->m_cursorSprite.getPosition().x > 0) {
+            this->m_cursorSprite.move(-5, 0);
+        }
+    }
+}
+
+float YouWinMenu::getCursorPosX()
+{
+    return this->m_cursorSprite.getPosition().x;
+}
+
+float YouWinMenu::getCursorPosY()
+{
+    return this->m_cursorSprite.getPosition().y;
+}
+
+void YouWinMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    states.transform *= getTransform();
+    states.texture = &m_logoSamuraiTexture;
+    states.texture = &m_cursorTexture;
+    target.draw(m_logoSamuraiSprite, states);
+    target.draw(m_cursorSprite, states);
+}
+
+//----------You Loose Menu----------//
+YouLooseMenu::YouLooseMenu()
+{
+    onLoose = false;
+    m_tempMouseX = 0;
+    m_tempMouseY = 0;
+}
+
+void YouLooseMenu::setPath(Sprite mSprite)
+{
+    this->m_logoSamuraiTexture.loadFromFile(mSprite.getLogoPath());
+    this->m_logoSamuraiSprite.setTexture(this->m_logoSamuraiTexture);
+    this->m_cursorTexture.loadFromFile(mSprite.getCursorPath());
+    this->m_cursorSprite.setTexture(this->m_cursorTexture);
+
+    m_logoSamuraiSprite
+        .setScale(87 / m_logoSamuraiSprite.getLocalBounds().width, 100 / m_logoSamuraiSprite.getLocalBounds().height);
+    m_cursorSprite.setScale(32 / m_cursorSprite.getLocalBounds().width, 32 / m_cursorSprite.getLocalBounds().height);
+    m_logoSamuraiSprite.setPosition(20, 20);
+    m_cursorSprite.setPosition(0, 0);
+}
+
+void YouLooseMenu::setCursorPosition(sf::RenderWindow& window)
+{
+    if (sf::Mouse::getPosition(window).x != this->m_tempMouseX && sf::Mouse::getPosition(window).y != this->m_tempMouseY) {
+        this->m_cursorSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+        this->m_tempMouseX = sf::Mouse::getPosition(window).x;
+        this->m_tempMouseY = sf::Mouse::getPosition(window).y;
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) {
+        if (this->m_cursorSprite.getPosition().y > 0) {
+            this->m_cursorSprite.move(0, -5);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) {
+        if (this->m_cursorSprite.getPosition().x < 800 - 32) {
+            this->m_cursorSprite.move(5, 0);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) {
+        if (this->m_cursorSprite.getPosition().y < 600 - 32) {
+            this->m_cursorSprite.move(0, 5);
+        }
+    }
+    if (sf::Joystick::getAxisPosition(0, sf::Joystick::X) < -20) {
+        if (this->m_cursorSprite.getPosition().x > 0) {
+            this->m_cursorSprite.move(-5, 0);
+        }
+    }
+}
+
+float YouLooseMenu::getCursorPosX()
+{
+    return this->m_cursorSprite.getPosition().x;
+}
+
+float YouLooseMenu::getCursorPosY()
+{
+    return this->m_cursorSprite.getPosition().y;
+}
+
+void YouLooseMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
     states.texture = &m_logoSamuraiTexture;
