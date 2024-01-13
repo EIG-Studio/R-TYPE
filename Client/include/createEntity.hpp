@@ -13,7 +13,7 @@ void updatePosition(Registry& registry, int id, int xPos, int yPos);
 void updateHealth(Registry& registry, int id, int health);
 void createPlayer(Registry& registry, int id, int xPos, int yPos, int healthPoint);
 void createEnemy(Registry& registry, int id, int xPos, int yPos);
-void createBoss(Registry& registry, int id, int xPos, int yPos);
+void createBoss(Registry& registry, int id, int xPos, int yPos, int healthPoint);
 void createPlayerProjectile(Registry& registry, int id, int xPos, int yPos);
 void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos);
 void createHud(Registry& registry, int id, int dataScore);
