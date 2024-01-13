@@ -466,6 +466,16 @@ float YouWinMenu::getCursorPosY()
     return this->m_cursorSprite.getPosition().y;
 }
 
+void YouWinMenu::setYouWinText(sf::Text mYouWinText)
+{
+    this->m_youWinText = std::move(mYouWinText);
+}
+
+sf::Text YouWinMenu::getYouWinText()
+{
+    return m_youWinText;
+}
+
 void YouWinMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
@@ -534,6 +544,16 @@ float YouLooseMenu::getCursorPosX()
 float YouLooseMenu::getCursorPosY()
 {
     return this->m_cursorSprite.getPosition().y;
+}
+
+void YouLooseMenu::setYouLooseText(sf::Text mYouLooseText)
+{
+    this->m_youLooseText = std::move(mYouLooseText);
+}
+
+sf::Text YouLooseMenu::getYouLooseText()
+{
+    return m_youLooseText;
 }
 
 void YouLooseMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const

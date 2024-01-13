@@ -191,6 +191,7 @@ void InLoopMenus::youWinMenuInLoop(YouWinMenu& youWinMenu, WindowManager& window
         choiceMenu.onChoice = true;
     }
     buttonManager.getRetourButton().draw(windowManager.getWindow());
+    windowManager.getWindow().draw(youWinMenu.getYouWinText());
     windowManager.getWindow().draw(youWinMenu);
 }
 
@@ -207,6 +208,7 @@ void InLoopMenus::youLooseMenuInLoop(
         choiceMenu.onChoice = true;
     }
     buttonManager.getRetourButton().draw(windowManager.getWindow());
+    windowManager.getWindow().draw(youLooseMenu.getYouLooseText());
     windowManager.getWindow().draw(youLooseMenu);
 }
 
