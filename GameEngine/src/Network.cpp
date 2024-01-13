@@ -8,7 +8,6 @@
 
 std::map<std::string, COMMAND> commandMap =
     {{"EMPTY", EMPTY},
-     {"DELETE", DELETE},
      {"LOGIN", LOGIN},
      {"UP", UP},
      {"DOWN", DOWN},
