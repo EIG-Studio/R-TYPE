@@ -62,7 +62,7 @@ bool Server::startGame(Registry& registry)
     createWall(registry, 800, -10, 100, 600);
     createWall(registry, -100, -10, 90, 600);
     createWall(registry, -10, -100, 800, 100);
-    createWall(registry, -10, 600, 800, 100);
+    createWall(registry, -10, 625, 800, 100);
 
     Entity entityScore = registry.createEntity();
     ID scoreId = registry.getComponent(entityScore, ID());
