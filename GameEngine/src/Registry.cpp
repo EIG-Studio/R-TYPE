@@ -73,15 +73,15 @@ std::vector<std::string> Registry::systemsManager()
         return messages;
     bool score = hasScore();
     for (const Entity& entity : m_entities) {
-        std::string message = "";
+        std::string message;
         // shootingSystem(entity, *this);
         message = movementSystem(entity, *this);
-        if (message != "") {
+        if (!message.empty()) {
             messages.push_back(message);
             message = "";
         }
         message = collisionSystem(entity, m_entities, *this);
-        if (message != "") {
+        if (!message.empty()) {
             messages.push_back(message);
             message = "";
         }
@@ -285,6 +285,7 @@ void Registry::deleteById(int id)
 std::vector<Entity> Registry::getListEntities()
 {
     std::vector<Entity> enemies;
+    enemies.reserve(m_entities.size());
     for (auto& entity : m_entities) {
         enemies.push_back(entity);
     }

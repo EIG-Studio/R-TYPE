@@ -51,7 +51,7 @@ public:
     bool hasEntityType(Type type);
     std::vector<Entity> getListEntities();
     std::vector<Entity> getListEntities(EntityType type);
-     void deleteById(int id);
+    void deleteById(int id);
     void destroyEnemy(std::vector<Entity> enemyList);
     template <typename T>
     Entity addComponent(Entity entity, T component);
@@ -59,7 +59,6 @@ public:
     void removeComponent(Entity entity, T component);
     template <typename T>
     T& getComponentT(Entity& entity, T component, const char* file, const char* fn, int line);
-    // std::string systemsManager();
     std::vector<std::string> systemsManager();
     std::string systemsManager(sf::RenderWindow& window);
 

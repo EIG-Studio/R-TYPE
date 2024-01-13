@@ -70,7 +70,7 @@ public:
     bool onPause;
     bool healthPointFirst{false};
     bool hasFocus{false};
-    int current_level = 1;
+    int currentLevel = 1;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

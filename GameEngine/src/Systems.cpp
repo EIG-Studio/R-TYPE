@@ -169,10 +169,7 @@ bool isCollision(
     int bottom2 = pos2.second + size2.second;
 
     // Check for collision
-    if (right1 >= left2 && left1 <= right2 && bottom1 >= top2 && top1 <= bottom2) {
-        return true;
-    }
-    return false;
+    return right1 >= left2 && left1 <= right2 && bottom1 >= top2 && top1 <= bottom2;
 }
 
 bool checkCollision(Entity entity, Entity otherEntity, Registry& registry)
@@ -223,10 +220,10 @@ std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registr
     return "";
 }
 
-void iaSystem(Entity entity, Registry& registry)
-{
-    // Implementation for AI system
-}
+// void iaSystem(Entity entity, Registry& registry)
+// {
+//     // Implementation for AI system
+// }
 
 void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
