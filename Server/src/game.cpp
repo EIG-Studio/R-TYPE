@@ -17,7 +17,7 @@ void Server::spawnBoss(Registry& registry)
     if (!registry.hasComponent(score, ScorePoint{}))
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
-    if (scorePoint.getScorePoint() >= 10 && m_spawnBoss == 0) {
+    if (scorePoint.getScorePoint() >= 0 && m_spawnBoss == 0) {
         createBoss(registry);
         m_spawnBoss = 1;
     }
@@ -43,19 +43,31 @@ void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
 
 void Server::bossMove(Registry& registry, Entity& entity, std::size_t id)
 {
-    float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
-    Position& positionComponent = registry.getComponent(entity, Position());
-    if (positionComponent.getPosition().first <= 450) {
-        positionComponent.setPosition(std::make_pair(450, positionComponent.getPosition().second));
+    int bossSpeed = registry.getComponent(entity, Speed{}).getSpeed();
+    int threshold = bossSpeed;
+    Position& bossPos = registry.getComponent(entity, Position());
+
+    if (bossPos.getPosition().first <= 500) {
+        bossPos.setPosition(std::make_pair(500, bossPos.getPosition().second));
     }
-    if (positionComponent.getPosition().first < -100) {
-        addMessage("DELETE " + std::to_string(id) + "\n");
-        registry.deleteById(id);
+
+    Entity randomPlayer = registry.getPlayer();
+    Position randomPlayerPos = registry.getComponent(randomPlayer, Position{});
+
+    int deltaY = randomPlayerPos.getPosition().second - bossPos.getPosition().second;
+    int futureBossPosY = bossPos.getPosition().second;
+
+    if (std::abs(deltaY) > threshold) {
+        if (futureBossPosY < randomPlayerPos.getPosition().second)
+            futureBossPosY += bossSpeed;
+        else
+            futureBossPosY -= bossSpeed;
     }
-    positionComponent.setPosition(
-        std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, positionComponent.getPosition().second));
-    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
-                         " " + std::to_string(positionComponent.getPosition().second) + "\n";
+
+    bossPos.setPosition(std::make_pair(bossPos.getPosition().first - bossSpeed, futureBossPosY));
+
+    std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(bossPos.getPosition().first) + " " +
+                         std::to_string(futureBossPosY) + "\n";
     addMessage(newPos);
     registry.setEntity(entity, id);
 }
@@ -137,10 +149,12 @@ void Server::bossShootAndMove(Registry& registry, Entity& entity, std::size_t id
 
 void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {
-    for (auto& enemy : enemies) {
-        m_registeryMutex.lock();
-        enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
-        m_registeryMutex.unlock();
+    if (m_spawnBoss == 0) {
+        for (auto& enemy : enemies) {
+            m_registeryMutex.lock();
+            enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
+            m_registeryMutex.unlock();
+        }
     }
     for (auto& entity : boss) {
         m_registeryMutex.lock();

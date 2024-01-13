@@ -167,7 +167,7 @@ int main()
     youLooseText.setCharacterSize(24);
     youLooseText.setFillColor(sf::Color::White);
     youLooseText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
-    youLooseText.setString("You Loose !");
+    youLooseText.setString("You Lose !");
     youLooseMenu.setYouLooseText(youLooseText);
 
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
