@@ -35,12 +35,11 @@ public:
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
     void spawnBoss(Registry& registry);
-    void GameLoop(Registry& registry);
-    void Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
-    void Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
-    void PlayerLoop(Registry& registry);
-    void damageThePlayer(Registry& registry, int damage, int id);
     void gameLoop(Registry& registry);
+    void level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
+    void level2Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
+    void playerLoop(Registry& registry);
+    void damageThePlayer(Registry& registry, int damage, int id);
     bool isClient(const boost::asio::ip::udp::endpoint& clientEndpoint);
 
 private:

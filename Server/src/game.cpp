@@ -135,7 +135,7 @@ void Server::bossShootAndMove(Registry& registry, Entity& entity, std::size_t id
     registry.setEntity(entity, id);
 }
 
-void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
+void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {
     for (auto& enemy : enemies) {
         m_registeryMutex.lock();
@@ -161,7 +161,7 @@ void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::v
     }
 }
 
-void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
+void Server::level2Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {
     for (auto& enemy : enemies) {
         m_registeryMutex.lock();
@@ -187,7 +187,7 @@ void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::v
     }
 }
 
-void Server::GameLoop(Registry& registry)
+void Server::gameLoop(Registry& registry)
 {
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -197,9 +197,9 @@ void Server::GameLoop(Registry& registry)
         m_registeryMutex.unlock();
 
         if (m_currentLevel == 1)
-            Level1_Loop(registry, enemies, boss);
+            level1Loop(registry, enemies, boss);
         else
-            Level2_Loop(registry, enemies, boss);
+            level2Loop(registry, enemies, boss);
         std::vector<std::string> msg = registry.systemsManager();
         for (auto& message : msg) {
             addMessage(message);

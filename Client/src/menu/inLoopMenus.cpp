@@ -122,7 +122,7 @@ void levelOneConfig(Game& game, Sprite& sprite)
     sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
     sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
     game.setPath(sprite);
-    game.current_level = 1;
+    game.currentLevel = 1;
 }
 
 void levelTwoConfig(Game& game, Sprite& sprite)
@@ -133,7 +133,7 @@ void levelTwoConfig(Game& game, Sprite& sprite)
     sprite.setMidBuildPath("../Client/assets/Background/city_7/4.png");
     sprite.setFrontBuildPath("../Client/assets/Background/city_7/5.png");
     game.setPath(sprite);
-    game.current_level = 2;
+    game.currentLevel = 2;
 }
 
 void InLoopMenus::lobbyMenuInLoop(
@@ -147,8 +147,6 @@ void InLoopMenus::lobbyMenuInLoop(
     IpAdress& ipAdress)
 {
     lobbyMenu.setCursorPosition(windowManager.getWindow());
-    //buttonManager.getLevelOneButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
-    //buttonManager.getLevelTwoButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     buttonManager.getStartButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     buttonManager.getRetourButton().checkHover(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY());
     if (buttonManager.getStartButton().checkClick(lobbyMenu.getCursorPosX(), lobbyMenu.getCursorPosY())) {
@@ -245,8 +243,20 @@ void menuChoice(
     } else if (settingMenu.onSetting) {
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
     } else if (game.onGame) {
-        inLoopGame
-            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, youWinMenu, youLooseMenu, ipAdress);
+        inLoopGame.gameInLoop(
+            event,
+            windowManager,
+            game,
+            music,
+            commandsToServer,
+            sprite,
+            onGameClock,
+            registry,
+            buttonManager,
+            choiceMenu,
+            youWinMenu,
+            youLooseMenu,
+            ipAdress);
     } else if (youWinMenu.onWin) {
         introMenu.youWinMenuInLoop(youWinMenu, windowManager, choiceMenu, buttonManager);
     } else if (youLooseMenu.onLoose) {
