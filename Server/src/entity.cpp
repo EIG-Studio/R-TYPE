@@ -185,12 +185,12 @@ void Server::createBoss(Registry& registry)
     entity = registry.addComponent(entity, healthPointComponent);
     entity = registry.addComponent(entity, damageComponent);
 
-    std::ostringstream newPlayer2;
-    newPlayer2 << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
-               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
-               << healthPointComponent.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-               << sizeComponent.getSize().second << " " << typeComponent << "\n";
-    addMessage(newPlayer2.str());
+    std::ostringstream newBoss;
+    newBoss << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+            << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
+            << healthPointComponent.getHealthPoint() << " " << sizeComponent.getSize().first << " "
+            << sizeComponent.getSize().second << " " << typeComponent << "\n";
+    addMessage(newBoss.str());
 }
 
 void Server::createWall(Registry& registry, int posx, int posy, int sizex, int sizey)

@@ -139,7 +139,8 @@ std::string collisionProjectile(Entity entity, Entity otherEntity, Registry& reg
         return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
-        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile)
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile ||
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Boss)
         return damagedSystem(entity, otherEntity, registry);
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall) {
