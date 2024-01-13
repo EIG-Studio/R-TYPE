@@ -268,7 +268,7 @@ void Game::moveEnemies(Registry& registry) const
     for (const auto& ennemy : ennemies) {
         Entity currEnnemy = ennemy;
         Position& positionComponent = registry.getComponent(currEnnemy, Position{});
-        if (current_level == 1)
+        if (currentLevel == 1)
             positionComponent.setPosition(
                 std::make_pair(positionComponent.getPosition().first - 9, positionComponent.getPosition().second));
         else
