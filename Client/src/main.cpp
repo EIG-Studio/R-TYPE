@@ -154,6 +154,22 @@ int main()
     ipAddressText.setString(ipAddress);
     lobbyMenu.setIpAdress(ipAddressText);
 
+    sf::Text youWinText;
+    youWinText.setFont(windowManager.getFont());
+    youWinText.setCharacterSize(24);
+    youWinText.setFillColor(sf::Color::White);
+    youWinText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+    youWinText.setString("You Win !");
+    youWinMenu.setYouWinText(youWinText);
+
+    sf::Text youLooseText;
+    youLooseText.setFont(windowManager.getFont());
+    youLooseText.setCharacterSize(24);
+    youLooseText.setFillColor(sf::Color::White);
+    youLooseText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+    youLooseText.setString("You Loose !");
+    youLooseMenu.setYouLooseText(youLooseText);
+
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
     Registry registry = Registry();
