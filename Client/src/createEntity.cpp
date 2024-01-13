@@ -26,7 +26,7 @@ void updatePosition(Registry& registry, int id, int xPos, int yPos)
             Entity arrow = registry.getArrow();
             Position& arrowPos = registry.getComponent(arrow, Position{});
             std::pair<int, int> arrowPairPos = arrowPos.getPosition();
-            Entity player = registry.getPlayer();
+            Entity player = registry.getEntity(setPlayer(-1));
             Position& playerPos = registry.getComponent(player, Position{});
             std::pair<int, int> playerPairPos = playerPos.getPosition();
             arrowPos.setPosition(std::make_pair(playerPairPos.first + 46, playerPairPos.second - 30));
@@ -164,7 +164,7 @@ void createScore(Registry& registry, int dataScore)
 
 void createArrow(Registry& registry, int id)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
 
     Entity arrow = registry.createEntityWithID(id);

@@ -114,8 +114,8 @@ void Server::handleReceivedData(
                 m_gameStarted = startGame(registry);
             std::size_t id = createPlayer(registry);
             addClient(remoteEndpoint, id);
-            createArrow(registry);
             sendAllEntites(registry);
+            createArrow(registry);
         } else if (receivedData.command == UPDATE) {
             sendAllEntites(registry);
         } else if (receivedData.command == NEW_ENEMY) {

@@ -19,6 +19,8 @@
 #include <string>
 #include <thread>
 
+int setPlayer(int id);
+
 class CommandsToServer
 {
 public:

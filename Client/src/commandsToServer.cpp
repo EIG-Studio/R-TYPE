@@ -50,7 +50,7 @@ int setPlayer(int id)
     static int playerId = -1;
     if (id != -1)
         playerId = id;
-    return id;
+    return playerId;
 }
 
 void handleReceive(
@@ -108,6 +108,7 @@ void handleReceive(
                 createArrow(registry, receivedData.args[0]);
                 break;
             case LOGIN_OK:
+                std::cout << "LOGIN OK " << std::to_string(receivedData.args[0]) << std::endl;
                 setPlayer(receivedData.args[0]);
                 break;
             default:

@@ -62,7 +62,7 @@ void Game::movePlayer(
 {
     Entity player;
     try {
-        player = registry.getPlayer();
+        player = registry.getEntity(setPlayer(-1));
         if (!this->hasFocus) {
             return;
         }
@@ -144,7 +144,7 @@ void Game::handleMovement(
 {
     bool keyPressed = sf::Keyboard::isKeyPressed(key);
 
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     Renderer playerRenderer = registry.getComponent(player, Renderer{});
@@ -169,7 +169,7 @@ void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
     std::ostringstream oss;
     Entity player;
     try {
-        player = registry.getPlayer();
+        player = registry.getEntity(setPlayer(-1));
     } catch (std::exception& e) {
         std::cout << e.what();
         return;
@@ -182,7 +182,7 @@ void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
 
 void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
@@ -192,7 +192,7 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
 
 void Game::shooting2(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
@@ -202,7 +202,7 @@ void Game::shooting2(CommandsToServer& commandsToServer, Registry& registry, IpA
 
 void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getEntity(setPlayer(-1));
     ID playerId = registry.getComponent(player, ID{});
     int id = playerId.getID();
     std::ostringstream damage;

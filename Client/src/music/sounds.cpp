@@ -11,7 +11,7 @@
 
 Music::Music()
 {
-    this->playMenuMusic = true;
+    this->playMenuMusic = false;
 }
 
 void Music::setPath(Sprite mSprite)

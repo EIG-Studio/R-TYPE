@@ -74,6 +74,7 @@ void Server::sendMessage(TransferData data)
 
 void Server::sendMessage(TransferData data, Client& client)
 {
+    std::cout << "Sending message to " << client.getEndpoint() << std::endl;
     unsigned char buffer[sizeof(TransferData)];
     std::memcpy(buffer, &data, sizeof(TransferData));
     m_socket.async_send_to(boost::asio::buffer(buffer), client.getEndpoint(), [](const boost::system::error_code&, std::size_t) {

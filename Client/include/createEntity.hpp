@@ -8,6 +8,7 @@
 #pragma once
 #include "entities.hpp"
 
+int setPlayer(int id);
 void updatePosition(Registry& registry, int id, int xPos, int yPos);
 void updateHealth(Registry& registry, int id, int health);
 void createPlayer(Registry& registry, int id, int xPos, int yPos, int healthPoint);
