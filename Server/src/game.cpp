@@ -149,12 +149,10 @@ void Server::bossShootAndMove(Registry& registry, Entity& entity, std::size_t id
 
 void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {
-    if (m_spawnBoss == 0) {
-        for (auto& enemy : enemies) {
-            m_registeryMutex.lock();
-            enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
-            m_registeryMutex.unlock();
-        }
+    for (auto& enemy : enemies) {
+        m_registeryMutex.lock();
+        enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
+        m_registeryMutex.unlock();
     }
     for (auto& entity : boss) {
         m_registeryMutex.lock();
