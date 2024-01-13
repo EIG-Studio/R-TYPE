@@ -55,6 +55,9 @@ private:
     bool m_gameStarted = false;
     int m_currentLevel = 1;
     int m_spawnBoss = 0;
+    int m_bossPhase = 1;
+    bool m_bossIsAttacking = false;
+    bool m_bossWaiting = true;
     std::clock_t m_clock;
     unsigned char m_buffer[sizeof(TransferData)]{};
 
