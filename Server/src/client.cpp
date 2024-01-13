@@ -53,6 +53,7 @@ void Server::addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std
     if (find(m_clients.begin(), m_clients.end(), clientEndpoint) == m_clients.end()) {
         Client client(clientEndpoint, id);
         m_clients.push_back(client);
+        sendMessage(TransferData{.command = LOGIN_OK, .args = {static_cast<int>(id), 0, 0, 0}}, client);
         std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
     }
 }

@@ -28,7 +28,13 @@ void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsT
         return;
     m_clock.restart();
     for (auto& entity : registry.getListEntities()) {
-        commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
+        if (!registry.hasComponent(entity, Type()))
+            continue;
+        EntityType type = registry.getComponent(entity, Type()).getEntityType();
+        if (type == EntityType::Player || type == EntityType::Player_Projectile || type == EntityType::Enemy) {
+            commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
+            continue;
+        }
     }
 }
 

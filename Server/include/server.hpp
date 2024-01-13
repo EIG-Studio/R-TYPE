@@ -77,4 +77,5 @@ private:
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
     void createWall(Registry& registry, int posx, int posy, int sizex, int sizey);
+    void sendMessage(TransferData data, Client& client);
 };

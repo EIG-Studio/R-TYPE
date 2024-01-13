@@ -54,6 +54,7 @@ enum COMMAND
     SCORE,
     LEVEL,
     ARROW_PLAYER,
+    LOGIN_OK,
 };
 
 COMMAND getCommand(const std::string& commandStr);

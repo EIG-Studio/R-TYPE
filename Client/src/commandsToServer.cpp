@@ -45,6 +45,14 @@ int randNb(int x, int y)
     return distrib(gen);
 }
 
+int setPlayer(int id)
+{
+    static int playerId = -1;
+    if (id != -1)
+        playerId = id;
+    return id;
+}
+
 void handleReceive(
     Registry& registry,
     const boost::system::error_code& error,
@@ -98,6 +106,10 @@ void handleReceive(
                 break;
             case ARROW_PLAYER:
                 createArrow(registry, receivedData.args[0]);
+                break;
+            case LOGIN_OK:
+                setPlayer(receivedData.args[0]);
+                break;
             default:
                 std::cout << "[LOG] NO SCORE" << std::endl;
                 break;
