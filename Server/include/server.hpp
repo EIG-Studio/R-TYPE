@@ -55,6 +55,7 @@ private:
     std::vector<Client> m_clients;
     bool m_gameStarted = false;
     int m_currentLevel = 1;
+    int m_spawnBoss = 0;
     std::clock_t m_clock;
     unsigned char m_buffer[sizeof(TransferData)]{};
 
