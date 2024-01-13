@@ -32,6 +32,7 @@ void Server::PlayerLoop(Registry& registry)
             for (std::size_t id : ids) {
                 registry.deleteById(id);
             }
+            m_spawnBoss = 0;
             m_registeryMutex.unlock();
             m_gameStarted = false;
             std::cout << "No more clients, reset done" << std::endl;
