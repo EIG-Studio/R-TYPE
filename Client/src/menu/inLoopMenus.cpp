@@ -27,12 +27,16 @@ void InLoopMenus::choiceMenuInLoop(
     ChoiceMenu& choiceMenu,
     ButtonManager& buttonManager,
     HostOrJoinMenu& hostOrJoinMenu,
-    SettingMenu& settingMenu)
+    SettingMenu& settingMenu,
+    Music& music)
 {
     choiceMenu.setCursorPosition(windowManager.getWindow());
     buttonManager.getPlayButton().checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
     buttonManager.getSettingsButton().checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
     buttonManager.getExitButton().checkHover(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY());
+    if (music.musicMenu.getStatus() == sf::SoundSource::Stopped) {
+        music.musicMenu.play();
+    }
     if (buttonManager.getPlayButton().checkClick(choiceMenu.getCursorPosX(), choiceMenu.getCursorPosY()) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         hostOrJoinMenu.onHostOrJoin = true;
@@ -178,6 +182,34 @@ void InLoopMenus::lobbyMenuInLoop(
     windowManager.getWindow().draw(lobbyMenu);
 }
 
+void InLoopMenus::youWinMenuInLoop(YouWinMenu& youWinMenu, WindowManager& windowManager, ChoiceMenu& choiceMenu, ButtonManager& buttonManager)
+{
+    buttonManager.getRetourButton().checkHover(youWinMenu.getCursorPosX(), youWinMenu.getCursorPosY());
+    youWinMenu.setCursorPosition(windowManager.getWindow());
+    if (buttonManager.getRetourButton().checkClick(youWinMenu.getCursorPosX(), youWinMenu.getCursorPosY())) {
+        youWinMenu.onWin = false;
+        choiceMenu.onChoice = true;
+    }
+    buttonManager.getRetourButton().draw(windowManager.getWindow());
+    windowManager.getWindow().draw(youWinMenu);
+}
+
+void InLoopMenus::youLooseMenuInLoop(
+    YouLooseMenu& youLooseMenu,
+    WindowManager& windowManager,
+    ChoiceMenu& choiceMenu,
+    ButtonManager& buttonManager)
+{
+    buttonManager.getRetourButton().checkHover(youLooseMenu.getCursorPosX(), youLooseMenu.getCursorPosY());
+    youLooseMenu.setCursorPosition(windowManager.getWindow());
+    if (buttonManager.getRetourButton().checkClick(youLooseMenu.getCursorPosX(), youLooseMenu.getCursorPosY())) {
+        youLooseMenu.onLoose = false;
+        choiceMenu.onChoice = true;
+    }
+    buttonManager.getRetourButton().draw(windowManager.getWindow());
+    windowManager.getWindow().draw(youLooseMenu);
+}
+
 void menuChoice(
     Menu& menu,
     InLoopMenus& introMenu,
@@ -192,6 +224,8 @@ void menuChoice(
     CommandsToServer& commandsToServer,
     SettingMenu& settingMenu,
     InLoopGame& inLoopGame,
+    YouWinMenu& youWinMenu,
+    YouLooseMenu& youLooseMenu,
     sf::Event& event,
     Sprite& sprite,
     sf::Clock& onGameClock,
@@ -201,7 +235,7 @@ void menuChoice(
     if (menu.onMenu) {
         introMenu.introMenuInLoop(menu, windowManager, music, clock);
     } else if (choiceMenu.onChoice) {
-        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu);
+        introMenu.choiceMenuInLoop(windowManager, choiceMenu, buttonManager, hostOrJoinMenu, settingMenu, music);
     } else if (hostOrJoinMenu.onHostOrJoin) {
         introMenu.hostOrJoinMenuInLoop(hostOrJoinMenu, windowManager, choiceMenu, lobbyMenu, game, commandsToServer, buttonManager, event, ipAdress);
     } else if (lobbyMenu.onLobby) {
@@ -210,6 +244,10 @@ void menuChoice(
         introMenu.settingsMenuInLoop(settingMenu, windowManager, choiceMenu, buttonManager);
     } else if (game.onGame) {
         inLoopGame
-            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, ipAdress);
+            .gameInLoop(event, windowManager, game, music, commandsToServer, sprite, onGameClock, registry, buttonManager, choiceMenu, youWinMenu, youLooseMenu, ipAdress);
+    } else if (youWinMenu.onWin) {
+        introMenu.youWinMenuInLoop(youWinMenu, windowManager, choiceMenu, buttonManager);
+    } else if (youLooseMenu.onLoose) {
+        introMenu.youLooseMenuInLoop(youLooseMenu, windowManager, choiceMenu, buttonManager);
     }
 }

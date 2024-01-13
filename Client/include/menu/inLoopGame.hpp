@@ -28,6 +28,8 @@ public:
         Registry& registry,
         ButtonManager& buttonManager,
         ChoiceMenu& choiceMenu,
+        YouWinMenu& youWinMenu,
+        YouLooseMenu& youLooseMenu,
         IpAdress& ipAdress);
     void updateScore(WindowManager& windowManager, Registry& registry);
 

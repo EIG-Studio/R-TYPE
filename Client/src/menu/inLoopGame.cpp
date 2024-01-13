@@ -40,7 +40,7 @@ void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdre
     commandsToServer.sendToServerAsync("ALIVE", ipAdress);
 }
 
-void boosIsAlive(Registry& registry, Game& game)
+void boosIsAlive(Registry& registry, Game& game, YouWinMenu& youWinMenu)
 {
     if (registry.hasEntityType(Boss)) {
         Entity boss = registry.getBoss();
@@ -48,6 +48,7 @@ void boosIsAlive(Registry& registry, Game& game)
             HealthPoint& bossHealth = registry.getComponent(boss, HealthPoint{});
             if (bossHealth.getHealthPoint() <= 0) {
                 game.onGame = false;
+                youWinMenu.onWin = true;
             }
         }
     }
@@ -64,6 +65,8 @@ void InLoopGame::gameInLoop(
     Registry& registry,
     ButtonManager& buttonManager,
     ChoiceMenu& choiceMenu,
+    YouWinMenu& youWinMenu,
+    YouLooseMenu& youLooseMenu,
     IpAdress& ipAdress)
 {
     game.setCursorPosition(windowManager.getWindow());
@@ -82,9 +85,9 @@ void InLoopGame::gameInLoop(
     refreshRegistry(registry, commandsToServer, ipAdress);
     pingServer(commandsToServer, ipAdress);
     try {
-        game.displayHealth(std::ref(registry), music, windowManager);
+        game.displayHealth(std::ref(registry), music, windowManager, youLooseMenu);
         updateScore(windowManager, registry);
-        boosIsAlive(registry, game);
+        boosIsAlive(registry, game, youWinMenu);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),

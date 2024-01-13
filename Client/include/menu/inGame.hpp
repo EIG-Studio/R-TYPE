@@ -10,6 +10,7 @@
 #include "../../GameEngine/include/entities.hpp"
 #include "commandsToServer.hpp"
 #include "ipAdress.hpp"
+#include "menu/menus.hpp"
 #include "sprite/sprite.hpp"
 #include "window.hpp"
 
@@ -60,7 +61,7 @@ public:
     void setCursorPosition(sf::RenderWindow& window);
     float getCursorPosX();
     float getCursorPosY();
-    void displayHealth(Registry& registry, Music& music, WindowManager& windowManager);
+    void displayHealth(Registry& registry, Music& music, WindowManager& windowManager, YouLooseMenu& youLooseMenu);
 
     void setHealthPointText(sf::Text mHealthPoint);
     sf::Text getHealthPointText();

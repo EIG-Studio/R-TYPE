@@ -291,7 +291,7 @@ void Game::moveBullets(Registry& registry)
     }
 }
 
-void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager)
+void Game::displayHealth(Registry& registry, Music& music, WindowManager& windowManager, YouLooseMenu& youLooseMenu)
 {
     Entity player;
     try {
@@ -320,6 +320,7 @@ void Game::displayHealth(Registry& registry, Music& music, WindowManager& window
         music.musicMenu.stop();
         music.killPlayer.play();
         this->onGame = false;
+        youLooseMenu.onLoose = true;
     }
 }
 
