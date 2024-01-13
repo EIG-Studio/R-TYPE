@@ -86,13 +86,14 @@ void createEnemy(Registry& registry, int id, int xPos, int yPos)
     std::cout << "Enemy created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
-void createBoss(Registry& registry, int id, int xPos, int yPos)
+void createBoss(Registry& registry, int id, int xPos, int yPos, int healthPoint)
 {
     Entity boss = registry.createEntityWithID(id);
     boss = registry.addComponent(boss, Position(std::make_pair(xPos, yPos)));
     boss = registry.addComponent(boss, Renderer("../Client/assets/Boss/v-police.png"));
     boss = registry.addComponent(boss, Type(std::any_cast<EntityType>(Boss)));
     boss = registry.addComponent(boss, Size(std::make_pair(2, 2)));
+    boss = registry.addComponent(boss, HealthPoint(healthPoint));
 
     Position bossPos = registry.getComponent(boss, Position{});
     std::pair<int, int> pairPos = bossPos.getPosition();

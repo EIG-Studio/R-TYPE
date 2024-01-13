@@ -18,14 +18,9 @@ void Server::spawnBoss(Registry& registry)
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
     static int spawnBoss = 0;
-    if (scorePoint.getScorePoint() == 0 && spawnBoss == 0) {
+    if (scorePoint.getScorePoint() >= 10 && spawnBoss == 0) {
         createBoss(registry);
         spawnBoss = 1;
-    }
-    if (scorePoint.getScorePoint() >= 10) {
-        Entity boss = registry.getBoss();
-        std::size_t bossId = registry.getComponent(boss, ID{}).getID();
-        enemyMove(registry, boss, bossId);
     }
 }
 
@@ -83,11 +78,16 @@ void Server::enemyShootAndMove(Registry& registry, Entity& entity, std::size_t i
     registry.setEntity(entity, id);
 }
 
-void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies)
+void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {
     for (auto& enemy : enemies) {
         m_registeryMutex.lock();
         enemyMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
+        m_registeryMutex.unlock();
+    }
+    for (auto& entity : boss) {
+        m_registeryMutex.lock();
+        enemyMove(registry, entity, registry.getComponent(entity, ID{}).getID());
         m_registeryMutex.unlock();
     }
     if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 20 && enemies.size() < 5 && m_gameStarted) {
@@ -104,11 +104,16 @@ void Server::Level1_Loop(Registry& registry, std::vector<Entity> enemies)
     }
 }
 
-void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies)
+void Server::Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {
     for (auto& enemy : enemies) {
         m_registeryMutex.lock();
         enemyShootAndMove(registry, enemy, registry.getComponent(enemy, ID{}).getID());
+        m_registeryMutex.unlock();
+    }
+    for (auto& entity : boss) {
+        m_registeryMutex.lock();
+        enemyShootAndMove(registry, entity, registry.getComponent(entity, ID{}).getID());
         m_registeryMutex.unlock();
     }
     if ((1000.0 * (std::clock() - m_clock) / CLOCKS_PER_SEC) > 50 && enemies.size() < 5 && m_gameStarted) {
@@ -131,12 +136,13 @@ void Server::GameLoop(Registry& registry)
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         m_registeryMutex.lock();
         std::vector<Entity> enemies = registry.getListEntities(Enemy);
+        std::vector<Entity> boss = registry.getListEntities(Boss);
         m_registeryMutex.unlock();
 
         if (m_currentLevel == 1)
-            Level1_Loop(registry, enemies);
+            Level1_Loop(registry, enemies, boss);
         else
-            Level2_Loop(registry, enemies);
+            Level2_Loop(registry, enemies, boss);
         std::vector<std::string> msg = registry.systemsManager();
         for (auto& message : msg) {
             addMessage(message);

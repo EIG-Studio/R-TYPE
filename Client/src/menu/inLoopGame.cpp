@@ -40,6 +40,19 @@ void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdre
     commandsToServer.sendToServerAsync("ALIVE", ipAdress);
 }
 
+void boosIsAlive(Registry& registry, Game& game)
+{
+    if (registry.hasEntityType(Boss)) {
+        Entity boss = registry.getBoss();
+        if (registry.hasComponent(boss, HealthPoint{})) {
+            HealthPoint& bossHealth = registry.getComponent(boss, HealthPoint{});
+            if (bossHealth.getHealthPoint() <= 0) {
+                game.onGame = false;
+            }
+        }
+    }
+}
+
 void InLoopGame::gameInLoop(
     sf::Event& event,
     WindowManager& windowManager,
@@ -71,6 +84,7 @@ void InLoopGame::gameInLoop(
     try {
         game.displayHealth(std::ref(registry), music, windowManager);
         updateScore(windowManager, registry);
+        boosIsAlive(registry, game);
         game.movePlayer(
             std::ref(registry),
             windowManager.getMovementSpeed(),

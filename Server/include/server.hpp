@@ -36,8 +36,8 @@ public:
     void sendAllEntites(Registry& registry);
     void spawnBoss(Registry& registry);
     void GameLoop(Registry& registry);
-    void Level1_Loop(Registry& registry, std::vector<Entity> enemies);
-    void Level2_Loop(Registry& registry, std::vector<Entity> enemies);
+    void Level1_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
+    void Level2_Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
     void PlayerLoop(Registry& registry);
     void damageThePlayer(Registry& registry, int damage, int id);
     void gameLoop(Registry& registry);
