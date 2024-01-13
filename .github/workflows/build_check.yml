@@ -53,7 +53,7 @@ jobs:
 
       - name: Build
         shell: bash
-        run: cmake --build build --config Release
+        run: cmake --build build --config Release -- -w
 
       - name: Install
         shell: bash
