@@ -305,7 +305,7 @@ void Game::displayHealth(Registry& registry, Music& music, WindowManager& window
     try {
         player = registry.getEntity(setPlayer(-1));
     } catch (std::exception& e) {
-        std::cout << e.what();
+        std::cout << "Player not found" << std::endl;
         return;
     }
     int healthPoint = registry.getComponent(player, HealthPoint{}).getHealthPoint();

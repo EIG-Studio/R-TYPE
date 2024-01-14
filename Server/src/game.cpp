@@ -104,7 +104,6 @@ void Server::enemyMoveLevel2(Registry& registry, Entity& enemy, std::size_t id)
         else
             futureEnemyPosY -= enemySpeed;
     } else if (enemyClock.getClock() > 3) {
-        std::cout << "PIOU\n";
         createEnemyBullet(registry, positionComponent.getPosition().first - 1, futureEnemyPosY);
         enemyClock.restartClock();
     }
@@ -188,11 +187,9 @@ void Server::bossMoveLevel2(Registry& registry, Entity& entity, std::size_t id)
     if (bossPos.getPosition().first <= 600 && m_bossPhase == 1 && !m_bossIsAttacking) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(600, bossPos.getPosition().second));
-        std::cout << "TEST3\n";
     } else if (bossPos.getPosition().first >= -170 && m_bossPhase == 2 && !m_bossIsAttacking) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(-170, bossPos.getPosition().second));
-        std::cout << "TEST4\n";
     }
 
     // boss stop attacking
@@ -302,11 +299,6 @@ void Server::gameLoop(Registry& registry)
         std::vector<Entity> boss = registry.getListEntities(Boss);
         std::vector<Entity> players = registry.getListEntities(Player);
         m_registeryMutex.unlock();
-        if (players.empty() && m_gameStarted) {
-            addMessage("LOSE\n");
-            continue;
-        }
-
         if (m_currentLevel == 1)
             level1Loop(registry, enemies, boss);
         else

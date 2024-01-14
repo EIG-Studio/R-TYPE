@@ -74,6 +74,6 @@ bool Server::startGame(Registry& registry)
     entityScore = registry.addComponent(entityScore, score);
     addMessage("NEW_HUD " + std::to_string(scoreId.getID()) + " " + std::to_string(score.getScorePoint()) + "\n");
     registry.setEntity(entityScore, scoreId);
-    std::cout << "CREATE\n";
+    std::cout << "CREATE" << std::endl;
     return true;
 }
