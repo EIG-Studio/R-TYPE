@@ -23,6 +23,18 @@ void Server::spawnBoss(Registry& registry)
     }
 }
 
+void Server::spawnPowerUp(Registry& registry)
+{
+    Entity score = registry.getScore();
+    if (!registry.hasComponent(score, ScorePoint{}))
+        return;
+    ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
+    if (scorePoint.getScorePoint() >= 20 && m_spawnPowerUp == 0) {
+        createPowerUp(registry, 400, 300);
+        m_spawnPowerUp = 1;
+    }
+}
+
 void Server::enemyMove(Registry& registry, Entity& entity, std::size_t id)
 {
     float enemySpeed = registry.getComponent(entity, Speed{}).getSpeed();
@@ -197,6 +209,7 @@ void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::ve
     if (m_gameStarted) {
         m_registeryMutex.lock();
         spawnBoss(registry);
+        spawnPowerUp(registry);
         m_registeryMutex.unlock();
     }
 }

@@ -35,6 +35,7 @@ public:
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
     void spawnBoss(Registry& registry);
+    void spawnPowerUp(Registry& registry);
     void gameLoop(Registry& registry);
     void level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
     void level2Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
@@ -55,6 +56,7 @@ private:
     bool m_gameStarted = false;
     int m_currentLevel = 1;
     int m_spawnBoss = 0;
+    int m_spawnPowerUp = 0;
     int m_bossPhase = 1;
     bool m_bossIsAttacking = false;
     bool m_bossWaiting = true;

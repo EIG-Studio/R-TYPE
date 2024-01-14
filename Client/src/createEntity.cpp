@@ -128,8 +128,8 @@ void createPowerUp(Registry& registry, int id, int xPos, int yPos)
     powerUp = registry.addComponent(
         powerUp,
         Size(std::make_pair(
-            103 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().width,
-            56.25 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().height)));
+            50 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().width,
+            50 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().height)));
 
     Position enemyPos = registry.getComponent(powerUp, Position{});
     std::pair<int, int> pairPos = enemyPos.getPosition();

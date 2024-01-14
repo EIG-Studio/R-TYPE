@@ -40,8 +40,7 @@ std::string deathSystem(Entity entity, Registry& registry)
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
         registry.toDelete.push_back(registry.getComponent(entity, ID{}).getID());
-        return "POWER_UP " + std::to_string(registry.getComponent(entity, Position{}).getPosition().first) + " " +
-               std::to_string(registry.getComponent(entity, Position{}).getPosition().second);
+        return "";
     }
     return "";
 }
