@@ -183,7 +183,6 @@ void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
 void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getEntity(setPlayer(-1));
-    std::cout << "YES YES YES : " << registry.getComponent(player, PowerUp{}).getBlueProjectile() << std::endl;
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
@@ -193,7 +192,6 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
         Position blueProjectilePos = registry.getComponent(blueProjectile, Position{});
         std::pair<float, float> bluePairPos = blueProjectilePos.getPosition();
 
-        std::cout << "BLUE PROJECTILE : " << bluePairPos.first << " " << bluePairPos.second << std::endl;
         if (registry.getComponent(player, Position{}).getPosition().first >= bluePairPos.first &&
             registry.getComponent(player, Position{}).getPosition().first <= bluePairPos.first + 1000 &&
             registry.getComponent(player, Position{}).getPosition().second >= bluePairPos.second &&
