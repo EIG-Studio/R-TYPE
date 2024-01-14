@@ -269,6 +269,7 @@ void Server::createBoss(Registry& registry)
     Type typeComponent = std::any_cast<EntityType>(Boss);
     HealthPoint healthPointComponent(40);
     Damage damageComponent(1);
+    Clock clock;
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
@@ -279,6 +280,7 @@ void Server::createBoss(Registry& registry)
     entity = registry.addComponent(entity, typeComponent);
     entity = registry.addComponent(entity, healthPointComponent);
     entity = registry.addComponent(entity, damageComponent);
+    entity = registry.addComponent(entity, clock);
 
     std::ostringstream newBoss;
     newBoss << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "

@@ -34,7 +34,7 @@ void Server::spawnBoss(Registry& registry)
     if (!registry.hasComponent(score, ScorePoint{}))
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
-    if (scorePoint.getScorePoint() >= 10 && m_spawnBoss == 0) {
+    if (scorePoint.getScorePoint() >= 0 && m_spawnBoss == 0) {
         createBoss(registry);
         m_spawnBoss = 1;
     } else if (m_spawnBoss == 1 && !registry.hasEntityType(Boss)) {
@@ -104,7 +104,6 @@ void Server::enemyMoveLevel2(Registry& registry, Entity& enemy, std::size_t id)
         else
             futureEnemyPosY -= enemySpeed;
     } else if (enemyClock.getClock() > 3) {
-        std::cout << "PIOU\n";
         createEnemyBullet(registry, positionComponent.getPosition().first - 1, futureEnemyPosY);
         enemyClock.restartClock();
     }
@@ -128,11 +127,9 @@ void Server::bossMoveLevel1(Registry& registry, Entity& entity, std::size_t id)
     if (bossPos.getPosition().first <= 600 && m_bossPhase == 1 && !m_bossIsAttacking) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(600, bossPos.getPosition().second));
-        std::cout << "TEST3\n";
     } else if (bossPos.getPosition().first >= -170 && m_bossPhase == 2 && !m_bossIsAttacking) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(-170, bossPos.getPosition().second));
-        std::cout << "TEST4\n";
     }
 
     // boss stop attacking
@@ -178,63 +175,57 @@ void Server::bossMoveLevel1(Registry& registry, Entity& entity, std::size_t id)
 }
 
 
-void Server::bossMoveLevel2(Registry& registry, Entity& entity, std::size_t id)
+void Server::bossMoveLevel2(Registry& registry, Entity& boss, std::size_t id)
 {
-    int bossSpeed = registry.getComponent(entity, Speed{}).getSpeed();
+    int bossSpeed = registry.getComponent(boss, Speed{}).getSpeed();
+    Clock& bossClock = registry.getComponent(boss, Clock{});
     int threshold = bossSpeed;
-    Position& bossPos = registry.getComponent(entity, Position());
+    Position& bossPos = registry.getComponent(boss, Position());
 
     // boss waiting goes too far
-    if (bossPos.getPosition().first <= 600 && m_bossPhase == 1 && !m_bossIsAttacking) {
+    if (bossPos.getPosition().first <= 600) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(600, bossPos.getPosition().second));
-        std::cout << "TEST3\n";
-    } else if (bossPos.getPosition().first >= -170 && m_bossPhase == 2 && !m_bossIsAttacking) {
-        m_bossWaiting = false;
-        bossPos.setPosition(std::make_pair(-170, bossPos.getPosition().second));
-        std::cout << "TEST4\n";
     }
 
     // boss stop attacking
-    if (bossPos.getPosition().first <= -450 && m_bossPhase == 1) {
-        m_bossWaiting = true;
-        m_bossIsAttacking = false;
+    if (bossPos.getPosition().second <= 10 && m_bossPhase == 1) {
         m_bossPhase = 2;
-    } else if (bossPos.getPosition().first >= 750 && m_bossPhase == 2) {
-        m_bossWaiting = true;
-        m_bossIsAttacking = false;
+    } else if (bossPos.getPosition().second >= 470 && m_bossPhase == 2) {
+        m_bossPhase = 3;
+    } else if (bossPos.getPosition().second <= 10 && m_bossPhase == 3) {
+        m_bossPhase = 4;
+    } else if (bossPos.getPosition().second >= 470 && m_bossPhase == 4) {
         m_bossPhase = 1;
     }
 
-    Entity randomPlayer = registry.getFirstEntityOfType(EntityType::Player);
-    Position randomPlayerPos = registry.getComponent(randomPlayer, Position{});
+    // boss moves
+    if (m_bossWaiting)
+        bossPos.setPosition(std::make_pair(bossPos.getPosition().first - bossSpeed, bossPos.getPosition().second));
+    else if (m_bossPhase == 1)
+        bossPos.setPosition(std::make_pair(bossPos.getPosition().first, bossPos.getPosition().second - bossSpeed));
+    else if (m_bossPhase == 2)
+        bossPos.setPosition(std::make_pair(bossPos.getPosition().first, bossPos.getPosition().second + bossSpeed));
+    else if (m_bossPhase == 3)
+        bossPos.setPosition(std::make_pair(bossPos.getPosition().first, bossPos.getPosition().second - bossSpeed));
+    else if (m_bossPhase == 4)
+        bossPos.setPosition(std::make_pair(bossPos.getPosition().first, bossPos.getPosition().second + bossSpeed));
 
-    int deltaY = randomPlayerPos.getPosition().second - bossPos.getPosition().second;
-    int futureBossPosY = bossPos.getPosition().second;
-
-    if (std::abs(deltaY) > threshold && !m_bossIsAttacking) {
-        if (futureBossPosY < randomPlayerPos.getPosition().second)
-            futureBossPosY += bossSpeed;
-        else
-            futureBossPosY -= bossSpeed;
-    } else if (!m_bossWaiting) {
-        m_bossIsAttacking = true;
+    if (m_bossPhase == 2 && (bossClock.getClock() > 0.7)) {
+        createEnemyBullet(registry, bossPos.getPosition().first - 20, bossPos.getPosition().second + 80);
+        bossClock.restartClock();
+    } else if (m_bossPhase == 4 && (bossClock.getClock() > 0.3)) {
+        createEnemyBullet(registry, bossPos.getPosition().first - 20, bossPos.getPosition().second + 80);
+        bossClock.restartClock();
+    } else if (bossClock.getClock() > 1) {
+        createEnemyBullet(registry, bossPos.getPosition().first - 20, bossPos.getPosition().second + 80);
+        bossClock.restartClock();
     }
 
-    // boss moves
-    if (!m_bossIsAttacking && m_bossPhase == 1)
-        bossPos.setPosition(std::make_pair(bossPos.getPosition().first - bossSpeed, futureBossPosY));
-    else if (!m_bossIsAttacking && m_bossPhase == 2)
-        bossPos.setPosition(std::make_pair(bossPos.getPosition().first + bossSpeed, futureBossPosY));
-    else if (m_bossPhase == 1 && !m_bossWaiting)
-        bossPos.setPosition(std::make_pair(bossPos.getPosition().first - bossSpeed * 5, futureBossPosY));
-    else if (m_bossPhase == 2 && !m_bossWaiting)
-        bossPos.setPosition(std::make_pair(bossPos.getPosition().first + bossSpeed * 5, futureBossPosY));
-
     std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(bossPos.getPosition().first) + " " +
-                         std::to_string(futureBossPosY) + "\n";
+                         std::to_string(bossPos.getPosition().second) + "\n";
     addMessage(newPos);
-    registry.setEntity(entity, id);
+    registry.setEntity(boss, id);
 }
 
 // ###
@@ -302,11 +293,6 @@ void Server::gameLoop(Registry& registry)
         std::vector<Entity> boss = registry.getListEntities(Boss);
         std::vector<Entity> players = registry.getListEntities(Player);
         m_registeryMutex.unlock();
-        if (players.empty() && m_gameStarted) {
-            addMessage("LOSE\n");
-            continue;
-        }
-
         if (m_currentLevel == 1)
             level1Loop(registry, enemies, boss);
         else

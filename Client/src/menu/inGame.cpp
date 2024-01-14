@@ -294,7 +294,7 @@ void Game::moveBullets(Registry& registry)
         Entity currBullet = bullet;
         Position& positionComponent = registry.getComponent(currBullet, Position{});
         positionComponent.setPosition(
-            std::make_pair(positionComponent.getPosition().first - 7, positionComponent.getPosition().second));
+            std::make_pair(positionComponent.getPosition().first - 5, positionComponent.getPosition().second));
         registry.setEntity(currBullet, registry.getComponent(currBullet, ID{}).getID());
     }
 }
@@ -305,7 +305,7 @@ void Game::displayHealth(Registry& registry, Music& music, WindowManager& window
     try {
         player = registry.getEntity(setPlayer(-1));
     } catch (std::exception& e) {
-        std::cout << e.what();
+        std::cout << "Player not found" << std::endl;
         return;
     }
     int healthPoint = registry.getComponent(player, HealthPoint{}).getHealthPoint();

@@ -79,7 +79,6 @@ void Server::sendAllEntites(Registry& registry)
                 << std::endl;
             addMessage(oss.str());
         } else if (type == HUD) {
-            std::cout << "SCOOOREEEE\n";
             ScorePoint score = registry.getComponent(entity, ScorePoint{});
             oss << registry.getComponent(entity, ID{}).getID() << " " << std::to_string(score.getScorePoint()) << std::endl;
             addMessage(oss.str());

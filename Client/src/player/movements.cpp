@@ -67,7 +67,7 @@ void Game::movePlayer(
             return;
         }
     } catch (std::exception& e) {
-        std::cout << e.what() << std::endl;
+        std::cout << "Player not found: " << e.what() << std::endl;
         return;
     }
     std::vector<Entity> list = registry.getListEntities();
