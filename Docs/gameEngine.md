@@ -23,7 +23,9 @@
   - [noMoveSystem](#nomovesystem)
   - [collisionPlayer](#collisionplayer)
   - [collisionEnemy](#collisionenemy)
+  - [collisionPowerUp](#collisionpowerup)
   - [collisionProjectile](#collisionprojectile)
+  - [isCollision](#iscollision)
   - [checkHitBox](#checkhitbox)
   - [collisionSystem](#collisionsystem)
   - [renderSystem](#rendersystem)
@@ -31,6 +33,8 @@
 - [Technical Documentation Components](#technical-documentation-components)
   - [Position Component](#position-component)
   - [HealthPoint Component](#healthpoint-component)
+  - [ScorePoint Component](#scorepoint-component)
+  - [PowerUp Class](#powerup-class)
   - [Velocity Component](#velocity-component)
   - [ID Component](#id-component)
   - [Speed Component](#speed-component)
@@ -88,56 +92,37 @@ La classe `Registry` est responsable de la gestion des entités dans le système
   - `entityToCopy`: New entity to copy.
   - `id`: Identifier of the entity to be replaced.
 
-#### `Entity getPlayer()`
+#### `Entity getFirstEntityOfType(EntityType type)`
 
-- **Description:** Recovers the player's entity.
-- **Return:** An instance of the `Entity` class representing the player entity.
+- **Description:** This method searches for the first entity of a specified type in the entity registry.
+- **Return:** The first entity of the specified type found.
 
-#### `Entity getFirstEnemy()`
+#### `Entity hasScore()`
 
-- **Description:** Recover the first enemy entity.
-- **Return:** An instance of the `Entity` class representing the first enemy entity.
+- **Description:** This method checks if there is any entity in the registry with a type indicating it's related to the score.
+- **Return:** `true` if an entity with a score-related type is found, `false` otherwise.
 
 #### `bool hasEntity(size_t id)`
 
 - **Description:** Checks whether an entity with the specified identifier exists.
-- **Parameters:**
-  - `id`: Identifier of the entity to be verified.
+- **Parameters:** `id`: Identifier of the entity to be verified.
 - **Return:** `true` if the entity exists, otherwise `false`.
 
-#### `std::vector<Entity> getListEntities(Enemy()`
+#### `bool hasEntityType(Type type)`
 
-- **Description:** Retrieves a list of enemy entities.
-- **Return:** A vector of instances of the `Entity` class representing enemy entities.
+- **Description:** This method checks if there is any entity in the registry with a specified entity type.
+- **Parameters:** Type type: The entity type to check for.
+- **Return:** `true` if an entity with the specified type is found, `false` otherwise.
 
-#### `std::vector<Entity> getListPlayers()`
+#### `std::vector<Entity> getListEntities(EntityType type)`
 
-- **Description:** Retrieves a list of player entities.
-- **Return:** A vector of instances of the `Entity` class representing player entities.
+- **Description:** This method retrieves a list of entities of a specified type from the entity registry..
+- **Return:** `std::vector<Entity>` A vector containing all entities of the specified type found in the registry.
 
 #### `std::vector<Entity> getListEntities()`
 
 - **Description:** Retrieves a list of all entities.
 - **Return:** A vector of instances of the `Entity` class, representing all entities.
-
-#### `std::vector<Entity> getListEntities(Player_Projectile)`
-
-- **Description:** Retrieves a list of players' projectiles.
-- **Return:** A vector of instances of the `Entity` class representing player projectiles.
-
-#### `std::vector<Entity> deletePlayersProjectile(int id)`
-
-- **Description:** Deletes projectiles from the player specified by its ID.
-- **Parameters:**
-  - `id`: Identifier of the player whose shots are to be deleted.
-- **Return:** A vector of instances of the `Entity` class after deleting projectiles.
-
-#### `std::vector<Entity> deleteEnnemy(int id)`
-
-- **Description:** Deletes the enemy specified by its ID.
-- **Parameters:**
-  - `id`: Identifier of the enemy to be deleted.
-- **Return:** A vector of instances of the `Entity` class after the enemy has been deleted.
 
 #### `void deleteById(int id)`
 
@@ -362,6 +347,25 @@ The enemy collision system is responsible for managing interactions between the 
 
 ---
 
+### collisionPowerUp
+
+The power-up collision system manages interactions between power-up entities and other entities in the game.
+
+#### Parameters
+
+- `const Entity& entity`: The power-up entity.
+- `Entity otherEntity`: The other entity involved in the collision.
+- `Registry& registry`: A reference to the game registry.
+
+#### How it works
+
+1. Checks if `entity` has the `Damage` component or if `otherEntity` has the `HealthPoint` component. If not, returns an empty string.
+2. Checks if `otherEntity` has the `Type` component. If so, returns an empty string.
+3. Checks if `otherEntity` is a player entity (`EntityType::Player`). If true, returns a string indicating that blue projectiles are enabled for the specific player ID.
+4. If none of the above conditions are met, returns an empty string.
+
+---
+
 ### collisionProjectile
 
 The projectile collision system is responsible for managing interactions between projectiles and other entities in the game.
@@ -378,6 +382,30 @@ The projectile collision system is responsible for managing interactions between
 2. Checks if `otherEntity` is a projectile or a player entity. If so, Return immediately.
 3. Handles collisions with enemy entities by calling `damagedSystem`.
 4. Handles collisions with wall-type entities by destroying the projectile.
+
+---
+
+### isCollision
+
+The `isCollision` function checks for collision between two objects based on their positions and sizes.
+
+#### Parameters
+
+- `const std::pair<int, int>& pos1`: The position of the first object (x, y).
+- `const std::pair<int, int>& size1`: The size of the first object (width, height).
+- `const std::pair<int, int>& pos2`: The position of the second object (x, y).
+- `const std::pair<int, int>& size2`: The size of the second object (width, height).
+
+#### Return Value
+
+- `bool`: Returns `true` if a collision is detected, and `false` otherwise.
+
+#### How it works
+
+1. Calculates the boundaries of the first object using its position and size.
+2. Calculates the boundaries of the second object using its position and size.
+3. Checks for collision by comparing the boundaries of the two objects.
+4. Returns `true` if a collision is detected, and `false` otherwise.
 
 ---
 
@@ -519,6 +547,64 @@ The `HealthPoint` component represents the number of health points of an entity.
 ##### `void setHealthPoint(float mLp)`
 
 - Modify the number of hit points.
+
+---
+
+### ScorePoint Component
+
+#### Description
+
+The `ScorePoint` component represents the score points associated with an entity.
+
+#### Methods
+
+##### `ScorePoint()`
+
+- Default constructor.
+
+##### `ScorePoint(int score)`
+
+- Constructor to initialize score points with an integer value.
+
+##### `~ScorePoint()`
+
+- Default destructor.
+
+##### `int getScorePoint() const`
+
+- Returns the current number of score points.
+
+##### `void setScorePoint(int score)`
+
+- Modifies the number of score points.
+
+---
+
+### PowerUp Class
+
+The `PowerUp` class represents a power-up in the game.
+
+#### Methods
+
+##### `PowerUp()`
+
+- Default constructor.
+
+##### `PowerUp(bool isPowerUp)`
+
+- Constructor to initialize the power-up.
+
+##### `~PowerUp()`
+
+- Default destructor.
+
+##### `bool getBlueProjectile() const`
+
+- Returns the current state of the power-up for blue projectiles.
+
+##### `void setBlueProjectile(bool isPowerUp)`
+
+- Modifies the state of the power-up for blue projectiles.
 
 ---
 
