@@ -43,7 +43,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype6 libfreetype6-dev cmake clang-tidy
           wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && sudo apt install -y clang-16 clang-format-16 && if [ ! -e /usr/bin/clang-format ]; then sudo ln -s /usr/bin/clang-format-16 /usr/bin/clang-format; fi
-          cd /tmp && wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz && tar xvf boost_1_82_0.tar.gz && cd boost_1_82_0 && ./bootstrap.sh --prefix=/usr/local && sudo ./b2 install
+          cd /tmp && wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz && tar xvf boost_1_82_0.tar.gz && cd boost_1_82_0 && ./bootstrap.sh --prefix=/usr/local && cpuCores=`cat /proc/cpuinfo | grep "cpu cores" | uniq | awk '{print $NF}'` && sudo ./b2 install --with=all -j $cpuCores install
 
       - name: Checkout
         uses: actions/checkout@v3
