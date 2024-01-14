@@ -171,7 +171,7 @@ void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
     try {
         player = registry.getEntity(setPlayer(-1));
     } catch (std::exception& e) {
-        std::cout << e.what();
+        std::cout << e.what() << std::endl;
         return;
     }
     ID playerId = registry.getComponent(player, ID{});
@@ -215,7 +215,7 @@ void Game::checkGetPowerUp(Registry& registry)
             registry.setEntity(player, registry.getComponent(player, ID{}).getID());
         }
     } catch (std::exception& e) {
-        std::cout << "Y'a R tkt" << std::endl;
+        std::cout << e.what() << std::endl;
     }
 }
 
