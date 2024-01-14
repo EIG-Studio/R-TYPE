@@ -140,7 +140,7 @@ std::string collisionPowerUp(Entity entity, Entity otherEntity, Registry& regist
         return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player) {
-        return "TBLUE " + std::to_string(registry.getComponent(otherEntity, ID{}).getID());
+        return "BLUE_PROJECILE_ENABLED " + std::to_string(registry.getComponent(otherEntity, ID{}).getID());
     }
     return "";
 }
