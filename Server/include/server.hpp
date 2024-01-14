@@ -75,10 +75,10 @@ private:
     void createArrow(Registry& registry);
     void createArrow(Registry& registry, Client client);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
-    void enemyMove(Registry& registry, Entity& entity, std::size_t id);
-    void enemyShootAndMove(Registry& registry, Entity& entity, std::size_t id);
-    void bossMove(Registry& registry, Entity& entity, std::size_t id);
-    void bossShootAndMove(Registry& registry, Entity& entity, std::size_t id);
+    void enemyMoveLevel1(Registry& registry, Entity& entity, std::size_t id);
+    void enemyMoveLevel2(Registry& registry, Entity& entity, std::size_t id);
+    void bossMoveLevel1(Registry& registry, Entity& entity, std::size_t id);
+    void bossMoveLevel2(Registry& registry, Entity& entity, std::size_t id);
     void addClient(Registry& registry, const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
