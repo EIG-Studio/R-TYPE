@@ -294,7 +294,7 @@ void Game::moveBullets(Registry& registry)
         Entity currBullet = bullet;
         Position& positionComponent = registry.getComponent(currBullet, Position{});
         positionComponent.setPosition(
-            std::make_pair(positionComponent.getPosition().first - 7, positionComponent.getPosition().second));
+            std::make_pair(positionComponent.getPosition().first - 5, positionComponent.getPosition().second));
         registry.setEntity(currBullet, registry.getComponent(currBullet, ID{}).getID());
     }
 }
