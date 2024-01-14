@@ -95,7 +95,8 @@ void InLoopMenus::hostOrJoinMenuInLoop(
         hostOrJoinMenu.onHostOrJoin = false;
         lobbyMenu.onLobby = true;
     }
-    if (buttonManager.getJoinButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY())) {
+    if (buttonManager.getJoinButton().checkClick(hostOrJoinMenu.getCursorPosX(), hostOrJoinMenu.getCursorPosY()) ||
+        sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
         hostOrJoinMenu.onHostOrJoin = false;
         game.onGame = true;
         commandsToServer.sendToServerAsync("LOGIN", ipAdress);
