@@ -128,8 +128,8 @@ void createPowerUp(Registry& registry, int id, int xPos, int yPos)
     powerUp = registry.addComponent(
         powerUp,
         Size(std::make_pair(
-            103 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().width,
-            56.25 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().height)));
+            50 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().width,
+            50 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().height)));
 
     Position enemyPos = registry.getComponent(powerUp, Position{});
     std::pair<int, int> pairPos = enemyPos.getPosition();
@@ -155,7 +155,7 @@ void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
     std::cout << "BLUE_PROJECILE created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
-void checkBlue(Registry& registry, int id)
+void projectileIsBlue(Registry& registry, int id)
 {
     Entity player = registry.getEntity(id);
     registry.getComponent(player, PowerUp{}).setBlueProjectile(true);

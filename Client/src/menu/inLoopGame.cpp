@@ -31,7 +31,7 @@ void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsT
         if (!registry.hasComponent(entity, Type()))
             continue;
         EntityType type = registry.getComponent(entity, Type()).getEntityType();
-        if (type == EntityType::Player || type == EntityType::Player_Projectile || type == EntityType::Enemy) {
+        if (type == EntityType::Player || type == EntityType::Player_Projectile || type == EntityType::Enemy || type == EntityType::Boss) {
             commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
             continue;
         }

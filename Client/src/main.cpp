@@ -97,6 +97,56 @@ void updateFpsText(WindowManager& windowManager, sf::Text& fpsText, sf::Clock& c
     }
 }
 
+
+void initText(
+    WindowManager& windowManager,
+    InLoopGame& inLoopGame,
+    sf::Text& fpsText,
+    sf::Text& ipAddressText,
+    sf::Text& youWinText,
+    sf::Text& youLooseText,
+    LobbyMenu& lobbyMenu,
+    YouWinMenu& youWinMenu,
+    YouLooseMenu& youLooseMenu)
+{
+    fpsText.setFont(windowManager.getFont());
+    fpsText.setCharacterSize(15);
+    fpsText.setFillColor(sf::Color::White);
+    fpsText.setOutlineColor(sf::Color::Black);
+    fpsText.setOutlineThickness(1);
+    fpsText.setPosition(10.0f, 10.0f);
+
+    inLoopGame.scoreText.setFont(windowManager.getFont());
+    inLoopGame.scoreText.setCharacterSize(24);
+    inLoopGame.scoreText.setFillColor(sf::Color::White);
+    inLoopGame.scoreText.setOutlineColor(sf::Color::Black);
+    inLoopGame.scoreText.setOutlineThickness(1);
+    inLoopGame.scoreText.setPosition(windowManager.getWindow().getSize().x / 2 - 50, windowManager.getWindow().getSize().y / 50);
+
+    ipAddressText.setFont(windowManager.getFont());
+    ipAddressText.setCharacterSize(24);
+    ipAddressText.setFillColor(sf::Color::White);
+    ipAddressText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+
+    std::string ipAddress = getLocalIpAddress();
+    ipAddressText.setString(ipAddress);
+    lobbyMenu.setIpAdress(ipAddressText);
+
+    youWinText.setFont(windowManager.getFont());
+    youWinText.setCharacterSize(24);
+    youWinText.setFillColor(sf::Color::White);
+    youWinText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+    youWinText.setString("You Win !");
+    youWinMenu.setYouWinText(youWinText);
+
+    youLooseText.setFont(windowManager.getFont());
+    youLooseText.setCharacterSize(24);
+    youLooseText.setFillColor(sf::Color::White);
+    youLooseText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
+    youLooseText.setString("You Lose !");
+    youLooseMenu.setYouLooseText(youLooseText);
+}
+
 int main()
 {
     WindowManager windowManager;
@@ -130,45 +180,10 @@ int main()
 
     int frameCount = 0;
     sf::Text fpsText;
-    fpsText.setFont(windowManager.getFont());
-    fpsText.setCharacterSize(15);
-    fpsText.setFillColor(sf::Color::White);
-    fpsText.setOutlineColor(sf::Color::Black);
-    fpsText.setOutlineThickness(1);
-    fpsText.setPosition(10.0f, 10.0f);
-
-    inLoopGame.scoreText.setFont(windowManager.getFont());
-    inLoopGame.scoreText.setCharacterSize(24);
-    inLoopGame.scoreText.setFillColor(sf::Color::White);
-    inLoopGame.scoreText.setOutlineColor(sf::Color::Black);
-    inLoopGame.scoreText.setOutlineThickness(1);
-    inLoopGame.scoreText.setPosition(windowManager.getWindow().getSize().x / 2 - 50, windowManager.getWindow().getSize().y / 50);
-
     sf::Text ipAddressText;
-    ipAddressText.setFont(windowManager.getFont());
-    ipAddressText.setCharacterSize(24);
-    ipAddressText.setFillColor(sf::Color::White);
-    ipAddressText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
-
-    std::string ipAddress = getLocalIpAddress();
-    ipAddressText.setString(ipAddress);
-    lobbyMenu.setIpAdress(ipAddressText);
-
     sf::Text youWinText;
-    youWinText.setFont(windowManager.getFont());
-    youWinText.setCharacterSize(24);
-    youWinText.setFillColor(sf::Color::White);
-    youWinText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
-    youWinText.setString("You Win !");
-    youWinMenu.setYouWinText(youWinText);
-
     sf::Text youLooseText;
-    youLooseText.setFont(windowManager.getFont());
-    youLooseText.setCharacterSize(24);
-    youLooseText.setFillColor(sf::Color::White);
-    youLooseText.setPosition(windowManager.getWindow().getSize().x / 2 - 100, windowManager.getWindow().getSize().y / 8);
-    youLooseText.setString("You Lose !");
-    youLooseMenu.setYouLooseText(youLooseText);
+    initText(windowManager, inLoopGame, fpsText, ipAddressText, youWinText, youLooseText, lobbyMenu, youWinMenu, youLooseMenu);
 
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
