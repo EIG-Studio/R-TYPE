@@ -88,7 +88,7 @@ void handleReceive(
                 createPlayer(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2], receivedData.args[3]);
                 break;
             case NEW_ENEMY:
-                createEnemy(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
+                createEnemy(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2], sprite);
                 break;
             case NEW_BOSS:
                 createBoss(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2], receivedData.args[3]);

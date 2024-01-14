@@ -8,6 +8,7 @@
 #include "createEntity.hpp"
 
 #include "components.hpp"
+#include "sprite/sprite.hpp"
 
 #include <iostream>
 
@@ -67,11 +68,11 @@ void createPlayer(Registry& registry, int id, int xPos, int yPos, int healthPoin
     registry.setEntity(player, id);
 }
 
-void createEnemy(Registry& registry, int id, int xPos, int yPos)
+void createEnemy(Registry& registry, int id, int xPos, int yPos, Sprite& sprite)
 {
     Entity enemy = registry.createEntityWithID(id);
     enemy = registry.addComponent(enemy, Position(std::make_pair(xPos, yPos)));
-    enemy = registry.addComponent(enemy, Renderer("../Client/assets/Cars/cars/190.png"));
+    enemy = registry.addComponent(enemy, Renderer(sprite.getEnemyPath()));
     enemy = registry.addComponent(enemy, Type(std::any_cast<EntityType>(Enemy)));
     enemy = registry.addComponent(
         enemy,

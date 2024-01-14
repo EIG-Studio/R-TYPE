@@ -7,12 +7,13 @@
 
 #pragma once
 #include "entities.hpp"
+#include "sprite/sprite.hpp"
 
 int setPlayer(int id);
 void updatePosition(Registry& registry, int id, int xPos, int yPos);
 void updateHealth(Registry& registry, int id, int health);
 void createPlayer(Registry& registry, int id, int xPos, int yPos, int healthPoint);
-void createEnemy(Registry& registry, int id, int xPos, int yPos);
+void createEnemy(Registry& registry, int id, int xPos, int yPos, Sprite& sprite);
 void createBoss(Registry& registry, int id, int xPos, int yPos, int healthPoint);
 void createPlayerProjectile(Registry& registry, int id, int xPos, int yPos);
 void createEnemyProjectile(Registry& registry, int id, int xPos, int yPos);
