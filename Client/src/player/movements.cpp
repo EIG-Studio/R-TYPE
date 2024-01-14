@@ -193,11 +193,11 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
         Position blueProjectilePos = registry.getComponent(blueProjectile, Position{});
         std::pair<float, float> bluePairPos = blueProjectilePos.getPosition();
 
+        std::cout << "BLUE PROJECTILE : " << bluePairPos.first << " " << bluePairPos.second << std::endl;
         if (registry.getComponent(player, Position{}).getPosition().first >= bluePairPos.first &&
-            registry.getComponent(player, Position{}).getPosition().first <= bluePairPos.first &&
+            registry.getComponent(player, Position{}).getPosition().first <= bluePairPos.first + 1000 &&
             registry.getComponent(player, Position{}).getPosition().second >= bluePairPos.second &&
-            registry.getComponent(player, Position{}).getPosition().second <= bluePairPos.second) {
-            exit(43);
+            registry.getComponent(player, Position{}).getPosition().second <= bluePairPos.second + 1000) {
             registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
         }
     } catch (std::exception& e) {
