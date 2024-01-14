@@ -34,6 +34,7 @@ public:
     void setBackBuildPath(std::string mString);
     void setMidBuildPath(std::string mString);
     void setFrontBuildPath(std::string mString);
+    void setBossPath(std::string mString);
 
     std::string getLogoPath();
     std::string getTitlePath();
@@ -47,6 +48,7 @@ public:
     std::string getEnemyPath();
     std::string getCursorPath();
     std::string getKillPlayerPath();
+    std::string getBossPath();
 
     std::string getMainSongPath();
     std::string getShootSoundPath();
@@ -65,6 +67,7 @@ private:
 
     std::string m_pathPlayer;
     std::string m_pathEnemy;
+    std::string m_pathBoss;
 
     std::string m_pathMainSong;
     std::string m_pathShootSound;

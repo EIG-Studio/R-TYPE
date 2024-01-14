@@ -123,6 +123,7 @@ void levelOneConfig(Game& game, Sprite& sprite)
     sprite.setMidBuildPath("../Client/assets/Background/city_1/4.png");
     sprite.setFrontBuildPath("../Client/assets/Background/city_1/5.png");
     sprite.setEnemyPath("../Client/assets/Cars/cars/190.png");
+    sprite.setBossPath("../Client/assets/Boss/v-police.png");
     game.setPath(sprite);
     game.currentLevel = 1;
 }
@@ -135,6 +136,7 @@ void levelTwoConfig(Game& game, Sprite& sprite)
     sprite.setMidBuildPath("../Client/assets/Background/city_7/4.png");
     sprite.setFrontBuildPath("../Client/assets/Background/city_7/5.png");
     sprite.setEnemyPath("../Client/assets/Cars/cars/100.png");
+    sprite.setBossPath("../Client/assets/Cars/cars/120.png");
     game.setPath(sprite);
     game.currentLevel = 2;
 }

@@ -24,6 +24,7 @@ Sprite::Sprite()
 
     this->m_pathPlayer = "../Client/assets/Cars/189_neutral.png";
     this->m_pathEnemy = "../Client/assets/Cars/cars/190.png";
+    this->m_pathBoss = "../Client/assets/Boss/v-police.png";
 
     this->m_pathMainSong = "../Client/assets/Songs/SAMURAI_Never-Fade-Away_instru.wav";
     this->m_pathShootSound = "../Client/assets/Songs/shoot.wav";
@@ -58,6 +59,11 @@ void Sprite::setEnemyPath(std::string mString)
     this->m_pathEnemy = std::move(mString);
 }
 
+void Sprite::setBossPath(std::string mString)
+{
+    this->m_pathBoss = std::move(mString);
+}
+
 void Sprite::setBackPath(std::string mString)
 {
     this->m_pathBack = std::move(mString);
@@ -82,6 +88,8 @@ void Sprite::setFrontBuildPath(std::string mString)
 {
     this->m_pathFrontBuild = std::move(mString);
 }
+
+
 
 //     getter     //
 std::string Sprite::getLogoPath()
@@ -152,6 +160,11 @@ std::string Sprite::getShootSoundPath()
 std::string Sprite::getBoomEnemiesPath()
 {
     return this->m_pathBoomEnemies;
+}
+
+std::string Sprite::getBossPath()
+{
+    return this->m_pathBoss;
 }
 
 std::string Sprite::getKillPlayerPath()
