@@ -187,6 +187,22 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
+
+    try {
+        Entity blueProjectile = registry.getPowerUp();
+        Position blueProjectilePos = registry.getComponent(blueProjectile, Position{});
+        std::pair<float, float> bluePairPos = blueProjectilePos.getPosition();
+
+        if (registry.getComponent(player, Position{}).getPosition().first >= bluePairPos.first &&
+            registry.getComponent(player, Position{}).getPosition().first <= bluePairPos.first &&
+            registry.getComponent(player, Position{}).getPosition().second >= bluePairPos.second &&
+            registry.getComponent(player, Position{}).getPosition().second <= bluePairPos.second) {
+            exit(43);
+            registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
+        }
+    } catch (std::exception& e) {
+        std::cout << "Y'a R tkt" << std::endl;
+    }
     if (registry.getComponent(player, PowerUp{}).getBlueProjectile()) {
         shooting << "BLUE_PROJECILE " << pairPos.first + 100 << " " << pairPos.second + 10;
     } else {

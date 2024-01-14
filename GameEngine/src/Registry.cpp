@@ -212,6 +212,20 @@ Entity Registry::getBoss()
     throw std::runtime_error("No boss entity found\n");
 }
 
+
+Entity Registry::getPowerUp()
+{
+    for (auto& entity : m_entities) {
+        if (this->hasComponent(entity, Type{})) {
+            Type& typeComponent = this->getComponent(entity, Type{});
+            if (typeComponent.getEntityType() == EntityType::Power_Up) {
+                return entity;
+            }
+        }
+    }
+    throw std::runtime_error("No Power_Up entity found\n");
+}
+
 Entity Registry::getScore()
 {
     for (auto& entity : m_entities) {
