@@ -108,7 +108,7 @@ void Server::createBullet2(Registry& registry, int posx, int posy)
     Speed speedComponent(100);
     Type typeComponent = std::any_cast<EntityType>(Player_Projectile);
     HealthPoint healthPoint(1);
-    Damage damage(10);
+    Damage damage(3);
     Velocity velocityComponent = Velocity();
 
     velocityComponent.setVelocity(1, 0);
@@ -267,7 +267,7 @@ void Server::createBoss(Registry& registry)
     HitBox hitboxComponent = HitBox(positionComponent.getPosition(), std::make_pair(100, 100));
     Speed speedComponent(10);
     Type typeComponent = std::any_cast<EntityType>(Boss);
-    HealthPoint healthPointComponent(40);
+    HealthPoint healthPointComponent(100);
     Damage damageComponent(1);
     Clock clock;
 

@@ -34,7 +34,7 @@ void Server::spawnBoss(Registry& registry)
     if (!registry.hasComponent(score, ScorePoint{}))
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
-    if (scorePoint.getScorePoint() >= 0 && m_spawnBoss == 0) {
+    if (scorePoint.getScorePoint() >= 30 && m_spawnBoss == 0) {
         createBoss(registry);
         m_spawnBoss = 1;
     } else if (m_spawnBoss == 1 && !registry.hasEntityType(Boss)) {
