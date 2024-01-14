@@ -41,6 +41,8 @@ void Server::createBullet(Registry& registry, int posx, int posy)
 
 void Server::createPowerUp(Registry& registry, int posx, int posy)
 {
+    std::cout << "POSX: " << posx << std::endl;
+    std::cout << "POSY: " << posy << std::endl;
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     auto positionComponent = Position(std::make_pair(posx, posy));

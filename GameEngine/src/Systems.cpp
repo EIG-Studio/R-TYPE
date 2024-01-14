@@ -31,17 +31,19 @@ void shootingSystem(Entity entity, Registry& registry)
     }
 }
 
-void deathSystem(Entity entity, Registry& registry)
+std::string deathSystem(Entity entity, Registry& registry)
 {
     if (entity.mComponents.empty())
-        return;
+        return "";
     if (!registry.hasComponent(entity, HealthPoint{}))
-        return;
+        return "";
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
         registry.toDelete.push_back(registry.getComponent(entity, ID{}).getID());
-        // registry.deleteById(registry.getComponent(entity, ID{}).getID());
+        return "POWER_UP " + std::to_string(registry.getComponent(entity, Position{}).getPosition().first) + " " +
+               std::to_string(registry.getComponent(entity, Position{}).getPosition().second);
     }
+    return "";
 }
 
 std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
