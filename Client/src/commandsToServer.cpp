@@ -96,6 +96,9 @@ void handleReceive(
             case PLAYER_PROJECTILE:
                 createPlayerProjectile(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
+            case ENEMY_PROJECTILE:
+                createEnemyProjectile(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
+                break;
             case POWER_UP:
                 createPowerUp(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;

@@ -75,14 +75,14 @@ void Server::enemyMoveLevel1(Registry& registry, Entity& entity, std::size_t id)
     registry.setEntity(entity, id);
 }
 
-void Server::enemyMoveLevel2(Registry& registry, Entity& entity, std::size_t id)
+void Server::enemyMoveLevel2(Registry& registry, Entity& enemy, std::size_t id)
 {
-    Position& positionComponent = registry.getComponent(entity, Position());
+    Position& positionComponent = registry.getComponent(enemy, Position());
+    Clock& enemyClock = registry.getComponent(enemy, Clock{});
     if (positionComponent.getPosition().first < -100) {
         addMessage("DELETE " + std::to_string(id) + "\n");
         registry.deleteById(id);
     }
-
     std::vector<Entity> players = registry.getListEntities(Player);
     Entity randomPlayer;
     Position randomPlayerPos;
@@ -95,7 +95,7 @@ void Server::enemyMoveLevel2(Registry& registry, Entity& entity, std::size_t id)
 
     int deltaY = randomPlayerPos.getPosition().second - positionComponent.getPosition().second;
     int futureEnemyPosY = positionComponent.getPosition().second;
-    int threshold = registry.getComponent(entity, Speed{}).getSpeed();
+    int threshold = registry.getComponent(enemy, Speed{}).getSpeed();
     int enemySpeed = threshold;
 
     if (std::abs(deltaY) > threshold) {
@@ -103,13 +103,17 @@ void Server::enemyMoveLevel2(Registry& registry, Entity& entity, std::size_t id)
             futureEnemyPosY += enemySpeed;
         else
             futureEnemyPosY -= enemySpeed;
+    } else if (enemyClock.getClock() > 3) {
+        std::cout << "PIOU\n";
+        createEnemyBullet(registry, positionComponent.getPosition().first - 1, futureEnemyPosY);
+        enemyClock.restartClock();
     }
 
     positionComponent.setPosition(std::make_pair(positionComponent.getPosition().first - 1 * enemySpeed, futureEnemyPosY));
     std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(positionComponent.getPosition().first) +
                          " " + std::to_string(positionComponent.getPosition().second) + "\n";
     addMessage(newPos);
-    registry.setEntity(entity, id);
+    registry.setEntity(enemy, id);
 }
 
 // ### Boss Move
@@ -234,7 +238,6 @@ void Server::bossMoveLevel2(Registry& registry, Entity& entity, std::size_t id)
 }
 
 // ###
-
 
 void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss)
 {

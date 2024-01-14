@@ -191,6 +191,20 @@ private:
     float m_gravity;
 };
 
+/********-Clock Component-******/
+class Clock
+{
+public:
+    Clock() = default;
+    ~Clock() = default;
+
+    void restartClock();
+    float getClock();
+
+private:
+    sf::Clock m_clock;
+};
+
 /********-Shooter Component-******/
 class Shooter
 {

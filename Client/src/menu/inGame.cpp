@@ -280,13 +280,21 @@ void Game::moveEnemies(Registry& registry) const
 
 void Game::moveBullets(Registry& registry)
 {
-    const std::vector<Entity>& bullets = registry.getListEntities(Player_Projectile);
+    const std::vector<Entity>& playerBullets = registry.getListEntities(Player_Projectile);
+    const std::vector<Entity>& enemyBullets = registry.getListEntities(Player_Projectile);
 
-    for (const auto& bullet : bullets) {
+    for (const auto& bullet : playerBullets) {
         Entity currBullet = bullet;
         Position& positionComponent = registry.getComponent(currBullet, Position{});
         positionComponent.setPosition(
             std::make_pair(positionComponent.getPosition().first + 15, positionComponent.getPosition().second));
+        registry.setEntity(currBullet, registry.getComponent(currBullet, ID{}).getID());
+    }
+    for (const auto& bullet : enemyBullets) {
+        Entity currBullet = bullet;
+        Position& positionComponent = registry.getComponent(currBullet, Position{});
+        positionComponent.setPosition(
+            std::make_pair(positionComponent.getPosition().first - 7, positionComponent.getPosition().second));
         registry.setEntity(currBullet, registry.getComponent(currBullet, ID{}).getID());
     }
 }

@@ -41,6 +41,38 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     addMessage(newPlayerProjectile.str());
 }
 
+void Server::createEnemyBullet(Registry& registry, int posx, int posy)
+{
+    Entity entity = registry.createEntity();
+    ID idComponent = ID();
+    auto positionComponent = Position(std::make_pair(posx, posy));
+    Size sizeComponent = Size(std::make_pair(1, 1));
+    Speed speedComponent(30);
+    Type typeComponent = std::any_cast<EntityType>(Enemy_Projectile);
+    HealthPoint healthPoint(1);
+    Damage damage(1);
+    Velocity velocityComponent = Velocity();
+
+    velocityComponent.setVelocity(-1, 0);
+
+    entity = registry.addComponent(entity, idComponent);
+    entity = registry.addComponent(entity, positionComponent);
+    entity = registry.addComponent(entity, sizeComponent);
+    entity = registry.addComponent(entity, speedComponent);
+    entity = registry.addComponent(entity, typeComponent);
+    entity = registry.addComponent(entity, healthPoint);
+    entity = registry.addComponent(entity, damage);
+    entity = registry.addComponent(entity, velocityComponent);
+    entity = registry.addComponent(entity, HitBox(positionComponent.getPosition(), std::make_pair(50, 50)));
+
+    std::ostringstream newEnemyProjectile;
+    newEnemyProjectile << "ENEMY_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
+                       << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
+                       << " " << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
+                       << sizeComponent.getSize().second << " " << typeComponent << std::endl;
+    addMessage(newEnemyProjectile.str());
+}
+
 void Server::createPowerUp(Registry& registry, int posx, int posy)
 {
     Entity entity = registry.createEntity();
@@ -206,6 +238,7 @@ void Server::createEnemy(Registry& registry)
     HealthPoint healthPoint(5);
     HitBox hb = HitBox(positionComponent.getPosition(), std::make_pair(100, 50));
     Damage damage(1);
+    Clock clock;
 
     Entity entity = registry.createEntity();
     entity = registry.addComponent(entity, idComponent);
@@ -216,6 +249,7 @@ void Server::createEnemy(Registry& registry)
     entity = registry.addComponent(entity, healthPoint);
     entity = registry.addComponent(entity, hb);
     entity = registry.addComponent(entity, damage);
+    entity = registry.addComponent(entity, clock);
 
     std::ostringstream newPlayer2;
     newPlayer2 << "NEW_ENEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "

@@ -54,6 +54,7 @@ add_library(${PROJECT_NAME} STATIC
     src/Network.cpp
     src/Score.cpp
     src/PowerUp.cpp
+    src/Clock.cpp
 )
 
 
