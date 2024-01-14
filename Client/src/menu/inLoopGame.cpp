@@ -117,9 +117,6 @@ void InLoopGame::gameInLoop(
             pUp << "POWER_UP " << 200 << " " << 200;
             commandsToServer.sendToServerAsync(pUp.str(), ipAdress);
         }
-        if (event.key.code == sf::Keyboard::K) {
-            game.damageToPlayer(commandsToServer, registry, ipAdress);
-        }
     }
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::Escape) {

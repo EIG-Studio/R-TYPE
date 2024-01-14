@@ -211,6 +211,7 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }
 
+///// For Test
 void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getEntity(setPlayer(-1));
