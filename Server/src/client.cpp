@@ -56,11 +56,8 @@ void Server::addClient(Registry& registry, const boost::asio::ip::udp::endpoint&
         Client client(clientEndpoint, id);
         m_clients.push_back(client);
         sendMessage(TransferData{.command = LOGIN_OK, .args = {static_cast<int>(id), 0, 0, 0}}, client);
-        try {
-            createArrow(registry, client);
-        } catch (const std::exception& e) {
-            std::cerr << "Failed to createArrow: " << e.what() << std::endl;
-        }
+        sleep(1);
+        createArrow(registry, client);
         std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
     }
 }

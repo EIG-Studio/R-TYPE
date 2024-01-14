@@ -11,6 +11,23 @@
 
 #include <iostream>
 
+void Server::checkPlayerHealth(Registry& registry)
+{
+    try {
+        std::vector<Entity> players = registry.getListEntities(Player);
+        for (auto& player : players) {
+            if (registry.hasComponent(player, HealthPoint{})) {
+                HealthPoint& health = registry.getComponent(player, HealthPoint{});
+                if (health.getHealthPoint() <= 0) {
+                    addMessage("LOSE\n");
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+}
+
 void Server::spawnBoss(Registry& registry)
 {
     Entity score = registry.getFirstEntityOfType(EntityType::HUD);
@@ -21,7 +38,7 @@ void Server::spawnBoss(Registry& registry)
         createBoss(registry);
         m_spawnBoss = 1;
     } else if (m_spawnBoss == 1 && !registry.hasEntityType(Boss)) {
-        std::cout << "Boss killed\n";
+        std::cout << "Boss killed" << std::endl;
         addMessage("WIN\n");
     }
 }
@@ -213,6 +230,7 @@ void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::ve
         m_registeryMutex.lock();
         spawnBoss(registry);
         spawnPowerUp(registry);
+        checkPlayerHealth(registry);
         m_registeryMutex.unlock();
     }
 }
@@ -240,6 +258,7 @@ void Server::level2Loop(Registry& registry, std::vector<Entity> enemies, std::ve
         m_registeryMutex.lock();
         spawnBoss(registry);
         spawnPowerUp(registry);
+        checkPlayerHealth(registry);
         m_registeryMutex.unlock();
     }
 }

@@ -63,7 +63,8 @@ void handleReceive(
     std::string& /*mNewPos*/,
     Music& music,
     Game& game,
-    YouWinMenu& youWinMenu)
+    YouWinMenu& youWinMenu,
+    YouLooseMenu& youLoseMenu)
 {
     if (!error && len == 0) {
         std::cout << "No data received, non-blocking return." << std::endl;
@@ -127,6 +128,11 @@ void handleReceive(
             case WIN:
                 game.onGame = false;
                 youWinMenu.onWin = true;
+            case LOSE:
+                game.onGame = false;
+                youLoseMenu.onLoose = true;
+                break;
+
             default:
                 std::cout << "[LOG] NO SCORE" << std::endl;
                 break;
@@ -167,14 +173,23 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     });
 }
 
-void CommandsToServer::asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu)
+void CommandsToServer::asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu, YouLooseMenu& youLooseMenu)
 {
-    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music, &game, &youWinMenu](auto&& pH1, auto&& pH2) {
+    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music, &game, &youWinMenu, &youLooseMenu](auto&& pH1, auto&& pH2) {
         this->mutex.lock();
-        handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music, game, youWinMenu);
+        handleReceive(
+            std::ref(registry),
+            std::forward<decltype(pH1)>(pH1),
+            std::forward<decltype(pH2)>(pH2),
+            m_buffer,
+            m_newPos,
+            music,
+            game,
+            youWinMenu,
+            youLooseMenu);
         this->mutex.unlock();
         memset(m_buffer, 0, sizeof(TransferData));
-        asyncReceive(std::ref(registry), music, game, youWinMenu);
+        asyncReceive(std::ref(registry), music, game, youWinMenu, youLooseMenu);
     });
 }
 
