@@ -25,7 +25,7 @@ void Server::spawnBoss(Registry& registry)
 
 void Server::spawnPowerUp(Registry& registry)
 {
-    Entity score = registry.getScore();
+    Entity score = registry.getFirstEntityOfType(EntityType::HUD);
     if (!registry.hasComponent(score, ScorePoint{}))
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
