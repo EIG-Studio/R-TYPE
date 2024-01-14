@@ -155,7 +155,7 @@ void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
     std::cout << "BLUE_PROJECILE created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
-void checkBlue(Registry& registry, int id)
+void projectileIsBlue(Registry& registry, int id)
 {
     Entity player = registry.getEntity(id);
     registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
