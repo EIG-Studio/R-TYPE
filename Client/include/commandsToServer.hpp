@@ -23,6 +23,7 @@
 int setPlayer(int id);
 
 class Game;
+class Sprite;
 
 class CommandsToServer
 {
@@ -50,7 +51,7 @@ public:
     std::string getNewPos() const;
 
     std::future<void> sendToServerAsync(const std::string& msg, IpAdress& ipAdress);
-    void asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu, YouLooseMenu& youLooseMenu);
+    void asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu, YouLooseMenu& youLooseMenu, Sprite& sprite);
     std::mutex mutex;
 
 private:

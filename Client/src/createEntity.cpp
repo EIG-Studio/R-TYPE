@@ -189,7 +189,11 @@ void createScore(Registry& registry, int dataScore)
 
 void createArrow(Registry& registry, int id)
 {
-    Entity player = registry.getEntity(setPlayer(-1));
+    Entity player;
+    if (registry.hasEntity(setPlayer(-1)))
+        player = registry.getEntity(setPlayer(-1));
+    else
+        player = registry.getFirstEntityOfType(EntityType::Player);
     Position playerPos = registry.getComponent(player, Position{});
 
     Entity arrow = registry.createEntityWithID(id);

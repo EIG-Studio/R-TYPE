@@ -23,6 +23,7 @@
 
 #include <cstdlib>
 
+void levelTwoConfig(Game& game, Sprite& sprite);
 void log(const std::string& message)
 {
     std::cout << "[LOG] " << message << std::endl;
@@ -64,7 +65,8 @@ void handleReceive(
     Music& music,
     Game& game,
     YouWinMenu& youWinMenu,
-    YouLooseMenu& youLoseMenu)
+    YouLooseMenu& youLoseMenu,
+    Sprite& sprite)
 {
     if (!error && len == 0) {
         std::cout << "No data received, non-blocking return." << std::endl;
@@ -128,11 +130,14 @@ void handleReceive(
             case WIN:
                 game.onGame = false;
                 youWinMenu.onWin = true;
+                break;
             case LOSE:
                 game.onGame = false;
                 youLoseMenu.onLoose = true;
                 break;
-
+            case LEVEL:
+                if (receivedData.args[0] == 2)
+                    levelTwoConfig(game, sprite);
             default:
                 std::cout << "[LOG] NO SCORE" << std::endl;
                 break;
@@ -173,24 +178,32 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     });
 }
 
-void CommandsToServer::asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu, YouLooseMenu& youLooseMenu)
+void CommandsToServer::asyncReceive(
+    Registry& registry,
+    Music& music,
+    Game& game,
+    YouWinMenu& youWinMenu,
+    YouLooseMenu& youLooseMenu,
+    Sprite& sprite)
 {
-    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music, &game, &youWinMenu, &youLooseMenu](auto&& pH1, auto&& pH2) {
-        this->mutex.lock();
-        handleReceive(
-            std::ref(registry),
-            std::forward<decltype(pH1)>(pH1),
-            std::forward<decltype(pH2)>(pH2),
-            m_buffer,
-            m_newPos,
-            music,
-            game,
-            youWinMenu,
-            youLooseMenu);
-        this->mutex.unlock();
-        memset(m_buffer, 0, sizeof(TransferData));
-        asyncReceive(std::ref(registry), music, game, youWinMenu, youLooseMenu);
-    });
+    m_socket
+        .async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music, &game, &youWinMenu, &youLooseMenu, &sprite](auto&& pH1, auto&& pH2) {
+            this->mutex.lock();
+            handleReceive(
+                std::ref(registry),
+                std::forward<decltype(pH1)>(pH1),
+                std::forward<decltype(pH2)>(pH2),
+                m_buffer,
+                m_newPos,
+                music,
+                game,
+                youWinMenu,
+                youLooseMenu,
+                sprite);
+            this->mutex.unlock();
+            memset(m_buffer, 0, sizeof(TransferData));
+            asyncReceive(std::ref(registry), music, game, youWinMenu, youLooseMenu, sprite);
+        });
 }
 
 std::future<void> CommandsToServer::sendToServerAsync(const std::string& msg, IpAdress& ipAdress)
