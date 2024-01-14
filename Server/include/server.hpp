@@ -74,12 +74,13 @@ private:
     void createBullet2(Registry& registry, int posx, int posy);
     void createBoss(Registry& registry);
     void createArrow(Registry& registry);
+    void createArrow(Registry& registry, Client client);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void enemyMove(Registry& registry, Entity& entity, std::size_t id);
     void enemyShootAndMove(Registry& registry, Entity& entity, std::size_t id);
     void bossMove(Registry& registry, Entity& entity, std::size_t id);
     void bossShootAndMove(Registry& registry, Entity& entity, std::size_t id);
-    void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
+    void addClient(Registry& registry, const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
     void createWall(Registry& registry, int posx, int posy, int sizex, int sizey);
