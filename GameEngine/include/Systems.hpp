@@ -51,6 +51,7 @@ enum COMMAND
     LEVEL,
     ARROW_PLAYER,
     LOGIN_OK,
+    WIN,
 };
 
 COMMAND getCommand(const std::string& commandStr);

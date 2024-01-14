@@ -10,6 +10,7 @@
 #include "Systems.hpp"
 #include "entities.hpp"
 #include "ipAdress.hpp"
+#include "menu/menus.hpp"
 #include "music/sounds.hpp"
 
 #include <boost/array.hpp>
@@ -20,6 +21,8 @@
 #include <thread>
 
 int setPlayer(int id);
+
+class Game;
 
 class CommandsToServer
 {
@@ -47,7 +50,7 @@ public:
     std::string getNewPos() const;
 
     std::future<void> sendToServerAsync(const std::string& msg, IpAdress& ipAdress);
-    void asyncReceive(Registry& registry, Music& music);
+    void asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu);
     std::mutex mutex;
 
 private:

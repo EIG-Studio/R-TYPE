@@ -9,6 +9,8 @@
 
 #include "Systems.hpp"
 #include "createEntity.hpp"
+#include "menu/inGame.hpp"
+#include "menu/menus.hpp"
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
@@ -59,7 +61,9 @@ void handleReceive(
     size_t len,
     unsigned char buffer[sizeof(TransferData)],
     std::string& /*mNewPos*/,
-    Music& music)
+    Music& music,
+    Game& game,
+    YouWinMenu& youWinMenu)
 {
     if (!error && len == 0) {
         std::cout << "No data received, non-blocking return." << std::endl;
@@ -120,6 +124,9 @@ void handleReceive(
                 std::cout << "LOGIN OK " << std::to_string(receivedData.args[0]) << std::endl;
                 setPlayer(receivedData.args[0]);
                 break;
+            case WIN:
+                game.onGame = false;
+                youWinMenu.onWin = true;
             default:
                 std::cout << "[LOG] NO SCORE" << std::endl;
                 break;
@@ -160,14 +167,14 @@ void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, 
     });
 }
 
-void CommandsToServer::asyncReceive(Registry& registry, Music& music)
+void CommandsToServer::asyncReceive(Registry& registry, Music& music, Game& game, YouWinMenu& youWinMenu)
 {
-    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music](auto&& pH1, auto&& pH2) {
+    m_socket.async_receive(boost::asio::buffer(m_buffer), [this, &registry, &music, &game, &youWinMenu](auto&& pH1, auto&& pH2) {
         this->mutex.lock();
-        handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music);
+        handleReceive(std::ref(registry), std::forward<decltype(pH1)>(pH1), std::forward<decltype(pH2)>(pH2), m_buffer, m_newPos, music, game, youWinMenu);
         this->mutex.unlock();
         memset(m_buffer, 0, sizeof(TransferData));
-        asyncReceive(std::ref(registry), music);
+        asyncReceive(std::ref(registry), music, game, youWinMenu);
     });
 }
 

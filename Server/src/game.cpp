@@ -20,6 +20,9 @@ void Server::spawnBoss(Registry& registry)
     if (scorePoint.getScorePoint() >= 10 && m_spawnBoss == 0) {
         createBoss(registry);
         m_spawnBoss = 1;
+    } else if (m_spawnBoss == 1 && !registry.hasEntityType(Boss)) {
+        std::cout << "Boss killed\n";
+        addMessage("WIN\n");
     }
 }
 

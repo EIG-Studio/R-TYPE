@@ -188,7 +188,7 @@ int main()
     ButtonManager buttonManager(windowManager.getWindow(), windowManager.getFont());
 
     Registry registry = Registry();
-    commandsToServer.asyncReceive(std::ref(registry), music);
+    commandsToServer.asyncReceive(std::ref(registry), music, game, youWinMenu);
     while (windowManager.getWindow().isOpen()) {
         sf::Event event{};
         handleWindowEvents(event, windowManager, menu, choiceMenu, hostOrJoinMenu, lobbyMenu, game, sprite, music);

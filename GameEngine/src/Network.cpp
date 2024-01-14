@@ -35,6 +35,7 @@ std::map<std::string, COMMAND> commandMap =
      {"LEVEL", LEVEL},
      {"ARROW_PLAYER", ARROW_PLAYER},
      {"LOGIN_OK", LOGIN_OK},
+        {"WIN", WIN},
      {"UNKNOWN", UNKNOWN}};
 
 std::map<std::string, EntityType> typeMap =
