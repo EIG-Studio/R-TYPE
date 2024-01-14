@@ -281,7 +281,7 @@ void Game::moveEnemies(Registry& registry) const
 void Game::moveBullets(Registry& registry)
 {
     const std::vector<Entity>& playerBullets = registry.getListEntities(Player_Projectile);
-    const std::vector<Entity>& enemyBullets = registry.getListEntities(Player_Projectile);
+    const std::vector<Entity>& enemyBullets = registry.getListEntities(Enemy_Projectile);
 
     for (const auto& bullet : playerBullets) {
         Entity currBullet = bullet;
