@@ -196,7 +196,7 @@ void Game::shooting2(CommandsToServer& commandsToServer, Registry& registry, IpA
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
-    shooting << "HUHUHU " << pairPos.first + 100 << " " << pairPos.second + 10;
+    shooting << "BLUE_PROJECILE " << pairPos.first + 100 << " " << pairPos.second + 10;
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }
 

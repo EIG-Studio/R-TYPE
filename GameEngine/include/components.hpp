@@ -205,6 +205,7 @@ enum EntityType
     HUD,
     Arrow_Player,
     Boss,
+    Power_Up,
     Unknow
 };
 
