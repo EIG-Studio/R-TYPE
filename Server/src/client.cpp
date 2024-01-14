@@ -9,6 +9,8 @@
 
 #include "server.hpp"
 
+#include <iostream>
+
 bool Client::operator==(const boost::asio::ip::udp::endpoint& endpoint) const
 {
     return m_remoteEndpoint == endpoint;

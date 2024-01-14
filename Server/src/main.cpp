@@ -5,8 +5,6 @@
 ** main
 */
 
-#include "SFML/Graphics/Sprite.hpp"
-#include "components.hpp"
 #include "entities.hpp"
 #include "server.hpp"
 

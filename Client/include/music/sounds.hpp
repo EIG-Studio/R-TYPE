@@ -5,8 +5,8 @@
 ** music
 */
 
-#ifndef MUSIC_HPP_
-#define MUSIC_HPP_
+#pragma once
+
 #include "sprite/sprite.hpp"
 
 #include <SFML/Audio.hpp>
@@ -24,10 +24,4 @@ public:
     sf::Music killPlayer;
     bool playMenuMusic;
     void setPath(Sprite mSprite);
-
-protected:
-
-private:
 };
-
-#endif /* !MUSIC_HPP_ */

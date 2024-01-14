@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "../../GameEngine/include/entities.hpp"
 #include "commandsToServer.hpp"
+#include "entities.hpp"
 #include "ipAdress.hpp"
 #include "menu/menus.hpp"
 #include "sprite/sprite.hpp"

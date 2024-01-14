@@ -8,9 +8,9 @@
 #pragma once
 
 #include "commandsToServer.hpp"
-#include "menu/inGame.hpp"
-#include "menu/inLoopGame.hpp"
-#include "menu/menus.hpp"
+#include "inGame.hpp"
+#include "inLoopGame.hpp"
+#include "menus.hpp"
 #include "music/sounds.hpp"
 #include "window.hpp"
 

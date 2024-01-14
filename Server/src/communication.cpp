@@ -7,6 +7,8 @@
 
 #include "server.hpp"
 
+#include <iostream>
+
 void Server::startListening(Registry& registry)
 {
     auto receiveCallback = [this, &registry](const boost::system::error_code& error, std::size_t bytesReceived) {

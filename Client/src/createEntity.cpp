@@ -7,7 +7,6 @@
 
 #include "createEntity.hpp"
 
-#include "Systems.hpp"
 #include "components.hpp"
 
 #include <iostream>

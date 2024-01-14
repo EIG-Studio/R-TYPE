@@ -4,16 +4,9 @@
 ** File description:
 ** systems
 */
-/*
-- ShootingSystem -<Basic>-
-- DeathSystem -<Basic>-
-- DamagedSystem -<Basic>-
-- MovementSystem -<Basic>-
-- IASystem -<Basic>-
-- RendererSystem -<Basic>-
-*/
 
 #pragma once
+
 #include "entities.hpp"
 
 #include <array>

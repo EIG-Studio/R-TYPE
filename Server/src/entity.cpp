@@ -7,6 +7,8 @@
 
 #include "server.hpp"
 
+#include <random>
+
 void Server::createBullet(Registry& registry, int posx, int posy)
 {
     Entity entity = registry.createEntity();
@@ -35,14 +37,12 @@ void Server::createBullet(Registry& registry, int posx, int posy)
     newPlayerProjectile << "PLAYER_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
                         << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
                         << " " << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-                        << sizeComponent.getSize().second << " " << typeComponent << "\n";
+                        << sizeComponent.getSize().second << " " << typeComponent << std::endl;
     addMessage(newPlayerProjectile.str());
 }
 
 void Server::createPowerUp(Registry& registry, int posx, int posy)
 {
-    std::cout << "POSX: " << posx << std::endl;
-    std::cout << "POSY: " << posy << std::endl;
     Entity entity = registry.createEntity();
     ID idComponent = ID();
     auto positionComponent = Position(std::make_pair(posx, posy));
@@ -63,7 +63,7 @@ void Server::createPowerUp(Registry& registry, int posx, int posy)
     newPlayerProjectile << "POWER_UP " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                         << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                         << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-                        << sizeComponent.getSize().second << " " << typeComponent << "\n";
+                        << sizeComponent.getSize().second << " " << typeComponent << std::endl;
     addMessage(newPlayerProjectile.str());
 }
 
@@ -95,7 +95,7 @@ void Server::createBullet2(Registry& registry, int posx, int posy)
     newPlayerProjectile << "BLUE_PROJECILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
                         << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
                         << " " << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-                        << sizeComponent.getSize().second << " " << typeComponent << "\n";
+                        << sizeComponent.getSize().second << " " << typeComponent << std::endl;
     addMessage(newPlayerProjectile.str());
 }
 
@@ -129,7 +129,7 @@ std::size_t Server::createPlayer(Registry& registry)
     newPlayer << "NEW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
               << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
               << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-              << sizeComponent.getSize().second << " " << typeComponent << "\n";
+              << sizeComponent.getSize().second << " " << typeComponent << std::endl;
     addMessage(newPlayer.str());
     return registry.getComponent(entity, idComponent).getID();
 }
@@ -151,7 +151,7 @@ void Server::createArrow(Registry& registry)
 
     std::ostringstream arrowStr;
     arrowStr << "ARROW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
-             << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << "\n";
+             << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << std::endl;
     addMessage(arrowStr.str());
 }
 
@@ -172,7 +172,7 @@ void Server::createArrow(Registry& registry, Client client)
 
     std::ostringstream arrowStr;
     arrowStr << "ARROW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
-             << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << "\n";
+             << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << std::endl;
     sendMessage(
         TransferData{
             .command = ARROW_PLAYER,
@@ -221,7 +221,7 @@ void Server::createEnemy(Registry& registry)
     newPlayer2 << "NEW_ENEMY " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
                << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
                << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-               << sizeComponent.getSize().second << " " << typeComponent << "\n";
+               << sizeComponent.getSize().second << " " << typeComponent << std::endl;
     addMessage(newPlayer2.str());
 }
 
@@ -250,7 +250,7 @@ void Server::createBoss(Registry& registry)
     newBoss << "NEW_BOSS " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
             << positionComponent.getPosition().first << " " << positionComponent.getPosition().second << " "
             << healthPointComponent.getHealthPoint() << " " << sizeComponent.getSize().first << " "
-            << sizeComponent.getSize().second << " " << typeComponent << "\n";
+            << sizeComponent.getSize().second << " " << typeComponent << std::endl;
     addMessage(newBoss.str());
 }
 

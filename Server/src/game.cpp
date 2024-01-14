@@ -236,6 +236,7 @@ void Server::level2Loop(Registry& registry, std::vector<Entity> enemies, std::ve
     if (m_gameStarted) {
         m_registeryMutex.lock();
         spawnBoss(registry);
+        spawnPowerUp(registry);
         m_registeryMutex.unlock();
     }
 }
