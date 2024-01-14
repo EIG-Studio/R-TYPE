@@ -48,11 +48,11 @@ void Server::bossMove(Registry& registry, Entity& entity, std::size_t id)
     Position& bossPos = registry.getComponent(entity, Position());
 
     // boss waiting goes too far
-    if (bossPos.getPosition().first <= 600 && m_bossPhase == 1 && m_bossIsAttacking == false) {
+    if (bossPos.getPosition().first <= 600 && m_bossPhase == 1 && !m_bossIsAttacking) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(600, bossPos.getPosition().second));
         std::cout << "TEST3\n";
-    } else if (bossPos.getPosition().first >= -170 && m_bossPhase == 2 && m_bossIsAttacking == false) {
+    } else if (bossPos.getPosition().first >= -170 && m_bossPhase == 2 && !m_bossIsAttacking) {
         m_bossWaiting = false;
         bossPos.setPosition(std::make_pair(-170, bossPos.getPosition().second));
         std::cout << "TEST4\n";
@@ -75,23 +75,23 @@ void Server::bossMove(Registry& registry, Entity& entity, std::size_t id)
     int deltaY = randomPlayerPos.getPosition().second - bossPos.getPosition().second;
     int futureBossPosY = bossPos.getPosition().second;
 
-    if (std::abs(deltaY) > threshold && m_bossIsAttacking == false) {
+    if (std::abs(deltaY) > threshold && !m_bossIsAttacking) {
         if (futureBossPosY < randomPlayerPos.getPosition().second)
             futureBossPosY += bossSpeed;
         else
             futureBossPosY -= bossSpeed;
-    } else if (m_bossWaiting == false) {
+    } else if (!m_bossWaiting) {
         m_bossIsAttacking = true;
     }
 
     // boss moves
-    if (m_bossIsAttacking == false && m_bossPhase == 1)
+    if (!m_bossIsAttacking && m_bossPhase == 1)
         bossPos.setPosition(std::make_pair(bossPos.getPosition().first - bossSpeed, futureBossPosY));
-    else if (m_bossIsAttacking == false && m_bossPhase == 2)
+    else if (!m_bossIsAttacking && m_bossPhase == 2)
         bossPos.setPosition(std::make_pair(bossPos.getPosition().first + bossSpeed, futureBossPosY));
-    else if (m_bossPhase == 1 && m_bossWaiting == false)
+    else if (m_bossPhase == 1 && !m_bossWaiting)
         bossPos.setPosition(std::make_pair(bossPos.getPosition().first - bossSpeed * 5, futureBossPosY));
-    else if (m_bossPhase == 2 && m_bossWaiting == false)
+    else if (m_bossPhase == 2 && !m_bossWaiting)
         bossPos.setPosition(std::make_pair(bossPos.getPosition().first + bossSpeed * 5, futureBossPosY));
 
     std::string newPos = "NEW_POS " + std::to_string(id) + " " + std::to_string(bossPos.getPosition().first) + " " +
