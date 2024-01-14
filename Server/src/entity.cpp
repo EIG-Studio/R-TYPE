@@ -240,7 +240,7 @@ void Server::createBoss(Registry& registry)
     HitBox hitboxComponent = HitBox(positionComponent.getPosition(), std::make_pair(100, 100));
     Speed speedComponent(10);
     Type typeComponent = std::any_cast<EntityType>(Boss);
-    HealthPoint healthPointComponent(50);
+    HealthPoint healthPointComponent(40);
     Damage damageComponent(1);
 
     Entity entity = registry.createEntity();
