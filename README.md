@@ -102,7 +102,7 @@ This repository thrives on your contributions! ❤️ To get involved, see the [
         </td>
         <td align="center" style="min-width: 150px; border: 2px solid; padding: 20px">
             <a href="https://github.com/GaetanRaux">
-                <img src="https://media.licdn.com/dms/image/D4D35AQHc6aYfWPtlyA/profile-framedphoto-shrink_800_800/0/1694726142363?e=1705068000&v=beta&t=fNGtdtbnFPRYDgo2qBSvtN1JK89sDjCP2OBI3IyEAC0" width="150px;" alt="Gaetan Raux profile picture"/>
+                <img src="https://media.licdn.com/dms/image/D4D35AQHc6aYfWPtlyA/profile-framedphoto-shrink_800_800/0/1694726142363?e=1705863600&v=beta&t=0Wgaq0tr0EyKV8LPibtvr05G7fEO_RjDkaQNR5TtCV8" width="150px;" alt="Gaetan Raux profile picture"/>
                 <br />
                 <b>Gaëtan RAUX</b>
             </a>
@@ -114,7 +114,7 @@ This repository thrives on your contributions! ❤️ To get involved, see the [
         </td>
         <td align="center" style="min-width: 150px; border: 2px solid; padding: 20px">
             <a href="https://github.com/skyli3spro">
-                <img src="https://media.licdn.com/dms/image/D4E35AQFSXcAbWrQ8-w/profile-framedphoto-shrink_800_800/0/1694761509156?e=1705068000&v=beta&t=6Vq5SjcJphkw07N8v6QPtLH-D7w1Aiet97l5gGcT-ZI" width="150px;" alt="Quentin CHARPENTIER profile picture"/>
+                <img src="https://media.licdn.com/dms/image/D4E35AQFSXcAbWrQ8-w/profile-framedphoto-shrink_800_800/0/1694761509156?e=1705863600&v=beta&t=1aYj-QuOwEYoyeBQLfVZqJ8zujAyOi-lyWzth1Djo3I" width="150px;" alt="Quentin CHARPENTIER profile picture"/>
                 <br />
                 <b>Quentin CHARPENTIER</b>
             </a>
@@ -126,7 +126,7 @@ This repository thrives on your contributions! ❤️ To get involved, see the [
         </td>
         <td align="center" style="min-width: 150px; border: 2px solid; padding: 20px">
             <a href="https://github.com/Leandre17">
-                <img src="https://media.licdn.com/dms/image/D4E35AQEn3260Gx_vRQ/profile-framedphoto-shrink_800_800/0/1699452983075?e=1705068000&v=beta&t=2s0UEZ3c1eem6Sra5MrSoUGEYJEtQ7QiHCjDBZlBo3Q" width="150px;" alt="Léandre GODET profile picture"/>
+                <img src="https://media.licdn.com/dms/image/D4E35AQEn3260Gx_vRQ/profile-framedphoto-shrink_800_800/0/1699452983075?e=1705863600&v=beta&t=Yd6o-VzBHB6H2XW-ciXvGAzEuEV_BcRmvrZctHbgyog" width="150px;" alt="Léandre GODET profile picture"/>
                 <br />
                 <b>Léandre GODET</b>
             </a>
@@ -138,7 +138,7 @@ This repository thrives on your contributions! ❤️ To get involved, see the [
         </td>
       <td align="center" style="min-width: 150px; border: 2px solid; padding: 20px">
             <a href="https://github.com/mathieumdc">
-                <img src="https://media.licdn.com/dms/image/D4E35AQFtrJezeDJFgg/profile-framedphoto-shrink_800_800/0/1704357638351?e=1705068000&v=beta&t=wErMc3uCtufiYNVbx7Slp3DHA2tCnCI4iHT4Rs7UQms" width="150px;" alt="Mathieu de Coninck profile picture"/>
+                <img src="https://media.licdn.com/dms/image/D4E35AQFtrJezeDJFgg/profile-framedphoto-shrink_800_800/0/1704357638351?e=1705863600&v=beta&t=kkak79NxtuLEVU_uN4hdU_UDOm5Y4-ndszxKSiA-acg" width="150px;" alt="Mathieu de Coninck profile picture"/>
                 <br />
                 <b>Mathieu de Coninck</b>
             </a>
