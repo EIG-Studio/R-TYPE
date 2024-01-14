@@ -199,6 +199,7 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
             registry.getComponent(player, Position{}).getPosition().second >= bluePairPos.second &&
             registry.getComponent(player, Position{}).getPosition().second <= bluePairPos.second + 1000) {
             registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
+            registry.setEntity(player, registry.getComponent(player, ID{}).getID());
         }
     } catch (std::exception& e) {
         std::cout << "Y'a R tkt" << std::endl;

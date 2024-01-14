@@ -128,8 +128,8 @@ void handleReceive(
 
 void sendToServer(boost::asio::ip::udp::socket& socket, const std::string& msg, IpAdress& ipAdress)
 {
-    std::cout << "\033[1;31m"
-              << "[CLIENT]: \033[0m" << msg << std::endl;
+    //std::cout << "\033[1;31m"
+    //          << "[CLIENT]: \033[0m" << msg << std::endl;
     TransferData data{};
     std::istringstream iss(msg);
     std::string word;
