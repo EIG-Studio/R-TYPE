@@ -259,7 +259,6 @@ void Server::level1Loop(Registry& registry, std::vector<Entity> enemies, std::ve
         m_registeryMutex.lock();
         spawnBoss(registry);
         spawnPowerUp(registry);
-        checkPlayerHealth(registry);
         m_registeryMutex.unlock();
     }
 }
@@ -287,7 +286,6 @@ void Server::level2Loop(Registry& registry, std::vector<Entity> enemies, std::ve
         m_registeryMutex.lock();
         spawnBoss(registry);
         spawnPowerUp(registry);
-        checkPlayerHealth(registry);
         m_registeryMutex.unlock();
     }
 }
