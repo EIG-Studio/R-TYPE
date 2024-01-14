@@ -47,22 +47,16 @@ void Server::createPowerUp(Registry& registry, int posx, int posy)
     ID idComponent = ID();
     auto positionComponent = Position(std::make_pair(posx, posy));
     Size sizeComponent = Size(std::make_pair(1, 1));
-    //Speed speedComponent(100);
     Type typeComponent = std::any_cast<EntityType>(Power_Up);
     HealthPoint healthPoint(1);
     Damage damage(10);
-    //Velocity velocityComponent = Velocity();
-
-    //velocityComponent.setVelocity(1, 0);
 
     entity = registry.addComponent(entity, idComponent);
     entity = registry.addComponent(entity, positionComponent);
     entity = registry.addComponent(entity, sizeComponent);
-    //entity = registry.addComponent(entity, speedComponent);
     entity = registry.addComponent(entity, typeComponent);
     entity = registry.addComponent(entity, healthPoint);
     entity = registry.addComponent(entity, damage);
-    //entity = registry.addComponent(entity, velocityComponent);
     entity = registry.addComponent(entity, HitBox(positionComponent.getPosition(), std::make_pair(50, 50)));
 
     std::ostringstream newPlayerProjectile;
@@ -179,7 +173,6 @@ void Server::createArrow(Registry& registry, Client client)
     std::ostringstream arrowStr;
     arrowStr << "ARROW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
              << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << "\n";
-    // addMessage(arrowStr.str());
     sendMessage(
         TransferData{
             .command = ARROW_PLAYER,
