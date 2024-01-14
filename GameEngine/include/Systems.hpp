@@ -48,6 +48,7 @@ enum COMMAND
     SHOOT,
     POWER_UP,
     BLUE_PROJECILE,
+    TBLUE,
     DAMAGE_TO_PLAYER,
     UNKNOWN,
     EMPTY,

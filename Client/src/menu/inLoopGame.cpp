@@ -104,7 +104,7 @@ void InLoopGame::gameInLoop(
             ipAdress);
         game.moveEnemies(registry);
         game.moveBullets(registry);
-        game.checkGetPowerUp(registry);
+        // game.checkGetPowerUp(registry);
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

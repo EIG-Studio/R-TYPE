@@ -186,8 +186,9 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
+    auto blueProjectile = registry.getComponent(player, PowerUp{}).getBlueProjectile();
 
-    if (registry.getComponent(player, PowerUp{}).getBlueProjectile()) {
+    if (blueProjectile) {
         shooting << "BLUE_PROJECILE " << pairPos.first + 100 << " " << pairPos.second + 10;
     } else {
         shooting << "SHOOT " << pairPos.first + 100 << " " << pairPos.second + 10;

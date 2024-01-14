@@ -140,14 +140,8 @@ std::string collisionPowerUp(Entity entity, Entity otherEntity, Registry& regist
         return "";
 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player) {
-        auto& powerUp = registry.getComponent(otherEntity, PowerUp{});
-        auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
-        healthPoint.setHealthPoint(healthPoint.getHealthPoint() + 1000);
-        powerUp.setBlueProjectile(true);
-        registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
+        return "TBLUE " + std::to_string(registry.getComponent(otherEntity, ID{}).getID());
     }
-    // return "BLUE_PROJECTILE " + std::to_string(registry.getComponent(otherEntity, ID{}).getID()) + " " +
-    //        std::to_string(registry.getComponent(otherEntity, PowerUp{}).getBlueProjectile()) + "\n";
     return "";
 }
 

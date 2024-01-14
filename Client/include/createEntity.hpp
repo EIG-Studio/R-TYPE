@@ -20,3 +20,4 @@ void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos);
 void createHud(Registry& registry, int id, int dataScore);
 void createScore(Registry& registry, int dataScore);
 void createArrow(Registry& registry, int id);
+void checkBlue(Registry& registry, int id);

@@ -155,6 +155,13 @@ void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
     std::cout << "BLUE_PROJECILE created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
+void checkBlue(Registry& registry, int id)
+{
+    Entity player = registry.getEntity(id);
+    registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
+    registry.setEntity(player, registry.getComponent(player, ID{}).getID());
+}
+
 void createHud(Registry& registry, int id, int dataScore)
 {
     std::cout << "NEW_HUD" << std::endl;

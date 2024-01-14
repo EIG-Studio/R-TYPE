@@ -95,6 +95,9 @@ void handleReceive(
             case BLUE_PROJECILE:
                 createPlayerProjectile2(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
+            case TBLUE:
+                checkBlue(registry, receivedData.args[0]);
+                break;
             case DELETE_ENTITY:
                 registry.deleteById(receivedData.args[0]);
                 break;
