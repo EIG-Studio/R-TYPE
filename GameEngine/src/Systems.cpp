@@ -168,6 +168,28 @@ std::string collisionProjectile(Entity entity, Entity otherEntity, Registry& reg
     return "";
 }
 
+std::string collisionEnemyProjectile(Entity entity, Entity otherEntity, Registry& registry)
+{
+    if (!registry.hasComponent(otherEntity, Type{}))
+        return "";
+
+    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player)
+        return damagedSystem(entity, otherEntity, registry);
+
+    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile ||
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Boss ||
+        registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
+        return "";
+
+
+    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Wall) {
+        registry.destroyEntity(entity);
+        return "DELETE " + std::to_string(registry.getComponent(entity, ID{}).getID()) + "\n";
+    }
+    return "";
+}
+
 bool isCollision(
     const std::pair<int, int>& pos1,
     const std::pair<int, int>& size1,
@@ -211,7 +233,7 @@ std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registr
         {EntityType::Player, collisionPlayer},
         {EntityType::Enemy, collisionEnemy},
         {EntityType::Player_Projectile, collisionProjectile},
-        {EntityType::Enemy_Projectile, collisionProjectile},
+        {EntityType::Enemy_Projectile, collisionEnemyProjectile},
         {EntityType::Boss, collisionEnemy},
         {EntityType::Power_Up, collisionPowerUp},
     };
