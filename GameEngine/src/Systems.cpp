@@ -86,7 +86,10 @@ void noMoveSystem(Entity entity, Entity otherEntity, Registry& registry)
     auto& positionEntity = registry.getComponent(entity, Position{});
     auto& positionOtherEntity = registry.getComponent(otherEntity, Position{});
 
-    positionEntity.setPosition({100, 100});
+    // set the position of the entity like there is a wall
+    positionEntity.setPosition({positionEntity.getPosition().first, positionOtherEntity.getPosition().second});
+
+    // positionEntity.setPosition({positionEntity.getPosition().first, positionOtherEntity.getPosition().second});
     registry.setEntity(entity, registry.getComponent(entity, ID{}).getID());
 }
 
@@ -133,6 +136,22 @@ std::string collisionEnemy(const Entity& entity, Entity otherEntity, Registry& r
     // noMoveSystem(entity, otherEntity, registry);
     return "";
 }
+
+std::string collisionPowerUp(Entity entity, Entity otherEntity, Registry& registry)
+{
+    if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
+        return "";
+
+    // auto& powerUp = registry.getComponent(otherEntity, PowerUp{});
+    auto& healthPoint = registry.getComponent(otherEntity, HealthPoint{});
+    healthPoint.setHealthPoint(healthPoint.getHealthPoint() + 1000);
+    // powerUp.setBlueProjectile(true);
+    registry.setEntity(otherEntity, registry.getComponent(otherEntity, ID{}).getID());
+    // return "BLUE_PROJECTILE " + std::to_string(registry.getComponent(otherEntity, ID{}).getID()) + " " +
+    //        std::to_string(registry.getComponent(otherEntity, PowerUp{}).getBlueProjectile()) + "\n";
+    return "";
+}
+
 
 std::string collisionProjectile(Entity entity, Entity otherEntity, Registry& registry)
 {
@@ -200,6 +219,7 @@ std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registr
         {EntityType::Player_Projectile, collisionProjectile},
         {EntityType::Enemy_Projectile, collisionProjectile},
         {EntityType::Boss, collisionEnemy},
+        {EntityType::Power_Up, collisionPowerUp},
     };
     EntityType entityType;
 
