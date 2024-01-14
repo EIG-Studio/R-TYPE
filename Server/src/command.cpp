@@ -108,7 +108,7 @@ void Server::handleReceivedData(
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == POWER_UP) {
             createPowerUp(registry, receivedData.args[0], receivedData.args[1]);
-        } else if (receivedData.command == HUHUHU) {
+        } else if (receivedData.command == BLUE_PROJECILE) {
             createBullet2(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {
             if (!m_gameStarted)

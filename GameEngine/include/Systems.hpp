@@ -46,7 +46,7 @@ enum COMMAND
     UPDATE,
     SHOOT,
     POWER_UP,
-    HUHUHU,
+    BLUE_PROJECILE,
     DAMAGE_TO_PLAYER,
     UNKNOWN,
     EMPTY,

@@ -92,7 +92,7 @@ void handleReceive(
             case POWER_UP:
                 createPowerUp(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
-            case HUHUHU:
+            case BLUE_PROJECILE:
                 createPlayerProjectile2(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
             case DELETE_ENTITY:

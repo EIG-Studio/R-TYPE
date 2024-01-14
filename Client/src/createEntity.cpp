@@ -151,7 +151,7 @@ void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
 
     Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
     std::pair<int, int> pairPos = playerProjectilePos.getPosition();
-    std::cout << "HUHUHU created pos: " << pairPos.first << " " << pairPos.second << '\n';
+    std::cout << "BLUE_PROJECILE created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
 void createHud(Registry& registry, int id, int dataScore)

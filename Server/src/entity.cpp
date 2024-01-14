@@ -96,7 +96,7 @@ void Server::createBullet2(Registry& registry, int posx, int posy)
     entity = registry.addComponent(entity, HitBox(positionComponent.getPosition(), std::make_pair(50, 50)));
 
     std::ostringstream newPlayerProjectile;
-    newPlayerProjectile << "HUHUHU_PROJECTILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
+    newPlayerProjectile << "BLUE_PROJECILE " << static_cast<int>(registry.getComponent(entity, idComponent).getID())
                         << " " << positionComponent.getPosition().first << " " << positionComponent.getPosition().second
                         << " " << healthPoint.getHealthPoint() << " " << sizeComponent.getSize().first << " "
                         << sizeComponent.getSize().second << " " << typeComponent << "\n";
