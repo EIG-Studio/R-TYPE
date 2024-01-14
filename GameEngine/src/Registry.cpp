@@ -85,7 +85,11 @@ std::vector<std::string> Registry::systemsManager()
             messages.push_back(message);
             message = "";
         }
-        deathSystem(entity, *this);
+        message = deathSystem(entity, *this);
+        if (!message.empty()) {
+            messages.push_back(message);
+            message = "";
+        }
     }
     int newScore = 0;
     for (auto& id : toDelete) {

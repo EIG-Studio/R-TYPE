@@ -104,7 +104,6 @@ void InLoopGame::gameInLoop(
             ipAdress);
         game.moveEnemies(registry);
         game.moveBullets(registry);
-        // game.checkGetPowerUp(registry);
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
@@ -112,11 +111,6 @@ void InLoopGame::gameInLoop(
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
-        }
-        if (event.key.code == sf::Keyboard::P) {
-            std::ostringstream pUp;
-            pUp << "POWER_UP " << 200 << " " << 200;
-            commandsToServer.sendToServerAsync(pUp.str(), ipAdress);
         }
     }
     if (event.type == sf::Event::KeyReleased) {

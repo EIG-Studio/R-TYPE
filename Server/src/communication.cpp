@@ -25,8 +25,8 @@ void Server::addMessage(const std::string& message)
     TransferData data{.command = EMPTY, .args = {0, 0, 0, 0}};
     std::istringstream iss(message);
     int i = 0;
-    std::cout << "\033[1;32m"
-              << "[SERVER]: \033[0m" << message;
+    //std::cout << "\033[1;32m"
+    //          << "[SERVER]: \033[0m" << message;
     std::string word;
     iss >> word;
     data.command = getCommand(word);
