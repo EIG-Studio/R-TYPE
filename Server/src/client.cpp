@@ -56,7 +56,6 @@ void Server::addClient(Registry& registry, const boost::asio::ip::udp::endpoint&
         Client client(clientEndpoint, id);
         m_clients.push_back(client);
         sendMessage(TransferData{.command = LOGIN_OK, .args = {static_cast<int>(id), 0, 0, 0}}, client);
-        sleep(1);
         sendMessage(TransferData{.command = LEVEL, .args = {m_currentLevel, 0, 0, 0}}, client);
         createArrow(registry, client);
         std::cout << "Client added: " << clientEndpoint.address().to_string() << ":" << clientEndpoint.port() << std::endl;
