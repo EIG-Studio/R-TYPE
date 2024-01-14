@@ -112,10 +112,6 @@ void InLoopGame::gameInLoop(
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
         }
-        if (event.key.code == sf::Keyboard::J) {
-            game.shooting2(commandsToServer, registry, ipAdress);
-            music.shootSound.play();
-        }
         if (event.key.code == sf::Keyboard::P) {
             std::ostringstream pUp;
             pUp << "POWER_UP " << 200 << " " << 200;
