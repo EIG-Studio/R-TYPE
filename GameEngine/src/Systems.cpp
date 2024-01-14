@@ -249,14 +249,8 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
     if (entity.mComponents.empty())
         return;
-    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) ||
-        !registry.hasComponent(entity, Type{}))
+    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
-
-    Type& typeComponent = registry.getComponent(entity, Type{});
-    if (typeComponent.getEntityType() == EntityType::Player) {
-        Position entityPos = registry.getComponent(entity, Position{});=
-    }
 
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
     sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();
