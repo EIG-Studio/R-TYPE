@@ -155,6 +155,36 @@ void Server::createArrow(Registry& registry)
     addMessage(arrowStr.str());
 }
 
+void Server::createArrow(Registry& registry, Client client)
+{
+    Entity player = registry.getPlayer();
+    Position playerPos = registry.getComponent(player, Position{});
+
+    ID idComponent = ID();
+    auto positionComponent = Position(playerPos);
+    Size sizeComponent = Size(std::make_pair(1, 1));
+
+    Entity entity = registry.createEntityWithID(idComponent);
+    entity = registry.addComponent(entity, Position(playerPos));
+    entity = registry.addComponent(entity, Size(std::make_pair(1, 1)));
+    entity = registry.addComponent(entity, Type(std::any_cast<EntityType>(Arrow_Player)));
+
+
+    std::ostringstream arrowStr;
+    arrowStr << "ARROW_PLAYER " << static_cast<int>(registry.getComponent(entity, idComponent).getID()) << " "
+             << " " << sizeComponent.getSize().first << " " << sizeComponent.getSize().second << "\n";
+    // addMessage(arrowStr.str());
+    sendMessage(
+        TransferData{
+            .command = ARROW_PLAYER,
+            .args =
+                {static_cast<int>(registry.getComponent(entity, idComponent).getID()),
+                 static_cast<int>(sizeComponent.getSize().first),
+                 static_cast<int>(sizeComponent.getSize().second),
+                 0}},
+        client);
+}
+
 int randNb(int x, int y)
 {
     std::random_device rd;
