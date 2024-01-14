@@ -15,7 +15,7 @@ void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
 {
     if (registry.hasEntityType(HUD)) {
         windowManager.getWindow().clear();
-        Entity score = registry.getScore();
+        Entity score = registry.getFirstEntityOfType(EntityType::HUD);
         ScorePoint scorePoints = registry.getComponent(score, ScorePoint{});
 
         scoreText.setString("Score: " + std::to_string(static_cast<int>(scorePoints.getScorePoint())));
@@ -31,7 +31,7 @@ void InLoopGame::refreshRegistry(Registry& registry, CommandsToServer& commandsT
         if (!registry.hasComponent(entity, Type()))
             continue;
         EntityType type = registry.getComponent(entity, Type()).getEntityType();
-        if (type == EntityType::Player || type == EntityType::Player_Projectile || type == EntityType::Enemy) {
+        if (type == EntityType::Player || type == EntityType::Player_Projectile || type == EntityType::Enemy || type == EntityType::Boss) {
             commandsToServer.sendToServerAsync("REFRESH " + std::to_string(registry.getComponent(entity, ID()).getID()), ipAdress);
             continue;
         }
@@ -49,7 +49,7 @@ void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdre
 void boosIsAlive(Registry& registry, Game& game, YouWinMenu& youWinMenu)
 {
     if (registry.hasEntityType(Boss)) {
-        Entity boss = registry.getBoss();
+        Entity boss = registry.getFirstEntityOfType(EntityType::Boss);
         if (registry.hasComponent(boss, HealthPoint{})) {
             HealthPoint& bossHealth = registry.getComponent(boss, HealthPoint{});
             if (bossHealth.getHealthPoint() <= 0) {
@@ -111,13 +111,6 @@ void InLoopGame::gameInLoop(
         if (event.key.code == sf::Keyboard::F) {
             game.shooting(commandsToServer, registry, ipAdress);
             music.shootSound.play();
-        }
-        if (event.key.code == sf::Keyboard::J) {
-            game.shooting2(commandsToServer, registry, ipAdress);
-            music.shootSound.play();
-        }
-        if (event.key.code == sf::Keyboard::K) {
-            game.damageToPlayer(commandsToServer, registry, ipAdress);
         }
     }
     if (event.type == sf::Event::KeyReleased) {

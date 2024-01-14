@@ -60,6 +60,21 @@ private:
     float m_score;
 };
 
+/********-Power Up Component-******/
+class PowerUp
+{
+public:
+    PowerUp() = default;
+    PowerUp(bool isPowerUp);
+    ~PowerUp() = default;
+
+    bool getBlueProjectile() const;
+    void setBlueProjectile(bool isPowerUp);
+
+private:
+    bool m_bluePojectile;
+};
+
 /********-Velocity Component-******/
 class Velocity
 {
@@ -205,6 +220,7 @@ enum EntityType
     HUD,
     Arrow_Player,
     Boss,
+    Power_Up,
     Unknow
 };
 

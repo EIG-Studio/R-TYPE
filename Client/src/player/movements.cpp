@@ -186,20 +186,40 @@ void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAd
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
-    shooting << "SHOOT " << pairPos.first + 100 << " " << pairPos.second + 10;
+    auto blueProjectile = registry.getComponent(player, PowerUp{}).getBlueProjectile();
+
+    if (blueProjectile) {
+        shooting << "BLUE_PROJECILE " << pairPos.first + 100 << " " << pairPos.second + 10;
+    } else {
+        shooting << "SHOOT " << pairPos.first + 100 << " " << pairPos.second + 10;
+    }
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }
 
-void Game::shooting2(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
+void Game::checkGetPowerUp(Registry& registry)
 {
     Entity player = registry.getEntity(setPlayer(-1));
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
-    std::ostringstream shooting;
-    shooting << "HUHUHU " << pairPos.first + 100 << " " << pairPos.second + 10;
-    commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
+
+    try {
+        Entity blueProjectile = registry.getFirstEntityOfType(EntityType::Power_Up);
+        Position blueProjectilePos = registry.getComponent(blueProjectile, Position{});
+        std::pair<float, float> bluePairPos = blueProjectilePos.getPosition();
+
+        if (registry.getComponent(player, Position{}).getPosition().first >= bluePairPos.first &&
+            registry.getComponent(player, Position{}).getPosition().first <= bluePairPos.first + 1000 &&
+            registry.getComponent(player, Position{}).getPosition().second >= bluePairPos.second &&
+            registry.getComponent(player, Position{}).getPosition().second <= bluePairPos.second + 1000) {
+            registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
+            registry.setEntity(player, registry.getComponent(player, ID{}).getID());
+        }
+    } catch (std::exception& e) {
+        std::cout << "Y'a R tkt" << std::endl;
+    }
 }
 
+///// For Test
 void Game::damageToPlayer(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getEntity(setPlayer(-1));

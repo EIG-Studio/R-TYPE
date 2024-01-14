@@ -89,10 +89,19 @@ void handleReceive(
             case PLAYER_PROJECTILE:
                 createPlayerProjectile(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
-            case HUHUHU:
+            case POWER_UP:
+                createPowerUp(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
+                break;
+            case BLUE_PROJECILE:
                 createPlayerProjectile2(registry, receivedData.args[0], receivedData.args[1], receivedData.args[2]);
                 break;
+            case BLUE_PROJECILE_ENABLED:
+                projectileIsBlue(registry, receivedData.args[0]);
+                break;
             case DELETE_ENTITY:
+                registry.deleteById(receivedData.args[0]);
+                break;
+            case GET_POWER_UP:
                 registry.deleteById(receivedData.args[0]);
                 break;
             case PLAY_BOOM_ENEMIES:

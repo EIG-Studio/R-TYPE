@@ -31,17 +31,18 @@ void shootingSystem(Entity entity, Registry& registry)
     }
 }
 
-void deathSystem(Entity entity, Registry& registry)
+std::string deathSystem(Entity entity, Registry& registry)
 {
     if (entity.mComponents.empty())
-        return;
+        return "";
     if (!registry.hasComponent(entity, HealthPoint{}))
-        return;
+        return "";
 
     if (registry.getComponent(entity, HealthPoint{}).getHealthPoint() <= 0) {
         registry.toDelete.push_back(registry.getComponent(entity, ID{}).getID());
-        // registry.deleteById(registry.getComponent(entity, ID{}).getID());
+        return "";
     }
+    return "";
 }
 
 std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry)
@@ -98,6 +99,11 @@ std::string collisionPlayer(const Entity& entity, Entity otherEntity, Registry& 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
         return "";
 
+    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Power_Up) {
+        registry.destroyEntity(otherEntity);
+        return "DELETE " + std::to_string(registry.getComponent(otherEntity, ID{}).getID()) + "\n";
+    }
+
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile)
         return damagedSystem(entity, otherEntity, registry);
@@ -128,6 +134,18 @@ std::string collisionEnemy(const Entity& entity, Entity otherEntity, Registry& r
     // noMoveSystem(entity, otherEntity, registry);
     return "";
 }
+
+std::string collisionPowerUp(Entity entity, Entity otherEntity, Registry& registry)
+{
+    if (!registry.hasComponent(entity, Damage{}) || !registry.hasComponent(otherEntity, HealthPoint{}))
+        return "";
+
+    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player) {
+        return "BLUE_PROJECILE_ENABLED " + std::to_string(registry.getComponent(otherEntity, ID{}).getID());
+    }
+    return "";
+}
+
 
 std::string collisionProjectile(Entity entity, Entity otherEntity, Registry& registry)
 {
@@ -195,6 +213,7 @@ std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registr
         {EntityType::Player_Projectile, collisionProjectile},
         {EntityType::Enemy_Projectile, collisionProjectile},
         {EntityType::Boss, collisionEnemy},
+        {EntityType::Power_Up, collisionPowerUp},
     };
     EntityType entityType;
 
@@ -229,15 +248,8 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 {
     if (entity.mComponents.empty())
         return;
-    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}) ||
-        !registry.hasComponent(entity, Type{}))
+    if (!registry.hasComponent(entity, Renderer{}) || !registry.hasComponent(entity, Position{}))
         return;
-
-    Type& typeComponent = registry.getComponent(entity, Type{});
-    if (typeComponent.getEntityType() == EntityType::Player) {
-        Position entityPos = registry.getComponent(entity, Position{});
-        std::pair<float, float> pos = entityPos.getPosition();
-    }
 
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();
     sf::Sprite sprite = registry.getComponent(entity, Renderer{}).getRenderer();

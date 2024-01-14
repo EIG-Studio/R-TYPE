@@ -35,6 +35,7 @@ public:
     void sendMessage(TransferData data);
     void sendAllEntites(Registry& registry);
     void spawnBoss(Registry& registry);
+    void spawnPowerUp(Registry& registry);
     void gameLoop(Registry& registry);
     void level1Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
     void level2Loop(Registry& registry, std::vector<Entity> enemies, std::vector<Entity> boss);
@@ -55,6 +56,10 @@ private:
     bool m_gameStarted = false;
     int m_currentLevel = 1;
     int m_spawnBoss = 0;
+    int m_spawnPowerUp = 0;
+    int m_bossPhase = 1;
+    bool m_bossIsAttacking = false;
+    bool m_bossWaiting = true;
     std::clock_t m_clock;
     unsigned char m_buffer[sizeof(TransferData)]{};
 
@@ -67,15 +72,17 @@ private:
     std::size_t createPlayer(Registry& registry);
     void createEnemy(Registry& registry);
     void createBullet(Registry& registry, int posx, int posy);
+    void createPowerUp(Registry& registry, int posx, int posy);
     void createBullet2(Registry& registry, int posx, int posy);
     void createBoss(Registry& registry);
     void createArrow(Registry& registry);
+    void createArrow(Registry& registry, Client client);
     void playerMove(Registry& registry, COMMAND direction, std::size_t id);
     void enemyMove(Registry& registry, Entity& entity, std::size_t id);
     void enemyShootAndMove(Registry& registry, Entity& entity, std::size_t id);
     void bossMove(Registry& registry, Entity& entity, std::size_t id);
     void bossShootAndMove(Registry& registry, Entity& entity, std::size_t id);
-    void addClient(const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
+    void addClient(Registry& registry, const boost::asio::ip::udp::endpoint& clientEndpoint, std::size_t id);
     void refreshClientRegistry(Registry& registry, int id);
     bool startGame(Registry& registry);
     void createWall(Registry& registry, int posx, int posy, int sizex, int sizey);

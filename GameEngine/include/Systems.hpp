@@ -19,7 +19,7 @@
 #include <array>
 
 void shootingSystem(Entity entity, Registry& registry);
-void deathSystem(Entity entity, Registry& registry);
+std::string deathSystem(Entity entity, Registry& registry);
 std::string damagedSystem(Entity entity, Entity otherEntity, Registry& registry);
 std::string movementSystem(Entity entity, Registry& registry);
 std::string collisionSystem(Entity entity, std::vector<Entity> entities, Registry& registry);
@@ -38,6 +38,7 @@ enum COMMAND
     NEW_ENEMY,
     NEW_BOSS,
     DELETE_ENTITY,
+    GET_POWER_UP,
     PLAYER_PROJECTILE,
     PLAY_BOOM_ENEMIES,
     REFRESH,
@@ -45,7 +46,9 @@ enum COMMAND
     NEW_HEALTH,
     UPDATE,
     SHOOT,
-    HUHUHU,
+    POWER_UP,
+    BLUE_PROJECILE,
+    BLUE_PROJECILE_ENABLED,
     DAMAGE_TO_PLAYER,
     UNKNOWN,
     EMPTY,

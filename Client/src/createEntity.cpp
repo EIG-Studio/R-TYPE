@@ -7,6 +7,7 @@
 
 #include "createEntity.hpp"
 
+#include "Systems.hpp"
 #include "components.hpp"
 
 #include <iostream>
@@ -21,7 +22,7 @@ void updatePosition(Registry& registry, int id, int xPos, int yPos)
             registry.setEntity(entity, id);
         }
         if (registry.hasEntityType(Arrow_Player) && registry.hasEntityType(Player)) {
-            Entity arrow = registry.getArrow();
+            Entity arrow = registry.getFirstEntityOfType(EntityType::Arrow_Player);
             Position& arrowPos = registry.getComponent(arrow, Position{});
             std::pair<int, int> arrowPairPos = arrowPos.getPosition();
             Entity player = registry.getEntity(setPlayer(-1));
@@ -63,6 +64,7 @@ void createPlayer(Registry& registry, int id, int xPos, int yPos, int healthPoin
         Size(std::make_pair(
             103 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().width,
             56.25 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().height)));
+    player = registry.addComponent(player, PowerUp(false));
     registry.setEntity(player, id);
 }
 
@@ -117,6 +119,24 @@ void createPlayerProjectile(Registry& registry, int id, int xPos, int yPos)
     std::cout << "Player projectile created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
+void createPowerUp(Registry& registry, int id, int xPos, int yPos)
+{
+    Entity powerUp = registry.createEntityWithID(id);
+    powerUp = registry.addComponent(powerUp, Position(std::make_pair(xPos, yPos)));
+    powerUp = registry.addComponent(powerUp, Renderer("../Client/assets/Explosion/enemy-explosion-1.png"));
+    powerUp = registry.addComponent(powerUp, Type(std::any_cast<EntityType>(Power_Up)));
+    powerUp = registry.addComponent(
+        powerUp,
+        Size(std::make_pair(
+            50 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().width,
+            50 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().height)));
+
+    Position enemyPos = registry.getComponent(powerUp, Position{});
+    std::pair<int, int> pairPos = enemyPos.getPosition();
+
+    std::cout << "Power Up created pos: " << pairPos.first << " " << pairPos.second << '\n';
+}
+
 void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
 {
     std::cout << "Player projectile created" << std::endl;
@@ -132,7 +152,14 @@ void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)
 
     Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
     std::pair<int, int> pairPos = playerProjectilePos.getPosition();
-    std::cout << "HUHUHU created pos: " << pairPos.first << " " << pairPos.second << '\n';
+    std::cout << "BLUE_PROJECILE created pos: " << pairPos.first << " " << pairPos.second << '\n';
+}
+
+void projectileIsBlue(Registry& registry, int id)
+{
+    Entity player = registry.getEntity(id);
+    registry.getComponent(player, PowerUp{}).setBlueProjectile(true);
+    registry.setEntity(player, registry.getComponent(player, ID{}).getID());
 }
 
 void createHud(Registry& registry, int id, int dataScore)
@@ -151,7 +178,7 @@ void createScore(Registry& registry, int dataScore)
 {
     if (registry.hasEntityType(HUD)) {
         std::cout << "SCORE " << std::endl;
-        Entity score = registry.getScore();
+        Entity score = registry.getFirstEntityOfType(EntityType::HUD);
         ID scoreId = registry.getComponent(score, ID{});
         ScorePoint& scorePoints = registry.getComponent(score, ScorePoint{});
         scorePoints.setScorePoint(dataScore);
