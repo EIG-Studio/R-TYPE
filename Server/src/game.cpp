@@ -302,7 +302,7 @@ void Server::gameLoop(Registry& registry)
         std::vector<Entity> boss = registry.getListEntities(Boss);
         std::vector<Entity> players = registry.getListEntities(Player);
         m_registeryMutex.unlock();
-        if (players.empty()) {
+        if (players.empty() && m_gameStarted) {
             addMessage("LOSE\n");
             continue;
         }
