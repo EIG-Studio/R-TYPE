@@ -7,6 +7,7 @@
 
 #include "createEntity.hpp"
 
+#include "Systems.hpp"
 #include "components.hpp"
 
 #include <iostream>
@@ -115,6 +116,24 @@ void createPlayerProjectile(Registry& registry, int id, int xPos, int yPos)
     Position playerProjectilePos = registry.getComponent(playerProjectile, Position{});
     std::pair<int, int> pairPos = playerProjectilePos.getPosition();
     std::cout << "Player projectile created pos: " << pairPos.first << " " << pairPos.second << '\n';
+}
+
+void createPowerUp(Registry& registry, int id, int xPos, int yPos)
+{
+    Entity powerUp = registry.createEntityWithID(id);
+    powerUp = registry.addComponent(powerUp, Position(std::make_pair(xPos, yPos)));
+    powerUp = registry.addComponent(powerUp, Renderer("../Client/assets/Explosion/enemy-explosion-1.png"));
+    powerUp = registry.addComponent(powerUp, Type(std::any_cast<EntityType>(Power_Up)));
+    powerUp = registry.addComponent(
+        powerUp,
+        Size(std::make_pair(
+            103 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().width,
+            56.25 / registry.getComponent(powerUp, Renderer{}).getRenderer().getLocalBounds().height)));
+
+    Position enemyPos = registry.getComponent(powerUp, Position{});
+    std::pair<int, int> pairPos = enemyPos.getPosition();
+
+    std::cout << "Power Up created pos: " << pairPos.first << " " << pairPos.second << '\n';
 }
 
 void createPlayerProjectile2(Registry& registry, int id, int xPos, int yPos)

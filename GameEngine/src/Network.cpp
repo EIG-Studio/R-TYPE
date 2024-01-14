@@ -20,6 +20,7 @@ std::map<std::string, COMMAND> commandMap =
      {"ALIVE", ALIVE},
      {"PLAYER_PROJECTILE", PLAYER_PROJECTILE},
      {"HUHUHU_PROJECTILE", HUHUHU},
+     {"POWER_UP", POWER_UP},
      {"PLAY_BOOM_ENEMIES", PLAY_BOOM_ENEMIES},
      {"NEW_POS", NEW_POS},
      {"NEW_HEALTH", NEW_HEALTH},

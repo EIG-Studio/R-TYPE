@@ -116,6 +116,11 @@ void InLoopGame::gameInLoop(
             game.shooting2(commandsToServer, registry, ipAdress);
             music.shootSound.play();
         }
+        if (event.key.code == sf::Keyboard::P) {
+            std::ostringstream pUp;
+            pUp << "POWER_UP " << 200 << " " << 200;
+            commandsToServer.sendToServerAsync(pUp.str(), ipAdress);
+        }
         if (event.key.code == sf::Keyboard::K) {
             game.damageToPlayer(commandsToServer, registry, ipAdress);
         }

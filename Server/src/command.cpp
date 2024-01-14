@@ -106,6 +106,8 @@ void Server::handleReceivedData(
 
         if (receivedData.command == SHOOT) {
             createBullet(registry, receivedData.args[0], receivedData.args[1]);
+        } else if (receivedData.command == POWER_UP) {
+            createPowerUp(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == HUHUHU) {
             createBullet2(registry, receivedData.args[0], receivedData.args[1]);
         } else if (receivedData.command == LOGIN) {

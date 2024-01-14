@@ -70,6 +70,7 @@ private:
     std::size_t createPlayer(Registry& registry);
     void createEnemy(Registry& registry);
     void createBullet(Registry& registry, int posx, int posy);
+    void createPowerUp(Registry& registry, int posx, int posy);
     void createBullet2(Registry& registry, int posx, int posy);
     void createBoss(Registry& registry);
     void createArrow(Registry& registry);
