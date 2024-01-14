@@ -297,7 +297,12 @@ void Server::gameLoop(Registry& registry)
         m_registeryMutex.lock();
         std::vector<Entity> enemies = registry.getListEntities(Enemy);
         std::vector<Entity> boss = registry.getListEntities(Boss);
+        std::vector<Entity> players = registry.getListEntities(Player);
         m_registeryMutex.unlock();
+        if (players.empty()) {
+            addMessage("LOSE\n");
+            continue;
+        }
 
         if (m_currentLevel == 1)
             level1Loop(registry, enemies, boss);
