@@ -142,7 +142,7 @@ std::size_t Server::createPlayer(Registry& registry)
 
 void Server::createArrow(Registry& registry)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getFirstEntityOfType(EntityType::Player);
     Position playerPos = registry.getComponent(player, Position{});
 
     ID idComponent = ID();
@@ -163,7 +163,7 @@ void Server::createArrow(Registry& registry)
 
 void Server::createArrow(Registry& registry, Client client)
 {
-    Entity player = registry.getPlayer();
+    Entity player = registry.getFirstEntityOfType(EntityType::Player);
     Position playerPos = registry.getComponent(player, Position{});
 
     ID idComponent = ID();

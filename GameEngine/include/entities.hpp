@@ -41,13 +41,8 @@ public:
     void destroyEntity(Entity entity);
     Entity getEntity(size_t id);
     void setEntity(Entity& entityToCopy, int id);
-    Entity getPlayer();
-    Entity getScore();
-    Entity getArrow();
-    Entity getBoss();
-    Entity getPowerUp();
+    Entity getFirstEntityOfType(EntityType type);
     bool hasScore();
-    Entity getFirstEnemy();
     bool hasEntity(size_t id);
     bool hasEntityType(Type type);
     std::vector<Entity> getListEntities();

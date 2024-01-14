@@ -203,7 +203,7 @@ void Game::checkGetPowerUp(Registry& registry)
     std::pair<float, float> pairPos = playerPos.getPosition();
 
     try {
-        Entity blueProjectile = registry.getPowerUp();
+        Entity blueProjectile = registry.getFirstEntityOfType(EntityType::Power_Up);
         Position blueProjectilePos = registry.getComponent(blueProjectile, Position{});
         std::pair<float, float> bluePairPos = blueProjectilePos.getPosition();
 

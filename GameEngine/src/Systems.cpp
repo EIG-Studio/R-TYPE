@@ -255,8 +255,7 @@ void renderSystem(Entity entity, Registry& registry, sf::RenderWindow& window)
 
     Type& typeComponent = registry.getComponent(entity, Type{});
     if (typeComponent.getEntityType() == EntityType::Player) {
-        Position entityPos = registry.getComponent(entity, Position{});
-        std::pair<float, float> pos = entityPos.getPosition();
+        Position entityPos = registry.getComponent(entity, Position{});=
     }
 
     sf::Texture text = registry.getComponent(entity, Renderer{}).getTexture();

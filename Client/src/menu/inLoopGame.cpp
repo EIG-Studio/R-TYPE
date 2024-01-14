@@ -15,7 +15,7 @@ void InLoopGame::updateScore(WindowManager& windowManager, Registry& registry)
 {
     if (registry.hasEntityType(HUD)) {
         windowManager.getWindow().clear();
-        Entity score = registry.getScore();
+        Entity score = registry.getFirstEntityOfType(EntityType::HUD);
         ScorePoint scorePoints = registry.getComponent(score, ScorePoint{});
 
         scoreText.setString("Score: " + std::to_string(static_cast<int>(scorePoints.getScorePoint())));
@@ -49,7 +49,7 @@ void InLoopGame::pingServer(CommandsToServer& commandsToServer, IpAdress& ipAdre
 void boosIsAlive(Registry& registry, Game& game, YouWinMenu& youWinMenu)
 {
     if (registry.hasEntityType(Boss)) {
-        Entity boss = registry.getBoss();
+        Entity boss = registry.getFirstEntityOfType(EntityType::Boss);
         if (registry.hasComponent(boss, HealthPoint{})) {
             HealthPoint& bossHealth = registry.getComponent(boss, HealthPoint{});
             if (bossHealth.getHealthPoint() <= 0) {

@@ -13,7 +13,7 @@
 
 void Server::spawnBoss(Registry& registry)
 {
-    Entity score = registry.getScore();
+    Entity score = registry.getFirstEntityOfType(EntityType::HUD);
     if (!registry.hasComponent(score, ScorePoint{}))
         return;
     ScorePoint& scorePoint = registry.getComponent(score, ScorePoint{});
@@ -69,7 +69,7 @@ void Server::bossMove(Registry& registry, Entity& entity, std::size_t id)
         m_bossPhase = 1;
     }
 
-    Entity randomPlayer = registry.getPlayer();
+    Entity randomPlayer = registry.getFirstEntityOfType(EntityType::Player);
     Position randomPlayerPos = registry.getComponent(randomPlayer, Position{});
 
     int deltaY = randomPlayerPos.getPosition().second - bossPos.getPosition().second;

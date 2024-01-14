@@ -22,7 +22,7 @@ void updatePosition(Registry& registry, int id, int xPos, int yPos)
             registry.setEntity(entity, id);
         }
         if (registry.hasEntityType(Arrow_Player) && registry.hasEntityType(Player)) {
-            Entity arrow = registry.getArrow();
+            Entity arrow = registry.getFirstEntityOfType(EntityType::Arrow_Player);
             Position& arrowPos = registry.getComponent(arrow, Position{});
             std::pair<int, int> arrowPairPos = arrowPos.getPosition();
             Entity player = registry.getEntity(setPlayer(-1));
@@ -178,7 +178,7 @@ void createScore(Registry& registry, int dataScore)
 {
     if (registry.hasEntityType(HUD)) {
         std::cout << "SCORE " << std::endl;
-        Entity score = registry.getScore();
+        Entity score = registry.getFirstEntityOfType(EntityType::HUD);
         ID scoreId = registry.getComponent(score, ID{});
         ScorePoint& scorePoints = registry.getComponent(score, ScorePoint{});
         scorePoints.setScorePoint(dataScore);

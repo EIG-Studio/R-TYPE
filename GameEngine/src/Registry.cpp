@@ -101,7 +101,7 @@ std::vector<std::string> Registry::systemsManager()
         messages.push_back("DELETE " + std::to_string(id));
     }
     if (score and newScore > 0) {
-        Entity score = getScore();
+        Entity score = getFirstEntityOfType(EntityType::HUD);
         ID scoreId = getComponent(score, ID{});
         ScorePoint& scorePoint = getComponent(score, ScorePoint{});
         scorePoint.setScorePoint((scorePoint.getScorePoint() + newScore));
@@ -177,70 +177,17 @@ void Registry::setEntity(Entity& entityToCopy, int id)
     }
 }
 
-Entity Registry::getPlayer()
+Entity Registry::getFirstEntityOfType(EntityType type)
 {
     for (auto& entity : m_entities) {
         if (this->hasComponent(entity, Type{})) {
             Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Player) {
+            if (typeComponent.getEntityType() == type) {
                 return entity;
             }
         }
     }
-    throw std::runtime_error("No Player entity found\n");
-}
-
-Entity Registry::getArrow()
-{
-    for (auto& entity : m_entities) {
-        if (this->hasComponent(entity, Type{})) {
-            Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Arrow_Player) {
-                return entity;
-            }
-        }
-    }
-    throw std::runtime_error("No arrow entity found\n");
-}
-
-Entity Registry::getBoss()
-{
-    for (auto& entity : m_entities) {
-        if (this->hasComponent(entity, Type{})) {
-            Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Boss) {
-                return entity;
-            }
-        }
-    }
-    throw std::runtime_error("No boss entity found\n");
-}
-
-
-Entity Registry::getPowerUp()
-{
-    for (auto& entity : m_entities) {
-        if (this->hasComponent(entity, Type{})) {
-            Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Power_Up) {
-                return entity;
-            }
-        }
-    }
-    throw std::runtime_error("No Power_Up entity found\n");
-}
-
-Entity Registry::getScore()
-{
-    for (auto& entity : m_entities) {
-        if (this->hasComponent(entity, Type{})) {
-            Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::HUD) {
-                return entity;
-            }
-        }
-    }
-    throw std::runtime_error("No Score entity found\n");
+    throw std::runtime_error("No entity of this type found\n");
 }
 
 bool Registry::hasScore()
@@ -254,19 +201,6 @@ bool Registry::hasScore()
         }
     }
     return false;
-}
-
-Entity Registry::getFirstEnemy()
-{
-    for (auto& entity : m_entities) {
-        if (this->hasComponent(entity, Type{})) {
-            Type& typeComponent = this->getComponent(entity, Type{});
-            if (typeComponent.getEntityType() == EntityType::Enemy) {
-                return entity;
-            }
-        }
-    }
-    throw std::runtime_error("No Enemy entity found");
 }
 
 std::vector<Entity> Registry::getListEntities(EntityType type)
