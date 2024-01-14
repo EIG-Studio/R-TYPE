@@ -98,6 +98,9 @@ void handleReceive(
             case DELETE_ENTITY:
                 registry.deleteById(receivedData.args[0]);
                 break;
+            case GET_POWER_UP:
+                registry.deleteById(receivedData.args[0]);
+                break;
             case PLAY_BOOM_ENEMIES:
                 music.boomEnemies.play();
                 break;

@@ -64,6 +64,7 @@ void createPlayer(Registry& registry, int id, int xPos, int yPos, int healthPoin
         Size(std::make_pair(
             103 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().width,
             56.25 / registry.getComponent(player, Renderer{}).getRenderer().getLocalBounds().height)));
+    player = registry.addComponent(player, PowerUp(false));
     registry.setEntity(player, id);
 }
 

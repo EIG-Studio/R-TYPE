@@ -98,6 +98,11 @@ std::string collisionPlayer(const Entity& entity, Entity otherEntity, Registry& 
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Player_Projectile)
         return "";
 
+    if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Power_Up) {
+        registry.destroyEntity(otherEntity);
+        return "DELETE " + std::to_string(registry.getComponent(otherEntity, ID{}).getID()) + "\n";
+    }
+
     if (registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy ||
         registry.getComponent(otherEntity, Type{}).getEntityType() == EntityType::Enemy_Projectile)
         return damagedSystem(entity, otherEntity, registry);

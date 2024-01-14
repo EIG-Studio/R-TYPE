@@ -183,10 +183,15 @@ void Game::sendInputUpdate(CommandsToServer& commandsToServer, Registry& registr
 void Game::shooting(CommandsToServer& commandsToServer, Registry& registry, IpAdress& ipAdress)
 {
     Entity player = registry.getEntity(setPlayer(-1));
+    std::cout << "YES YES YES : " << registry.getComponent(player, PowerUp{}).getBlueProjectile() << std::endl;
     Position playerPos = registry.getComponent(player, Position{});
     std::pair<float, float> pairPos = playerPos.getPosition();
     std::ostringstream shooting;
-    shooting << "SHOOT " << pairPos.first + 100 << " " << pairPos.second + 10;
+    if (registry.getComponent(player, PowerUp{}).getBlueProjectile()) {
+        shooting << "BLUE_PROJECILE " << pairPos.first + 100 << " " << pairPos.second + 10;
+    } else {
+        shooting << "SHOOT " << pairPos.first + 100 << " " << pairPos.second + 10;
+    }
     commandsToServer.sendToServerAsync(shooting.str(), ipAdress);
 }
 
